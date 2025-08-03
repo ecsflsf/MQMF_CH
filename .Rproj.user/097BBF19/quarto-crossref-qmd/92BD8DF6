@@ -1,0 +1,522 @@
+{
+    "entries": [
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_26",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_51",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_41",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_48",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_18",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_3",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-13",
+            "title": " |"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_31",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_12",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_32",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_16",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_10",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_9",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_46",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_40",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-11",
+            "title": "有恒定 a = 1000 和五个递减的 b 值的Beverton-Holt 种群补充曲线，导致越来越高效的曲线。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_21",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-5",
+            "title": "|"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_42",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_24",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-4",
+            "title": "|"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_34",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_52",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_37",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_28",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_25",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_47",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_45",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-6",
+            "title": "|"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-2",
+            "title": "Pitcher 和 Macdonald（1973）的近似龄长数据与 von Bertalanffy 生长曲线的拟合季节版本。下图是正态随机残差图，残差仍有一系列高于和低于零的运行，但不如非季节性曲线那么有规律。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-3",
+            "title": "|"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_57",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_29",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_36",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_22",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_50",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_20",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_49",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_35",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_6",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_5",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-1",
+            "title": "|"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_15",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_44",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-12",
+            "title": "两条具有相同常数 $a=10$ 但具有不同 $b$ 值的 Ricker 种群补充量曲线。请注意， $b$ 值主要影响补充量随生物量增加而下降的水平，对初始陡峭程度影响较小。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_14",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-8",
+            "title": "黑唇牡蛎成熟度数据（tasab 数据集）的长度成熟比例。不考虑站点的综合分析（两者）更接近站点 2（点划线）而非站点 1（划线），这反映了站点 2 样本量更大。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_58",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_17",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_43",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-14",
+            "title": " logist() 和 mature() 函数的逻辑 S 形曲线示例。虚线红色和实线黑色曲线具有相同的 L50，但梯度不同。点线绿色展示了改变 `mature()` 函数的 b 参数的效果，而交叉线蓝色曲线展示了刀刃式选择。图例显示了 L50 和使用的方程。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "sec",
+            "id": "label",
+            "suffix": "",
+            "title": "目标模型选择"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "sec",
+            "id": "staticmodel",
+            "suffix": "",
+            "title": "静态模型"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-7",
+            "title": "tasab 数据集中黑唇鲍鱼成熟数据的长度成熟比例。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-9",
+            "title": "使用 Schnute 和 Richards 统一生长曲线的假设示例中达到成熟长度的比例。通过绿色虚线所示的四分位距左右两侧的差异，展示了该逻辑斯蒂曲线的不对称性。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_4",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_27",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_56",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_55",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_53",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_54",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_19",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_30",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_13",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_1",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_23",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_-_7",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_2",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5",
+            "suffix": "-15",
+            "title": "由函数 domed() 产生的三个拱形选择性曲线示例，改变了达到选择性 1.0 的初始年龄（10、8、9），以及停止时的年龄（11、12、10），以及最终年龄组的选择性。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_11",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_38",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_39",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_8",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_33",
+            "suffix": "",
+            "title": ""
+        }
+    ]
+}

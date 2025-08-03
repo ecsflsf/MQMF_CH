@@ -1,0 +1,34 @@
+h1:剩余产量模型 剩余产量模型
+h2:引言 引言
+h3:数据需求 数据需求
+h3:对比的必要性 对比的必要性
+h3:渔获率何时具有参考价值 渔获率何时具有参考价值
+h2:一些方程式 7.2 一些方程式
+h3:生产函数 7.2.1 生产函数
+h3:schaefer模型 7.2.2 Schaefer模型
+h3:残差平方和 7.2.3 残差平方和
+h3:估算管理统计信息 7.2.4 估算管理统计信息
+h3:平衡的麻烦 7.2.5 平衡的麻烦
+h2:模型拟合 7.3 模型拟合
+h3:a-possible-workflow-for-stock-assessment 7.3.1 A Possible Workflow for Stock Assessment
+h3:分析是否稳健 7.3.2 分析是否稳健？
+h3:使用不同的数据 7.3.3 使用不同的数据？
+h2:不确定性 7.4 不确定性
+h3:可能性概况 7.4.1 可能性概况
+h3:bootstrap-置信区间 7.4.2 Bootstrap 置信区间
+h3:参数相关性 7.4.3 参数相关性
+h3:渐近误差 7.4.4 渐近误差
+h3:有时渐近误差起作用 7.4.5 有时渐近误差起作用
+h3:贝叶斯后验 7.4.6 贝叶斯后验
+h2:管理建议 7.5 管理建议
+h3:两种风险观 7.5.1 两种风险观
+h3:收获策略 7.5.2 收获策略
+h2:risk-assessment-projections 7.6 Risk Assessment Projections
+h3:deterministic-projections 7.6.1 Deterministic Projections
+h3:accounting-for-uncertainty 7.6.2 Accounting for Uncertainty
+h3:using-asymptotic-errors 7.6.3 Using Asymptotic Errors
+h3:使用-bootstrap-参数向量 7.6.4 使用 Bootstrap 参数向量
+h3:使用贝叶斯后验样本 7.6.5 使用贝叶斯后验样本
+h2:结束语 7.7 结束语
+h2:附录使用-rcpp-取代-simpspm 7.8 附录：使用 Rcpp 取代 simpspm
+

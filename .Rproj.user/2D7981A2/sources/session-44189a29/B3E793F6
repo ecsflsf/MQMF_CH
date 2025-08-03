@@ -1,0 +1,32 @@
+{
+    "id": "B3E793F6",
+    "path": "D:/R/bookdown/MQMF/05-staticModel.qmd",
+    "project_path": "05-staticModel.qmd",
+    "type": "quarto_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1751979755450.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "rmdVisualMode": "true",
+        "rmdVisualWrapConfigured": "true",
+        "docOutlineVisible": "1",
+        "cursorPosition": "837,0",
+        "scrollLine": "0",
+        "rmdVisualModeLocation": "2:0",
+        "rmdVisualCollapsedChunks": "",
+        "quartoPreviewFormat": "pdf"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1752030106,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1752030106,
+    "read_only": false,
+    "read_only_alternatives": []
+}

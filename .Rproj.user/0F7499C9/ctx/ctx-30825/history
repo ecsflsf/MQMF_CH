@@ -1,0 +1,512 @@
+for (i in 1:reps) lines(years,dynam[i,,"predCE"],lwd=1,col=8)
+lines(years,answer$Dynamics$outmat[1:nyrs,"predCE"],lwd=2,col=0)
+points(years,fish[,"cpue"],cex=1.2,pch=16,col=1)
+percs <- apply(dynam[,,"predCE"],2,quants)
+arrows(x0=years,y0=percs["5%",],y1=percs["95%",],length=0.03,
+angle=90,code=3,col=0)
+#Fit the Fox model to dataspm; note different parameters
+pars <- log(c(r=0.15,K=6500,Binit=3000,sigma=0.20))
+ansF <- fitSPM(pars,fish,schaefer=FALSE,maxiter=1000) #Fox version
+bootsF <- spmboot(ansF$estimate,fishery=fish,iter=reps,schaefer=FALSE)
+dynamF <- bootsF$dynam
+#| label: fig-spm14
+#| fig-cap: "A plot of the original observed CPUE (dots), the optimum predicted CPUE (solid white line) with the 90th percentile confidence intervals (the white bars). The black lines are the Fox model bootstrap replicates while the grey lines over the black are those from the Schaefer model."
+# bootstrap trajectories from both model fits  Fig 7.14
+parset()
+ymax <- getmax(c(dynam[,,"predCE"],fish[,"cpue"]))
+plot(fish[,"year"],fish[,"cpue"],type="n",ylim=c(0,ymax),
+xlab="Year",ylab="CPUE",yaxs="i",panel.first = grid())
+for (i in 1:reps) lines(years,dynamF[i,,"predCE"],lwd=1,col=1,lty=1)
+for (i in 1:reps) lines(years,dynam[i,,"predCE"],lwd=1,col=8)
+lines(years,answer$Dynamics$outmat[1:nyrs,"predCE"],lwd=2,col=0)
+points(years,fish[,"cpue"],cex=1.1,pch=16,col=1)
+percs <- apply(dynam[,,"predCE"],2,quants)
+arrows(x0=years,y0=percs["5%",],y1=percs["95%",],length=0.03,
+angle=90,code=3,col=0)
+legend(1985,0.35,c("Schaefer","Fox"),col=c(8,1),bty="n",lwd=3)
+#| label: fig-spm15
+#| fig-cap: "模型参数与 Schaefer 模型（ Fox 模型使用 `bootsF$bootpar`）的一些输出之间的关系。下方面板在数据中具有一条红色的平滑线，用于说明任何趋势，而上方面板具有线性相关系数。少数极值会扭曲绘图。The relationships between the model parameters and some outputs for the Schaefer model (use bootsF$bootpar for the Fox model ). The lower panels have a red smoother line through the data illustrating any trends, while the upper panels have the linear correlation coefficient. The few extreme values distort the plots."
+# plot variables against each other, use MQMF panel.cor  Fig 7.15
+pairs(boots$bootpar[,c(1:4,6,7)],lower.panel=panel.smooth,
+upper.panel=panel.cor,gap=0,lwd=2,cex=0.5)
+#Start the SPM analysis using asymptotic errors.
+data(dataspm)    # Note the use of hess=TRUE in call to fitSPM
+fish <- as.matrix(dataspm)     # using as.matrix for more speed
+colnames(fish) <- tolower(colnames(fish))  # just in case
+pars <- log(c(r=0.25,K=5200,Binit=2900,sigma=0.20))
+ans <- fitSPM(pars,fish,schaefer=TRUE,maxiter=1000,hess=TRUE)
+#The hessian matrix from the Schaefer fit to the dataspm data
+outfit(ans)
+#calculate the var-covar matrix and the st errors
+vcov <- solve(ans$hessian) # calculate variance-covariance matrix
+label <- c("r","K", "Binit","sigma")
+colnames(vcov) <- label; rownames(vcov) <- label
+outvcov <- rbind(vcov,sqrt(diag(vcov)))
+rownames(outvcov) <- c(label,"StErr")
+#| label: tbl-spm6
+#| tbl-cap: "The variance-covariance (vcov) matrix is the inverse of the Hessian and the parameter standard errors are the square-root of the diagonal of the vcov matrix."
+#| echo: false
+knitr::kable(outvcov, digits = 4)
+#generate 1000 parameter vectors from multi-variate normal
+library(mvtnorm)   # use RStudio, or install.packages("mvtnorm")
+N <- 1000 # number of parameter vectors, use vcov from above
+mvn <- length(fish[,"year"]) #matrix to store cpue trajectories
+mvncpue <- matrix(0,nrow=N,ncol=mvn,dimnames=list(1:N,fish[,"year"]))
+columns <- c("r","K","Binit","sigma")
+optpar <- ans$estimate # Fill matrix with mvn parameter vectors
+mvnpar <- matrix(exp(rmvnorm(N,mean=optpar,sigma=vcov)),nrow=N,
+ncol=4,dimnames=list(1:N,columns))
+msy <- mvnpar[,"r"]*mvnpar[,"K"]/4
+nyr <- length(fish[,"year"])
+depletion <- numeric(N) #now calculate N cpue series in linear space
+for (i in 1:N) { # calculate dynamics for each parameter set
+dynamA <- spm(log(mvnpar[i,1:4]),fish)
+mvncpue[i,] <- dynamA$outmat[1:nyr,"predCE"]
+depletion[i] <- dynamA$outmat["2016","Depletion"]
+}
+mvnpar <- cbind(mvnpar,msy,depletion) # try head(mvnpar,10)
+#| label: fig-spm16
+#| fig-cap: "从最优参数及其相关方差-协方差矩阵定义的多变量正态分布中采样的随机参数向量得出的 1000 条 cpue 预测轨迹。The 1000 predicted cpue trajectories derived from random parameter vectors sampled from the multi-variate normal distribution defined by the optimum parameters and their related variance-covariance matrix."
+#data and trajectories from 1000 MVN parameter vectors   Fig 7.16
+plot1(fish[,"year"],fish[,"cpue"],type="p",xlab="Year",ylab="CPUE",
+maxy=2.0)
+for (i in 1:N) lines(fish[,"year"],mvncpue[i,],col="grey",lwd=1)
+points(fish[,"year"],fish[,"cpue"],pch=1,cex=1.3,col=1,lwd=2) # data
+lines(fish[,"year"],exp(simpspm(optpar,fish)),lwd=2,col=1)# pred
+percs <- apply(mvncpue,2,quants)  # obtain the quantiles
+arrows(x0=fish[,"year"],y0=percs["5%",],y1=percs["95%",],length=0.03,
+angle=90,code=3,col=1) #add 90% quantiles
+msy <- mvnpar[,"r"]*mvnpar[,"K"]/4  # 1000 MSY estimates
+text(2010,1.75,paste0("MSY ",round(mean(msy),3)),cex=1.25,font=7)
+#| label: fig-spm17
+#| fig-cap: "预测 2016 年 cpue < 0.4 的 34 个渐近误差 cpue 轨迹。圆点为原始数据，虚线为最佳拟合模型。The 34 asymptotic error cpue trajectories that were predicted to have a cpue < 0.4 in 2016. The dots are the original data and the dashed line the optimum model fit."
+#Isolate errant cpue trajectories Fig 7.17
+pickd <- which(mvncpue[,"2016"] < 0.40)
+plot1(fish[,"year"],fish[,"cpue"],type="n",xlab="Year",ylab="CPUE",
+maxy=6.25)
+for (i in 1:length(pickd))
+lines(fish[,"year"],mvncpue[pickd[i],],col=1,lwd=1)
+points(fish[,"year"],fish[,"cpue"],pch=16,cex=1.25,col=4)
+lines(fish[,"year"],exp(simpspm(optpar,fish)),lwd=3,col=2,lty=2)
+#| label: fig-spm18
+#| fig-cap: "渐近误差样本中参数值的分布，黑色部分为预测最终 cpue < 0.4 的参数值。看来，Binit 的低值是造成难以置信轨迹的主要原因。The spread of parameter values from the asymptotic error samples with the values that predicted final cpue < 0.4 highlighted in black. It appears that low values of Binit are mostly behind the implausible trajectories."
+#Use adhoc function to plot errant parameters Fig 7.18
+parset(plots=c(2,2),cex=0.85)
+outplot <- function(var1,var2,pickdev) {
+plot1(mvnpar[,var1],mvnpar[,var2],type="p",pch=16,cex=1.0,
+defpar=FALSE,xlab=var1,ylab=var2,col=8)
+points(mvnpar[pickdev,var1],mvnpar[pickdev,var2],pch=16,cex=1.0)
+}
+outplot("r","K",pickd) # assumes mvnpar in working environment
+outplot("sigma","Binit",pickd)
+outplot("r","Binit",pickd)
+outplot("K","Binit",pickd)
+#| label: fit-spm19
+#| fig-cap: "使用多变量正态分布生成参数组合时 Schaefer 模型参数之间的关系。r - K 之间的关系比自举样本紧密得多，而 sigma 与其他参数之间几乎没有关系。损耗图显示一些轨迹已经消失。The relationships between the model parameters for the Schaefer model when using the multi-variate normal distribution to generate the parameter combinations. The relationship between r - K is much tighter than in the bootstrap samples and there is almost no relationship between sigma and the other parameters. The depletion plots indicate some trajectories go extinct."
+#asymptotically sampled parameter vectors  Fig 7.19
+pairs(mvnpar,lower.panel=panel.smooth, upper.panel=panel.cor,
+gap=0,cex=0.25,lwd=2)
+# Get the ranges of parameters from bootstrap and asymptotic
+bt <- apply(bootpar,2,range)[,c(1:4,6,7)]
+ay <- apply(mvnpar,2,range)
+out <- rbind(bt,ay)
+rownames(out) <- c("MinBoot","MaxBoot","MinAsym","MaxAsym")
+#| label: tbl-spm7
+#| tbl-cap: "自举取样与渐近误差取样的参数值范围对比。The range of parameter values from the bootstrap sampling compared with those from the Asymptotic Error sampling."
+#| echo: false
+knitr::kable(out, digits = 4)
+#| label: fig-spm20
+#| fig-cap: "利用渐近误差为 abdat 数据集生成可信的参数集及其隐含的 cpue 轨迹。最佳拟合模型以白线表示。The use of asymptotic errors to generate plausible parameter sets and their implied cpue trajectories for the abdat data-set. The optimum model fit is shown as a white line."
+#repeat asymptotice errors using abdat data-set Figure 7.20
+data(abdat)
+fish <- as.matrix(abdat)
+pars <- log(c(r=0.4,K=9400,Binit=3400,sigma=0.05))
+ansA <- fitSPM(pars,fish,schaefer=TRUE,maxiter=1000,hess=TRUE)
+vcovA <- solve(ansA$hessian) # calculate var-covar matrix
+mvn <- length(fish[,"year"])
+N <- 1000   # replicates
+mvncpueA <- matrix(0,nrow=N,ncol=mvn,dimnames=list(1:N,fish[,"year"]))
+columns <- c("r","K","Binit","sigma")
+optparA <- ansA$estimate  # Fill matrix of parameter vectors
+mvnparA <- matrix(exp(rmvnorm(N,mean=optparA,sigma=vcovA)),
+nrow=N,ncol=4,dimnames=list(1:N,columns))
+msy <- mvnparA[,"r"]*mvnparA[,"K"]/4
+for (i in 1:N) mvncpueA[i,]<-exp(simpspm(log(mvnparA[i,]),fish))
+mvnparA <- cbind(mvnparA,msy)
+plot1(fish[,"year"],fish[,"cpue"],type="p",xlab="Year",ylab="CPUE",
+maxy=2.5)
+for (i in 1:N) lines(fish[,"year"],mvncpueA[i,],col=8,lwd=1)
+points(fish[,"year"],fish[,"cpue"],pch=16,cex=1.0) #orig data
+lines(fish[,"year"],exp(simpspm(optparA,fish)),lwd=2,col=0)
+#| label: fig-spm21
+#| fig-cap: "将 Schaefer 模型拟合到 abdat 数据并使用多变量正态分布生成后续参数组合时的模型参数关系。这与 “不确定性 ”一章中的自举法非常相似。Model parameter relationships when fitting the Schaefer model to the abdat data and using the multi-variate normal distribution to generate subsequent parameter combinations. These are very similar to the bootstrap equivalent in the On Uncertainty chapter."
+#plot asymptotically sampled parameter vectors Figure 7.21
+pairs(mvnparA,lower.panel=panel.smooth, upper.panel=panel.cor,
+gap=0,pch=16,col=rgb(red=0,green=0,blue=0,alpha = 1/10))
+#| label: fig-spm22
+#| fig-cap: "使用 Fox 模型和对数正态误差拟合的 abdat 数据集最佳模型。绿色虚线是较平滑的曲线，红线是最佳预测模型拟合。请注意对数正态残差的模式，这表明该模型在该数据方面存在微小不足。The optimum model fit for the abdat data-set using the Fox model and log-normal errors. The green dashed line is a smoother curve while the red line is the optimum predicted model fit. Note the pattern in the log-normal residuals indicating that the model has small inadequacies with regard to this data."
+#Fit the Fox Model to the abdat data Figure 7.22
+data(abdat); fish <- as.matrix(abdat)
+param <- log(c(r=0.3,K=11500,Binit=3300,sigma=0.05))
+foxmod <- nlm(f=negLL1,p=param,funk=simpspm,indat=fish,
+logobs=log(fish[,"cpue"]),iterlim=1000,schaefer=FALSE)
+optpar <- exp(foxmod$estimate)
+ans <- plotspmmod(inp=foxmod$estimate,indat=fish,schaefer=FALSE,
+addrmse=TRUE, plotprod=TRUE)
+# Conduct an MCMC using simpspmC on the abdat Fox SPM
+# This means you will need to compile simpspmC from appendix
+set.seed(698381) #for repeatability, possibly only on Windows10
+begin <- gettime()  # to enable the time taken to be calculated
+inscale <- c(0.07,0.05,0.09,0.45) #note large value for sigma
+pars <- log(c(r=0.205,K=11300,Binit=3200,sigma=0.044))
+result <- do_MCMC(chains=1,burnin=50,N=2000,thinstep=512,
+inpar=pars,infunk=negLL,calcpred=simpspmC,
+obsdat=log(fish[,"cpue"]),calcdat=fish,
+priorcalc=calcprior,scales=inscale,schaefer=FALSE)
+#| echo: false
+library(Rcpp)
+cppFunction('NumericVector simpspmC(NumericVector pars,
+NumericMatrix indat, LogicalVector schaefer) {
+int nyrs = indat.nrow();
+NumericVector predce(nyrs);
+NumericVector biom(nyrs+1);
+double Bt, qval;
+double sumq = 0.0;
+double p = 0.00000001;
+if (schaefer(0) == TRUE) {
+p = 1.0;
+}
+NumericVector ep = exp(pars);
+biom[0] = ep[2];
+for (int i = 0; i < nyrs; i++) {
+Bt = biom[i];
+biom[(i+1)] = Bt + (ep[0]/p)*Bt*(1 - pow((Bt/ep[1]),p)) -
+indat(i,1);
+if (biom[(i+1)] < 40.0) biom[(i+1)] = 40.0;
+sumq += log(indat(i,2)/biom[i]);
+}
+qval = exp(sumq/nyrs);
+for (int i = 0; i < nyrs; i++) {
+predce[i] = log(biom[i] * qval);
+}
+return predce;
+}')
+# Conduct an MCMC using simpspmC on the abdat Fox SPM
+# This means you will need to compile simpspmC from appendix
+set.seed(698381) #for repeatability, possibly only on Windows10
+begin <- gettime()  # to enable the time taken to be calculated
+inscale <- c(0.07,0.05,0.09,0.45) #note large value for sigma
+pars <- log(c(r=0.205,K=11300,Binit=3200,sigma=0.044))
+result <- do_MCMC(chains=1,burnin=50,N=2000,thinstep=512,
+inpar=pars,infunk=negLL,calcpred=simpspmC,
+obsdat=log(fish[,"cpue"]),calcdat=fish,
+priorcalc=calcprior,scales=inscale,schaefer=FALSE)
+# alternatively, use simpspm, but that will take longer.
+cat("acceptance rate = ",result$arate," \n")
+cat("time = ",gettime() - begin,"\n")
+post1 <- result[[1]][[1]]
+p <- 1e-08
+msy <- post1[,"r"]*post1[,"K"]/((p + 1)^((p+1)/p))
+#| label: fig-spm23
+#| fig-cap: "MCMC 输出的成对散点图。实线是表示趋势的塬平滑线，上半部分的数字是成对散点图之间的相关系数。r、K 和 Binit 之间，以及 K、Binit 和 MSY 之间都有很强的相关性，而 sigma 与其他参数或 msy 与 r 之间的关系较小或没有关系。MCMC output as paired scattergrams. The solid lines are loess smoothers indicating trends and the numbers in the upper half are the correlation coefficients between the pairs. Strong correlations are indicated between r, K, and Binit, and between K, Binit, and MSY, with only minor or no relationships between sigma the other parameters or between msy and r."
+#pairwise comparison for MCMC of Fox model on abdat  Fig 7.23
+pairs(cbind(post1[,1:4],msy),upper.panel = panel.cor,lwd=2,cex=0.2,
+lower.panel=panel.smooth,col=1,gap=0.1)
+#| echo: false
+library(Rcpp)
+cppFunction('NumericVector simpspmC(NumericVector pars,
+NumericMatrix indat, LogicalVector schaefer) {
+int nyrs = indat.nrow();
+NumericVector predce(nyrs);
+NumericVector biom(nyrs+1);
+double Bt, qval;
+double sumq = 0.0;
+double p = 0.00000001;
+if (schaefer(0) == TRUE) {
+p = 1.0;
+}
+NumericVector ep = exp(pars);
+biom[0] = ep[2];
+for (int i = 0; i < nyrs; i++) {
+Bt = biom[i];
+biom[(i+1)] = Bt + (ep[0]/p)*Bt*(1 - pow((Bt/ep[1]),p)) -
+indat(i,1);
+if (biom[(i+1)] < 40.0) biom[(i+1)] = 40.0;
+sumq += log(indat(i,2)/biom[i]);
+}
+qval = exp(sumq/nyrs);
+for (int i = 0; i < nyrs; i++) {
+predce[i] = log(biom[i] * qval);
+}
+return predce;
+}')
+# Conduct an MCMC using simpspmC on the abdat Fox SPM
+# This means you will need to compile simpspmC from appendix
+set.seed(698381) #for repeatability, possibly only on Windows10
+begin <- gettime()  # to enable the time taken to be calculated
+inscale <- c(0.07,0.05,0.09,0.45) #note large value for sigma
+pars <- log(c(r=0.205,K=11300,Binit=3200,sigma=0.044))
+result <- do_MCMC(chains=1,burnin=50,N=2000,thinstep=512,
+inpar=pars,infunk=negLL,calcpred=simpspmC,
+obsdat=log(fish[,"cpue"]),calcdat=fish,
+priorcalc=calcprior,scales=inscale,schaefer=FALSE)
+# alternatively, use simpspm, but that will take longer.
+cat("acceptance rate = ",result$arate," \n")
+cat("time = ",gettime() - begin,"\n")
+post1 <- result[[1]][[1]]
+p <- 1e-08
+msy <- post1[,"r"]*post1[,"K"]/((p + 1)^((p+1)/p))
+#| label: fig-spm23
+#| fig-cap: "MCMC 输出的成对散点图。实线是表示趋势的塬平滑线，上半部分的数字是成对散点图之间的相关系数。r、K 和 Binit 之间，以及 K、Binit 和 MSY 之间都有很强的相关性，而 sigma 与其他参数或 msy 与 r 之间的关系较小或没有关系。MCMC output as paired scattergrams. The solid lines are loess smoothers indicating trends and the numbers in the upper half are the correlation coefficients between the pairs. Strong correlations are indicated between r, K, and Binit, and between K, Binit, and MSY, with only minor or no relationships between sigma the other parameters or between msy and r."
+#pairwise comparison for MCMC of Fox model on abdat  Fig 7.23
+pairs(cbind(post1[,1:4],msy),upper.panel = panel.cor,lwd=2,cex=0.2,
+lower.panel=panel.smooth,col=1,gap=0.1)
+#| label: fig-spm24
+#| fig-cap: "将 Fox 模型应用于鳕鱼数据的 2000 次 MCMC 重复计算得出的三个参数的边际分布和隐含的 MSY。曲线的块状表明需要进行 2000 次以上的迭代。The marginal distributions for three parameters and the implied MSY from 2000 MCMC replicates for the Fox model applied to the abdat data. The lumpiness of the curves suggests more than 2000 iterations are needed."
+# marginal distributions of 3 parameters and msy  Figure 7.24
+parset(plots=c(2,2), cex=0.85)
+plot(density(post1[,"r"]),lwd=2,main="",xlab="r") #plot has a method
+plot(density(post1[,"K"]),lwd=2,main="",xlab="K")   #for output from
+plot(density(post1[,"Binit"]),lwd=2,main="",xlab="Binit")  # density
+plot(density(msy),lwd=2,main="",xlab="MSY")   #try str(density(msy))
+#| label: fig-spm25
+#| fig-cap: "MCMC 边际分布输出为 r 和 K 参数以及 K 和 MSY 值的散点图。灰点是成功的候选参数向量，等值线是近似的第 50 和第 90 分位数。文中给出了全部可接受的参数迹线范围。MCMC marginal distributions output as a scattergram of the r and K parameters, and the K and MSY values. The grey dots are from successful candidate parameter vectors, while the contours are approximate 50th and 90th percentiles. The text give the full range of the accepted parameter traces."
+#MCMC r and K parameters, approx 50 + 90% contours. Fig7.25
+puttxt <- function(xs,xvar,ys,yvar,lvar,lab="",sigd=0) {
+text(xs*xvar[2],ys*yvar[2],makelabel(lab,lvar,sep="  ",
+sigdig=sigd),cex=1.2,font=7,pos=4)
+} # end of puttxt - a quick utility function
+kran <- range(post1[,"K"]);  rran <- range(post1[,"r"])
+mran <- range(msy)         #ranges used in the plots
+parset(plots=c(1,2),margin=c(0.35,0.35,0.05,0.1)) #plot r vs K
+plot(post1[,"K"],post1[,"r"],type="p",cex=0.5,xlim=kran,
+ylim=rran,col="grey",xlab="K",ylab="r",panel.first=grid())
+points(optpar[2],optpar[1],pch=16,col=1,cex=1.75) # center
+addcontours(post1[,"K"],post1[,"r"],kran,rran,  #if fails make
+contval=c(0.5,0.9),lwd=2,col=1)   #contval smaller
+puttxt(0.7,kran,0.97,rran,kran,"K= ",sigd=0)
+puttxt(0.7,kran,0.94,rran,rran,"r= ",sigd=4)
+plot(post1[,"K"],msy,type="p",cex=0.5,xlim=kran,  # K vs msy
+ylim=mran,col="grey",xlab="K",ylab="MSY",panel.first=grid())
+points(optpar[2],getMSY(optpar,p),pch=16,col=1,cex=1.75)#center
+addcontours(post1[,"K"],msy,kran,mran,contval=c(0.5,0.9),lwd=2,col=1)
+puttxt(0.6,kran,0.99,mran,kran,"K= ",sigd=0)
+puttxt(0.6,kran,0.97,mran,mran,"MSY= ",sigd=3)
+#| label: fit-spm26
+#| fig-cap: "三个主要 Schaefer 模型参数和 MSY 估计值的迹线。如果细化步长增加到 1024 步或更长，迹线内剩余的自相关性应得到改善。The traces for the three main Schaefer model parameters and the MSY estimates. The remaining auto-correlation within traces should be improved if the thinning step were increased to 1024 or longer."
+#Traces for the Fox model parameters from the MCMC  Fig7.26
+parset(plots=c(4,1),margin=c(0.3,0.45,0.05,0.05),
+outmargin = c(1,0,0,0),cex=0.85)
+label <- colnames(post1)
+N <- dim(post1)[1]
+for (i in 1:3) {
+plot(1:N,post1[,i],type="l",lwd=1,ylab=label[i],xlab="")
+abline(h=median(post1[,i]),col=2)
+}
+msy <- post1[,1]*post1[,2]/4
+plot(1:N,msy,type="l",lwd=1,ylab="MSY",xlab="")
+abline(h=median(msy),col=2)
+mtext("Step",side=1,outer=T,line=0.0,font=7,cex=1.1)
+#Do five chains of the same length for the Fox model
+set.seed(6396679)  # Note all chains start from same place, which is
+inscale <- c(0.07,0.05,0.09,0.45)  # suboptimal, but still the chains
+pars <- log(c(r=0.205,K=11300,Binit=3220,sigma=0.044))  # differ
+result <- do_MCMC(chains=5,burnin=50,N=2000,thinstep=512,
+inpar=pars,infunk=negLL1,calcpred=simpspmC,
+obsdat=log(fish[,"cpue"]),calcdat=fish,
+priorcalc=calcprior,scales=inscale,
+schaefer=FALSE)
+cat("acceptance rate = ",result$arate," \n") # always check this
+#| label: fig-spm27
+#| fig-cap: "K 参数的边际后验值和 5 链 2000 次重复（512 * 2000 = 1049600 次迭代）得出的隐含 MSY。分布之间仍存在一些差异，尤其是在模式处，这表明更多的重复和更高的稀疏率可能会改善结果。the marginal posterior for the K parameter and the implied MSY from five chains of 2000 replicates (512 * 2000 = 1049600 iterations). Some variation remains between the distributions, especially at the mode, suggesting that more replicates and potentially a higher thinning rate would improve the outcome."
+#Now plot marginal posteriors from 5 Fox model chains    Fig7.27
+parset(plots=c(2,1),cex=0.85,margin=c(0.4,0.4,0.05,0.05))
+post <- result[[1]][[1]]
+plot(density(post[,"K"]),lwd=2,col=1,main="",xlab="K",
+ylim=c(0,4.4e-04),panel.first=grid())
+for (i in 2:5) lines(density(result$result[[i]][,"K"]),lwd=2,col=i)
+p <- 1e-08
+post <- result$result[[1]]
+msy <-  post[,"r"]*post[,"K"]/((p + 1)^((p+1)/p))
+plot(density(msy),lwd=2,col=1,main="",xlab="MSY",type="l",
+ylim=c(0,0.0175),panel.first=grid())
+for (i in 2:5) {
+post <- result$result[[i]]
+msy <-  post[,"r"]*post[,"K"]/((p + 1)^((p+1)/p))
+lines(density(msy),lwd=2,col=i)
+}
+# get qunatiles of each chain
+probs <- c(0.025,0.05,0.5,0.95,0.975)
+storeQ <- matrix(0,nrow=6,ncol=5,dimnames=list(1:6,probs))
+for (i in 1:5) storeQ[i,] <- quants(result$result[[i]][,"K"])
+x <- apply(storeQ[1:5,],2,range)
+storeQ[6,] <- 100*(x[2,] - x[1,])/x[2,]
+#| label: tbl-spm8
+#| tbl-cap: "针对 abdat 数据的 Fox 模型运行的五条 MCMC 链中 K 参数的五个量化值。最后一行是各链数值范围的百分比差异，显示它们的中位数相差略高于 1%。Five quantiles on the K parameter from the five MCMC chains run on the Fox model applied to the abdat data. The last row is the percent difference in the range of the values across the chains, which shows their medians differ by slightly more than 1%."
+knitr::kable(storeQ, digits = 3)
+#| label: fig-spm28
+#| fig-cap: "使用 Fox 模型和对数正态误差拟合的 abdat 数据集最佳模型。绿色虚线为黄土曲线，红色实线为最佳预测拟合模型。请注意对数正态残差的模式，这表明该模型在该数据方面存在一些不足。The optimum model fit for the abdat data-set using the Fox model and log-normal errors. The green dashed line is a loess curve while the solid red line is the optimum predicted model fit. Note the pattern in the log-normal residuals indicating that the model has some inadequacies with regard to this data."
+#Prepare Fox model on abdat data for future projections Fig7.28
+data(abdat); fish <- as.matrix(abdat)
+param <- log(c(r=0.3,K=11500,Binit=3300,sigma=0.05))
+bestmod <- nlm(f=negLL1,p=param,funk=simpspm,schaefer=FALSE,
+logobs=log(fish[,"cpue"]),indat=fish,hessian=TRUE)
+optpar <- exp(bestmod$estimate)
+ans <- plotspmmod(inp=bestmod$estimate,indat=fish,schaefer=FALSE,
+target=0.4,addrmse=TRUE, plotprod=FALSE)
+#
+out <- spm(bestmod$estimate,indat=fish,schaefer=FALSE)
+str(out, width=65, strict.width="cut")
+#| label: tbl-spm9
+#| tbl-cap: "前十行为 abdat 数据集所代表的种群动态预测值和最佳 Fox 模型拟合值。The first ten rows of the predicted dynamics of the stock represented by the abdat data-set and the optimal Fox model fit."
+knitr::kable(out$outmat[1:10,], digits = 3)
+#| label: fig-spm29
+#| fig-cap: "根据 abdat 数据集拟合的最佳 Fox 模型的确定性恒定渔获量预测。垂直绿线是可用数据的极限，其右侧的红线是主要预测。数字是施加的恒定渔获量。Deterministic constant catch projections of the optimum Fox model fit to the abdat data-set. the vertical green line is the limit of the data available and the red lines to the right of that are the main projections. The numbers are the constant catches imposed."
+#  Fig 7.29
+catches <- seq(700,1000,50)   # projyr=10 is the default
+projans <- spmprojDet(spmobj=out,projcatch=catches,plotout=TRUE)
+# generate parameter vectors from a multivariate normal
+# project dynamics under a constant catch of 900t
+library(mvtnorm)
+matpar <- parasympt(bestmod,N=1000) #generate parameter vectors
+projs <- spmproj(matpar,fish,projyr=10,constC=900)#do dynamics
+#| label: fig-spm30
+#| fig-cap: "1000 个预测值，通过使用反向哈希值和平均参数估计值生成 1000 个可信参数向量，并将每 个向量与 10 年不变的 900 吨渔获量后的渔获量向前推算得出。虚线为极限和目标参考点。蓝色垂直线是渔业数据的极限，黑色粗线是最优拟合，与最优线平行的红色细线是各年的第 10 和第 50 个量值。1000 projections derived from the using the inverse hessian and mean parameter estimates to generate 1000 plausible parameter vectors and projecting each vector forward with the fisheries catches followed by 10 years of a constant catch of 900t. The dashed lines are the limit and target reference points. The blue vertical line is the limit of fisheries data, the thick black line is the optimum fit and the thin red lines parallel to the optimum line are the 10th and 50th quantiles across years."
+# Fig 7.30  1000 replicate projections asymptotic errors
+outp <- plotproj(projs,out,qprob=c(0.1,0.5),refpts=c(0.2,0.4))
+#bootstrap generation of plausible parameter vectors for Fox
+reps <- 1000
+boots <- spmboot(bestmod$estimate,fishery=fish,iter=reps,
+schaefer=FALSE)
+matparb <- boots$bootpar[,1:4] #examine using head(matparb,20)
+#| label: fig-spm31
+#| fig-cap: "1000 个预测值（灰色）来自使用自举过程生成的 1000 个可信参数向量，并将每个向量与 10 年 900 吨恒定渔获量之后的渔获量进行向前预测。虚线为极限和目标参考点。蓝色垂直线为渔业数据的极限，黑色粗线为最佳拟合，红线为各年的第 10 和第 50 个量值。"
+#bootstrap projections. Lower case b for boostrap  Fig7.31
+projb <- spmproj(matparb,fish,projyr=10,constC=900)
+outb <- plotproj(projb,out,qprob=c(0.1,0.5),refpts=c(0.2,0.4))
+#Generate 1000 parameter vectors from Bayesian posterior
+param <- log(c(r=0.3,K=11500,Binit=3300,sigma=0.05))
+set.seed(444608)
+N <- 1000
+result <- do_MCMC(chains=1,burnin=100,N=N,thinstep=2048,
+inpar=param,infunk=negLL,calcpred=simpspmC,
+calcdat=fish,obsdat=log(fish[,"cpue"]),
+priorcalc=calcprior,schaefer=FALSE,
+scales=c(0.065,0.055,0.1,0.475))
+parB <- result[[1]][[1]] #capital B for Bayesian
+cat("Acceptance Rate = ",result[[2]],"\n")
+#| label: fig-spm32
+#| fig-cap: "从上图可以明显看出，过剩生产模型福克斯版本的 K 参数后验分布的 1000 次抽样中缺乏自相关性。下图中的迹线显示了典型的分散值，但保留了一些更极端的峰值。"
+# auto-correlation, or lack of, and the K trace Fig 7.32
+parset(plots=c(2,1),cex=0.85)
+acf(parB[,2],lwd=2)
+plot(1:N,parB[,2],type="l",ylab="K",ylim=c(8000,19000),xlab="")
+#| label: fig-spm33
+#| fig-cap: "利用贝叶斯后验的 1000 个样本得出的 900 吨恒定渔获量的 1000 个预测值（灰色）。虚线为极限和目标参考点。蓝色垂直线为渔业数据的极限，黑色粗线为最佳拟合，红线为各年的第 10 和第 50 分位数。"
+#  Fig 7.33
+matparB <- as.matrix(parB[,1:4]) # B for Bayesian
+projs <- spmproj(matparB,fish,constC=900,projyr=10) # project them
+plotproj(projs,out,qprob=c(0.1,0.5),refpts=c(0.2,0.4)) #projections
+library(Rcpp)
+cppFunction('NumericVector simpspmC(NumericVector pars,
+NumericMatrix indat, LogicalVector schaefer) {
+int nyrs = indat.nrow();
+NumericVector predce(nyrs);
+NumericVector biom(nyrs+1);
+double Bt, qval;
+double sumq = 0.0;
+double p = 0.00000001;
+if (schaefer(0) == TRUE) {
+p = 1.0;
+}
+NumericVector ep = exp(pars);
+biom[0] = ep[2];
+for (int i = 0; i < nyrs; i++) {
+Bt = biom[i];
+biom[(i+1)] = Bt + (ep[0]/p)*Bt*(1 - pow((Bt/ep[1]),p)) -
+indat(i,1);
+if (biom[(i+1)] < 40.0) biom[(i+1)] = 40.0;
+sumq += log(indat(i,2)/biom[i]);
+}
+qval = exp(sumq/nyrs);
+for (int i = 0; i < nyrs; i++) {
+predce[i] = log(biom[i] * qval);
+}
+return predce;
+}')
+robout$results
+robout$results |>
+as.data.frame() |>
+select(ir, iK, iBinit, isigma, iLike) |>
+gt() |>
+fmt_number(columns = c("ir", "isigma", "iLike",
+"r", "sigma", "-veLL") , decimals = 3)
+robout$results |>
+as.data.frame() |>
+select(ir, iK, iBinit, isigma, iLike)
+robout$results |>
+as.data.frame() |>
+select(ir, iK, iBinit, isigma, iLike) |>
+gt() |>
+fmt_number(columns = c("ir", "isigma", "iLike",
+"r", "sigma", "-veLL") , decimals = 3)
+robout$results |>
+as.data.frame() |>
+select(ir, iK, iBinit, isigma, iLike) |>
+gt() |>
+fmt_number(columns = c("ir", "isigma", "iLike") , decimals = 3)
+robout$results |>
+as.data.frame() |>
+select(-ir, -iK, -iBinit, -isigma, -iLike) |>
+gt() |>
+fmt_number(columns = c("r", "sigma", "-veLL"), decimals = 3)
+#| label: tbl-spm2
+#| tbl-cap: "A robustness test of the fit to the schaef data-set. By examining the results object we can see the individual variation. The top columns relate to the initial parameters and the bottom columns, perhaps of more interest, to the model fits."
+#| echo: false
+robout$results |>
+as.data.frame() |>
+select(ir, iK, iBinit, isigma, iLike) |>
+gt() |>
+fmt_number(columns = c("ir", "isigma", "iLike") , decimals = 3)
+robout$results |>
+as.data.frame() |>
+select(-ir, -iK, -iBinit, -isigma, -iLike) |>
+gt() |>
+fmt_number(columns = c("r", "sigma", "-veLL"), decimals = 3)
+#| echo: false
+robout$results |>
+as.data.frame() |>
+select(-ir, -iK, -iBinit, -isigma, -iLike) |>
+gt() |>
+fmt_number(columns = c("r", "sigma", "-veLL"), decimals = 3)
+#| echo: false
+robout$results |>
+as.data.frame() |>
+select(-ir, -iK, -iBinit, -isigma, -iLike, -r) |>
+gt() |>
+fmt_number(columns = c("sigma", "-veLL"), decimals = 3)
+#| label: tbl-spm2
+#| tbl-cap: "A robustness test of the fit to the schaef data-set. By examining the results object we can see the individual variation. The top columns relate to the initial parameters and the bottom columns, perhaps of more interest, to the model fits."
+#| echo: false
+robout$results |>
+as.data.frame() |>
+select(ir, iK, iBinit, isigma, iLike, r) |>
+gt() |>
+fmt_number(columns = c("ir", "isigma", "iLike", "r") , decimals = 3)
+res1 <- robout$results |>
+select(ir, iK, iBinit, isigma, iLike, r)
+res1 <- robout$results |>
+as.data.frame() |>
+select(ir, iK, iBinit, isigma, iLike, r)
+knitr::kable(res1, digits = 3)
+res2 <- robout$results |>
+as.data.frame() |>
+select(-ir, -iK, -iBinit, -isigma, -iLike, -r)
+knitr::kable(res2, digits = 3)
+nrow(schaef)
+knitr::kable(list(schaef[1:11,],schaef[12:22]), valign= 't', digits = 3)
+knitr::kable(list(schaef[1:11,],schaef[12:22,]), valign= 't', digits = 3)
+knitr::kable(list(schaef[1:11,],schaef[12:22,]),
+#valign= 't',
+digits = 3)
+class(schaef)

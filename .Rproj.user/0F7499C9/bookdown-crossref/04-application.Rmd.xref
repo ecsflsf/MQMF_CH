@@ -1,0 +1,50 @@
+h1:模型参数估算 模型参数估算
+h2:简介 简介
+h3:最优化 最优化
+h2:最佳拟合标准 最佳拟合标准
+eq:eq41
+其中 是 个观测中的第 个观测值， 是给定观测值 的模型预测值（例如，如果  为鱼 的年龄-体长，则  为一些候选生长模型中得到的鱼  的年龄-体长预测值）。 中的  表示  的预测值。eq:eq42
+其中  为总似然，等于 或给定参数值  每个观测值  的概率密度（似然）积（在每种情况下，离期望值  越远，似然越低）。 是给定候选模型参数  时观测值  的总负对数似然，每个观测点 的 对数似然的负数和。 我们使用对数似然，因为大多数似然是非常小的数字，当与许多其他非常小的数字相乘时，会变得非常小，以至于有可能导致浮点溢出的计算机错误。对数变换将乘法变为加法，避免了这种风险(  转变为 ）。eq:eq43
+其中  为参数集  的先验概率，通过给定参数  的数据  似然、 进行更新，除数  对结果重新缩放或归一化，因此在给定数据的情况下，所有参数向量  的后验概率之和为1.0。最终方程（@ref(eq:eq43)）是一个近似值，因为除数中的总和实际上应该是一个连续分布的积分，但在实践中，近似值就足够了，而且是处理复杂渔业模型参数时的唯一实际选择，其后验分布没有简单的分析解。h2:r语言中的模型拟合 R语言中的模型拟合
+h3:模型需求 模型需求
+fig:fig41 Inputs, functional requirements, and outputs, when fitting a model to data. The optimization function (here nlm()) minimizes the negative log-likelihood (or sum-of squares) and requires an initial parameter vector to begin. In addition, the optimizer requires a function (perhaps negLL()) to calculate the corresponding negative log-likelihood for each vector of parameters it produces in its search for the minimum. To calculate the negative log-likelihood requires a function (perhaps vB()) to generate predicted values for comparison with the input observed values.
+h3:年龄-体长例子 年龄-体长例子
+eq:eq44
+其中  为年龄  的期望或预测长度， 为渐近平均最大长度， 为是决定达到最大值的增长率系数， 为物种长度0时的假设年龄（von Bertalanffy, 1938），一旦我们有了， ， 的估算值（或假设值），该非线性方程就提供了一种预测不同年龄的年龄-长度的方法。在拟合数据模型时，使用@ref(eq:eq44)中的下面两个方程，其中 为观测值，等于预测值加上正态随机离差 ，其中的每个值可能是正的或负的（某一年龄的观测值可能大于或小于期望长度）。最下面的方程实际上是关于决定使用什么剩余误差结构。在本章中，我们将描述生态学和渔业中使用的一系列可供选择的误差结构。它们并非都是可加的，有些是用函数关系而不是常数定义的（如）。h3:其它的生长模型 其它的生长模型
+eq:eq45
+以及广义Michaelis-Menten 方程（Maynard Smith and Slatkin, 1973; Legendre and Legendre, 1998):eq:eq46
+每个模型也有 a、b 和 c三个参数，每个模型都能对生长过程的经验数据作出令人信服的描述。可以对某些参数进行生物学解释（如最大平均长度），但这些模型最终只提供了对生长过程的经验描述。如果把模型解释为反映了现实，就会导致完全不可信的预测，如不存在一米长的鱼（Knight，1968 年）。在文献中，参数可以有不同的符号（例如，Maynard Smith 和 Slatkin（1973）用  代替  表示 Michaelis-Menton），但基本结构形式是相同的。在对 MQMF 的年龄-长度数据集  中的鱼类进行von Bertalanffy生长曲线拟合后，我们可以利用不同模型来说明尝试这些替代模型的价值，并对应该使用哪种模型保持开放的心态。这个问题在我们讨论不确定性时会再次出现，因为我们可以从不同的模型中得到不同的结果。在对任何自然过程建模时，模型选择都是需要做出的重大决定之一。重要的是，通过这种方式尝试不同的模型，还能强化模型与数据拟合的过程。h2:残差平方和 残差平方和
+eq:eq47
+其中， 为个观测值的残差平方和， 为第 个观测值，为第第 个观测值的期望值或预测值。包中的 函数仅仅是一个封装器，它调用了用于生成预测值的任何函数，然后计算并返回平方差和。根据不同问题的复杂程度和数据输入，我们通常需要创建新的函数作为封装。 很好地说明了这样一个事实，即在一个传递给函数的参数中，也可以传递其他函数（在本例中，在内我们调用了传递给 的函数，当然在使用时，我们输入的是与当前问题相关的实际函数，也许是，注意在用作函数参数时没有括号）。h3:最小二乘法的假设 最小二乘法的假设
+h3:数值求解 数值求解
+h3:将函数作为参数传递给其它函数 将函数作为参数传递给其它函数
+h3:拟合模型 拟合模型
+fig:fig42 Simulated female length-at-age data for 358 Redfish, Centroberyx affinis, based on samples from eastern Australia. Full intensity colour means >= 5 points.
+fig:fig43 Female Length-at-Age data from 358 simulated female redfish with three optimally fitted growth curves drawn on top.
+h3:目标模型选择 目标模型选择
+eq:eq48
+其中 为观测数， 为”模型内独立调整参数数量”（Akaike，1974，p716）， 为方差的最大似然估计，仅表示残差平方和除以 而非  ：eq:eq49
+即使有了，也很难确定，当使用最小二乘时，差异是否可以被认为是统计上显著的差异。有与方差分析相关的方法，但当使用最大似然时，这些问题能够得到更可靠的回答，所以我们将在后面的部分中解决这个问题。h3:残差选择对模型拟合的影响 残差选择对模型拟合的影响
+eq:eq410
+这里我们继续在中使用选项，因为我们是对数据进行对数转换，而不是对参数进行对数转换，因此不需要进行反向转换。fig:fig44 Female Length-at-Age data from 358 female redfish, Centroberyx affinis, with two von Bertalanffy growth curves fitted using Normal and Log-Normal residuals.
+h3:关于初始模型拟合的说明 关于初始模型拟合的说明
+h2:最大似然 最大似然
+h3:入门范例 入门范例
+eq:eq411
+其中 为与 相关的标准差。这确定了最小二乘法和最大似然方法之间的直接区别，在后者中，需要一个PDF的完整定义，在正态分布的情况下，它包括对均值估计  周围残差的标准偏差的显式估计。这样的估计不需要最小二乘，虽然很容易从SSQ值中得到。tab:tab41 An illustration of using normal random values and related normal likelihoods. The estimated column has the larger total likelihood. 1=TRUE, 0=FALSE.
+h2:正态分布的似然 正态分布的似然
+eq:eq412
+我们可以使用 和  计算似然和累积密度函数（cdf）（图@ref(fig:fig45)）。fig:fig45 A dotted red curve depicting the expected normal likelihoods for a mean = 0 and sd = 1.0, along with the cumulative density of the same normal likelihoods as a black line. The blue line identifies a cumulative probability of 0.5.
+fig:fig46 Probability densities for a normally distributed variate X, with a mean of 5.0 and a standard deviation of 1.0. The PDF value at x = 3.5 is 0.129518, so the area of the boxes outlined in red is 0.0129518, which approximates the total probability of a value between 3.45 - 3.55, which would really be the area under the curve.
+h3:与平方和等同 与平方和等同
+eq:eq413
+ 读作给定 个参数（ 和 ）时观测值  的对数似然；符号”|给定”。这个看似复杂的方程式其实可以大大简化。首先，我们可以将指数项之前的常数移到求和项之外，乘以 ，然后将剩余指数项的自然对数反变换为指数：eq:eq414
+ 是数据方差的最大似然估计（记住是除以n而非n–1）：eq:eq415
+如果用式@ref(eq:eq415)中  代入式@ref(eq:eq414)，则  用  代替：eq:eq416
+化简平方根意味着将- 1移至对数项外面，n变成- n，我们可以将平方根变成指数1/2，然后将  项加到  项上：eq:eq417
+将幂指数  移到第1个项外：eq:eq418
+然后将  简化，并将整个方程两边乘以- 1，以转换为负对数似然，从而得到正态分布值的负对数似然的最终简化:eq:eq419
+其中唯一的非常数部分是  的值，它是残差平方和除以 n 的平方根，所以现在应该很清楚了，为什么使用最大似然时获得的参数，如果使用正态随机误差，与从最小二乘方法得到的参数相同。h3:应用正态似然拟合数据模型 应用正态似然拟合数据模型
+fig:fig47 The length-at-age data contained within the LatA data set for female Redfish Centroberyx affinis. Full colour means >= 5 points.
+h2:对数正态似然 对数正态似然
+

@@ -1,0 +1,200 @@
+{
+    "entries": [
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3",
+            "suffix": "-2",
+            "title": "Schaefer 模型动态。左图是按年份的数值，展示了从 r 值为 2.8 开始的混沌动态。右图是时间 t+1 的数值与时间 t 的关系，称为相图。最后 20%的点用红色标出以展示任何平衡行为。灰色对角线是 1:1 线。"
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_5",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_9",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-5",
+            "title": "The population Catch Weight-at-Age for each of 10 annual harvest rates applied to the simple age-structured model to perform the yield-per-recruit analysis."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_10",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_2",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-8",
+            "title": "The effect on the total equilibrium yield of applying different harvest rates (rows) and different ages of first exploitation (columns)."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-6",
+            "title": "The total catches for each of 10 annual harvest rates applied to the simple age-structured model to perform the yield-per-recruit analysis."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_14",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_13",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-2",
+            "title": "Schaefer 模型动态。结果内容：在 600 年的预测动态中，从不同 r 值获得的 60 年内独特种群数量（N）。100 表示非平衡甚至混沌。"
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-1",
+            "title": "ans 对象中最后 30 个按年排列的数字，展示了在 r = 2.2 时呈现 8 周期稳定极限。如果你在 discretelogistic() 中尝试 r = 2.2，它将导致 2 周期稳定极限在 746.24 和 1162.84 之间波动。尝试使用 plot(ans) 并观察每次变化。"
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_1",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-7",
+            "title": "The application of the Baranov Catch Equation to a population with an annual harvest rate of 0.2 and an instantaneous natural mortality rate of 0.3."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_6",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_12",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3",
+            "suffix": "-3",
+            "title": "Schaefer model dynamics. A classical bifurcation diagram (May, 1976) plotting equilibrium dynamics against values of r, illustrating the transition from 2-, 4-, 8-cycle, and beyond, including chaotic behaviour."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_7",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-4",
+            "title": "The population Numbers-at-Age for each of 10 annual harvest rates applied to the simple age-structured model to perform the yield-per-recruit analysis."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_11",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_8",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "sec",
+            "id": "ypr_selectivity",
+            "suffix": "",
+            "title": "单位补充量渔获量中的选择性"
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_3",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3",
+            "suffix": "-7",
+            "title": " The relationship between the instantaneous fishing mortality rate (solid line) and the annual fishing mortality or annual harvest rate (dashed line). The values diverge at values of F greater than about 0.2."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "tbl",
+            "id": "3",
+            "suffix": "-3",
+            "title": "Outcome of applying a constant total mortality rate apportioned across shorter and shorter time periods each of which sum to a year. yrfrac is the fraction of a year, Approx is the instantaneous total mortality divided by the divisor, and Remain is the number of animals remaining out of 1000 after a year."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_4",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3",
+            "suffix": "-1",
+            "title": "离散 Schaefer（1954，1957）剩余生产模型的完整生产曲线以及与种群大小相当的等效线性密度依赖关系。"
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "sec",
+            "id": "simplemodel",
+            "suffix": "",
+            "title": "简单种群模型"
+        }
+    ]
+}

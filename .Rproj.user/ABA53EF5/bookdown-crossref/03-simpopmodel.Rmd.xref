@@ -1,0 +1,41 @@
+h1:简单种群模型 简单种群模型
+h2:简介 简介
+h3:离散logistic模型 离散Logistic模型
+eq:eq31
+项为时间时的数量（如年的开始时），最后一项为，它是在时间内（如年份）捕获的渔获量。第一行反映了初始状态，定义为时间0时的数量（或生物量）。要注意下标，因为无论是数量还是生物量，它们都是指特定时间的数量和生物量，通常是确定的时间段的开始时的数量或生物量，而渔获量指的是整个时间段内的渔获量。这个方程是对时间步长的动力学的总结；fig:fig3-1  The full production curve for the discrete Schaefer (1954, 1957) surplus production model and the equivalent implied linear density dependent relationship with population size.
+h3:动态行为 动态行为
+fig:fig3-2 Schaefer model dynamics. The left plot is the numbers by year, illustrating chaotic dynamics from an r-value of 2.8. The right plot is numbers-at-time t+1 against time t, known as a phase plot. The final 20% of points are in red to illustrate any equilibrium behaviour. The grey diagonal is the 1:1 line.
+h3:发现行为间的界限 发现行为间的界限
+h3:经典的混沌分岔图 经典的混沌分岔图
+fig:fig3-3 Schaefer model dynamics. A classical bifurcation diagram (May, 1976) plotting equilibrium dynamics against values of r, illustrating the transition from 2-, 4-, 8-cycle, and beyond, including chaotic behaviour.
+h3:捕捞对动态的影响 捕捞对动态的影响
+fig:fig3-4 Schaefer model dynamics. The top-left plot depicts the expected unfished dynamics (8-cycle) while the next three plots, with decreasing average catches, illustrate the impact of the increased catches with no other factor changing.
+fig:fig3-5 Schaefer model dynamics. Phase plots for each of the four constant catch scenarios
+h3:决定论 决定论
+eq:eq32
+其中 和h2:年龄结构的建模概念 年龄结构的建模概念
+h3:世代中的残存 世代中的残存
+eq:eq33
+这种随时间的比例减少暗示着负指数增长。给定瞬时总死亡率为fig:fig3-6 Exponential population declines under different levels of total mortality. The top curve is Z = 0.05 and the steepest curve is Z = 0.55.
+h3:瞬时-vs-年死亡率 瞬时 Vs 年死亡率
+eq:eq34
+因此1年时间死亡的比例表示为：eq:eq35
+如果只考虑瞬时捕捞死亡率，而忽略自然死亡率，则死亡的比例称为捕获率，。eq:eq36
+如果知道了每年的捕获率，就可以将其反向转换来估计瞬时捕捞死亡率。eq:eq37
+其中对数是自然对数或以为底的对数。fig:fig3-7  The relationship between the instantaneous fishing mortality rate (solid line) and the annual fishing mortality or annual harvest rate (dashed line). The values diverge at values of F greater than about 0.2.
+h2:简单单位补充量渔获量 简单单位补充量渔获量
+fig:fig3-8 A simplified yield-per-recruit analysis that ignores natural mortality, selectivity-at-age, or any other influences. This analysis uses some weight-at-age data from Russell, 1942 although a wider array of harvest rates were examined than just the two by Russell.
+h3:单位补充量渔获量中的选择性 单位补充量渔获量中的选择性
+eq:eq38
+式中 和 为logistic参数，fig:fig3-9 Examples of the logistic S-shaped curve using the mature() function. The legend consists of the L50 and the IQ for each curve with their parameters defined in the code.
+h3:baranov-渔获量方程 Baranov 渔获量方程
+eq:eq39
+其中eq:eq310
+如果用残存等式代替，就可得到残存的补偿方程，其描述了时间段间总死亡数量：eq:eq311
+这里为年龄死亡的数量。当然，不是所有死亡的鱼都作为渔获，一些是自然死亡的，但也出现捕捞一些自然死亡的个体的现象。将死亡率分为（假设不同年龄的自然死亡系数不变）和(捕捞努力量引起的完全选择死亡)，它可以随时间而变化，可以计算渔获量和残存量。可以将简化为。有可能进行这种分开的假设是年龄结构和体长结构的种群评估模型的一个重要组成部分。使用瞬时率，由于捕捞死亡而非自然死亡的数量用分数来描述，如果将其包含到@ref(eq:eq311)中，我们发现我们已经推导出了所谓的Baranovh3:生长和各年龄体重 生长和各年龄体重
+eq:eq313
+其中，为年龄的长度，为平均最大年龄长度，为系数，它决定了如何快速达到,为长度为0时的假设年龄。用的函数运行。假设各年龄长度和各年龄体重之间存在幂次关系，因此增加了两个参数:eq:eq314
+其中，为恒定值，为，为指数，近似为3.0（大小是二维的，而重量是三维的）。对数变换形式当然是线性的。在*静态模型（Statich2:完整的单位补充量产量 完整的单位补充量产量
+fig:fig3-10 The effect on the total equilibrium yield of applying different harvest rates and different ages of first exploitation. The legend identifies the different age of first exploitation.
+h2:结束语 结束语
+

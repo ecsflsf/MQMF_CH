@@ -1,0 +1,888 @@
+# 剩余产量模型
+
+## 引言
+
+在前面的章节中，我们已经使用并拟合了所谓的静态模型，这些模型在一段时间内是稳定的（*例如*，使用`vB()` 、`Gz()`或`mm()` 的生长模型 ）。此外，在*“模型参数估计*”和*“不确定性*”两章中，我们已经介绍了剩余生产模型（spm），该模型可用于提供资源评估（例如Schaefer模型），并举例说明了使用时间序列数据的动态模型。然而，当我们专注于特定的建模方法时，此类模型的细节开发受到限制。在这里，我们将更详细地研究剩余生产模型。
+
+剩余生产模型（或者生物量动态模型；Hilborn和Walters，1992）将补充、生长和死亡率（生产的所有方面）的总体效应汇集到一个单一的生产函数中，处理未分化的生物量（或数量）。“无差别（undifferentiated）”一词意味着忽略了年龄和长度组成以及性别和其他差异的所有方面，实际上都被忽略了。
+
+为了进行正式的种群评估，就必须以某种方式对已开采种群的动态行为和生产力进行建模。这些动态的一个主要组成部分是种群对不同捕捞压力随时间推移的反应方式，即其体型增加或减少的程度。通过研究不同捕捞强度水平的影响，通常可以评估种群的生产力。剩余生产模型提供了最简单的种群评估，试图在模型与渔业数据拟合的基础上对这种种群动态进行描述。
+
+在1950年代，Schaefer（1954,1957）描述了如何使用剩余产量模型来生成渔业种群评估。此后，它们以多种方式发展（Hilborn和Walters，1992；Prager，1994；Haddon，2011；Winker 等，2018），我们将在这里考虑对这些较新的动态模型进行快速调查。
+
+### 数据需求
+
+估计这种模型的现代离散版本的参数所需的最低限度数据至少是一个相对丰度指数的时间序列和一个相关的渔获量数据时间序列。渔获量数据可以涵盖比指数数据更长的年份。在这种简单模型中使用的相对种群丰度指数通常是单位努力渔获量（cpue），但也可以是一些与渔业无关的丰度指数（例如，来自拖网调查、声学调查），或者两者都可以使用。
+
+估算现代离散模型参数所需的最基本数据是至少一个相对丰度指数时间序列和一个相关的渔获量数据时间序列。渔获量数据可以比相对丰度指数数据涵盖更多年份。这类简单模型中使用的种群相对丰度指数通常是单位努力量渔获量（cpue），但也可以是一些与渔业无关的丰度指数（如拖网调查、声学调查），或者两者都可以使用。
+
+### 对比的必要性
+
+尽管最近偶尔使用（Elder，1979；Saila *等*，1979；Punt，1994 ；Haddon，1998），在20世纪80年代，使用剩余产量模型似乎已经过时。可能是因为在开发这些模型的早期，必须假设被评估的种群处于平衡状态（Elder，1979；Saila *et al*， 1979），而这往往导致过于乐观的结论，从长远来看是站不住脚的。Hilborn（1979）分析了许多此类情况，并证明使用的数据往往过于单一；他们的努力量水平上缺乏对比，因此对相关种群的动态缺乏信息。数据缺乏对比度意味着渔获量和努力量信息只能用于有限范围的种群丰度水平和有限的捕捞强度水平。有限的努力强度范围意味着对不同捕捞强度水平的反应范围也将有限。当种群动态更多地受环境因素而非渔获量的驱动时，也会出现这种对比的缺乏，因此种群似乎以意想不到的方式对渔业做出反应（例如，尽管渔获量或努力量没有变化，但种群发生了巨大变化）。
+
+剩余产量模型的一个重要假设是，所使用的相对丰度度量能够提供了种群相对丰度随时间的信息指标。一般来说，假设种群丰度与CPUE或其他指数之间存在线性关系（尽管这不一定是1：1的关系）。显而易见的风险是，这个假设要么是错误的，要么可以根据情况发生变化。例如，cpue 可能会变得非常稳定，这意味着即使种群数量减少或增加，它也不会发生变化。或者，由于外部因素影响，指数的变化可能会非常大，以至于无法检测到丰度趋势。例如，可能会观察到不同年份间CPUE的巨大变化，但考虑到种群的生产力，这在生物学上是不可能的（Haddon，2018）。
+
+一个不同但相关的假设是，努力量的质量和随后的渔获率在一段时间内保持不变。不幸的是，由于捕捞网具的技术变化、捕捞行为或方法的改变，或捕捞效率的其他变化，从而形成“努力量爬升”的概念，对于依赖CPUE作为相对丰度指数的评估来说，总是一个挑战或问题。努力量递增变的概念意味着努力量的有效性增加，因此任何基于名义努力量观测到的名义 cpue都会高估相对种群丰度（偏高）。cpue的统计标准化（Kimura，1981；Haddon，2018）可以解决其中一些问题，但显然只能考虑可获得数据的因素。例如，如果在渔业中引入GPS绘图仪或彩色回声测深仪，这往往会提高捕捞效率，但却没有记录哪些船只以及何时引入这些设备，那么这些设备对渔获率的正面影响将无法通过标准化来解释。
+
+### 渔获率何时具有参考价值
+
+检验丰度与任何相对丰度指数之间的假定关系是否真实和有信息的一个可能方法是，在发达渔业中，如果允许渔获量增加，预计 cpue 会在一段时间后开始下降。同样，如果渔获量减少到小于剩余产量（可能是通过管理或营销变化），那么随着种群规模的增加，预计cpue会在一段时间后很快增加。其原理是，如果渔获量低于种群当前的产量，那么最终种群规模和 cpue 都会增加，反之亦然。如果渔获量因供应不足而下降，但仍保持或高于当前生产力，则 cpue 当然不会增加，甚至可能进一步下降，尽管渔获量可能略有减少。重点放在发达渔业上，因为当渔业开始时，生物量的任何初始枯竭都会导致 "意外 "渔 获量（MacCall，2009），因为种群被捕捞减少，这反过来又会导致 cpue 水平，一旦种群从未捕获水平减少，cpue 水平将无法维持。
+
+因此，预计在发达渔业中，cpue 在许多情况下与渔获量呈负相关，可能在 cpue 随渔获量变化而变化之间存在时滞。如果我们能发现这种关系，通常意味着数据中存在一定程度的反差；如果我们找不到这种负相关关系，通常意味着数据中有关种群如何对渔业做出反应的信息含量太低，无法仅根据渔获量和相对丰度指数进行评估。也就是说，在渔获量的基础上，相对丰度指数几乎没有增加更多的信息。
+
+我们将使用 **MQMF** 数据集 *schaef* 来说明这些观点。*Schaefer*包含Schaefer （1957）原始黄鳍金枪鱼数据的渔获量和CPUE，这是使用剩余产量模型进行种群评估的早期范例。
+
+```{r}
+#Yellowfin-tuna data from Schaefer 12957   
+
+library(MQMF)
+data(schaef)  
+
+```
+
+渔获量、cpue及其关系图（[图（7.1](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f701)）仅显示cpue和catch之间的弱负相关关系。如果我们检查使用 by using 进行的回归结果，我们发现这种回归仅在 *P* = 0.04575 时才显著。但是，这反映了没有时间滞后的相关性，即滞后 = 0。我们不知道可能需要多少年才能检测到渔获量变化对 cpue 的潜在影响，因此，我们需要在 cpue 和渔获量之间进行时间滞后相关性分析;为此，我们可以使用基本 R 互相关函数。`lm()summary(model)ccf()`
+
+```         
+ #schaef fishery data and regress cpue and catch    Fig 7.1   parset(plots=c(3,1),margin=c(0.35,0.4,0.05,0.05))   plot1(schaef[,"year"],schaef[,"catch"],ylab="Catch",xlab="Year",         defpar=FALSE,lwd=2)   plot1(schaef[,"year"],schaef[,"cpue"],ylab="CPUE",xlab="Year",         defpar=FALSE,lwd=2)   plot1(schaef[,"catch"],schaef[,"cpue"],type="p",ylab="CPUE",         xlab="Catch",defpar=FALSE,pch=16,cex=1.0)   model <- lm(schaef[,"cpue"] ~ schaef[,"catch"])   abline(model,lwd=2,col=2)   # summary(model)  
+```
+
+图7.1：Schaefer（1957年）黄鳍金枪鱼渔业数据的年度渔获量和捕获量及其关系，用回归法描述。
+
+如前所述，有迹象表明时间滞后 = 0 只是显着的。然而，**在滞**后2年时，CPUE与渔获量呈显著负相关，图（[7.2](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f702)）表明，黄鳍金枪鱼数据中有足够的对比度来为剩余生产模型提供信息（在1年、3年和4年也有显著影响）。如果我们将 CPUE 数据物理滞后两年，这种相关性应该会变得更加明显，**如图** [（7.3](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f703)） 所示。
+
+```         
+ #cross correlation between cpue and catch in schaef Fig 7.2   parset(cex=0.85) #sets par parameters for a tidy base graphic   ccf(x=schaef[,"catch"],y=schaef[,"cpue"],type="correlation",       ylab="Correlation",plot=TRUE)  
+```
+
+图7.2：Schaefer（1957年）黄鳍金枪鱼渔业数据（*schaef*）的渔获量与cpue之间的互相关关系。蓝色虚线表示显著的相关性水平。`ccf()`
+
+```         
+ #now plot schaef data with timelag of 2 years on cpue   Fig 7.3   parset(plots=c(3,1),margin=c(0.35,0.4,0.05,0.05))   plot1(schaef[1:20,"year"],schaef[1:20,"catch"],ylab="Catch",         xlab="Year",defpar=FALSE,lwd=2)   plot1(schaef[3:22,"year"],schaef[3:22,"cpue"],ylab="CPUE",         xlab="Year",defpar=FALSE,lwd=2)   plot1(schaef[1:20,"catch"],schaef[3:22,"cpue"],type="p",         ylab="CPUE",xlab="Catch",defpar=FALSE,cex=1.0,pch=16)   model2 <- lm(schaef[3:22,"cpue"] ~ schaef[1:20,"catch"])   abline(model2,lwd=2,col=2)  
+```
+
+图7.3：Schaefer（1957年）黄鳍金枪鱼渔业数据的渔获量和捕获量及其关系。在 cpue 时间序列上出现 2 年的负滞后时，负相关或负相关变得更加明显。
+
+Schaefer（1957年）黄鳍金枪鱼渔业数据中的cpue与渔获量之间的关系，对cpue时间序列施加了2年的负滞后（第3：22行与第1：20行）。非常小的梯度反映了以 000 磅为单位报告的渔获量。
+
+```         
+ #write out a summary of he regression model2   summary(model2)  
+```
+
+```         
+#  # Call: # lm(formula = schaef[3:22, "cpue"] ~ schaef[1:20, "catch"]) #  # Residuals: #      Min       1Q   Median       3Q      Max  # -3.10208 -0.92239 -0.06399  1.04280  3.11900  #  # Coefficients: #                         Estimate Std. Error t value Pr(>|t|) # (Intercept)            1.165e+01  7.863e-01  14.814 1.59e-11 # schaef[1:20, "catch"] -2.576e-05  6.055e-06  -4.255 0.000477 #  # Residual standard error: 1.495 on 18 degrees of freedom # Multiple R-squared:  0.5014,  Adjusted R-squared:  0.4737  # F-statistic:  18.1 on 1 and 18 DF,  p-value: 0.0004765
+```
+
+## 7.2 一些方程式
+
+被评估种群的动态是用相对丰度指数来描述的。该指数，无论采用何种方式，都假定反映了用于估计该指数的方法（取决于渔业的CPUE或独立调查）可用的生物量，并且假定该生物量受到渔业捕捞量的影响。这意味着，如果我们使用商业的单位努力捕获量（cpue），严格来说，我们处理的是可开发的生物量，而不是产卵生物量（这是种群评估的更常见目标）。然而，一般而言，假设渔业的选择性接近成熟度，因此所使用的指数仍然对产卵生物量进行索引，至少是近似的。即便如此，在得出此类结论之前，仍应明确考虑所索引的内容。
+
+一般而言，动态被指定为给定年份*t*开始时生物量的函数，尽管根据定义，它可以指一年中的不同日期。请记住，一年的结束实际上与下一年的开始相同，尽管确切地使用哪种方式将影响分析的开始和结束方式（例如，从哪个生物量年中删除给定年份的渔获量）：
+
+[B0=B我n我tBt+1=Bt+rBt(1−BtK)−Ct(7.1)(7.1)𝐵0=𝐵我𝑛我𝑡𝐵𝑡+1=𝐵𝑡+𝑟𝐵𝑡(1−𝐵𝑡𝐾)−𝐶𝑡]{.underline}
+
+哪里B我n我t𝐵我𝑛我𝑡是数据开始的任何时间的初始生物量。如果从渔业开始就有数据，那么B我n我t=K𝐵我𝑛我𝑡=𝐾哪里K𝐾是承载能力或未捕捞的生物量。Bt𝐵𝑡代表年初的存量生物量t𝑡,r𝑟表示人口的内在增长率，以及rBt(1−BtK)𝑟𝐵𝑡(1−𝐵𝑡𝐾)代表种群生物量的生产函数，它考虑了新个体的招募、当前个体生物量的任何增长、自然死亡率，并假设对种群增长率具有线性密度依赖性影响。最后Ct𝐶𝑡 is the catch during the year t𝑡, which represents fishing mortality. The emphasis placed upon when in the year each term refers to is important, as it determines how the dynamics are modelled in the equations and the consequent R code.
+
+In order to compare and then fit the dynamics of such an assessment model with the real world the model dynamics are also used to generate predicted values for the index of relative abundance in each year:
+
+^[It=CtEt=qBt(7.2)(7.2)𝐼]{.underline}^[𝑡=𝐶𝑡𝐸𝑡=𝑞𝐵𝑡]{.underline}
+
+where ^It𝐼^𝑡 is the predicted or estimated mean value of the index of relative abundance in year t𝑡, which is compared to the observed indices to fit the model to the data, Et𝐸𝑡 is the fishing effort in year t𝑡, and q𝑞是可捕获性系数（定义为一个单位的努力所捕获的生物量/捕获量）。这种关系还提出了一个强有力的假设，即种群生物量就是所谓的动态库。这意味着，无论地理距离如何，渔业或环境对种群动态的任何影响都会在所使用的每个时间步内（通常为一年，但可能更短）对整个种群产生影响。这是一个强有力的假设，特别是如果一个种群中出现任何一致的空间结构，或者渔业的地理规模使得一个区域的鱼需要大量时间才能到达另一个区域。同样，需要了解这些假设，才能理解其局限性并适当地解释任何此类分析。
+
+### 7.2.1 生产函数
+
+已经提出了许多功能形式来描述库存的生产力以及它如何响应库存大小。我们将考虑两个，Schaefer 模型和 Fox （1970） 模型的修改形式，以及包含两者的概括：
+
+Schaefer（1954,1957）模型的生产函数为：
+
+[f(Bt)=rBt(1−BtK)(7.3)(7.3)𝑓(𝐵𝑡)=𝑟𝐵𝑡(1−𝐵𝑡𝐾)]{.underline}
+
+而福克斯（1970）模型的修改版本使用：
+
+[f(Bt)=日志(K)rBt(1−日志(Bt)日志(K))(7.4)(7.4)𝑓(𝐵𝑡)=日志⁡(𝐾)𝑟𝐵𝑡(1−日志⁡(𝐵𝑡)日志⁡(𝐾))]{.underline}
+
+修改需要包括日志(K)日志⁡(𝐾)作为第一项，它的作用是将最大生产率保持在大约相当于 Schaefer 模型中一组类似参数的水平。
+
+Pella和Tomlinson（1969）提出了一个广义生产函数，其中包括相当于Schaefer和Fox模型的特例。在这里，我们将使用Polacheck*等人*（1993）制作的配方的替代品。这为种群动态提供了一个通用方程，可用于 Schaefer 和 Fox 模型，以及两者之间的渐变，具体取决于单个参数 *p* 的值。
+
+[Bt+1=Bt+rBt1p(1−(BtK)p)−Ct(7.5)(7.5)𝐵𝑡+1=𝐵𝑡+𝑟𝐵𝑡1𝑝(1−(𝐵𝑡𝐾)𝑝)−𝐶𝑡]{.underline}
+
+其中第一学期，Bt𝐵𝑡，是当时的存量生物量t𝑡，最后一项是\
+Ct𝐶𝑡，这是及时捕获的t𝑡.中项是定义生产曲线的更复杂的组成部分。它由r𝑟，人口增长的内在速度，Bt𝐵𝑡，当时的当前生物量t𝑡,K𝐾、承载能力或最大人口规模，以及p𝑝是控制生产曲线任何不对称性的术语。如果p𝑝设置为 1.0（**MQMF** 函数中的默认值），该方程简化为经典的 Schaefer 模型 （Schaefer， 1954， 1957）。Polacheck*等人*（1993）引入了上述方程，但它往往被称为Pella-Tomlinson（1969）剩余生产模型（尽管他们的公式不同，但具有非常相似的性质）。`discretelogistic()`
+
+子项rBt𝑟𝐵𝑡表示不受约束的指数人口增长（因为在这个差分方程中，它被添加到Bt𝐵𝑡），只要r\>0.0𝑟\>0.0，将导致在没有渔获物的情况下无休止的正人口增长（这种正指数增长仍然以世界人口为例;尽管14世纪的瘟疫在短暂但特别不愉快的时期扭转了这一趋势）。子项(1/p)(1–(Bt/K)p)(1/𝑝)(1–(𝐵𝑡/𝐾)𝑝)提供对指数增长项的约束，因为随着人口规模的增加，指数增长项的值趋于零。这被称为密度依赖效应。
+
+当 *p* 设置为 1.0 时，该方程将与 Schaefer 模型相同（线性密度依赖性）。但是当 *p* 设置为一个非常小的数字时，比如 1e-08，那么公式就等价于 Fox 模型的动力学。*p* \> 1.0 的值会导致生产曲线向左倾斜，而模式向中心右侧倾斜。当 *p* \> 1 或 \< 1 时，密度依赖性将不再是线性的。通常，人们会固定 *p* 值，而不是尝试使用数据来拟合它。仅靠渔获量和相对丰度指数通常不足以估计相对种群规模对生产力的详细影响。
+
+```         
+ #plot productivity and density-dependence functions Fig7.4   prodfun <- function(r,Bt,K,p) return((r*Bt/p)*(1-(Bt/K)^p))   densdep <- function(Bt,K,p) return((1/p)*(1-(Bt/K)^p))    r <- 0.75; K <- 1000.0; Bt <- 1:1000   sp <- prodfun(r,Bt,K,1.0)  # Schaefer equivalent   sp0 <- prodfun(r,Bt,K,p=1e-08)  # Fox equivalent   sp3 <- prodfun(r,Bt,K,3) #left skewed production, marine mammal?   parset(plots=c(2,1),margin=c(0.35,0.4,0.1,0.05))   plot1(Bt,sp,type="l",lwd=2,xlab="Stock Size",         ylab="Surplus Production",maxy=200,defpar=FALSE)   lines(Bt,sp0 * (max(sp)/max(sp0)),lwd=2,col=2,lty=2) # rescale    lines(Bt,sp3*(max(sp)/max(sp3)),lwd=3,col=3,lty=3)   # production   legend(275,100,cex=1.1,lty=1:3,c("p = 1.0 Schaefer","p = 1e-08 Fox",                    "p = 3 LeftSkewed"),col=c(1,2,3),lwd=3,bty="n")   plot1(Bt,densdep(Bt,K,p=1),xlab="Stock Size",defpar=FALSE,         ylab="Density-Dependence",maxy=2.5,lwd=2)   lines(Bt,densdep(Bt,K,1e-08),lwd=2,col=2,lty=2)   lines(Bt,densdep(Bt,K,3),lwd=3,col=3,lty=3)  
+```
+
+Figure 7.4: The effect of the *p* parameter on the Polacheck *et al*, 1993, production function (upper plot) and on the density-dependent term (lower plot). Note the rescaling of the productivity to match that produced by the Schaefer curve. Stock size could be biomass or numbers.
+
+The Schaefer model assumes a symmetrical production curve with maximum surplus production or maximum sustainable yield (MSY) at 0.5K0.5𝐾 and the density-dependent term trends linearly from 1.0 at very low population sizes to zero as Bt𝐵𝑡 tends towards K𝐾.当 *p* 的值很小时，Fox 模型是近似的，比如说p=1e−08𝑝=1𝑒−08，这会产生一条不对称的生产曲线，在某个较低的消耗水平下，最大产量（在本例中为0.368K0.368𝐾，使用 ）。密度相关项是非线性的，最大生产率 （`Bt[which.max(sp0)]`MSY𝑀𝑆𝑌） 发生在密度相关项 = 1.0 的地方。如果没有**图**（[7.4](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f704)）中使用的重新缩放，Fox模型通常比Schaefer模型更有效率，因为密度相关项在小于1.0的库存尺寸下变得大于1.0BMSY𝐵𝑀𝑆𝑌，产生MSY𝑀𝑆𝑌.当*值为p* \> 1.0时，最大生产率出现在较高的种群规模下，而种群增长率在较低的种群规模下几乎呈线性增长，而密度依赖性的下降只发生在相当高的种群水平上。这种动态在海洋哺乳动物中比在鱼类中更为典型。
+
+Schaefer 模型可以被视为比 Fox 模型更保守，因为它需要更高的种群规模才能实现最大产量，并且通常会导致渔获量略低，尽管由于 Fox 类型模型的生产力通常较高，可能会出现例外情况。
+
+### 7.2.2 Schaefer模型
+
+对于 Schaefer 模型，我们将设置p=1.0𝑝=1.0导致：
+
+[Bt+1=Bt+rBt(1−BtK)−Ct(7.6)(7.6)𝐵𝑡+1=𝐵𝑡+𝑟𝐵𝑡(1−𝐵𝑡𝐾)−𝐶𝑡]{.underline}
+
+给定渔业数据的时间序列，总会有一个初始生物量，它可能是B我n我t=K𝐵我𝑛我𝑡=𝐾或B我n我t𝐵我𝑛我𝑡是K𝐾，这取决于在首次获得渔业数据时是否认为该种群已经枯竭。这也不是不可能B我n我t𝐵我𝑛我𝑡可以大于K𝐾，因为实际人口往往不会表现出稳定的平衡。
+
+将模型拟合到数据至少需要三个参数，即r𝑟这K𝐾和可捕获性系数q𝑞 (B我n我t𝐵我𝑛我𝑡可能还需要）。但是，可以使用所谓的“封闭形式”方法来估计可捕获性系数q𝑞:
+
+^[q=经验值(1n∑日志(我t]{.underline}^[Bt))(7.7)(7.7)𝑞^=经验值⁡(1𝑛∑日志⁡(我𝑡𝐵^𝑡))]{.underline}
+
+这是观测到的CPUE的反向变换几何平均值除以预测的可利用生物量（Polacheck*等人*，1993）。这将生成时间序列的平均可捕获性。在渔业发生重大变化以致CPUE质量发生变化的情况下，可以对时间序列的不同部分进行不同的捕捞估计。然而，需要注意对这种建议的模型规范进行强有力的辩护，特别是当用于估计的时间序列越短时q𝑞与之相关的不确定性就越大。
+
+### 7.2.3 残差平方和
+
+这样的模型可以使用最小二乘法进行拟合，或者更准确地说，可以使用残差误差的平方和进行拟合：
+
+[ssq=∑(日志(我t)−日志(^我t))2(7.8)(7.8)𝑠𝑠𝑞=∑(日志⁡(我𝑡)−日志⁡(我^𝑡))2]{.underline}
+
+对数转换是必需的，因为通常 CPUE 倾向于分布对数正态，而最小二乘法意味着正态随机误差。当首次搜索一组使模型能够拟合可用数据的参数时，最小二乘法往往相对稳健。但是，一旦接近解决方案，如果随后使用最大似然方法，则可以使用更多建模选项。完整的对数正态对数似然为：
+
+[L(d一个t一个\|B我n我t,r,K,q)=∏t1我t√2π^σe−(日志我t−日志^我t)2^σ2(7.9)(7.9)𝐿(𝑑一个𝑡一个\|𝐵我𝑛我𝑡,𝑟,𝐾,𝑞)=∏𝑡1我𝑡2𝜋𝜎^𝑒−(日志⁡我𝑡−日志⁡我𝑡^)2𝜎^2]{.underline}
+
+除了对数转换之外，这与相关变量的普通 PDF 可能性不同（此处我t我𝑡） 插入在√2π^σ2𝜋𝜎^术语。幸运的是，如*模型参数估计*所示，负对数似然可以简化（Haddon，2011），变为：
+
+[−veLL=n2(日志(2π)+2日志(^σ)+1)(7.10)(7.10)−𝑣𝑒𝐿𝐿=𝑛2(日志⁡(2𝜋)+2日志⁡(𝜎^)+1)]{.underline}
+
+其中，标准差的最大似然估计值，^σ𝜎^由下式给出：
+
+[\^σ= ⎷∑(日志(我t)−日志(^我t))2n(7.11)(7.11)𝜎^=∑(日志⁡(我𝑡)−日志⁡(我𝑡\^))2𝑛]{.underline}
+
+注意除以 *n* 而不是*除以 n-1*。严格来说，对于对数正态（**在 Equ**[（7.10）](https://haddonm.github.io/URMQMF/surplus-production-models.html#eq:710) 中），*-veLL* 后面应该跟着一个附加项：
+
+[−∑日志(我t)(7.12)(7.12)−∑日志⁡(我𝑡)]{.underline}
+
+对数转换后的观测捕获率之和。但是，由于这将是恒定的，因此通常会省略。当然，当使用 R 时，我们总是可以使用内置的概率密度函数实现（参见 和 ），因此这种简化并不是绝对必要的，但是当人们希望使用 **Rcpp** 加快分析速度时，它们仍然有用，尽管 *Rcpp-syntactic-sugar*，导致 C++ 代码看起来非常像 R 代码，现在包括版本和相关的分布函数。`negLL()negLL1()dnorm()`
+
+### 7.2.4 估算管理统计信息
+
+只需使用以下方法即可计算 Schaefer 模型的最大可持续产量：
+
+[MSY=rK4(7.13)(7.13)𝑀𝑆𝑌=𝑟𝐾4]{.underline}
+
+然而，对于使用 Polacheck *等人* （1993） 的 *p* 参数的更一般方程，需要使用：
+
+[MSY=rK(p+1)(p+1)p(7.14)(7.14)𝑀𝑆𝑌=𝑟𝐾(𝑝+1)(𝑝+1)𝑝]{.underline}
+
+[**当**](https://haddonm.github.io/URMQMF/surplus-production-models.html#eq:713)p=1.0𝑝=1.0.我们可以使用 **MQMF** 函数来计算 **Equ**[（7.14），](https://haddonm.github.io/URMQMF/surplus-production-models.html#eq:714)这是 Fox 模型如何暗示比 Schaefer 更高的生产力的一个例证。`getMSY()`
+
+```         
+ #compare Schaefer and Fox MSY estimates for same parameters   param <- c(r=1.1,K=1000.0,Binit=800.0,sigma=0.075)   cat("MSY Schaefer = ",getMSY(param,p=1.0),"\n") # p=1 is default   cat("MSY Fox      = ",getMSY(param,p=1e-08),"\n")  
+```
+
+```         
+# MSY Schaefer =  275  # MSY Fox      =  404.6674
+```
+
+当然，如果将两个模型拟合到实际数据中，通常会为每个模型生成不同的参数，因此派生的 MSY 值可能更接近。
+
+还可以生成基于努力的管理统计数据。如果保持下去，应该导致股票达到平衡*的 MSY* 的努力水平称为EMSY𝐸𝑀𝑆𝑌:
+
+[EMSY=rq(1+p)(7.15)(7.15)𝐸𝑀𝑆𝑌=𝑟𝑞(1+𝑝)]{.underline}
+
+其中折叠为EMSY=r/2q𝐸𝑀𝑆𝑌=𝑟/2𝑞对于 Schaefer 模型，但对于 *p* 参数的其他值仍然是通用的。也可以估计平衡收获率（每年捕获的库存比例），这应该导致BMSY𝐵𝑀𝑆𝑌，这是具有*剩余 MSY* 产量的生物质：
+
+[HMSY=qEMSY=qrq+qp=r1+p(7.16)(7.16)𝐻𝑀𝑆𝑌=𝑞𝐸𝑀𝑆𝑌=𝑞𝑟𝑞+𝑞𝑝=𝑟1+𝑝]{.underline}
+
+**Equ**[（7.16）](https://haddonm.github.io/URMQMF/surplus-production-models.html#eq:716) 被描述为FMSY=qEMSY𝐹𝑀𝑆𝑌=𝑞𝐸𝑀𝑆𝑌，但这可能会产生误导，因为FMSY𝐹𝑀𝑆𝑌通常被解释为瞬时捕捞死亡率，而在这种情况下，它实际上是成比例的捕捞率。出于这个原因，我明确使用了HMSY𝐻𝑀𝑆𝑌.
+
+### 7.2.5 平衡的麻烦
+
+对管理目标的现实解释并不总是直截了当的。现在认为，在大多数捕捞种群中不太可能达到平衡，因此对*MSY*的解释更像是如果种群以最佳方式捕捞，则平均的长期预期潜在产量;动态均衡可能是一个更好的描述。这EMSY𝐸𝑀𝑆𝑌是努力，如果持续应用，应该产生 *MSY，*但前提是库存生物量BMSY𝐵𝑀𝑆𝑌，产生最大剩余产量所需的生物质。这些管理统计数据中的每一个都来自均衡思想。显然，渔业可以通过将努力限制在以下方面来管理：EMSY𝐸𝑀𝑆𝑌，但如果存量生物量开始严重枯竭，那么平均长期产量将不会产生。事实上，EMSY𝐸𝑀𝑆𝑌努力程度可能太高，无法在这个非平衡的世界中重建库存。同样地HMSY𝐻𝑀𝑆𝑌，将按预期运行，但仅当库存生物量为BMSY𝐵𝑀𝑆𝑌.可以估计导致种群恢复到的渔获量或努力水平BMSY𝐵𝑀𝑆𝑌，这可以称为FMSY𝐹𝑀𝑆𝑌，但这需要进行种群预测并寻找最终导致预期结果的渔获量水平。我们将在后面的章节中研究人口预测。
+
+需要强调的是，这个想法MSY𝑀𝑆𝑌其相关统计数据基于均衡的概念，这在现实世界中是罕见的。充其量，动态均衡是可以实现的，但无论如何，使用这种均衡统计都存在风险。当它第一次被开发出来时，这个概念MSY𝑀𝑆𝑌被认为是管理渔业的合适目标。现在，尽管作为渔业管理的总体目标被纳入一些国家渔业法案和法律，但处理起来更安全MSY𝑀𝑆𝑌作为捕捞死亡率（渔获量）的上限;极限参考点，而不是目标参考点。
+
+理想情况下，评估结果需要通过捕捞控制规则（HCR），该规则根据估计的种群状况（捕捞死亡率和种群枯竭水平）提供关于未来渔获量或努力的正式管理建议。然而，如果不了解其价值的不确定性，这些潜在的管理产出中很少有价值。正如我们已经指出的那样，能够将这些模型预测到未来，以便对替代管理战略进行风险评估，也将非常有用。但首先，我们需要将模型与数据拟合。
+
+## 7.3 模型拟合
+
+模型参数和与模型相关的其他方面的详细信息也可以在每个函数的帮助文件中找到（try 或 ）。简而言之，模型参数为`?spm?simpspm`r𝑟人口净增长率（体重、招募和自然死亡率的个体增长率的综合），K𝐾种群承载能力或未捕捞的生物量，以及B我n我t𝐵我𝑛我𝑡是第一年的生物量。只有当相对丰度数据指数（通常是cpue）仅在渔业运行几年后才可用，这意味着种群已经在一定程度上枯竭时，才需要此参数。如果假设没有初始耗尽，则B我n我t𝐵我𝑛我𝑡在参数列表中不需要，并且设置为等于K𝐾在函数中。最后一个参数是 sigma，即用于描述残差的对数正态分布的标准差。 并且设计用于最大似然方法，因此即使您使用作为最佳拟合标准，参数向量中也需要 Sigma 值。`simpspm()spm()ssq()`
+
+在澳大利亚，相对种群丰度指数通常是每单位努力的渔获量（cpue），但也可以是一些与渔业无关的丰度指数（例如，来自拖网调查、声学调查），或者两者都可以用于一项分析（见）。该分析将允许提供持续的管理建议以及确定库存状况。`simpspmM()`
+
+In this section we will describe the details of how to conduct a surplus production analysis, how to extract the results from that analysis as well as plot out illustrations of those results.
+
+### 7.3.1 A Possible Workflow for Stock Assessment
+
+When conducting a stock assessment based upon a surplus production model one possible work flow might include:
+
+1.  read in time-series of catch and relative abundance data. It can help to have functions that check for data completeness, missing values, and other potential issues, but it is even better to know your own data and its limitations.
+
+2.  use a analysis to determine whether the cpue data relative to the catch data may be informative. If a significant negative relation was found this would strengthen any defense of the analysis.`ccf()`
+
+3.  define/guess a set of initial parameters containing *r* and *K*, and optionally Binit𝐵𝑖𝑛𝑖𝑡 = initial biomass, which is used if it is suspected that the fishery data starts after the stock has been somewhat depleted.
+
+4.  use the function to plot up the implications of the assumed initial parameter set for the dynamics. This is useful when searching for plausible initial parameters sets.`plotspmmod()`
+
+5.  use or to search for the optimum parameters once a potentially viable initial parameter set are input. See discussion.`nlm()fitSPM()`
+
+6.  use using the optimum parameters to illustrate the implications of the optimum model and it relative fit (especially using the residual plot).`plotspmmod()`
+
+7.  理想情况下，应使用多个不同的初始参数集作为模型拟合过程的起点来检查模型拟合的鲁棒性，请参阅。`robustSPM()`
+
+8.  一旦对模型拟合的鲁棒性感到满意，就可以绘制出生物量与收获率的相图，以便直观地确定和说明种群状况。`spmphaseplot()`
+
+9.  使用 、渐近标准误差或 *On Uncertainty* 中的贝叶斯方法来表征模型拟合和输出中的不确定性。将此类输出制成表格并绘制成图表。请参阅稍后内容。`spmboot()`
+
+10. 记录并捍卫得出的任何结论。
+
+**MQMF**目前有两种常见的动力学版本：经典的Schaefer模型（Schaefer，1954）和Fox模型的近似（Fox，1970;Polacheck*等人*，1993），两者都在Haddon（2011）中描述。Prager（1994）提供了许多其他形式的分析，这些分析可以使用剩余生产模型进行，Haddon（2011）也提供了实际实施。
+
+```         
+ #Initial model 'fit' to the initial parameter guess  Fig 7.5   data(schaef); schaef <- as.matrix(schaef)   param <- log(c(r=0.1,K=2250000,Binit=2250000,sigma=0.5))   negatL <- negLL(param,simpspm,schaef,logobs=log(schaef[,"cpue"]))   ans <- plotspmmod(inp=param,indat=schaef,schaefer=TRUE,                    addrmse=TRUE,plotprod=FALSE)  
+```
+
+图 7.5：使用初始参数值将剩余生产模型与 *schaef* 数据集的暂定拟合。CPUE 图中的绿色虚线是简单的黄土拟合，而实线是猜测的输入参数所隐含的黄土拟合。渔获量图中的水平红线是预测的 MSY。残差图中的数字是对数正态残差的均方根误差。
+
+*r* 值 0.1 导致*负 L =* 8.2877，并且直到 1950 年左右所有低于 1.0 的残差都具有强烈的残差模式，之后有 4 个大的正残差。*K*值被设定为最大捕获量的10倍左右，而这个数量级（10倍到20倍）通常会导致有足够的生物量可用，使种群生物量和CPUE轨迹离开x轴，准备进入最小化器/优化器。我们使用了该选项（默认值），因为在将模型拟合到数据之前，查看预测的生产率曲线几乎没有意义。`plotprod = FALSE`
+
+使用将模型拟合到数据的数值方法，通常需要采取措施确保获得稳健且生物学上合理的模型拟合。鲁棒性的一个选项是拟合模型两次，第二次拟合的输入参数来自第一次拟合。我们将使用 和 的组合来估计每次迭代期间的负对数似然（这是实现的方式）。在**MQMF**中，我们有一个函数，它根据生物量、CPUE、消耗和收获率的预测变化来计算完整的动态。虽然这相对较快，但为了加快迭代模型拟合过程，我们使用而不是使用 ，仅输出预测的 CPUE 的日志，以便最小化，而不是每次都计算完整的动态。当我们只有一个相对丰度指数的单个时间序列时，我们使用。如果我们有多个索引序列，我们应该使用 、 和 ;请参阅 help、、、 及其代码，了解每种情况下的实现。除了使用 、 和 对于多个时间序列的索引外，它还用于说明模型拟合有时可以生成生物学上不可信的数学上最优的解。除了对第一个参数进行惩罚外，`optim()nlm()negLL1()fitSPM()spm()spm()simpspm()simpspm()simpspmM()spmCE()negLLM()?simpspmM?spmCE?negLLMsimpspmM()spmCE()negLLM()penalty0()`r𝑟, to prevent it becoming less than 0.0, with the extreme catch history used in the examples to the multi-index functions, depending on the starting parameters, we also need to put a penalty on the annual harvest rates to ensure they stay less than 1.0 (see . Biologically it is obviously impossible for there to be more catch than biomass but if we do not constrain the model mathematically, then there is nothing mathematically wrong with having very large harvest rates.`penalty1()`
+
+Considerations about speed become more important as the complexity of the models we use increases or we start using computer-intensive methods. None of our parameters should become negative, and they differ greatly in their magnitude, so here we are using natural log-transformed parameters.
+
+```         
+ #Fit the model first using optim then nlm in sequence   param <- log(c(0.1,2250000,2250000,0.5))    pnams <- c("r","K","Binit","sigma")   best <- optim(par=param,fn=negLL,funk=simpspm,indat=schaef,                logobs=log(schaef[,"cpue"]),method="BFGS")   outfit(best,digits=4,title="Optim",parnames = pnams)   cat("\n")   best2 <- nlm(negLL,best$par,funk=simpspm,indat=schaef,              logobs=log(schaef[,"cpue"]))   outfit(best2,digits=4,title="nlm",parnames = pnams)  
+```
+
+```         
+# optim solution:  Optim  # minimum     :  -7.934055  # iterations  :  41 19  iterations, gradient # code        :  0  #             par     transpar # r     -1.448503       0.2349 # K     14.560701 2106842.7734 # Binit 14.629939 2257885.3255 # sigma -1.779578       0.1687 # message     :   #  # nlm solution:  nlm  # minimum     :  -7.934055  # iterations  :  2  # code        :  2 >1 iterates in tolerance, probably solution  #             par      gradient     transpar # r     -1.448508  6.030001e-04       0.2349 # K     14.560692 -2.007053e-04 2106824.2701 # Binit 14.629939  2.545064e-04 2257884.5480 # sigma -1.779578 -3.688185e-05       0.1687
+```
+
+数值优化器的双重应用的输出表明，我们不需要进行两次该过程，但不要过于信任数值方法。无论如何，要进行单一模型拟合，但这样做需要您自己承担风险（或者，也许我不得不比许多人处理更多质量较差或平均质量的数据！
+
+现在，我们可以从 *best2* 拟合中获取最佳参数，并将它们放入函数中以可视化模型拟合。现在，我们有了最佳参数，因此可以通过将 *plotprod* 参数设置为 *TRUE* 来包含生产率曲线。 它不仅绘制结果，还无形地返回一个大列表对象，因此，如果我们想要它，我们需要将其分配给变量或对象（在本例中*为 ans*）以便使用它。`plotspmmod()plotspmmod()`
+
+```         
+ #optimum fit. Defaults used in plotprod and schaefer Fig 7.6   ans <- plotspmmod(inp=best2$estimate,indat=schaef,addrmse=TRUE,                     plotprod=TRUE)  
+```
+
+图 7.6：在给定最终拟合的最佳参数的情况下，剩余生产模型与 *schaef* 数据集的拟合摘要。在 CPUE 图中，绿色虚线是简单的黄土曲线拟合，而红色实线是最佳模型拟合。`nlm()`
+
+返回的对象是包含结果集合的对象列表，包括最优参数、包含预测最优动力学的矩阵 （*ans\$Dynamics\$outmat*）、生产曲线和大量汇总结果。一旦分配给工作环境中的特定对象，就可以快速提取这些对象以用于其他功能。尝试在不使用 *max.level=1* 参数的情况下运行或将其设置为 *= 2*，以查看更多详细信息。许多函数会生成大型、信息丰富的对象，您应该熟悉探索它们，以确保了解不同分析中产生的内容。`plotspmmod()str()`
+
+```         
+ #the high-level structure of ans; try str(ans$Dynamics)   str(ans, width=65, strict.width="cut",max.level=1)  
+```
+
+```         
+# List of 12 #  $ Dynamics :List of 5 #  $ BiomProd : num [1:200, 1:2] 100 10687 21273 31860 42446 ... #   ..- attr(*, "dimnames")=List of 2 #  $ rmseresid: num 1.03 #  $ MSY      : num 123731 #  $ Bmsy     : num 1048169 #  $ Dmsy     : num 0.498 #  $ Blim     : num 423562 #  $ Btarg    : num 1016409 #  $ Ctarg    : num 123581 #  $ Dcurr    : Named num 0.528 #   ..- attr(*, "names")= chr "1956" #  $ rmse     :List of 1 #  $ sigma    : num 0.169
+```
+
+还有一些 **MQMF** 函数可以帮助提取此类结果或使用 （参见 和 ） 的结果，这就是为什么该函数包含参数 *plotout = TRUE，*因此不需要生成绘图。但是，在许多情况下，只需指向高级对象中的所需对象（在本例中*为 ans*）即可更简单。请注意，`plotspmmod()summspm()spmphaseplot()`MSY𝑀𝑆𝑌从生成的生产率曲线获得的分数与从最优参数计算得出的分数相差很小。这是因为生产力曲线是通过计算不同生物量水平的向量的生产力以数值方式获得的。因此，其分辨率受到用于生成生物质载体的步骤的限制。其估计值将始终略小于参数派生值。
+
+```         
+ #compare the parameteric MSY with the numerical MSY   round(ans$Dynamics$sumout,3)   cat("\n Productivity Statistics \n")   summspm(ans) # the q parameter needs more significantr digits 
+```
+
+```         
+#         msy           p   FinalDepl    InitDepl      FinalB  #  123734.068       1.000       0.528       1.072 1113328.480  #  #  Productivity Statistics  #       Index    Statistic # q         1       0.0000 # MSY       2  123731.0026 # Bmsy      3 1048168.8580 # Dmsy      4       0.4975 # Blim      5  423562.1648 # Btarg     6 1016409.1956 # Ctarg     7  123581.3940 # Dcurr     8       0.5284
+```
+
+最后，为了简化此双模型拟合过程的未来使用，有一个 **MQMF** 函数来实现该过程。您可以使用它（查看其代码等），也可以重复原始代码的内容，以您认为最方便的方式进行。`fitSPM()`
+
+### 7.3.2 分析是否稳健？
+
+尽管我发出了可怕的警告，但您可能想知道为什么我们费心对模型进行两次拟合，第二次拟合的起点是第一次拟合的估计最优值。人们应该永远记住，当我们拟合这些模型时，我们使用的是数值方法。这种方法不是万无一失的，可能会发现错误的最小值。如果模型参数之间存在任何交互作用或相关性，则略有不同的组合可能导致非常相似的负对数似然值。在CPUE时间序列的末尾，最佳模型拟合仍然表现出三个相对较大的残差，**如图**[（7.6](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f706)）。它们没有表现出任何特定的模式，因此我们假设它们仅代表不确定性，这应该使人们质疑模型拟合的好坏以及分析的输出统计数据的可靠性。我们检查模型拟合鲁棒性的一种方法是检查初始模型参数对该模型拟合的影响。
+
+鲁棒性测试的一个实现使用 **MQMF** 函数。这将生成`robustSPM()`N𝑁使用最佳对数刻度参数值作为某些正常随机变量的相应平均值的随机起始值，其各自的标准差值通过将这些均值除以*缩放器*参数值获得（有关完整详细信息，请参阅代码和帮助）。输出的对象包括`robustSPM()robustSPM()`N𝑁随机变化的初始参数值的向量，这允许说明和表征它们的变化。当然，作为除数，*标度值*越小，初始参数向量的可变性就越大，并且人们越经常期望模型拟合无法找到最小值。
+
+```         
+ #conduct a robustness test on the Schaefer model fit   data(schaef); schaef <- as.matrix(schaef); reps <- 12   param <- log(c(r=0.15,K=2250000,Binit=2250000,sigma=0.5))   ansS <- fitSPM(pars=param,fish=schaef,schaefer=TRUE,    #use                  maxiter=1000,funk=simpspm,funkone=FALSE) #fitSPM    #getseed() #generates random seed for repeatable results   set.seed(777852) #sets random number generator with a known seed   robout <- robustSPM(inpar=ansS$estimate,fish=schaef,N=reps,                       scaler=40,verbose=FALSE,schaefer=TRUE,                       funk=simpspm,funkone=FALSE)     #use str(robout) to see the components included in the output  
+```
+
+通过使用 *set.seed* 函数，用于生成分散初始参数向量的伪随机数的结果是可重复的。在**表**（[7.2](https://haddonm.github.io/URMQMF/surplus-production-models.html#tab:t702)）中，我们可以看到，在12项试验中，我们得到了12项试验，其最终负对数似然与小数点后5位相同，尽管实际结果略有不同r𝑟,K𝐾和B我n我t𝐵我𝑛我𝑡值，这导致估计值的微小变化MSY𝑀𝑆𝑌值。如果我们增加试验的数量，我们最终会看到一些与最佳结果略有不同的试验。
+
+|     |          |         |            |              |                                                                                                                                                             |
+|---------|---------|---------|---------|---------|----------------------------|
+|     |          |         |            |              | 表 7.2： 拟合到 *schaef* 数据集的稳健性检验。通过检查结果对象，我们可以看到个体差异。最上面的列与初始参数相关，而最下面的列（可能更感兴趣）与模型拟合有关。 |
+|     | **红外** | **益**  | **iBinit** | **伊西格玛** | **点赞**                                                                                                                                                    |
+| 6   | 0.232    | 2521208 | 2394188    | 0.1727       | -5.765                                                                                                                                                      |
+| 10  | 0.242    | 2564306 | 1386181    | 0.1659       | 14.306                                                                                                                                                      |
+| 11  | 0.237    | 2189281 | 2032237    | 0.1811       | -7.025                                                                                                                                                      |
+| 1   | 0.239    | 2351319 | 3401753    | 0.1692       | -6.351                                                                                                                                                      |
+| 8   | 0.244    | 2201215 | 2934055    | 0.1795       | -7.078                                                                                                                                                      |
+| 3   | 0.233    | 3164529 | 1632687    | 0.1702       | 22.093                                                                                                                                                      |
+| 4   | 0.233    | 3482370 | 1584633    | 0.1683       | 34.534                                                                                                                                                      |
+| 12  | 0.237    | 3492106 | 1895315    | 0.1653       | 23.789                                                                                                                                                      |
+| 2   | 0.247    | 2359029 | 2137751    | 0.1787       | -5.575                                                                                                                                                      |
+| 5   | 0.234    | 3057512 | 1502916    | 0.1713       | 23.720                                                                                                                                                      |
+| 7   | 0.242    | 1671149 | 2512111    | 0.1687       | 4.228                                                                                                                                                       |
+| 9   | 0.230    | 1391893 | 1753155    | 0.1754       | 138.808                                                                                                                                                     |
+
+|     | **r** | **K**   | **比尼特** | **西格马** | **-veLL** | **微星** |
+|-----|-------|---------|------------|------------|-----------|----------|
+| 6   | 0.235 | 2107069 | 2258144    | 0.1687     | -7.93406  | 123725   |
+| 10  | 0.235 | 2107034 | 2258103    | 0.1687     | -7.93406  | 123726   |
+| 11  | 0.235 | 2107243 | 2258322    | 0.1687     | -7.93406  | 123717   |
+| 1   | 0.235 | 2107178 | 2258293    | 0.1687     | -7.93406  | 123722   |
+| 8   | 0.235 | 2107119 | 2258218    | 0.1687     | -7.93406  | 123720   |
+| 3   | 0.235 | 2107386 | 2258484    | 0.1687     | -7.93406  | 123713   |
+| 4   | 0.235 | 2107405 | 2258514    | 0.1687     | -7.93406  | 123713   |
+| 12  | 0.235 | 2107417 | 2258533    | 0.1687     | -7.93406  | 123713   |
+| 2   | 0.235 | 2106866 | 2257912    | 0.1687     | -7.93406  | 123728   |
+| 5   | 0.235 | 2107294 | 2258319    | 0.1687     | -7.93406  | 123713   |
+| 7   | 0.235 | 2107319 | 2258401    | 0.1687     | -7.93406  | 123712   |
+| 9   | 0.235 | 2106435 | 2257279    | 0.1687     | -7.93406  | 123739   |
+
+通常，人们会尝试超过 12 次试验，并检查缩放器参数的效果。因此，我们现在将使用相同的最佳拟合和随机种子重复该分析100次。输出*结果*表按最终的 -ve 对数似然排序，但即使这与小数点后五位相同，也要注意参数估计值略有不同。这只是使用数值方法的反映。`robustSPM()`
+
+```         
+ #Repeat robustness test on fit to schaef data 100 times   set.seed(777854)   robout2 <- robustSPM(inpar=ansS$estimate,fish=schaef,N=100,                        scaler=25,verbose=FALSE,schaefer=TRUE,                        funk=simpspm,funkone=TRUE,steptol=1e-06)    lastbits <- tail(robout2$results[,6:11],10)  
+```
+
+|     |         |         |            |            |           |                                                                                             |
+|---------|---------|---------|---------|---------|---------|--------------------|
+|     |         |         |            |            |           | 表 7.3： 100 项试验中的最后 10 项试验表明，最后 3 项试验略微偏离了最佳负对数似然 -7.93406。 |
+|     | **r**   | **K**   | **比尼特** | **西格马** | **-veLL** | **微星**                                                                                    |
+| 12  | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 65  | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 47  | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 11  | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 76  | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 57  | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 23  | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 9   | 0.23513 | 2105553 | 2256358    | 0.1687     | -7.93405  | 123770                                                                                      |
+| 93  | 0.23514 | 2105527 | 2256328    | 0.1687     | -7.93405  | 123771                                                                                      |
+| 55  | 0.23514 | 2105510 | 2256327    | 0.1687     | -7.93405  | 123772                                                                                      |
+
+**表** （[7.3](https://haddonm.github.io/URMQMF/surplus-production-models.html#tab:t703)） 只是排序的 100 个重复中底部的 10 条记录，这表明所有重复都具有相同的负对数似然（精确到小数点后 5 位）。同样，如果您仔细查看 *r*、*K*、*Binit* 和 *MSY* 给出的值，您会注意到差异。如果我们将最终拟合参数值绘制为分布，则变化的尺度变得清晰，**如图**[（7.7](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f707)）。
+
+```         
+ # replicates from the robustness test        Fig 7.7   result <- robout2$results   parset(plots=c(2,2),margin=c(0.35,0.45,0.05,0.05))   hist(result[,"r"],breaks=15,col=2,main="",xlab="r")   hist(result[,"K"],breaks=15,col=2,main="",xlab="K")   hist(result[,"Binit"],breaks=15,col=2,main="",xlab="Binit")   hist(result[,"MSY"],breaks=15,col=2,main="",xlab="MSY")  
+```
+
+图 7.7：模型稳健性检验中 100 次试验的主要参数和 MSY 的直方图拟合到 *schaef* 数据集。参数估计值都很接近，但仍存在变化，这反映了估计的不确定性。为了改进这一点，可以尝试一个更小的*步骤*，默认为 1e-06，但稳定的解决方案可能并不总是可行的。如果使用 *steptol = 1e-07*，则整个变异的值范围会变得更窄，但仍会有一些细微的变化，正如使用数值方法时所预期的那样。这也是为什么当我们也有变异或不确定性的估计时，参数估计的特定值最有意义的另一个原因。
+
+即使负对数似然值非常接近（精确到小数点后五位），**图**（[7.7](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f707)）也可能与最常出现的最佳值略有偏差。这强调了仔细检查分析中的不确定性的必要性。鉴于大多数试验得出相同的最佳值，所有试验的中值可以确定最佳值。
+
+从鲁棒性检验中可视化参数估计的最终变化的另一种方法是使用 R 函数 **Figure**（[7.8](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f708)） 将每个参数和模型输出相互绘制，这说明了参数之间的强相关性。`pairs()`
+
+```         
+ #robustSPM parameters against each other  Fig 7.8   pairs(result[,c("r","K","Binit","MSY")],upper.panel=NULL,pch=1)  
+```
+
+图 7.8：100 个最优解决方案中参数之间的关系图，这些解源于将剩余生产模型拟合到 *schaef* 数据集。参数之间的相关性是显而易见的，尽管需要强调的是，估计值之间的比例差异非常小，约为0.2-0.3%。
+
+### 7.3.3 使用不同的数据？
+
+*schaef* 数据集导致了相对稳健的结果。在继续之前，使用 *dataspm* 数据集重复分析会很有启发性，这会导致更多可变的结果。希望这些发现应该鼓励任何未来的建模者阅读本文，不要相信数值优化器提出的第一个解决方案。
+
+```         
+ #Now use the dataspm data-set, which is noisier   set.seed(777854) #other random seeds give different results   data(dataspm);   fish <- dataspm #to generalize the code   param <- log(c(r=0.24,K=5174,Binit=2846,sigma=0.164))   ans <- fitSPM(pars=param,fish=fish,schaefer=TRUE,maxiter=1000,                funkone=TRUE)    out <- robustSPM(ans$estimate,fish,N=100,scaler=15, #making                   verbose=FALSE,funkone=TRUE) #scaler=10 gives   result <- tail(out$results[,6:11],10) #16 sub-optimal results  
+```
+
+|     |         |          |            |            |           |                                                                                                                                                                                                                      |
+|--------|--------|--------|--------|--------|--------|--------------------------|
+|     |         |          |            |            |           | 表 7.4： 100 个试验中的最后 10 个试验与 *dataspm* 一起使用。最后6项试验明显偏离了-12.1288的最优负对数似然，5项试验给出了一致的次最优值。具有最佳对数似然的参数估计值之间的差异仍然很小，但对于假最优值来说变化很大。 |
+|     | **r**   | **K**    | **比尼特** | **西格马** | **-veLL** | **微星**                                                                                                                                                                                                             |
+| 46  | 0.2425  | 5171.27  | 2844.29    | 0.1636     | -12.1288  | 313.537                                                                                                                                                                                                              |
+| 77  | 0.2425  | 5171.51  | 2843.70    | 0.1636     | -12.1288  | 313.528                                                                                                                                                                                                              |
+| 75  | 0.2425  | 5171.81  | 2846.73    | 0.1636     | -12.1288  | 313.545                                                                                                                                                                                                              |
+| 79  | 0.2426  | 5169.36  | 2842.83    | 0.1636     | -12.1288  | 313.555                                                                                                                                                                                                              |
+| 31  | 3.5610  | 149.62   | 50.74      | 0.2230     | -2.5244   | 133.201                                                                                                                                                                                                              |
+| 65  | 0.0321  | 36059.56 | 49.72      | 0.2329     | -1.1783   | 289.163                                                                                                                                                                                                              |
+| 60  | 40.3102 | 0.26     | 49.72      | 0.2329     | -1.1783   | 2.592                                                                                                                                                                                                                |
+| 57  | 22.1938 | 0.00     | 49.72      | 0.2329     | -1.1783   | 0.016                                                                                                                                                                                                                |
+| 38  | 1.1856  | 6062.64  | 49.72      | 0.2329     | -1.1783   | 1797.041                                                                                                                                                                                                             |
+| 11  | 0.5954  | 4058.97  | 49.72      | 0.2329     | -1.1783   | 604.180                                                                                                                                                                                                              |
+
+在*最底*六的模型中，我们可以看到非常大的 *r* 值与非常小的 *K* 值相结合的情况，非常大的 *K* 值与小*的 r* 值相结合的情况，此外，在最后两行中，*r* 和 *K* 的值几乎合理，但 *Binit* 值非常小。
+
+## 7.4 不确定性
+
+当我们测试一些模型拟合对初始条件的鲁棒性时，我们发现当拟合多个参数时，可以从略微不同的参数值中获得基本相同的数值拟合（达到给定的精度）。虽然这些值往往相差不大，但这一观察结果仍然证实，当使用数值方法估计一组参数时，特定参数值并不是唯一重要的结果。我们还需要知道这些估计的精确程度，我们需要知道与它们的估计相关的任何不确定性。有许多方法可以用来探索模型拟合中的不确定性。在这里，我们将使用 R 检查四个的实现：1） 似然分布，2） 自举重采样，3） 渐近误差，以及 4） 贝叶斯后验分布。
+
+### 7.4.1 可能性概况
+
+似然剖面顾名思义，可以深入了解如果使用的参数略有不同，模型拟合的质量可能会如何变化。使用最大似然法（最小化 -ve 对数似然）对模型进行最佳拟合，然后，在将一个或多个参数固定（保持恒定）到预定值的同时，只拟合其余未固定的参数。通过这种方式，可以在给定参数或参数被赋予固定值的情况下获得最佳拟合。因此，我们可以确定当所选参数在不同值的数组上保持固定时，模型拟合的总似然将如何变化。一个工作的例子应该使这个过程更清晰。我们可以使用 *abdat* 数据集，该数据集为观测数据提供了合理的拟合，尽管在残差中保留了适度的模式以获得最佳拟合，并且在最佳解上具有相对较大的最终梯度（尝试查看结果）。`outfit(ans)`
+
+```         
+ # Fig 7.9 Fit of optimum to the abdat data-set   data(abdat);     fish <- as.matrix(abdat)   colnames(fish) <- tolower(colnames(fish))  # just in case   pars <- log(c(r=0.4,K=9400,Binit=3400,sigma=0.05))   ans <- fitSPM(pars,fish,schaefer=TRUE) #Schaefer   answer <- plotspmmod(ans$estimate,abdat,schaefer=TRUE,addrmse=TRUE)  
+```
+
+图 7.9：描述最佳参数与 *abdat* 数据集拟合的汇总图。拟合和 cpue 数据之间的对数正态残差中的剩余模式如右下角所示。
+
+在*“不确定性”*一章中，我们研究了围绕单个参数的可能性分布，在这里我们将更深入地探讨围绕使用可能性分布的一些问题。我们已经有了与 *abdat* 数据集的最佳拟合，我们可以将其作为起点。如果我们考虑r𝑟和K𝐾反过来，编写一个简单的函数来执行配置文件会变得更有效率，以避免重复代码。和以前一样，我们使用该函数使某些参数能够固定，而其他参数则会发生变化。如*不确定性*一章所示，使用一个参数时，通过搜索包含最小对数似然加上一个自由度 （=1.92） 的卡方值一半的参数范围来近似 95% 置信边界。`negLLP()`
+
+[m我n(−LL)+χ21,1−α2(7.17)(7.17)𝑚我𝑛(−𝐿𝐿)+𝜒1,1−𝛼22]{.underline}
+
+在绘制每个剖面时，我们可以包括这个阈值，以查看它与似然剖面相交的位置，**如图**[（7.10](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f710)）。
+
+```         
+ # likelihood profiles for r and K for fit to abdat  Fig 7.10    #doprofile input terms are vector of values, fixed parameter     #location, starting parameters, and free parameter locations.    #all other input are assumed to be in the calling environment   doprofile <- function(val,loc,startest,indat,notfix=c(2:4)) {      pname <- c("r","K","Binit","sigma","-veLL")     numv <- length(val)     outpar <- matrix(NA,nrow=numv,ncol=5,dimnames=list(val,pname))     for (i in 1:numv) {  #        param <- log(startest) # reset the parameters       param[loc] <- log(val[i]) #insert new fixed value       parinit <- param   # copy revised parameter vector       bestmod <- nlm(f=negLLP,p=param,funk=simpspm,initpar=parinit,                      indat=indat,logobs=log(indat[,"cpue"]),                      notfixed=notfix)       outpar[i,] <- c(exp(bestmod$estimate),bestmod$minimum)     }     return(outpar)   }   rval <- seq(0.32,0.46,0.001)   outr <- doprofile(rval,loc=1,startest=c(rval[1],11500,5000,0.25),                     indat=fish,notfix=c(2:4))   Kval <- seq(7200,11500,200)   outk <- doprofile(Kval,loc=2,c(0.4,7200,6500,0.3),indat=fish,                     notfix=c(1,3,4))   parset(plots=c(2,1),cex=0.85,outmargin=c(0.5,0.5,0,0))   plotprofile(outr,var="r",defpar=FALSE,lwd=2) #MQMF function   plotprofile(outk,var="K",defpar=FALSE,lwd=2)  
+```
+
+图 7.10：Schaefer 模型的 r 和 K 参数的似然分布与 abdat 数据集拟合。水平红线将最小 -veLL 与界定 95% 置信区间的似然值分开。垂直绿线与最小值和 95% CI 相交。这些数字是围绕平均最佳值的 95% 置信区间。
+
+估计这种置信度边界的一个问题是，如果只考虑单个参数，就会忽略参数之间的相互关系和相关性，而 Schaefer 模型对此是众所周知的。但是，r 和 K 参数之间的强相关性意味着，通过组合沿 r 和 K 的两个单独的单独搜索而获得的方形网格搜索将导致许多组合甚至超出模型的近似拟合范围。创建二维似然剖面（实际上是曲面）或跨更多参数的剖面并非不可能，但即使是两个参数，通常也需要一次仔细搜索曲面的一小部分，或者以其他方式处理一些极差的模型拟合，这些拟合将通过简单的网格搜索获得。
+
+在库存评估具有一个或多个固定值参数的情况下，跨单个参数的似然分布仍然有用。在Schaefer剩余生产模型等简单模型中不会发生这种情况，但在处理更复杂的种群评估模型时，这种情况并不少见，因为生物参数，如自然死亡率、种群招募曲线的陡峭程度，甚至生长参数可能未知或假定其值与相关物种相同。在评估中获得最佳模型拟合后，其中某些参数采用固定值，就可以重新运行模型拟合，同时更改其中一个固定参数的假设值，以生成该参数的似然剖面。这样，就可以看出模型拟合与固定参数的假设值的一致性。以这种方式生成似然剖面比仅仅进行敏感性分析更可取，在敏感性分析中，我们可以将这些固定参数更改为高于假设值的水平和低于假设值的水平，以查看效果。似然剖面提供了对建模对各个参数的敏感性的更详细的探索。
+
+对于更简单的模型，例如我们在这里处理的模型，还有其他方法可以检查建模中固有的不确定性，这些方法可以尝试考虑参数之间的相关性。
+
+### 7.4.2 Bootstrap 置信区间
+
+表征模型拟合不确定性的一种方法是通过获取与 cpue 相关的对数正态残差的 bootstrap 样本并使用这些样本生成新的 bootstrap cpue 样本来替换原始 cpue 时间序列，从而围绕参数和模型输出（*MSY* 等）生成百分位数置信区间（Haddon，2011）。每次制作这样的自举样本时，都会重新拟合模型并存储解决方案以供进一步分析。要对剩余生产模型进行这样的分析，可以使用 **MQMF** 函数。一旦我们找到了合适的起始参数，我们就可以使用该函数来获得最佳拟合，并且引导的是与该最佳拟合相关的对数正态残差。在这里，我们将使用相对嘈杂的 *dataspm* 数据集来说明这些想法`spmboot()fitSPM()`
+
+```         
+ #find optimum Schaefer model fit to dataspm data-set Fig 7.11   data(dataspm)   fish <- as.matrix(dataspm)   colnames(fish) <- tolower(colnames(fish))   pars <- log(c(r=0.25,K=5500,Binit=3000,sigma=0.25))   ans <- fitSPM(pars,fish,schaefer=TRUE,maxiter=1000) #Schaefer   answer <- plotspmmod(ans$estimate,fish,schaefer=TRUE,addrmse=TRUE)  
+```
+
+图 7.11：描述最佳参数与 *dataspm* 数据集拟合的汇总图。拟合和 cpue 数据之间的对数正态残差如右下角所示。这些是自举的，每个自举样本乘以最佳预测的 cpue 时间序列，以获得每个自举 cpue 时间序列。
+
+一旦我们获得了最佳拟合，我们就可以继续进行引导分析。一个人通常会运行至少 1000 次重复，甚至更多，即使这可能需要几分钟才能完成。在这种情况下，即使在最佳拟合状态下，对数正态残差中也存在模式，这表明模型结构缺少一些影响渔业的近似周期性事件。
+
+```         
+ #bootstrap the log-normal residuals from optimum model fit   set.seed(210368)   reps <- 1000 # can take 10 sec on a large Desktop. Be patient    #startime <- Sys.time()  # schaefer=TRUE is the default   boots <- spmboot(ans$estimate,fishery=fish,iter=reps)    #print(Sys.time() - startime) # how long did it take?   str(boots,max.level=1)  
+```
+
+```         
+# List of 2 #  $ dynam  : num [1:1000, 1:31, 1:5] 2846 3555 2459 3020 1865 ... #   ..- attr(*, "dimnames")=List of 3 #  $ bootpar: num [1:1000, 1:8] 0.242 0.236 0.192 0.23 0.361 ... #   ..- attr(*, "dimnames")=List of 2
+```
+
+输出包含每次运行的动态，包括预测的模型生物量、每个 bootstrap cpue 样本、每个 bootstrap 样本的预测 cpue、耗尽时间序列和年收获率时间序列（*reps*=1000 运行 31 年，存储 5 个变量）。其中每一项都可用于说明和总结分析中的结果和不确定性。鉴于**图**（[7.11](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f711)）中相对较大的残差，人们可能会期望相对较高的不确定性，**表**（[7.5](https://haddonm.github.io/URMQMF/surplus-production-models.html#tab:t705)）。
+
+```         
+ #Summarize bootstrapped parameter estimates as quantiles  Table 7.6  bootpar <- boots$bootpar   rows <- colnames(bootpar)   columns <- c(c(0.025,0.05,0.5,0.95,0.975),"Mean")   bootCI <- matrix(NA,nrow=length(rows),ncol=length(columns),                    dimnames=list(rows,columns))   for (i in 1:length(rows)) {      tmp <- bootpar[,i]      qtil <- quantile(tmp,probs=c(0.025,0.05,0.5,0.95,0.975),na.rm=TRUE)      bootCI[i,] <- c(qtil,mean(tmp,na.rm=TRUE))   }  
+```
+
+|        |           |           |           |           |           |                                                                                  |
+|----------|----------|----------|----------|----------|----------|-----------------|
+|        |           |           |           |           |           | 表 7.5： Schaefer 模型参数和一些模型输出的分位数，加上算术平均值。0.5 值是中值。 |
+|        | **0.025** | **0.05**  | **0.5**   | **0.95**  | **0.975** | **意味 着**                                                                      |
+| r      | 0.1321    | 0.1494    | 0.2458    | 0.3540    | 0.3735    | 0.2484                                                                           |
+| K      | 3676.3569 | 3840.6961 | 5184.2237 | 7965.3318 | 8997.4945 | 5481.5140                                                                        |
+| 比尼特 | 1727.1976 | 1845.8458 | 2829.0085 | 4935.7516 | 5603.2871 | 3041.6876                                                                        |
+| 西格马 | 0.1388    | 0.1423    | 0.1567    | 0.1626    | 0.1630    | 0.1551                                                                           |
+| -veLL  | -17.2319  | -16.4647  | -13.4785  | -12.3160  | -12.2377  | -13.8150                                                                         |
+| 微星   | 280.3701  | 289.4673  | 318.4197  | 352.7195  | 366.2422  | 319.5455                                                                         |
+| 德普尔 | 0.3384    | 0.3666    | 0.5286    | 0.6693    | 0.6992    | 0.5240                                                                           |
+| 哈夫   | 0.0508    | 0.0576    | 0.0877    | 0.1161    | 0.1236    | 0.0871                                                                           |
+
+可以使用直方图可视化此类百分位置信区间，并包括相应的选定百分位置信区间。
+
+人们期望 1000 次重复将提供平滑的响应和具有代表性的置信范围，但有时，尤其是在嘈杂的数据中，需要更多的重复才能获得不确定性的平滑表示。2000 次重复需要 20 秒可能看起来很长，但考虑到这样的事情过去需要数小时甚至数天，大约 20 秒是了不起的。请注意，置信边界在均值或中位数估计值附近不一定是对称的。另请注意，在最后一年的消耗估计中，第 5 个百分位的置信区间远高于0.2B00.2𝐵0，这意味着即使这种分析是不确定的，目前的消耗水平也高于大多数地方使用的生物量消耗的默认极限参考点，可能性超过95%。我们需要中央第 80 个百分位数才能找到下限 10%，但它必然高于第 5 个百分位数。*K* 和 *Binit* 值所显示的中位数和均值比其他参数和模型输出的差异更大，这表明存在一些偏差证据，**如图** [（7.12](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f712)）。由于某些地块仍然存在粗糙度，因此可以通过增加重复次数来改善粗糙度。
+
+```         
+ #boostrap CI. Note use of uphist to expand scale  Fig 7.12  {colf <- c(1,1,1,4); lwdf <- c(1,3,1,3); ltyf <- c(1,1,1,2)   colsf <- c(2,3,4,6) parset(plots=c(3,2))   hist(bootpar[,"r"],breaks=25,main="",xlab="r")   abline(v=c(bootCI["r",colsf]),col=colf,lwd=lwdf,lty=ltyf)   uphist(bootpar[,"K"],maxval=14000,breaks=25,main="",xlab="K")   abline(v=c(bootCI["K",colsf]),col=colf,lwd=lwdf,lty=ltyf)   hist(bootpar[,"Binit"],breaks=25,main="",xlab="Binit")   abline(v=c(bootCI["Binit",colsf]),col=colf,lwd=lwdf,lty=ltyf)   uphist(bootpar[,"MSY"],breaks=25,main="",xlab="MSY",maxval=450)   abline(v=c(bootCI["MSY",colsf]),col=colf,lwd=lwdf,lty=ltyf)   hist(bootpar[,"Depl"],breaks=25,main="",xlab="Final Depletion")   abline(v=c(bootCI["Depl",colsf]),col=colf,lwd=lwdf,lty=ltyf)   hist(bootpar[,"Harv"],breaks=25,main="",xlab="End Harvest Rate")   abline(v=c(bootCI["Harv",colsf]),col=colf,lwd=lwdf,lty=ltyf) }
+```
+
+图 7.12：1000 bootstrap 从最佳 spm 拟合复制到 *dataspm* 数据集。在每种情况下，垂直线是中位数和第 90 个百分位数置信区间，垂直蓝色虚线是平均值。该函数用于扩展 *K*、*Binit* 和 *MSY* 中的 x 轴。`uphist()`
+
+存储在 *boots\$dynam* 中的拟合轨迹也可以直观地指示分析的不确定性。
+
+```         
+ #Fig7.13 1000 bootstrap trajectories for dataspm model fit    dynam <- boots$dynam   years <- fish[,"year"]   nyrs <- length(years)   parset()   ymax <- getmax(c(dynam[,,"predCE"],fish[,"cpue"]))   plot(fish[,"year"],fish[,"cpue"],type="n",ylim=c(0,ymax),        xlab="Year",ylab="CPUE",yaxs="i",panel.first = grid())   for (i in 1:reps) lines(years,dynam[i,,"predCE"],lwd=1,col=8)   lines(years,answer$Dynamics$outmat[1:nyrs,"predCE"],lwd=2,col=0)   points(years,fish[,"cpue"],cex=1.2,pch=16,col=1)   percs <- apply(dynam[,,"predCE"],2,quants)   arrows(x0=years,y0=percs["5%",],y1=percs["95%",],length=0.03,          angle=90,code=3,col=0)  
+```
+
+图 7.13：原始观测值 CPUE（黑点）、最佳预测 CPUE（实线）、1000 个引导预测 CPUE（灰线）以及围绕这些预测值的第 90 个百分位置信区间（垂直条）的图。
+
+**图**（[7.13](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f713)）中预测的CPUE值和观测值之间显然存在一些偏差，但中位数估计值和围绕它们的置信度范围仍然明确。
+
+请记住，每当对时间序列数据使用引导程序时，时间值t+1𝑡+1与时间值相关t𝑡，有必要从任何拟合模型中引导残差值，并将它们关联回最佳拟合值。对于 cpue 数据，我们通常使用对数正态残差，因此一旦找到最佳解，这些残差定义为：
+
+^[我t,res我d=我t]{.underline}^[我t(7.18)(7.18)我^𝑡,𝑟𝑒𝑠我𝑑=我𝑡我𝑡^]{.underline}
+
+哪里我t我𝑡是以年份为单位的观测 CPUEt𝑡,我t/^我t我𝑡/我𝑡^是观测值除以预测的 CPUE（以年份为单位）t𝑡（对数正态残差^我t,res我d我^𝑡,𝑟𝑒𝑠我𝑑.将有一个此类残差的时间序列，并且 bootstrap 生成包括从时间序列中随机选择值，并进行替换，以便准备对数正态残差的 bootstrap 样本。然后将这些值乘以原始最佳预测的 cpue 值，以生成不同的引导 cpue 时间序列。
+
+[我t∗=^我t∗[我\^我]∗(7.19)(7.19)我𝑡∗=我𝑡^∗[我我\^]∗]{.underline}
+
+其中上标∗∗表示引导示例，使用我t∗我𝑡∗表示年份的 Bootstrap CPUE 示例t𝑡这[我\^我]∗[我我\^]∗表示来自对数正态残差的单个随机样本，然后将其乘以当年的预测 CPUE。这些等式反映了 **MQMF** 函数中的特定代码行。`spmboot()`
+
+一个值得练习的练习是重复此分析，但所有 *schaefer = TRUE* 都将其替换为 *FALSE*，以便使用 Fox 剩余生产模型拟合模型。然后可以比较两个模型的不确定性。
+
+```         
+ #Fit the Fox model to dataspm; note different parameters   pars <- log(c(r=0.15,K=6500,Binit=3000,sigma=0.20))   ansF <- fitSPM(pars,fish,schaefer=FALSE,maxiter=1000) #Fox version   bootsF <- spmboot(ansF$estimate,fishery=fish,iter=reps,schaefer=FALSE)   dynamF <- bootsF$dynam  
+```
+
+```         
+ # bootstrap trajectories from both model fits  Fig 7.14   parset()   ymax <- getmax(c(dynam[,,"predCE"],fish[,"cpue"]))   plot(fish[,"year"],fish[,"cpue"],type="n",ylim=c(0,ymax),        xlab="Year",ylab="CPUE",yaxs="i",panel.first = grid())   for (i in 1:reps) lines(years,dynamF[i,,"predCE"],lwd=1,col=1,lty=1)   for (i in 1:reps) lines(years,dynam[i,,"predCE"],lwd=1,col=8)   lines(years,answer$Dynamics$outmat[1:nyrs,"predCE"],lwd=2,col=0)   points(years,fish[,"cpue"],cex=1.1,pch=16,col=1)   percs <- apply(dynam[,,"predCE"],2,quants)   arrows(x0=years,y0=percs["5%",],y1=percs["95%",],length=0.03,          angle=90,code=3,col=0)   legend(1985,0.35,c("Schaefer","Fox"),col=c(8,1),bty="n",lwd=3)  
+```
+
+图 7.14：原始观测的 CPUE（点）、最佳预测 CPUE（白实线）和第 90 个百分位置信区间（白条）的图。黑线是 Fox 模型 bootstrap 复制的，而黑线上方的灰线是 Schaefer 模型的黑线。
+
+可以说，Fox模型在捕捉这些数据的变异性方面更成功，因为黑线的分布略大于灰色线的分布，**图**（[7.14](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f714)）。或者，可以说福克斯模型不太确定。总体而言，Schaefer 和 Fox 模型的输出之间没有太大差异，甚至像他们预测的那样MSY𝑀𝑆𝑌值非常相似（313.512吨与311.661吨）。然而，最终，Fox 模型中密度依赖性的非线性似乎赋予了它更大的灵活性，因此它能够比更严格的 Schaefer 模型更好地捕获原始数据的变异性（因此它的 -ve 对数似然性更小，参见）。但是，这两个模型都无法捕获残差中表现出的循环特性，这意味着建模动力学中未包含某些过程，这是模型错误规范。这两种模型都不完全充分，尽管它们都可以提供足够的近似动态，可以用来产生管理建议（关于循环过程随时间保持不变的警告，等等）。`outfit(ansF)`
+
+### 7.4.3 参数相关性
+
+组合的 bootstrap 样本和相关估计值提供了反映数据和拟合模型的参数之间变异性的表征。如果我们将各种参数相互绘制，任何参数相关性都会变得明显。之间强烈的负曲线-线性关系r𝑟和K𝐾非常明显，而与其他参数之间的关系也既不是随机的，也不是平滑正态的。在极端值下有一些点，但它们仍然很少见，但是，这些图确实说明了该分析中的变化形式。
+
+```         
+ # plot variables against each other, use MQMF panel.cor  Fig 7.15   pairs(boots$bootpar[,c(1:4,6,7)],lower.panel=panel.smooth,          upper.panel=panel.cor,gap=0,lwd=2,cex=0.5)  
+```
+
+图 7.15：模型参数与 Schaefer 模型（用于 Fox 模型）的一些输出之间的关系。下方面板在数据中具有一条红色的平滑线，用于说明任何趋势，而上方面板具有线性相关系数。少数极值会扭曲绘图。`bootsF$bootpar`
+
+### 7.4.4 渐近误差
+
+如*“不确定性”*一章所述，在模型拟合练习中表征与参数估计相关的不确定性的经典方法是使用所谓的渐近误差。这些源自方差-协方差矩阵，该矩阵可用于描述模型参数之间的变异性和交互作用。在引导程序部分，可以使用该函数可视化参数之间的关系，它们显然不是很好的多变量正态。尽管如此，仍然可以使用从方差-协方差矩阵 （*vcov*） 导出的多变量正态来表征模型的不确定性。当使用 或 拟合模型时，我们可以将 *vcov* 估计为一个选项。`pairs()optim()nlm()`
+
+```         
+ #Start the SPM analysis using asymptotic errors.   data(dataspm)    # Note the use of hess=TRUE in call to fitSPM    fish <- as.matrix(dataspm)     # using as.matrix for more speed   colnames(fish) <- tolower(colnames(fish))  # just in case pars <- log(c(r=0.25,K=5200,Binit=2900,sigma=0.20))   ans <- fitSPM(pars,fish,schaefer=TRUE,maxiter=1000,hess=TRUE)   
+```
+
+我们可以看到使用该函数将 Schaefer 剩余生产模型拟合到 *dataspm* 数据集并将 *hess* 参数设置为 TRUE 的结果。`outfit()`
+
+```         
+ #The hessian matrix from the Schaefer fit to the dataspm data   outfit(ans)  
+```
+
+```         
+# nlm solution:    # minimum     :  -12.12879  # iterations  :  2  # code        :  2 >1 iterates in tolerance, probably solution  #         par      gradient   transpar # 1 -1.417080  0.0031126661    0.24242 # 2  8.551232 -0.0017992364 5173.12308 # 3  7.953564 -0.0009892147 2845.69834 # 4 -1.810225 -0.0021756288    0.16362 # hessian     :  #              [,1]        [,2]          [,3]        [,4] # [1,] 1338.3568627 1648.147068  -74.39814471 -0.14039276 # [2,] 1648.1470677 2076.777078 -115.32342460 -1.80063349 # [3,]  -74.3981447 -115.323425   25.48912486 -0.01822396 # [4,]   -0.1403928   -1.800633   -0.01822396 61.99195077
+```
+
+最终最小化使用最大似然法（实际上是最小负对数似然），因此我们需要反转 Hessian 以获得方差协方差矩阵。对角线的平方根也给出了每个参数的标准误差的估计值（参见*不确定性*一章）。`fitSPM()`
+
+```         
+ #calculate the var-covar matrix and the st errors   vcov <- solve(ans$hessian) # calculate variance-covariance matrix   label <- c("r","K", "Binit","sigma")   colnames(vcov) <- label; rownames(vcov) <- label   outvcov <- rbind(vcov,sqrt(diag(vcov)))   rownames(outvcov) <- c(label,"StErr")  
+```
+
+|        |          |          |            |                                                                                              |
+|-----------|-----------|-----------|-----------|-----------------------------|
+|        |          |          |            | 表 7.6： 方差协方差 （vcov） 矩阵是 Hessian 的倒数，参数标准误差是 vcov 矩阵对角线的平方根。 |
+|        | **r**    | **K**    | **比尼特** | **西格马**                                                                                   |
+| r      | 0.06676  | -0.05631 | -0.05991   | -0.00150                                                                                     |
+| K      | -0.05631 | 0.04814  | 0.05344    | 0.00129                                                                                      |
+| 比尼特 | -0.05991 | 0.05344  | 0.10615    | 0.00145                                                                                      |
+| 西格马 | -0.00150 | 0.00129  | 0.00145    | 0.01617                                                                                      |
+| 错误   | 0.25838  | 0.21940  | 0.32581    | 0.12714                                                                                      |
+
+现在我们有了最优解和方差-协方差矩阵，我们可以使用多变量正态分布来为获得多个合理的参数组合提供基础，这些参数组合可用于计算输出，例如MSY𝑀𝑆𝑌，并描述预期的动态。Base R 不包括从多元正态分布中采样的方法，但有免费提供的包可以。我们将使用可从 CRAN 下载的 **mvtnorm** 包。使用此类包时，可以使用该函数确定谁编写了它和其他重要信息。或者，通过检查包中某个函数的帮助文件之一，如果滚动到页面底部并单击*“索引*”超链接，则可以直接读取 DESCRIPTION 文件。`packageDescription()`
+
+```         
+ #generate 1000 parameter vectors from multi-variate normal   library(mvtnorm)   # use RStudio, or install.packages("mvtnorm")   N <- 1000 # number of parameter vectors, use vcov from above   mvn <- length(fish[,"year"]) #matrix to store cpue trajectories   mvncpue <- matrix(0,nrow=N,ncol=mvn,dimnames=list(1:N,fish[,"year"]))   columns <- c("r","K","Binit","sigma")   optpar <- ans$estimate # Fill matrix with mvn parameter vectors    mvnpar <- matrix(exp(rmvnorm(N,mean=optpar,sigma=vcov)),nrow=N,                    ncol=4,dimnames=list(1:N,columns))   msy <- mvnpar[,"r"]*mvnpar[,"K"]/4   nyr <- length(fish[,"year"])   depletion <- numeric(N) #now calculate N cpue series in linear space   for (i in 1:N) { # calculate dynamics for each parameter set     dynamA <- spm(log(mvnpar[i,1:4]),fish)     mvncpue[i,] <- dynamA$outmat[1:nyr,"predCE"]     depletion[i] <- dynamA$outmat["2016","Depletion"]   }   mvnpar <- cbind(mvnpar,msy,depletion) # try head(mvnpar,10)  
+```
+
+使用引导程序，当绘制隐含的 CPUE 轨迹时，**图** （[7.13](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f713)） 和 （[7.14](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f714)），结果似乎是合理的。另一方面，对于渐近误差，当我们绘制隐含动态图（[7.16](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f716)）时，**一个**比例，公认落在第90个百分位数的置信区间之外，而置信区间本身是极不对称的，会产生剧烈波动的动态，这甚至可能意味着种群灭绝。
+
+```         
+ #data and trajectories from 1000 MVN parameter vectors   Fig 7.16   plot1(fish[,"year"],fish[,"cpue"],type="p",xlab="Year",ylab="CPUE",         maxy=2.0)   for (i in 1:N) lines(fish[,"year"],mvncpue[i,],col="grey",lwd=1)   points(fish[,"year"],fish[,"cpue"],pch=1,cex=1.3,col=1,lwd=2) # data   lines(fish[,"year"],exp(simpspm(optpar,fish)),lwd=2,col=1)# pred    percs <- apply(mvncpue,2,quants)  # obtain the quantiles   arrows(x0=fish[,"year"],y0=percs["5%",],y1=percs["95%",],length=0.03,          angle=90,code=3,col=1) #add 90% quantiles   msy <- mvnpar[,"r"]*mvnpar[,"K"]/4  # 1000 MSY estimates   text(2010,1.75,paste0("MSY ",round(mean(msy),3)),cex=1.25,font=7)  
+```
+
+图 7.16：1000 个预测的 cpue 轨迹来自随机参数向量，这些向量是从由最佳参数及其相关方差-协方差矩阵定义的多元正态分布中采样的。
+
+均值MSY𝑀𝑆𝑌使用渐近误差得到的估计值与自举估计值（319.546，**表**（[7.5](https://haddonm.github.io/URMQMF/surplus-production-models.html#tab:t705)））产生的估计值非常相似，第90个分位数置信边界看起来很有意义，尽管比自举分析中的偏差要大得多。然而，很明显，使用多变量正态分布会导致一些相当难以置信的参数组合，进而导致难以置信的 cpue 轨迹，这些轨迹与观察到的 cpue 相去甚远。这并不意味着不应该使用渐近误差，而是如果确实使用了渐近误差，那么应该检查它们的含义是否合理。
+
+在这种情况下，我们可以通过查找最终 cpue 水平\< 0.4 的记录来搜索导致极端结果的参数组合。
+
+```         
+ #Isolate errant cpue trajectories Fig 7.17   pickd <- which(mvncpue[,"2016"] < 0.40)   plot1(fish[,"year"],fish[,"cpue"],type="n",xlab="Year",ylab="CPUE",         maxy=6.25)   for (i in 1:length(pickd))      lines(fish[,"year"],mvncpue[pickd[i],],col=1,lwd=1)   points(fish[,"year"],fish[,"cpue"],pch=16,cex=1.25,col=4)    lines(fish[,"year"],exp(simpspm(optpar,fish)),lwd=3,col=2,lty=2)   
+```
+
+图 7.17：2016 年预测 cpue \< 0.4 的 34 个渐近误差 cpue 轨迹。点是原始数据，虚线是最佳模型拟合。
+
+现在我们已经确定了大多数错误的轨迹，通过它们各自的参数向量，我们可以通过绘制它们来比较我们认为是非错误轨迹的方式，这样我们就可以识别谁是谁，**图**（[7.18](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f718)）。
+
+```         
+ #Use adhoc function to plot errant parameters Fig 7.18   parset(plots=c(2,2),cex=0.85)   outplot <- function(var1,var2,pickdev) {     plot1(mvnpar[,var1],mvnpar[,var2],type="p",pch=16,cex=1.0,           defpar=FALSE,xlab=var1,ylab=var2,col=8)     points(mvnpar[pickdev,var1],mvnpar[pickdev,var2],pch=16,cex=1.0)   }   outplot("r","K",pickd) # assumes mvnpar in working environment   outplot("sigma","Binit",pickd)   outplot("r","Binit",pickd)   outplot("K","Binit",pickd)  
+```
+
+图 7.18：预测最终 CPUE \< 0.4 的参数值的参数值的分布以黑色突出显示。看来*，Binit* 的低值大多落后于难以置信的轨迹。
+
+当我们将模型变量相互绘制时，**图**（[7.19](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f719)），两者之间缺乏关系s我gm一个𝑠我𝑔𝑚一个其他参数是正态分布变量或多变量正态分布变量的预期参数。然而，这与从 bootstrap 样本中获得的关系明显不同，**如图** [（7.15](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f715)）。此外，三个主要参数之间的关系r𝑟,K𝐾和B我n我t𝐵我𝑛我𝑡比在引导采样中看到的要平滑得多。在我们看来，这种边界的对称性和干净性似乎比在自举样本中看到的关系更容易接受，**如图**[（7.19](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f719)）所示。然而，枯竭图表明一些轨迹似乎已经灭绝。
+
+```         
+ #asymptotically sampled parameter vectors  Fig 7.19   pairs(mvnpar,lower.panel=panel.smooth, upper.panel=panel.cor,       gap=0,cex=0.25,lwd=2)  
+```
+
+图 7.19：使用多变量正态分布生成参数组合时 Schaefer 模型的模型参数之间的关系。r - K 之间的关系比 bootstrap 样本中的关系要紧密得多，并且 sigma 和其他参数之间几乎没有关系。枯竭图表明一些轨迹已经灭绝。
+
+我们可以比较自举采样和渐近误差采样的参数值范围。来自渐近误差分布的参数样本的偏度小于来自自举的参数样本，但自举样本的值没有这么低的值B我n我t𝐵我𝑛我𝑡和K𝐾.需要记住的是，使用多元正态分布来描述围绕最优参数集的似然面的形状仍然只是一个近似值。
+
+```         
+ # Get the ranges of parameters from bootstrap and asymptotic   bt <- apply(bootpar,2,range)[,c(1:4,6,7)]      ay <- apply(mvnpar,2,range)   out <- rbind(bt,ay)   rownames(out) <- c("MinBoot","MaxBoot","MinAsym","MaxAsym")  
+```
+
+|                             |        |           |            |            |          |                                                                 |
+|----------|----------|----------|----------|----------|----------|------------|
+|                             |        |           |            |            |          | 表 7.7： bootstrap 采样的参数值范围与渐近误差采样的参数值范围。 |
+|                             | **r**  | **K**     | **比尼特** | **西格马** | **微星** | **德普尔**                                                      |
+| 最小启动                    | 0.0653 | 3139.827  | 1357.264   | 0.1125     | 217.164  | 0.0953                                                          |
+| 最大启动                    | 0.4958 | 25666.568 | 8000.087   | 0.1636     | 530.652  | 0.7699                                                          |
+| MinAsym                     | 0.1185 | 2055.714  | 1003.558   | 0.1069     | 271.901  | 0.0054                                                          |
+| MaxAsym（麦克斯阿西姆酒店） | 0.7287 | 9581.273  | 9917.274   | 0.2344     | 374.522  | 0.6820                                                          |
+
+### 7.4.5 有时渐近误差起作用
+
+在某些情况下，渐近误差方法产生的结果与自举程序的结果非常相似。如果我们使用 *abdat* 数据而不是 *dataspm*，我们将得到的结果似乎与使用 bootstraps 进行的相同分析没有区别（有关比较，请参阅*“不确定性*”一章中的 bootstrap 部分）。生成的轨迹看起来非常相似，**如图**（[7.20](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f720)），成对图几乎无法区分。与 *On Uncertainty* bootstrap 示例一样，我们使用了着色来简化比较，**图** （[7.21](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f721)）。`rgb()`
+
+```         
+ #repeat asymptotice errors using abdat data-set Figure 7.20   data(abdat)   fish <- as.matrix(abdat)   pars <- log(c(r=0.4,K=9400,Binit=3400,sigma=0.05))   ansA <- fitSPM(pars,fish,schaefer=TRUE,maxiter=1000,hess=TRUE)    vcovA <- solve(ansA$hessian) # calculate var-covar matrix   mvn <- length(fish[,"year"])   N <- 1000   # replicates   mvncpueA <- matrix(0,nrow=N,ncol=mvn,dimnames=list(1:N,fish[,"year"]))   columns <- c("r","K","Binit","sigma")   optparA <- ansA$estimate  # Fill matrix of parameter vectors    mvnparA <- matrix(exp(rmvnorm(N,mean=optparA,sigma=vcovA)),                     nrow=N,ncol=4,dimnames=list(1:N,columns))   msy <- mvnparA[,"r"]*mvnparA[,"K"]/4   for (i in 1:N) mvncpueA[i,]<-exp(simpspm(log(mvnparA[i,]),fish))   mvnparA <- cbind(mvnparA,msy)   plot1(fish[,"year"],fish[,"cpue"],type="p",xlab="Year",ylab="CPUE",         maxy=2.5)   for (i in 1:N) lines(fish[,"year"],mvncpueA[i,],col=8,lwd=1)   points(fish[,"year"],fish[,"cpue"],pch=16,cex=1.0) #orig data   lines(fish[,"year"],exp(simpspm(optparA,fish)),lwd=2,col=0)   
+```
+
+图 7.20：使用渐近误差为 *abdat* 数据集生成合理的参数集及其隐含的 cpue 轨迹。最佳模型拟合显示为白线。
+
+```         
+ #plot asymptotically sampled parameter vectors Figure 7.21   pairs(mvnparA,lower.panel=panel.smooth, upper.panel=panel.cor,         gap=0,pch=16,col=rgb(red=0,green=0,blue=0,alpha = 1/10))  
+```
+
+图 7.21：将 Schaefer 模型拟合到 *abdat* 数据并使用多变量正态分布生成后续参数组合时的模型参数关系。这些与*“不确定性”*一章中的引导程序非常相似。
+
+### 7.4.6 贝叶斯后验
+
+我们已经在*“不确定性”*一章中看到，可以使用马尔可夫链蒙特卡洛（MCMC）分析来描述给定分析中固有的不确定性。在这里，我们将再次使用 *abdat* 数据集，因为它提供了一个表现良好的数据示例，从而产生相对紧密拟合的模型和表现良好的 MCMC 分析。Gibbs-within-Metropolis-Hastings（或单组分 Metropolis-Hastings）策略背后的方程式在*“不确定性*”一章中给出。这些都在函数中实现。要使用它，首先要有一个最拟合的最大似然模型。这次我们将使用 Fox 模型选项。`do_MCMC()`
+
+```         
+ #Fit the Fox Model to the abdat data Figure 7.22   data(abdat); fish <- as.matrix(abdat)   param <- log(c(r=0.3,K=11500,Binit=3300,sigma=0.05))   foxmod <- nlm(f=negLL1,p=param,funk=simpspm,indat=fish,                 logobs=log(fish[,"cpue"]),iterlim=1000,schaefer=FALSE)   optpar <- exp(foxmod$estimate)   ans <- plotspmmod(inp=foxmod$estimate,indat=fish,schaefer=FALSE,                    addrmse=TRUE, plotprod=TRUE)  
+```
+
+图 7.22：使用 Fox 模型和对数正态误差拟合 *abdat* 数据集的最佳模型。绿色虚线是更平滑的曲线，而红色线是最佳预测模型拟合。请注意对数正态残差中的模式，该模式表明模型在此数据方面存在小的不足。
+
+对于最优值，即接近后验模态，我们不再需要说明老化期的概念，但理想情况下，我们不想从最大似然解开始。因此，我们可以对最优解进行舍入并老化马尔可夫链，从而使参数集序列进入合理组合的边界。我们知道r𝑟和K𝐾参数是强相关的，因此我们可以使用初始步长 128 （4 x 128 = 512） 来尝试减少任何顺序接受的值之间的任何自相关，但这也受到应用于参数迭代之间跳跃的相对*尺度*的影响。在这里，我们从 1% 到 2% 之间的值开始，但对这些值进行了实验，直到接受率在 0.2 到 0.4 之间。最好用减少的 N 值来做到这一点（使用 512 的稀释，即使是 1000 也是五十万次迭代）。只有当尺度设置得当时，才应该将重复数N扩大到更大的数量，以获得更清晰的结果。我们将继续使用 **MQMF** 函数在每组合理的参数上设置相等的权重，并且为了获得可重复的结果，您需要在每条链上包含一个调用，但通常我们会省略这一点。所有操作系统的 R 中都使用相同的随机数生成器，因此这应该适用于计算机，但我尚未在所有版本上尝试过此操作。为了提高计算速度，使用“*不确定性*”一章中描述的 **Rcpp** 函数会很有用。在我们运行以下 MCMC 之前，您需要编译本章的附录或调用时调用，请注意，为了使用 Fox 模型，包含 *schaefer=FALSE* 参数。`calcprior()set.seed()simpspmC()simpspm()do_MCMC()`
+
+```         
+ # Conduct an MCMC using simpspmC on the abdat Fox SPM    # This means you will need to compile simpspmC from appendix   set.seed(698381) #for repeatability, possibly only on Windows10   begin <- gettime()  # to enable the time taken to be calculated   inscale <- c(0.07,0.05,0.09,0.45) #note large value for sigma   pars <- log(c(r=0.205,K=11300,Binit=3200,sigma=0.044))   result <- do_MCMC(chains=1,burnin=50,N=2000,thinstep=512,                     inpar=pars,infunk=negLL,calcpred=simpspmC,                     obsdat=log(fish[,"cpue"]),calcdat=fish,                     priorcalc=calcprior,scales=inscale,schaefer=FALSE)    # alternatively, use simpspm, but that will take longer.    cat("acceptance rate = ",result$arate," \n")   cat("time = ",gettime() - begin,"\n")   post1 <- result[[1]][[1]]   p <- 1e-08   msy <- post1[,"r"]*post1[,"K"]/((p + 1)^((p+1)/p))  
+```
+
+```         
+# acceptance rate =  0.3136629 0.3337832 0.3789844 0.3660627   # time =  15.58995
+```
+
+Fox 模型 MCMC 目前设置为 512 的稀释率、2000 次重复和 50 次老化，这意味着将有 512 x 2050 = 1049600 次迭代用于生成所需的参数跟踪。在用于编写此内容的计算机上，即使使用 ，这大约需要 15 秒;使用我们可能预计大约需要 75 秒。一旦您自己的系统知道了这一点，显然可以计划您的分析，并对稀释速率和重复做出明确的选择（不要忘记使用最新版本的 R 以获得最快的时间）。`simpspmC()simpspm()`
+
+分析完成后，我们可以使用函数 **Figure**（[7.23](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f723)） 将每个变量与其他变量进行对比。但是，我们也可以绘制每个主要参数的边际后验分布和派生的模型输出（MSY）。鉴于我们使用了 2000 个重复，链变细率为 512，后验分布相对平滑，**如图** [（7.24](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f724)），尽管存在的少数凸起可以通过更多重复进一步平滑。`pairs()`
+
+```         
+ #pairwise comparison for MCMC of Fox model on abdat  Fig 7.23   pairs(cbind(post1[,1:4],msy),upper.panel = panel.cor,lwd=2,cex=0.2,       lower.panel=panel.smooth,col=1,gap=0.1)  
+```
+
+图 7.23：MCMC 输出为成对散点图。实线是指示趋势的黄土平滑器，上半部分的数字是两对之间的相关系数。*r*、*K* 和 *Binit* 之间以及 *K*、*Binit* 和 *MSY* 之间有很强的相关性，sigma 与其他参数之间或 msy 和 r 之间只有很小的关系或没有关系。
+
+```         
+ # marginal distributions of 3 parameters and msy  Figure 7.24   parset(plots=c(2,2), cex=0.85)   plot(density(post1[,"r"]),lwd=2,main="",xlab="r") #plot has a method   plot(density(post1[,"K"]),lwd=2,main="",xlab="K")   #for output from   plot(density(post1[,"Binit"]),lwd=2,main="",xlab="Binit")  # density   plot(density(msy),lwd=2,main="",xlab="MSY")   #try str(density(msy))  
+```
+
+图 7.24：3 个参数的边际分布和 2000 年 MCMC 的隐含 MSY 复制了应用于 *abdat* 数据的 Fox 模型。曲线的块状表明需要超过 2000 次迭代。
+
+请注意，要将 *sigma* 的接受率降低到 0.4 以下，需要施加相对较大的比例因子。其他参数要求值在 5% 到 9% 之间。如果使用 500 次重复来搜索适当的比例因子，然后将重复次数重置为 2000，则该过程将花费四倍的时间。如果随后将步长增加到 1024，则需要两倍的时间。需要寻找适当的比例因子，以确保马尔可夫链在合理的时间内很好地探索后部空间。如果缩放太小，接受率就会增加，因为每次试验实际上都非常接近原始试验，因此只能采取小步骤。平稳分布最终仍将被发现，但可能需要大量的重复。在细化速率为 512 的情况下，如果使用该函数绘制任何迹线的自相关，如 中所示，您会发现在步骤 1 和 2 处仍会发生显著的相关性。要减少这些，至少需要增加到1024。`acf()acf(post1[,"r"])`
+
+随着重复次数的增加，观察到的潜在参数组合的扩散增加。但是，如果我们检查第 90 个百分位等值线的边界，这些等值线保持相对稳定。我们可以使用 **MQMF** 函数在二维空间中做到这一点，该函数可以为任意云的 x-y 数据点（任意但理想情况下是平滑分布的）生成等值线。2000 个观测值的第 50 个和第 90 个百分位等值线不是特别平滑，但即使这样，*K* 的边界大约在 9500 - 14000 之间，*r* 在大约 0.17 - 0.24 之间，**图** [（7.25](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f725)）。随着数字的增加，轮廓变得更加平滑，但它们的边界大致保持不变，即使 x 轴和 y 轴在这两种情况下都延伸。`addcontours()`
+
+```         
+ #MCMC r and K parameters, approx 50 + 90% contours. Fig7.25   puttxt <- function(xs,xvar,ys,yvar,lvar,lab="",sigd=0) {     text(xs*xvar[2],ys*yvar[2],makelabel(lab,lvar,sep="  ",          sigdig=sigd),cex=1.2,font=7,pos=4)   } # end of puttxt - a quick utility function   kran <- range(post1[,"K"]);  rran <- range(post1[,"r"])   mran <- range(msy)         #ranges used in the plots   parset(plots=c(1,2),margin=c(0.35,0.35,0.05,0.1)) #plot r vs K   plot(post1[,"K"],post1[,"r"],type="p",cex=0.5,xlim=kran,        ylim=rran,col="grey",xlab="K",ylab="r",panel.first=grid())   points(optpar[2],optpar[1],pch=16,col=1,cex=1.75) # center   addcontours(post1[,"K"],post1[,"r"],kran,rran,  #if fails make               contval=c(0.5,0.9),lwd=2,col=1)   #contval smaller   puttxt(0.7,kran,0.97,rran,kran,"K= ",sigd=0)   puttxt(0.7,kran,0.94,rran,rran,"r= ",sigd=4)   plot(post1[,"K"],msy,type="p",cex=0.5,xlim=kran,  # K vs msy        ylim=mran,col="grey",xlab="K",ylab="MSY",panel.first=grid())   points(optpar[2],getMSY(optpar,p),pch=16,col=1,cex=1.75)#center   addcontours(post1[,"K"],msy,kran,mran,contval=c(0.5,0.9),lwd=2,col=1)   puttxt(0.6,kran,0.99,mran,kran,"K= ",sigd=0)   puttxt(0.6,kran,0.97,mran,mran,"MSY= ",sigd=3)  
+```
+
+图 7.25：MCMC 边际分布以 r 和 K 参数以及 K 和 MSY 值的散点图形式输出。灰点来自成功的候选参数向量，而等值线是近似的第 50 个和第 90 个百分位数。文本给出了接受的参数跟踪的完整范围。
+
+最后，我们可以绘制 2000 个重复中每个重复的单个迹线。这表明，即使具有平滑的边际分布，偶尔也会出现参数值的峰值，以说明主要参数之间的强负相关。
+
+```         
+ #Traces for the Fox model parameters from the MCMC  Fig7.26   parset(plots=c(4,1),margin=c(0.3,0.45,0.05,0.05),          outmargin = c(1,0,0,0),cex=0.85)   label <- colnames(post1)   N <- dim(post1)[1]   for (i in 1:3) {     plot(1:N,post1[,i],type="l",lwd=1,ylab=label[i],xlab="")     abline(h=median(post1[,i]),col=2)   }   msy <- post1[,1]*post1[,2]/4   plot(1:N,msy,type="l",lwd=1,ylab="MSY",xlab="")   abline(h=median(msy),col=2)   mtext("Step",side=1,outer=T,line=0.0,font=7,cex=1.1)  
+```
+
+图 7.26：三个主要 Schaefer 模型参数的迹线和 MSY 估计值。如果细化步长增加到 1024 或更长，则迹线内的剩余自相关性应得到改善。
+
+理想情况下，人们当然会用多条链进行这样的分析，以确保它们各自收敛于相同的后验分布。此外，还有许多诊断统计数据可以检查随着 MCMC 的进展而收敛程度的速率。同样理想情况下，最好从不同的位置开始每条链，但随机数序列最终会将链引向非常不同的方向，即使它们从同一个地方开始。可以使用与函数中使用的相同的方法来选择不同的随机起点。`robustSPM()`
+
+```         
+ #Do five chains of the same length for the Fox model   set.seed(6396679)  # Note all chains start from same place, which is    inscale <- c(0.07,0.05,0.09,0.45)  # suboptimal, but still the chains   pars <- log(c(r=0.205,K=11300,Binit=3220,sigma=0.044))  # differ   result <- do_MCMC(chains=5,burnin=50,N=2000,thinstep=512,                     inpar=pars,infunk=negLL1,calcpred=simpspmC,                     obsdat=log(fish[,"cpue"]),calcdat=fish,                     priorcalc=calcprior,scales=inscale,                     schaefer=FALSE)   cat("acceptance rate = ",result$arate," \n") # always check this  
+```
+
+```         
+# acceptance rate =  0.3140023 0.3327271 0.3801893 0.36673
+```
+
+```         
+ #Now plot marginal posteriors from 5 Fox model chains    Fig7.27   parset(plots=c(2,1),cex=0.85,margin=c(0.4,0.4,0.05,0.05))   post <- result[[1]][[1]]   plot(density(post[,"K"]),lwd=2,col=1,main="",xlab="K",        ylim=c(0,4.4e-04),panel.first=grid())   for (i in 2:5) lines(density(result$result[[i]][,"K"]),lwd=2,col=i)   p <- 1e-08   post <- result$result[[1]]   msy <-  post[,"r"]*post[,"K"]/((p + 1)^((p+1)/p))   plot(density(msy),lwd=2,col=1,main="",xlab="MSY",type="l",        ylim=c(0,0.0175),panel.first=grid())   for (i in 2:5) {     post <- result$result[[i]]     msy <-  post[,"r"]*post[,"K"]/((p + 1)^((p+1)/p))     lines(density(msy),lwd=2,col=i)   }  
+```
+
+图 7.27：K 参数的边缘后验和 2000 次重复的五条链的隐含 MSY（512 \* 2000 = 1049600 次迭代）。分布之间仍然存在一些差异，尤其是在模式下，这表明更多的重复和潜在的更高稀疏率将改善结果。
+
+然而，尽管五条链在视觉上存在差异，**如图**[（7.27](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f727)），如果我们检查K𝐾在不同的分位数上，我们发现差异很小，**表**（[7.8](https://haddonm.github.io/URMQMF/surplus-production-models.html#tab:t708)）。事实上，中值K𝐾对于每条链，彼此之间的距离在1.1%左右是令人鼓舞的，最大百分比变化为2.7%。作为一个实验，使用相同的 random.seed，但每个链运行 4000 步（总共 5 x 512 \* 4050 = 1036.8 万次迭代，但仍然不到 5 分钟），最大变异下降到 1.48%，同样是 0.975 分位数，其他分位数都低于 1%。在这种情况下，使用如此简单的模型并且每个链只需要很短的时间，扩展步骤数是值得的。对于具有更多参数和更复杂可能性计算的更复杂的模型，在评估组截止日期之前工作时，这些分析的时机可能变得至关重要。
+
+```         
+ # get qunatiles of each chain   probs <- c(0.025,0.05,0.5,0.95,0.975)   storeQ <- matrix(0,nrow=6,ncol=5,dimnames=list(1:6,probs))   for (i in 1:5) storeQ[i,] <- quants(result$result[[i]][,"K"])   x <- apply(storeQ[1:5,],2,range)   storeQ[6,] <- 100*(x[2,] - x[1,])/x[2,]  
+```
+
+|           |           |           |           |                                                                                                                                                             |
+|----------|----------|----------|----------|--------------------------------|
+|           |           |           |           | 表 7.8： 来自五条 MCMC 链*的 K* 参数上的五个分位数在应用于 *abdat* 数据的 Fox 模型上运行。最后一行是各链值范围的百分比差异，显示它们的中位数相差略大于 1%。 |
+| **0.025** | **0.05**  | **0.5**   | **0.95**  | **0.975**                                                                                                                                                   |
+| 9859.157  | 10160.471 | 11633.376 | 13740.430 | 14124.828                                                                                                                                                   |
+| 9893.256  | 10162.570 | 11541.118 | 13689.079 | 14302.523                                                                                                                                                   |
+| 9922.313  | 10157.503 | 11564.236 | 13620.369 | 14150.819                                                                                                                                                   |
+| 9875.521  | 10107.843 | 11541.843 | 13533.356 | 13908.780                                                                                                                                                   |
+| 9835.652  | 10088.899 | 11504.845 | 13640.376 | 14087.693                                                                                                                                                   |
+| 0.873     | 0.725     | 1.105     | 1.507     | 2.753                                                                                                                                                       |
+
+## 7.5 管理建议
+
+### 7.5.1 两种风险观
+
+正式的种群评估，即使是使用剩余生产模型的简单评估，也可以表明所评估的渔业的种群状况，但问题仍然是如何利用这种评估来产生渔业管理建议。当然，这种建议将取决于有关渔业的管理目标。但是，即使没有正式的渔业政策，也应该能够就未来采用不同渔获量的影响提供咨询意见。我们可以使用最优模型拟合来预测模型动态到未来，这种预测是管理建议的基础，这些建议来自大多数非纯粹经验的股票评估。一旦知道（或假设）了渔业目标，那么，使用模型预测，就可以对未来的努力或捕捞水平进行估计，从而有望引导种群实现选定的目标。
+
+一个共同的目标是努力将渔业维持在平均可以产生最大可持续产量的生物量水平，这被称为BMSY𝐵𝑀𝑆𝑌.这种目标将被称为目标参考点，因为它源自讨论生物学参考点的文献（Garcia，1994年;粮农组织，1995年，1997年）。BMSY𝐵𝑀𝑆𝑌可能被视为目标，但相关渔获量 （MSY） 实际上应该作为渔获量的上限。除了目标参考点之外，通常还有一个极限参考点，它定义了要避免的库存状态。这通常从被认为对后续招聘构成风险的库存水平的角度进行讨论，尽管这通常只是一个准则。通常，极限参考点BMSY/2𝐵𝑀𝑆𝑌/2，或者将通用代理设置为0.2B00.2𝐵0.这种限度和目标参考点通常是在正式收获战略的背景下确定的。
+
+### 7.5.2 收获策略
+
+在一个管辖范围内，捕捞战略定义了用于实现不同鱼类种群的既定生物目标，有时甚至是经济和社会目标的决策框架。一般来说，收获战略将包括三个组成部分（粮农组织，1995年，1997年;哈登，2007 年;Smith *等人*，2008 年）：
+
+1.  监测和收集有关每个相关渔业的数据的手段。
+
+2.  评估每种渔业的明确方式，通常相对于预先选择的生物（或其他）参考点，例如捕捞死亡率、生物量水平或其替代物。
+
+3.  预定义的捕捞控制规则或决策规则，用于将种群评估或种群状况转化为与未来努力或捕捞水平相关的管理建议。
+
+理想情况下，这种收获策略将经过模拟测试，以确定它们有效的条件，并拒绝未能实现预期目标的选项（Smith，1993年;Punt *等人*，2016 年）
+
+There are a number of well known examples where management objectives for a jurisdiction’s fisheries have been stated explicitly (DAFF, 2007; Deroba and Bence, 2008; Magnuson-Stevens, 2007). In the Australian Commonwealth marine jurisdiction, for example, the target selected is to manage the primary economic stocks towards the biomass that generate the maximum economic yield, BMEY𝐵𝑀𝐸𝑌 (DAFF, 2007; DAWR, 2018); in fact a proxy of 0.48B0𝐵0 is used for most species as insufficient information is available to reliably estimate BMEY𝐵𝑀𝐸𝑌. Similarly a proxy of 0.2B0𝐵0 is defined as a limit reference point for the majority of species “Where information to support selection of a stock-specific limit reference point [BMSY/2𝐵𝑀𝑆𝑌/2] is not available…” (DAWR, 2018, p 10). If a stock is estimated to be below the limit reference point then targeted fishing is stopped, although in mixed fisheries a bycatch can still occur. If a stock is above the limit reference point then projections are run to determine what future catches should encourage the stock to increase smoothly to target biomass levels.
+
+## 7.6 Risk Assessment Projections
+
+Of course, there are a number of important assumptions behind the idea of projecting a stock assessment model forwards. The first is that the model is successful in capturing the important parts of the dynamics controlling the stock biomass. With surplus production models this equates to assuming that the estimate of stock productivity will remain the same into the future. Remember that when using the data-set *dataspm* the residuals retained a relatively large oscillatory pattern indicating that the model was missing something important in the dynamics. Despite such omissions, the model might still retain a sufficient estimate of the approximate average dynamics to allow for useful projections, but that then assumes whatever other factors were influencing the model fit will continue to operate in the manner they did in the past. If an assessment is highly uncertain then future projections will also be highly uncertain, which lowers their value in terms of how confident one can be in providing advice.
+
+The simplest projections are made using the optimal parameter estimates and imposing constant catches or effort. We would require the current stock biomass and the catchability to use the catch equation to convert a specified effort level into a catch level:
+
+[Ct=qEtBt(7.20)(7.20)𝐶𝑡=𝑞𝐸𝑡𝐵𝑡]{.underline}
+
+Then the standard dynamics equation with the optimum parameters can be used to project the biomass levels forward under the predicted catch level. If using a specified catch level then we only need use the equation for the dynamics (here we use the Polacheck *et al* (1993) version):
+
+[Bt+1=Bt+rpBt(1−(BtK)p)−Ct(7.21)(7.21)𝐵𝑡+1=𝐵𝑡+𝑟𝑝𝐵𝑡(1−(𝐵𝑡𝐾)𝑝)−𝐶𝑡]{.underline}
+
+### 7.6.1 Deterministic Projections
+
+If we were to use the optimum model parameters then for each of a range of different forward projected catches we would expect to obtain a different biomass and cpue trajectory. To exemplify this we can once again use the *abdat* data-set (note that we have set the *hessian* option to TRUE as we will use this later on).
+
+```         
+ #Prepare Fox model on abdat data for future projections Fig7.28   data(abdat); fish <- as.matrix(abdat)   param <- log(c(r=0.3,K=11500,Binit=3300,sigma=0.05))   bestmod <- nlm(f=negLL1,p=param,funk=simpspm,schaefer=FALSE,                logobs=log(fish[,"cpue"]),indat=fish,hessian=TRUE)   optpar <- exp(bestmod$estimate)   ans <- plotspmmod(inp=bestmod$estimate,indat=fish,schaefer=FALSE,                    target=0.4,addrmse=TRUE, plotprod=FALSE)  
+```
+
+Figure 7.28: The optimum model fit for the abdat data-set using the Fox model and log-normal errors. The green dashed line is a loess curve while the solid red line is the optimum predicted model fit. Note the pattern in the log-normal residuals indicating that the model has some inadequacies with regard to this data.
+
+MSY估计约为854吨，库存似乎略高于0.4B00.4𝐵0目标级别，通常用作代理BMSY𝐵𝑀𝑆𝑌.从图中，并检查原始*的 abdat* data.frame，我们可以看到 2000 年至 2008 年的渔获量在每年 910 - 1030 吨之间，这导致模型预测 cpu 和生物量将下降。因此，我们可以探索700-1000吨的十年渔获量预测，也许以50吨为步长。鉴于分析中的不确定性以及这些预测是确定性的，因此对未来太多年的预测进行审查毫无意义。长期预测对于说明不同渔获量的影响可能很有价值，但出于实际目的，十年往往绰绰有余，这取决于被评估物种的寿命（预计寿命较长的物种比寿命短的物种表现出较慢的动态）。该函数绘制的动态细节是通过使用具有最佳参数的函数生成的（查看代码内部以查看这些详细信息）。当使用最佳参数运行时，的输出包括 *Dynamics* 对象内 *outmat* 表中的预测动态。在这里，我们将使用 Fox 模型而不是 Schaefer 运行模型。`plotspmmod()spm()plotspmmod()spm()`
+
+函数输出的对象是一个由五个组件组成的列表。模型*参数*，包括 q 值，*outmat* 是包含随时间变化的动态的矩阵，*msy，sumout* 包含五个关键统计数据的摘要，*schaefer* 确定这是针对 Schaefer 模型还是 Fox 模型。`spm()`
+
+```         
+ #   out <- spm(bestmod$estimate,indat=fish,schaefer=FALSE)   str(out, width=65, strict.width="cut")  
+```
+
+```         
+# List of 5 #  $ parameters: Named num [1:5] 2.06e-01 1.13e+04 3.23e+03 4.38e.. #   ..- attr(*, "names")= chr [1:5] "r" "K" "Binit" "Sigma" ... #  $ outmat    : num [1:25, 1:7] 1985 1986 1987 1988 1989 ... #   ..- attr(*, "dimnames")=List of 2 #   .. ..$ : chr [1:25] "1985" "1986" "1987" "1988" ... #   .. ..$ : chr [1:7] "Year" "ModelB" "Catch" "Depletion" ... #  $ msy       : num 856 #  $ sumout    : Named num [1:5] 8.56e+02 1.00e-08 4.34e-01 2.86e.. #   ..- attr(*, "names")= chr [1:5] "msy" "p" "FinalDepl" "InitD".. #  $ schaefer  : logi FALSE
+```
+
+*outmat* 中的动态包括年份的详细信息、生物量、cpue、预测的 cpue 和其他变量 **Table**（[7.9](https://haddonm.github.io/URMQMF/surplus-production-models.html#tab:t709)）。
+
+|      |        |           |          |          |          |                |                                                                           |
+|---------|---------|---------|---------|---------|---------|---------|--------------|
+|      |        |           |          |          |          |                | 表 7.9： *由 abdat* 数据集和最优 Fox 模型拟合表示的股票预测动态的前十行。 |
+|      | **年** | **型号B** | **抓住** | **枯竭** | **收获** | **中央处理器** | **predCE**                                                                |
+| 1985 | 1985   | 3231.104  | 1020     | 0.2856   | 0.3157   | 1.0000         | 1.1259                                                                    |
+| 1986 | 1986   | 3043.856  | 743      | 0.2691   | 0.2441   | 1.0957         | 1.0607                                                                    |
+| 1987 | 1987   | 3122.726  | 867      | 0.2761   | 0.2776   | 1.1303         | 1.0882                                                                    |
+| 1988 | 1988   | 3082.459  | 724      | 0.2725   | 0.2349   | 1.1466         | 1.0741                                                                    |
+| 1989 | 1989   | 3182.761  | 586      | 0.2814   | 0.1841   | 1.1873         | 1.1091                                                                    |
+| 1990 | 1990   | 3426.923  | 532      | 0.3030   | 0.1552   | 1.2018         | 1.1942                                                                    |
+| 1991 | 1991   | 3736.670  | 567      | 0.3303   | 0.1517   | 1.2652         | 1.3021                                                                    |
+| 1992 | 1992   | 4020.992  | 609      | 0.3555   | 0.1515   | 1.3199         | 1.4012                                                                    |
+| 1993 | 1993   | 4267.440  | 548      | 0.3773   | 0.1284   | 1.4284         | 1.4871                                                                    |
+| 1994 | 1994   | 4575.104  | 498      | 0.4045   | 0.1088   | 1.4772         | 1.5943                                                                    |
+
+预测包括采用模拟的结果时间序列，如**表**（[7.9](https://haddonm.github.io/URMQMF/surplus-production-models.html#tab:t709)）所示，并通过依次包括任何新的固定渔获量并进行计算以填充所需列来继续动态。我们可以使用 **MQMF** 函数，它获取函数的列表输出以及与确定性预测相关的一些详细信息，并为我们生成投影动态。您应该检查代码以了解年份是如何设置的，代码非常简短。`spmprojDet()spm()spmproj()`
+
+```         
+ #  Fig 7.29   catches <- seq(700,1000,50)   # projyr=10 is the default   projans <- spmprojDet(spmobj=out,projcatch=catches,plotout=TRUE)  
+```
+
+Figure 7.29: Deterministic constant catch projections of the optimum Fox model fit to the *abdat* data-set. the vertical green line is the limit of the data available and the red lines to the right of that are the main projections. The numbers are the constant catches imposed.
+
+Using the deterministic constant catch projections, **Figure**([7.29](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f729)), it can be seen that a constant catch of 850t, which is close to the *MSY* estimate, is the closest catch that predicts relatively stable stock conditions into the future.
+
+### 7.6.2 Accounting for Uncertainty
+
+An obvious problem with the deterministic projections is exactly the fact that they are deterministic. They fail to take any account of the uncertainty that remains even in the optimal model fit. Ideally we would conduct model projections while taking the estimated uncertainty into account. We can do this in three ways taking as a source of the uncertainty either the asymptotic errors approach, the bootstrap model fits, or the Bayesian approach. In each case, one output from the different analyses are lists of plausible parameter combinations. These can be used to describe the range of plausible dynamics included in the model fit and each of the separate biomass trajectories can be projected forward in the same manner as with the deterministic projections.
+
+We have already calculated the hessian matrix when fitting the optimal model so we will start with an example where we use Asymptotic errors to generate a matrix of plausible parameter sets that we can then project forward.
+
+### 7.6.3 Using Asymptotic Errors
+
+Once we have an optimum model fit, if we have also calculated the hessian matrix, as we have seen, we can use the estimated asymptotic errors to generate a matrix full of plausible parameter vectors. These can then be used to generate replicate biomass trajectories which can then be plotted and summarized.
+
+It is not uncommon to have probabilistic criteria for what constitutes successful fisheries management in terms of avoiding the limit reference point. With large numbers of replicate biomass trajectories, based upon different plausible parameter vectors, it is possible to estimate what proportion of projections will achieve a desired outcome. By tabulating the outcome of such projections managers can select the level of risk they deem appropriate. For example, an acceptable risk in the Australian Commonwealth Fishery Policy is explicitly defined such that “harvest strategies maintain the biomass of all commercial stocks above the Limit Reference Point at least 90% of the time.” And this is interpreted such that “the stock should stay above the limit biomass level at least 90% of the time (that is, a 1-in-10-year risk that stocks will fall below BLIM𝐵𝐿𝐼𝑀)” (DAWR, 2018a, p10).
+
+In the section above we already have the optimum model fit for the *abdat* data-set using the Fox model surplus production (Polacheck *et al*, 1993). Just as we were able to generate the biomass trajectories when characterizing the uncertainty using the asymptotic errors, we can project each of those trajectories forward under a given constant catch and search for the catch level that produces the desired outcome. The first thing to do is to generate multiple plausible parameter vectors from the optimal model fit. We can use the function to do this. Once the matrix of plausible parameter vectors is made we can then use to project the dynamics forward for a given number of years and a given constant catch (once again check out its working by examining the code). is merely a convenient wrapper for calling the function (part of the package **mvtnorm**) and returning the result as a labelled matrix, is slightly more complex. To simplify the projections, the function first extends the input *fish* matrix to include the projection years and their constant catches (filling in the future cpue with *NA*). The uses the function to calculate the dynamics, while only the modelled biomass is returned in a matrix. Using may appear inefficient, but it means the function can be easily modified to return any of the variables estimated in the dynamics. These variables include the model biomass, the depletion levels, the harvest rate, and the predicted cpue (though one can derive the rest from just the biomass, the predicted cpue, and the original data). Run the following code and examine the two output objects, *matpar* contains the parameter vectors, and *projs* contains the biomass trajectories as rows.`parasympt()spmproj()parasympt()rmvnorm()spmproj()spmproj()spm()spm()spmproj()`
+
+```         
+ # generate parameter vectors from a multivariate normal     # project dynamics under a constant catch of 900t   library(mvtnorm)   matpar <- parasympt(bestmod,N=1000) #generate parameter vectors   projs <- spmproj(matpar,fish,projyr=10,constC=900)#do dynamics  
+```
+
+计算完成后，我们可以总结预测的结果。首先，我们可以使用函数绘制 1000 个投影。`plotproj()`
+
+```         
+ # Fig 7.30  1000 replicate projections asymptotic errors   outp <- plotproj(projs,out,qprob=c(0.1,0.5),refpts=c(0.2,0.4))  
+```
+
+图 7.30：1000 个预测，使用逆麻布和平均参数估计生成 1000 个合理的参数向量，并将每个向量与渔业渔获量一起向前投影，然后以 900 吨的恒定渔获量进行 10 年预测。虚线是极限和目标参考点。蓝色垂直线是渔业数据的极限，粗黑线是最佳拟合，平行于最佳线的细红线是各年的第10和第50个分位数。
+
+很明显，10年后，假设动态保持不变，平均900吨的渔获量会导致种群从目前的状态有所下降，但使中值结果接近目标（上虚线），并且10年后不超过10%的轨迹越过极限参考点（LRP）（下细线高于0.2B00.2𝐵0限制。通过探索不同的恒定渔获量，您将能够发现，如果渔获量增加到 1000 吨，那么十年后，第 10 个分位数几乎违反了 LRP。将跨越LRP的轨迹比例制成表格以生成风险表，将澄清不同拟议的常数渔获量的影响，并有助于选择更具防御性的管理决策。
+
+### 7.6.4 使用 Bootstrap 参数向量
+
+预测的本质是根据最佳模型拟合生成一个合理的参数向量矩阵，并结合对分析中固有的不确定性的估计。除了将渐近误差及其假设的多元正态分布一起使用之外，我们还可以使用自举过程来生成所需的参数向量矩阵。就像我们在分析中表征不确定性时一样，我们可以使用该函数创建所需的参数向量。如果此功能需要太长时间才能达到舒适性，则可以使用基于 **Rcpp** 的功能开发替代方案，以加快 1000（或更多）模型拟合的速度。`spmboot()simpspmC()`
+
+```         
+ #bootstrap generation of plausible parameter vectors for Fox   reps <- 1000    boots <- spmboot(bestmod$estimate,fishery=fish,iter=reps,                    schaefer=FALSE)   matparb <- boots$bootpar[,1:4] #examine using head(matparb,20)  
+```
+
+和以前一样，我们可以使用这些参数向量来预测渔业的未来，并确定不同恒定捕捞水平对可持续性的任何风险，**图**（[7.31](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f731)）。
+
+```         
+ #bootstrap projections. Lower case b for boostrap  Fig7.31   projb <- spmproj(matparb,fish,projyr=10,constC=900)   outb <- plotproj(projb,out,qprob=c(0.1,0.5),refpts=c(0.2,0.4))  
+```
+
+Figure 7.31: 1000 projections (in grey) derived from the using a bootstrap process to generate 1000 plausible parameter vectors and projecting each vector forward with the fisheries catches followed by 10 years of a constant catch of 900t. The dashed lines are the limit and target reference points. The blue vertical line is the limit of fisheries data, the thick black line is the optimum fit and the red lines are the 10th and 50th quantiles across years.
+
+投影的灰线与使用渐近误差生成的灰线不同（在中位数附近看起来更紧密），但第 10 和第 50 个分位数看起来非常相似。当然，汇总结果基本保持不变，尽管在这种情况下，没有一个预测低于极限参考点（尝试 *outb\$ltLRP* 并与 *outp\$ltLRP* 进行比较）。
+
+### 7.6.5 使用贝叶斯后验样本
+
+正如我们通过使用渐近误差和自举获得样本一样，也可以从贝叶斯后验中获取样本以生成合理的参数向量。在这种情况下，我们可以使用该函数来执行 MCMC。我们只需要 1000 个合理的参数向量，因此我们将从接近最大似然最大值的点使用合理的老化，并使用较大的稀疏速率来避免后验分布的顺序绘制之间的序列相关性。和以前一样，最好使用 **Rcpp** 派生函数来执行 MCMC，因为我们仍在运行 214.5 万次迭代。因为我们使用的是剩余生产模型的 Fox 实现，所以比例因子与 Schaefer 版本使用的比例因子有很大不同。如果您尚未编译该函数（在附录中列出），则更改以下代码以使用，您可以保持原样以提高速度。`do_MCMC()simpspmC()simpspmC()simpspm()as.matrix(fish)`
+
+```         
+ #Generate 1000 parameter vectors from Bayesian posterior   param <- log(c(r=0.3,K=11500,Binit=3300,sigma=0.05))   set.seed(444608)   N <- 1000   result <- do_MCMC(chains=1,burnin=100,N=N,thinstep=2048,                     inpar=param,infunk=negLL,calcpred=simpspmC,                     calcdat=fish,obsdat=log(fish[,"cpue"]),                     priorcalc=calcprior,schaefer=FALSE,                     scales=c(0.065,0.055,0.1,0.475))   parB <- result[[1]][[1]] #capital B for Bayesian   cat("Acceptance Rate = ",result[[2]],"\n")  
+```
+
+```         
+# Acceptance Rate =  0.3341834 0.3087928 0.3504304 0.3506508
+```
+
+为了证明生成的 1000 个重复已经失去了它们的序列相关性，并代表了对稳态分布的合理近似，我们可以绘制自相关图和 1000 次重复估计值的轨迹K𝐾参数，**图**（[7.32](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f732)）。
+
+```         
+ # auto-correlation, or lack of, and the K trace Fig 7.32   parset(plots=c(2,1),cex=0.85)    acf(parB[,2],lwd=2)   plot(1:N,parB[,2],type="l",ylab="K",ylim=c(8000,19000),xlab="")  
+```
+
+图 7.32：在 1000 以内，从剩余生产模型的 Fox 版本的 K 参数的后验分布中抽取的自相关在上图中很明显。下图中的迹线显示了典型的值散射，但保留了一些更极端的尖峰。
+
+这 1000 个合理的参数向量可以从 MCMC 输出中提取，并通过与之前使用的相同和函数进行输入，**如图** [（7.33](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f733)） 所示。`spmproj()plotproj()`
+
+```         
+ #  Fig 7.33   matparB <- as.matrix(parB[,1:4]) # B for Bayesian   projs <- spmproj(matparB,fish,constC=900,projyr=10) # project them   plotproj(projs,out,qprob=c(0.1,0.5),refpts=c(0.2,0.4)) #projections  
+```
+
+图 7.33：900 吨恒定渔获量的 1000 个投影（灰色），来自贝叶斯后验的 1000 个样本。虚线是极限和目标参考点。蓝色垂直线是渔业数据的极限，粗黑线是最佳拟合，红色线是跨年份的第 10 和第 50 个分位数。
+
+请注意，**图**（[7.33](https://haddonm.github.io/URMQMF/surplus-production-models.html#fig:f733)）中的中值细红线（第50个分位数）略微偏离最大似然最佳模型拟合线（黑色）。但是，第 10 个分位数相对于 LRP 保持在大致相同的位置，就像在使用渐近误差和自举的分析中观察到的那样。在这里，生物质轨迹的分布范围更广，但管理结果与前两种方法非常相似。
+
+## 7.7 结束语
+
+我们已经详细研究了如何使用剩余生产模型来为渔业提供管理建议。产出可能是未来三至五年在不同渔获量或努力量制度下的预期种群结果的表格。假设所涉管辖区存在某种管理目标，管理人员可以做出决定，渔业评估科学家将能够捍卫其结果。当然，鉴于任何渔业数据固有的不确定性和变幻莫测的招募动态，不能有确凿的保证，但假设种群动态至少与以前的经验相似，那么对结果进行辩护是可能的。
+
+随着气候变化的到来，生物生长和成熟的生物过程发生了变化，我们也可以预期招募会发生变化，因此显然需要更多的照顾。但是，如果由于单一风暴或其他事件而发生的大规模变化将构成一种新的不确定性形式，而这种不确定性在评估中没有得到解决。这强调需要有评估科学家，他们了解种群所在地区正在发生的事情。任何评估，即使是简单的评估，都不应仅仅作为一种分析性或大部分自动化的练习。
+
+现实情况是，评估的复杂性和复杂性通常与其相对价值有关。只有当渔业的可用数据大量增加时，才有可能使用更复杂的模型。因此，鱼类种群的顺序是自然的，最有价值的鱼通常受到最多的关注。然而，在世界各地，目前人们的兴趣大大增加，这通常是在法律要求的推动下，甚至为数据匮乏的物种提供管理建议。因此，即使我们只审查了相对简单的评估方法，也不应忽视或忽视这些方法。
+
+## 7.8 附录：使用 Rcpp 取代 simpspm
+
+在贝叶斯分析中，我们想使用剩余生产的福克斯模型。通过更改 *schaefer* 参数，使用函数当然可以做到这一点。然而`simpspm()`
+
+```         
+library(Rcpp)      cppFunction('NumericVector simpspmC(NumericVector pars,                 NumericMatrix indat, LogicalVector schaefer) {      int nyrs = indat.nrow();      NumericVector predce(nyrs);      NumericVector biom(nyrs+1);      double Bt, qval;      double sumq = 0.0;      double p = 0.00000001;      if (schaefer(0) == TRUE) {        p = 1.0;      }      NumericVector ep = exp(pars);      biom[0] = ep[2];      for (int i = 0; i < nyrs; i++) {         Bt = biom[i];         biom[(i+1)] = Bt + (ep[0]/p)*Bt*(1 - pow((Bt/ep[1]),p)) -                              indat(i,1);         if (biom[(i+1)] < 40.0) biom[(i+1)] = 40.0;         sumq += log(indat(i,2)/biom[i]);       }       qval = exp(sumq/nyrs);       for (int i = 0; i < nyrs; i++) {         predce[i] = log(biom[i] * qval);       }       return predce;   }')  
+```

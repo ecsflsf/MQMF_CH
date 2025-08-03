@@ -1,0 +1,100 @@
+project: 
+  type: book
+  output-dir: docs
+lang: zh
+
+format: 
+  html: 
+    theme: 
+      light: flatly
+      dark: darkly
+      #- cosmo 
+    toc: true
+    toc-title: 目录 
+    toc-expand: 2
+    #toc-location: body
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    code-copy: true
+    code-link: true
+    tblcap-align: center
+    fig-cap-align: center
+    include-in-header: 
+      - header.html
+    #reference-location: document
+    #code-line-numbers: true
+    crossref: 
+      chapters: true
+    #number-sections: true
+    #number-offset: 1
+    html-math-method: 
+      method: mathjax
+      url: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"    
+    #  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+      #url: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"
+  docx: default
+    #reference-doc: wordstyle.docx
+    #mumber-sections: true
+    #number-offset: 0
+  pdf:
+    documentclass: scrbook
+    geometry: 
+      - top=25mm
+      - left= 25mm
+      - lmargin=30mm
+      - rmargin=20mm
+    number-sections: true
+    tblcap-align: center
+    fig-cap-align: center
+    #number-offset: 1
+    toc: true
+    toc-depth: 3
+    colorlinks: true
+    link-citations: true
+    crossref: 
+      chapters: true
+    include-in-header: 
+      text: |
+        \usepackage{ctex}
+        \usepackage{amsthm,mathrsfs}
+
+number-sections: true
+#number-offset: 1
+
+crossref:
+  eq-prefix: "公式"
+  fig-prefix: "图"
+  tbl-prefix: "表"
+  fig-title: "图"
+  tbl-title: "表"
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: TRUE
+
+
+
+book: 
+  title: "使用 R 语言进行渔业建模和定量方法研究"
+  subtitle: "Using R for Modelling and Quantitative Methods in Fisheries"
+  author: "Malcolm Haddon"
+  search: true
+  chapters: 
+    - index.qmd
+    - 01-intro.qmd
+    - 02-NonIntroductiontoR.qmd
+    - 03-simpopmodel.qmd
+    - 04-application.qmd
+    - 05-staticModel.qmd
+    - 06-uncertainty.qmd
+    - 07-spm.qmd
+    - 08-references.qmd
+    
+bibliography:
+  - references.bib
+  - packages.bib
+citation-location: document
+  

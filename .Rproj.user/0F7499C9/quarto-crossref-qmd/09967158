@@ -1,0 +1,81 @@
+{
+    "entries": [
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3_7",
+            "suffix": "",
+            "title": " The relationship between the instantaneous fishing mortality rate (solid line) and the annual fishing mortality or annual harvest rate (dashed line). The values diverge at values of F greater than about 0.2."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3_3",
+            "suffix": "",
+            "title": "Schaefer model dynamics. A classical bifurcation diagram (May, 1976) plotting equilibrium dynamics against values of r, illustrating the transition from 2-, 4-, 8-cycle, and beyond, including chaotic behaviour."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3_2",
+            "suffix": "",
+            "title": "Schaefer model dynamics. The left plot is the numbers by year, illustrating chaotic dynamics from an r-value of 2.8. The right plot is numbers-at-time t+1 against time t, known as a phase plot. The final 20% of points are in red to illustrate any equilibrium behaviour. The grey diagonal is the 1:1 line."
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "sec",
+            "id": "simplemodel",
+            "suffix": "",
+            "title": "简单种群模型"
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "fig",
+            "id": "3_1",
+            "suffix": "",
+            "title": "The full production curve for the discrete Schaefer (1954, 1957) surplus production model and the equivalent implied linear density dependent relationship with population size"
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_14",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_3",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_13",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_8",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_1",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "03-simpopmodel.qmd",
+            "type": "eq",
+            "id": "3_2",
+            "suffix": "",
+            "title": ""
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+^renv$
+^renv\.lock$
+^\.travis\.yml$
+^appveyor\.yml$
+\.Rmd$
+^LICENSE\.md$
+^latex/
+^css/
+^image/
+^figure/

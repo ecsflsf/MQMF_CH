@@ -1,0 +1,1295 @@
+{
+    "sources": [
+        {
+            "DOI": "10.32614/cran.package.bookdown",
+            "URL": "http://dx.doi.org/10.32614/cran.package.bookdown",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                }
+            ],
+            "id": "xie2016a",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016,
+                        7,
+                        13
+                    ]
+                ]
+            },
+            "publisher": "The R Foundation",
+            "title": "Bookdown: Authoring books and technical documents with r markdown",
+            "title-short": "Bookdown",
+            "type": ""
+        },
+        {
+            "DOI": "10.1201/9781439894170",
+            "URL": "http://dx.doi.org/10.1201/9781439894170",
+            "author": [
+                {
+                    "family": "Haddon",
+                    "given": "Malcolm"
+                }
+            ],
+            "id": "haddon2011",
+            "issued": {
+                "date-parts": [
+                    [
+                        2011,
+                        3,
+                        11
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Chapman; Hall/CRC",
+            "title": "Modelling and Quantitative Methods in Fisheries",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1016/s0092-8240(05)80049-7",
+            "URL": "http://dx.doi.org/10.1016/s0092-8240(05)80049-7",
+            "author": [
+                {
+                    "family": "Schaefer",
+                    "given": "M"
+                }
+            ],
+            "container-title": "Bulletin of Mathematical Biology",
+            "id": "schaefer1991",
+            "issue": "1-2",
+            "issued": {
+                "date-parts": [
+                    [
+                        1991
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "253-279",
+            "title": "Some aspects of the dynamics of populations important to the management of the commercial marine fisheries",
+            "type": "article-journal",
+            "volume": "53"
+        },
+        {
+            "DOI": "10.1093/oso/9780199209989.001.0001",
+            "URL": "http://dx.doi.org/10.1093/oso/9780199209989.001.0001",
+            "editor": [
+                {
+                    "family": "May",
+                    "given": "Robert"
+                },
+                {
+                    "family": "McLean",
+                    "given": "Angela R."
+                }
+            ],
+            "id": "theoreti2007",
+            "issued": {
+                "date-parts": [
+                    [
+                        2007,
+                        2,
+                        15
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Oxford University Press",
+            "title": "Theoretical Ecology",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1201/9781351201315",
+            "URL": "http://dx.doi.org/10.1201/9781351201315",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "wickham2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019,
+                        5,
+                        24
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Chapman; Hall/CRC",
+            "title": "Advanced R",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1002/9780470515075",
+            "URL": "http://dx.doi.org/10.1002/9780470515075",
+            "author": [
+                {
+                    "family": "Crawley",
+                    "given": "Michael J."
+                }
+            ],
+            "id": "crawley2007",
+            "issued": {
+                "date-parts": [
+                    [
+                        2007,
+                        4,
+                        20
+                    ]
+                ]
+            },
+            "language": "en",
+            "title": "The R Book",
+            "type": "article-journal"
+        },
+        {
+            "DOI": "10.1080/09332480.2012.685374",
+            "URL": "http://dx.doi.org/10.1080/09332480.2012.685374",
+            "author": [
+                {
+                    "family": "Iacobucci",
+                    "given": "Alessandra"
+                },
+                {
+                    "family": "Robert",
+                    "given": "Christian"
+                }
+            ],
+            "container-title": "CHANCE",
+            "id": "iacobucci2012",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2012,
+                        4,
+                        16
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "55-56",
+            "title": "The Art of R Programming: A Tour of Statistical Software Design by Norman Matloff",
+            "title-short": "The Art of R Programming",
+            "type": "article-journal",
+            "volume": "25"
+        },
+        {
+            "DOI": "10.1201/9780429422768",
+            "URL": "http://dx.doi.org/10.1201/9780429422768",
+            "author": [
+                {
+                    "family": "Murrell",
+                    "given": "Paul"
+                }
+            ],
+            "id": "murrell2018a",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018,
+                        11,
+                        15
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Chapman; Hall/CRC",
+            "title": "R Graphics, Third Edition",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1007/978-0-387-21706-2",
+            "URL": "http://dx.doi.org/10.1007/978-0-387-21706-2",
+            "author": [
+                {
+                    "family": "Venables",
+                    "given": "W. N."
+                },
+                {
+                    "family": "Ripley",
+                    "given": "B. D."
+                }
+            ],
+            "id": "venables2002",
+            "issued": {
+                "date-parts": [
+                    [
+                        2002
+                    ]
+                ]
+            },
+            "publisher": "Springer New York",
+            "title": "Modern applied statistics with s",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1139/f93-284",
+            "URL": "http://dx.doi.org/10.1139/f93-284",
+            "author": [
+                {
+                    "family": "Polacheck",
+                    "given": "Tom"
+                },
+                {
+                    "family": "Hilborn",
+                    "given": "Ray"
+                },
+                {
+                    "family": "Punt",
+                    "given": "Andre E."
+                }
+            ],
+            "container-title": "Canadian Journal of Fisheries and Aquatic Sciences",
+            "id": "polacheck1993",
+            "issue": "12",
+            "issued": {
+                "date-parts": [
+                    [
+                        1993,
+                        12,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "2597-2607",
+            "title": "Fitting Surplus Production Models: Comparing Methods and Measuring Uncertainty",
+            "title-short": "Fitting Surplus Production Models",
+            "type": "article-journal",
+            "volume": "50"
+        },
+        {
+            "DOI": "10.1007/978-1-4615-3598-0",
+            "URL": "http://dx.doi.org/10.1007/978-1-4615-3598-0",
+            "author": [
+                {
+                    "family": "Hilborn",
+                    "given": "Ray"
+                },
+                {
+                    "family": "Walters",
+                    "given": "Carl J."
+                }
+            ],
+            "id": "hilborn1992",
+            "issued": {
+                "date-parts": [
+                    [
+                        1992
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Springer US",
+            "title": "Quantitative Fisheries Stock Assessment",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Prager",
+                    "given": "Michael"
+                }
+            ],
+            "container-title": "Fishery Bulletin",
+            "id": "prager1994",
+            "issued": {
+                "date-parts": [
+                    [
+                        1994,
+                        1,
+                        1
+                    ]
+                ]
+            },
+            "page": "374-389",
+            "title": "A suite of extensions to a nonequilibrium surplus-production model",
+            "type": "article-journal",
+            "volume": "92"
+        },
+        {
+            "DOI": "10.1016/j.fishres.2018.03.010",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S0165783618300845",
+            "author": [
+                {
+                    "family": "Winker",
+                    "given": "Henning"
+                },
+                {
+                    "family": "Carvalho",
+                    "given": "Felipe"
+                },
+                {
+                    "family": "Kapur",
+                    "given": "Maia"
+                }
+            ],
+            "container-title": "Fisheries Research",
+            "id": "winker2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018,
+                        8,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "275-288",
+            "title": "JABBA: Just Another Bayesian Biomass Assessment",
+            "title-short": "JABBA",
+            "type": "article-journal",
+            "volume": "204"
+        },
+        {
+            "URL": "https://www.semanticscholar.org/paper/A-study-of-the-dynamics-of-the-fishery-for-tuna-in-Schaefer/29677d4a85d251d68d645584b2505c51c1ef1728",
+            "author": [
+                {
+                    "family": "Schaefer",
+                    "given": "M. B."
+                }
+            ],
+            "id": "schaefer1957",
+            "issued": {
+                "date-parts": [
+                    [
+                        1957
+                    ]
+                ]
+            },
+            "title": "A study of the dynamics of the fishery for yellowfin tuna in the eastern tropical pacific ocean",
+            "type": "paper-conference"
+        },
+        {
+            "DOI": "10.1080/00288330.1979.9515778",
+            "URL": "http://dx.doi.org/10.1080/00288330.1979.9515778",
+            "author": [
+                {
+                    "family": "Elder",
+                    "given": "R. D."
+                }
+            ],
+            "container-title": "New Zealand Journal of Marine and Freshwater Research",
+            "id": "elder1979",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1979,
+                        3
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "31-38",
+            "title": "Equilibrium yield for the Hauraki Gulf snapper fishery estimated from catch and effort figures, 196074",
+            "type": "article-journal",
+            "volume": "13"
+        },
+        {
+            "DOI": "10.1080/00288330.1979.9515775",
+            "URL": "http://dx.doi.org/10.1080/00288330.1979.9515775",
+            "author": [
+                {
+                    "family": "Saila",
+                    "given": "S. B."
+                },
+                {
+                    "family": "Annala",
+                    "given": "J. H."
+                },
+                {
+                    "family": "McKoy",
+                    "given": "J. L."
+                },
+                {
+                    "family": "Booth",
+                    "given": "J. D."
+                }
+            ],
+            "container-title": "New Zealand Journal of Marine and Freshwater Research",
+            "id": "saila1979",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1979,
+                        3
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "1-11",
+            "title": "Application of yield models to the New Zealand rock lobster fishery",
+            "type": "article-journal",
+            "volume": "13"
+        },
+        {
+            "DOI": "10.1023/A:1018419207494",
+            "URL": "https://doi.org/10.1023/A:1018419207494",
+            "author": [
+                {
+                    "family": "Punt",
+                    "given": "Andre E."
+                },
+                {
+                    "family": "Hilborn",
+                    "given": "Ray"
+                }
+            ],
+            "container-title": "Reviews in Fish Biology and Fisheries",
+            "id": "punt1997",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1997,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "357 citations (Crossref) [2023-11-13]",
+            "page": "35-63",
+            "title": "Fisheries stock assessment and decision analysis: the Bayesian approach",
+            "title-short": "Fisheries stock assessment and decision analysis",
+            "type": "article-journal",
+            "volume": "7"
+        },
+        {
+            "DOI": "10.1139/f79-215",
+            "URL": "http://dx.doi.org/10.1139/f79-215",
+            "author": [
+                {
+                    "family": "Hilborn",
+                    "given": "Ray"
+                }
+            ],
+            "container-title": "Journal of the Fisheries Research Board of Canada",
+            "id": "hilborn1979",
+            "issue": "12",
+            "issued": {
+                "date-parts": [
+                    [
+                        1979,
+                        12,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "1477-1489",
+            "title": "Comparison of Fisheries Control Systems That Utilize Catch and Effort Data",
+            "type": "article-journal",
+            "volume": "36"
+        },
+        {
+            "DOI": "10.1093/icesjms/fsp209",
+            "URL": "http://dx.doi.org/10.1093/icesjms/fsp209",
+            "author": [
+                {
+                    "family": "MacCall",
+                    "given": "Alec D."
+                }
+            ],
+            "container-title": "ICES Journal of Marine Science",
+            "id": "maccall2009",
+            "issue": "10",
+            "issued": {
+                "date-parts": [
+                    [
+                        2009,
+                        8,
+                        5
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "2267-2271",
+            "title": "Depletion-corrected average catch: a simple formula for estimating sustainable yields in data-poor situations",
+            "title-short": "Depletion-corrected average catch",
+            "type": "article-journal",
+            "volume": "66"
+        },
+        {
+            "DOI": "10.1214/aos/1176346500",
+            "URL": "http://dx.doi.org/10.1214/aos/1176346500",
+            "author": [
+                {
+                    "family": "Bickel",
+                    "given": "P. J."
+                },
+                {
+                    "family": "Freedman",
+                    "given": "D. A."
+                }
+            ],
+            "container-title": "The Annals of Statistics",
+            "id": "bickel1984",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        1984,
+                        6,
+                        1
+                    ]
+                ]
+            },
+            "title": "Asymptotic normality and the bootstrap in stratified sampling",
+            "type": "article-journal",
+            "volume": "12"
+        },
+        {
+            "DOI": "10.1002/9781118150238",
+            "URL": "http://dx.doi.org/10.1002/9781118150238",
+            "author": [
+                {
+                    "family": "Birkes",
+                    "given": "David"
+                },
+                {
+                    "family": "Dodge",
+                    "given": "Yadolah"
+                }
+            ],
+            "container-title": "Wiley Series in Probability and Statistics",
+            "id": "birkes1993",
+            "issued": {
+                "date-parts": [
+                    [
+                        1993,
+                        6,
+                        28
+                    ]
+                ]
+            },
+            "title": "Alternative methods of regression",
+            "type": "article-journal"
+        },
+        {
+            "DOI": "10.1139/f98-100",
+            "URL": "http://dx.doi.org/10.1139/f98-100",
+            "author": [
+                {
+                    "family": "Fournier",
+                    "given": "Daid A"
+                },
+                {
+                    "family": "Hampton",
+                    "given": "John"
+                },
+                {
+                    "family": "Sibert",
+                    "given": "John R"
+                }
+            ],
+            "container-title": "Canadian Journal of Fisheries and Aquatic Sciences",
+            "id": "fournier1998",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        1998,
+                        9,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "2105-2116",
+            "title": "MULTIFAN-CL: a length-based, age-structured model for fisheries stock assessment, with application to South Pacific albacore, <i>Thunnus alalunga</i>",
+            "title-short": "MULTIFAN-CL",
+            "type": "article-journal",
+            "volume": "55"
+        },
+        {
+            "DOI": "10.1080/10556788.2011.597854",
+            "URL": "http://dx.doi.org/10.1080/10556788.2011.597854",
+            "author": [
+                {
+                    "family": "Fournier",
+                    "given": "David A."
+                },
+                {
+                    "family": "Skaug",
+                    "given": "Hans J."
+                },
+                {
+                    "family": "Ancheta",
+                    "given": "Johnoel"
+                },
+                {
+                    "family": "Ianelli",
+                    "given": "James"
+                },
+                {
+                    "family": "Magnusson",
+                    "given": "Arni"
+                },
+                {
+                    "family": "Maunder",
+                    "given": "Mark N."
+                },
+                {
+                    "family": "Nielsen",
+                    "given": "Anders"
+                },
+                {
+                    "family": "Sibert",
+                    "given": "John"
+                }
+            ],
+            "container-title": "Optimization Methods and Software",
+            "id": "fournier2012",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2012,
+                        4
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "233-249",
+            "title": "AD Model Builder: using automatic differentiation for statistical inference of highly parameterized complex nonlinear models",
+            "title-short": "AD Model Builder",
+            "type": "article-journal",
+            "volume": "27"
+        },
+        {
+            "DOI": "10.18637/jss.v070.i05",
+            "URL": "http://dx.doi.org/10.18637/jss.v070.i05",
+            "author": [
+                {
+                    "family": "Kristensen",
+                    "given": "Kasper"
+                },
+                {
+                    "family": "Nielsen",
+                    "given": "Anders"
+                },
+                {
+                    "family": "Berg",
+                    "given": "Casper W."
+                },
+                {
+                    "family": "Skaug",
+                    "given": "Hans"
+                },
+                {
+                    "family": "Bell",
+                    "given": "Bradley M."
+                }
+            ],
+            "container-title": "Journal of Statistical Software",
+            "id": "kristensen2016",
+            "issue": "5",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "language": "en",
+            "title": "<b>TMB</b>: Automatic Differentiation and Laplace Approximation",
+            "title-short": "<b>TMB</b>",
+            "type": "article-journal",
+            "volume": "70"
+        },
+        {
+            "DOI": "10.1007/b97636",
+            "URL": "http://dx.doi.org/10.1007/b97636",
+            "editor": [
+                {
+                    "family": "Burnham",
+                    "given": "Kenneth P."
+                },
+                {
+                    "family": "Anderson",
+                    "given": "David R."
+                }
+            ],
+            "id": "modelse2004",
+            "issued": {
+                "date-parts": [
+                    [
+                        2004
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Springer New York",
+            "title": "Model Selection and Multimodel Inference",
+            "type": "book"
+        },
+        {
+            "DOI": "10.2983/035.032.0129",
+            "URL": "http://dx.doi.org/10.2983/035.032.0129",
+            "author": [
+                {
+                    "family": "Helidoniotis",
+                    "given": "Fay"
+                },
+                {
+                    "family": "Haddon",
+                    "given": "Malcolm"
+                }
+            ],
+            "container-title": "Journal of Shellfish Research",
+            "id": "helidoniotis2013",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2013,
+                        4
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "223-235",
+            "title": "Growth Models for Fisheries: The Effect of Unbalanced Sampling Error On Model Selection, Parameter Estimation, and Biological Predictions",
+            "title-short": "Growth Models for Fisheries",
+            "type": "article-journal",
+            "volume": "32"
+        },
+        {
+            "DOI": "10.1163/9789004460409_mor2-b29484479",
+            "URL": "http://dx.doi.org/10.1163/9789004460409_mor2-b29484479",
+            "id": "onthen",
+            "publisher": "Brill",
+            "title": "On the nature of the function expressive of the law of human mortality and on a new mode of determining the value of life contingencies: In a letter to francis baily esq. F.r.s. &C., by benjamin gompertz ...",
+            "title-short": "On the nature of the function expressive of the law of human mortality and on a new mode of determining the value of life contingencies",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "family": "Matloff",
+                    "given": "Norman"
+                }
+            ],
+            "edition": "1st edition",
+            "id": "matloff2011",
+            "issued": {
+                "date-parts": [
+                    [
+                        2011,
+                        10,
+                        15
+                    ]
+                ]
+            },
+            "language": "en-US",
+            "publisher": "No Starch Press",
+            "publisher-place": "San Francisco",
+            "title": "The art of r programming: A tour of statistical software design",
+            "title-short": "The art of r programming",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1007/978-0-387-75936-4",
+            "URL": "http://dx.doi.org/10.1007/978-0-387-75936-4",
+            "author": [
+                {
+                    "family": "Chambers",
+                    "given": "John M."
+                }
+            ],
+            "id": "chambers2008",
+            "issued": {
+                "date-parts": [
+                    [
+                        2008
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Springer New York",
+            "title": "Software for Data Analysis",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1201/9781315381305",
+            "URL": "http://dx.doi.org/10.1201/9781315381305",
+            "author": [
+                {
+                    "family": "Chambers",
+                    "given": "John M."
+                }
+            ],
+            "id": "chambers2017",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017,
+                        12,
+                        19
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Chapman; Hall/CRC",
+            "title": "Extending R",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Russell",
+                    "given": "E. S."
+                }
+            ],
+            "id": "russell1942",
+            "issued": {
+                "date-parts": [
+                    [
+                        1942
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Google-Books-ID: LtI8AAAAIAAJ",
+            "publisher": "CUP Archive",
+            "title": "The overfishing problem",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1111/j.1939-7445.2003.tb00119.x",
+            "URL": "http://dx.doi.org/10.1111/j.1939-7445.2003.tb00119.x",
+            "author": [
+                {
+                    "family": "QUINN",
+                    "given": "TERRANCE J."
+                }
+            ],
+            "container-title": "Natural Resource Modeling",
+            "id": "quinn2003",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2003,
+                        12
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "341-392",
+            "title": "RUMINATIONS ON THE DEVELOPMENT AND FUTURE OF POPULATION DYNAMICS MODELS IN FISHERIES",
+            "type": "article-journal",
+            "volume": "16"
+        },
+        {
+            "author": [
+                {
+                    "family": "Quinn",
+                    "given": "Terrance J."
+                },
+                {
+                    "family": "Deriso",
+                    "given": "Richard B."
+                }
+            ],
+            "collection-title": "Biological resource management",
+            "id": "quinn1999",
+            "issued": {
+                "date-parts": [
+                    [
+                        1999,
+                        3,
+                        25
+                    ]
+                ]
+            },
+            "publisher": "Oxford University Press",
+            "publisher-place": "Oxford, New York",
+            "title": "Quantitative fish dynamics",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1007/978-94-011-2106-4",
+            "URL": "http://dx.doi.org/10.1007/978-94-011-2106-4",
+            "author": [
+                {
+                    "family": "Beverton",
+                    "given": "Raymond J. H."
+                },
+                {
+                    "family": "Holt",
+                    "given": "Sidney J."
+                }
+            ],
+            "id": "beverton1993a",
+            "issued": {
+                "date-parts": [
+                    [
+                        1993
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Springer Netherlands",
+            "title": "On the Dynamics of Exploited Fish Populations",
+            "type": "book"
+        },
+        {
+            "DOI": "10.2307/2402304",
+            "URL": "http://dx.doi.org/10.2307/2402304",
+            "author": [
+                {
+                    "family": "Pitcher",
+                    "given": "T. J."
+                },
+                {
+                    "family": "Macdonald",
+                    "given": "P. D. M."
+                }
+            ],
+            "container-title": "The Journal of Applied Ecology",
+            "id": "pitcher1973",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        1973,
+                        8
+                    ]
+                ]
+            },
+            "page": "599",
+            "title": "Two models for seasonal growth in fishes",
+            "type": "article-journal",
+            "volume": "10"
+        },
+        {
+            "DOI": "10.1146/annurev.es.08.110177.001045",
+            "URL": "http://dx.doi.org/10.1146/annurev.es.08.110177.001045",
+            "author": [
+                {
+                    "family": "Stearns",
+                    "given": "Stephen C."
+                }
+            ],
+            "container-title": "Annual Review of Ecology and Systematics",
+            "id": "stearns1977",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1977,
+                        11
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "145-171",
+            "title": "The Evolution of Life History Traits: A Critique of the Theory and a Review of the Data",
+            "title-short": "The Evolution of Life History Traits",
+            "type": "article-journal",
+            "volume": "8"
+        },
+        {
+            "author": [
+                {
+                    "family": "Stearns",
+                    "given": "SC"
+                }
+            ],
+            "id": "stearns1992",
+            "issued": {
+                "date-parts": [
+                    [
+                        1992
+                    ]
+                ]
+            },
+            "publisher": "Oxford University Press",
+            "title": "The evolution of life histories",
+            "type": "book"
+        },
+        {
+            "URL": "https://www.R-project.org/",
+            "author": [
+                {
+                    "literal": "R Core Team"
+                }
+            ],
+            "id": "R-base",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024
+                    ]
+                ]
+            },
+            "publisher": "R Foundation for Statistical Computing",
+            "publisher-place": "Vienna, Austria",
+            "title": "R: A language and environment for statistical computing",
+            "title-short": "R",
+            "type": "book"
+        },
+        {
+            "URL": "https://github.com/rstudio/bookdown",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                }
+            ],
+            "id": "R-bookdown",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024
+                    ]
+                ]
+            },
+            "note": "R package version 0.40",
+            "title": "Bookdown: Authoring books and technical documents with r markdown",
+            "title-short": "Bookdown",
+            "type": "book"
+        },
+        {
+            "URL": "https://yihui.org/knitr/",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                }
+            ],
+            "id": "R-knitr",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024
+                    ]
+                ]
+            },
+            "note": "R package version 1.48",
+            "title": "Knitr: A general-purpose package for dynamic report generation in r",
+            "title-short": "Knitr",
+            "type": "book"
+        },
+        {
+            "URL": "https://github.com/rstudio/rmarkdown",
+            "author": [
+                {
+                    "family": "Allaire",
+                    "given": "JJ"
+                },
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                },
+                {
+                    "family": "Dervieux",
+                    "given": "Christophe"
+                },
+                {
+                    "family": "McPherson",
+                    "given": "Jonathan"
+                },
+                {
+                    "family": "Luraschi",
+                    "given": "Javier"
+                },
+                {
+                    "family": "Ushey",
+                    "given": "Kevin"
+                },
+                {
+                    "family": "Atkins",
+                    "given": "Aron"
+                },
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                },
+                {
+                    "family": "Cheng",
+                    "given": "Joe"
+                },
+                {
+                    "family": "Chang",
+                    "given": "Winston"
+                },
+                {
+                    "family": "Iannone",
+                    "given": "Richard"
+                }
+            ],
+            "id": "R-rmarkdown",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024
+                    ]
+                ]
+            },
+            "note": "R package version 2.28",
+            "title": "Rmarkdown: Dynamic documents for r",
+            "title-short": "Rmarkdown",
+            "type": "book"
+        },
+        {
+            "ISBN": "978-1138700109",
+            "URL": "https://bookdown.org/yihui/bookdown",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                }
+            ],
+            "id": "bookdown2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "publisher": "Chapman; Hall/CRC",
+            "publisher-place": "Boca Raton, Florida",
+            "title": "Bookdown: Authoring books and technical documents with R markdown",
+            "title-short": "Bookdown",
+            "type": "book"
+        },
+        {
+            "URL": "https://yihui.org/knitr/",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                }
+            ],
+            "edition": "2nd",
+            "id": "knitr2015",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "note": "ISBN 978-1498716963",
+            "publisher": "Chapman; Hall/CRC",
+            "publisher-place": "Boca Raton, Florida",
+            "title": "Dynamic documents with R and knitr",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                }
+            ],
+            "container-title": "Implementing reproducible computational research",
+            "editor": [
+                {
+                    "family": "Stodden",
+                    "given": "Victoria"
+                },
+                {
+                    "family": "Leisch",
+                    "given": "Friedrich"
+                },
+                {
+                    "family": "Peng",
+                    "given": "Roger D."
+                }
+            ],
+            "id": "knitr2014",
+            "issued": {
+                "date-parts": [
+                    [
+                        2014
+                    ]
+                ]
+            },
+            "note": "ISBN 978-1466561595",
+            "publisher": "Chapman; Hall/CRC",
+            "title": "Knitr: A comprehensive tool for reproducible research in R",
+            "title-short": "Knitr",
+            "type": "chapter"
+        },
+        {
+            "ISBN": "9781138359338",
+            "URL": "https://bookdown.org/yihui/rmarkdown",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                },
+                {
+                    "family": "Allaire",
+                    "given": "J. J."
+                },
+                {
+                    "family": "Grolemund",
+                    "given": "Garrett"
+                }
+            ],
+            "id": "rmarkdown2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "publisher": "Chapman; Hall/CRC",
+            "publisher-place": "Boca Raton, Florida",
+            "title": "R markdown: The definitive guide",
+            "title-short": "R markdown",
+            "type": "book"
+        },
+        {
+            "ISBN": "9780367563837",
+            "URL": "https://bookdown.org/yihui/rmarkdown-cookbook",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                },
+                {
+                    "family": "Dervieux",
+                    "given": "Christophe"
+                },
+                {
+                    "family": "Riederer",
+                    "given": "Emily"
+                }
+            ],
+            "id": "rmarkdown2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "publisher": "Chapman; Hall/CRC",
+            "publisher-place": "Boca Raton, Florida",
+            "title": "R markdown cookbook",
+            "type": "book"
+        }
+    ],
+    "project_biblios": [
+        "references.bib",
+        "packages.bib"
+    ]
+}

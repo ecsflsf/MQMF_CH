@@ -1,0 +1,32 @@
+{
+  "01-intro.qmd": {
+    "01-intro.html": "d62ecd11"
+  },
+  "index.qmd": {
+    "index.html": "6999a9c5"
+  },
+  "02-NonIntroductiontoR.qmd": {
+    "02-NonIntroductiontoR.html": "f0fcc4e2"
+  },
+  "03-simpopmodel.qmd": {
+    "03-simpopmodel.html": "ad5e065a"
+  },
+  "04-application.qmd": {
+    "04-application.html": "68d64430"
+  },
+  "07-spm.qmd": {
+    "07-spm.html": "47336f7b"
+  },
+  "06-uncertainty.qmd": {
+    "06-uncertainty.html": "6602e6a7"
+  },
+  "08-references.qmd": {
+    "08-references.html": "756f405f"
+  },
+  "05-staticmodel.qmd": {
+    "05-staticmodel.html": "de92a7a4"
+  },
+  "05-staticModel.qmd": {
+    "05-staticModel.html": "96ecb00c"
+  }
+}

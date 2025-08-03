@@ -1,0 +1,584 @@
+---
+---
+---
+
+# 模型参数估算
+
+## 简介
+
+生态学和渔业学学建模的一个更重要的方面涉及到模型与数据的拟合。这种模型拟合需要:
+
+-   从对自然感兴趣的过程中获得的数据（样本、观测），
+
+-   明确地选择一个适合手头任务的模型结构（模型设计，然后选择------大的主题本身），
+
+-   明确地选择概率密度函数来表示当比较时，模拟过程的预测将如何不同于自然观测的预期分布(选择残差结构) ，最后,
+
+-   寻找模型参数，优化之间的预测模型和任何观测数据(模型拟合的准则)匹配。
+
+在上面的最后一个需求中，将模型与数据相匹配时所涉及的许多技巧/诡计/魔术都集中在那个看起来无害的单词或概念上进行**优化**。这是一个几乎是恶作剧的想法，有时会导致一个人陷入麻烦，虽然它也是一个挑战，往往是有趣的。生成所谓*最佳拟合*模型的不同方法是本章的重点。它围绕着在描述模型的质量拟合可用数据时使用什么标准的想法，以及如何实现明确选择的标准。
+
+我一直使用"明确的"这个词，并且有很好的理由，但是需要一些澄清。很多人都有过对数据进行线性回归拟合的经验，但是，根据我的经验，很少有人意识到，当他们拟合这样一个模型时，他们假设使用了加性正态随机残差(正态误差) ，并且他们正在最小化这些残差的平方和。根据上述四个要求，当将一个线性回归应用到一个数据集时，线性关系的假设回答了第二个要求，正态误差的使用(附加常数方差的假设)回答了第三个要求，平方和的最小化是满足第四个要求的选择。通常情况下，最好是明确地了解自己在做什么，而不是仅仅出于习惯或模仿他人。为了对这些模型拟合需求做出最合适的选择(即做出可以辩护的选择) ，分析师还需要了解被建模的自然过程。一个人可以假设和断言几乎任何事情，但只有这样的选择可以得到有效的辩护。作为一个更一般的陈述，如果一个人不能为一组选择辩护，那么他就不应该做出这些选择。
+
+### 最优化
+
+在Microsoft Excel中，当对数据进行模型拟合时，使用内置的Excel解算器找到最佳模型参数。这包括设置电子表格，使最佳拟合标准（平方和、最大似然等，见下文）由一个单元格的内容表示，而模型参数和使用的数据则包含在其他相互关联的单元格中。改变一个模型的参数会改变产生的预测值，这反过来又会改变最佳拟合的标准值。一个 "最佳"参数集可以通过寻找能优化观察值和预测值之间的匹配的参数来找到。这听起来很简单，但实际上是一门艺术，其中要做许多假设和决定。在Excel求解器中，人们确定了包含模型参数的单元格，然后求解器的内部代码将修改这些值，同时监测 "最佳拟合标准"单元格，直到找到一个最小（或最大）值（或遇到一个例外）。实际上，这样的电子表格设置构成了在Excel中使用求解器的语法。我们将在R中使用求解器或优化函数，它们也有一个必要的语法，但它并不比设置电子表格更复杂，只是更抽象而已。
+
+当对单一数据集（如年龄-长度）用2至6个参数进行非动态过程建模时，模型拟合通常是相对简单的。然而，当处理一个种群的动态过程时，可能会变得更加复杂，涉及到补充、个体生长、自然死亡和多个捕鱼船队的捕捞死亡。可能有许多类型的数据，可能有多于几十个甚至几百个参数。在这种情况下，为了调整预测值与观测值的拟合质量，必须使用某种形式的自动优化或非线性求解器。
+
+优化是一个非常大的研究课题，在CRAN任务视图中详细讨论了许多可用的选项。在CRAN任务视图：优化和数学编程中可以找到详细的讨论，网址是<https://cran.r-project.org/>。在这里的工作中，我们将主要使用内置的函数`nlm()`(尝试 `?nlm`)，但也有许多替代方法（包括`nlminb()`、`optim()`等）。如果你要参与模型拟合，那么真的值得阅读R-CRAN上关于优化的任务视图，并且作为第一步，探索 `nlm()` 和 `optim()` 函数的帮助和例子。
+
+有时有可能猜测出一组参数，产生看似合理的可视拟合，至少对简单的静态模型来说是如此。然而，虽然这种通过*目测拟合*（fitting-by-eye）可以为估计模型的参数提供可用的起点，但它并不构成将模型与数据拟合的可辩护的标准。这是因为我的 "目测拟合"（或称 "黑暗中的狂刺"）很可能与你的 "目测拟合"（或称 "有根据的猜测"）不同。与其使用这样的观点，不如使用一些更正式定义的模型与数据拟合质量的标准。
+
+这里的重点是如何设置R代码，以便使用最小二乘法或最大似然法进行模型参数估计，特别是后者。我们以后对贝叶斯方法的考虑将主要集中在对不确定性的描述上。我们将通过重复的例子和相关的解释来说明模型的拟合过程。目的是阅读本节应该使读者能够建立自己的模型来解决参数值。我们将尝试以一种一般的方式来做这件事，它应该适合于许多问题的调整。
+
+## 最佳拟合标准
+
+通常有三种方法确定什么是对数据的最佳模型拟合。
+
+一般来讲，模型拟合包括观测变量$x$ 与为描述建模过程而提出候选模型所预测值 $\hat x$ 之间残差平方的最小化（`ssq()`）：
+
+```{=tex}
+\begin{equation}
+ssq = \sum_{i=1}^n (x_i- \hat x_i)^2 
+(\#eq:eq41)
+\end{equation}
+```
+其中$x_i$ 是$n$ 个观测中的第$i$ 个观测值，$\hat x_i$ 是给定观测值$i$ 的模型预测值（例如，如果 $x_i$ 为鱼$i$ 的年龄-体长，则 $\hat x_i$ 为一些候选生长模型中得到的鱼 $i$ 的年龄-体长预测值）。$\hat x$ 中的 $\hat{}$ 表示 $x$ 的预测值。
+
+另外，模型拟合可以包括最小化负对数似然（在本书中为`-veLL` 或 `negLL`），这需要确定1）定义的模型结构，2）一组模型参数和3）残差的期望概率分布的情况下，每个观测数据点的似然有多大。负对数似然最小化相当于最大化所有似然的乘积或所有数据点的对数似然之和。给定一个观测值 $x$ 的集合，一个可以预测 $\hat x$ 的模型结构，以及一组模型参数 $\theta$ ，那么这些观测值的总似然定义为：
+
+```{=tex}
+\begin{equation}  
+\begin{split}  
+{L} &= \prod\limits_{i=1}^{n}{{L}\left( {x_i|\theta}\right )}  \\  
+{-veLL} &= -\sum\limits_{i=1}^{n}{ \log{({L}\left( {x_i|\theta}\right )})}  
+\end{split}  
+(\#eq:eq42)
+\end{equation}
+```
+其中 $L$ 为总似然，等于$\prod L(x|\theta)$ 或给定参数值 $\theta$ 每个观测值 $x$ 的概率密度（似然）积（在每种情况下，离期望值 $\hat x$ 越远，似然越低）。*-veLL* 是给定候选模型参数 $\theta$ 时观测值 $x$ 的总负对数似然，每个观测点$x$ 的$n$ 对数似然的负数和。 我们使用对数似然，因为大多数似然是非常小的数字，当与许多其他非常小的数字相乘时，会变得非常小，以至于有可能导致浮点溢出的计算机错误。对数变换将乘法变为加法，避免了这种风险( $\prod$ 转变为$\Sigma$ ）。
+
+第三种方法是使用贝叶斯方法，该方法使用先验概率，即在模型拟合中给予每个备选参数向量的初始相对权重。贝叶斯方法结合并更新任何关于最可能的模型参数的先验知识（先验概率），以及在不同的候选参数向量 $\theta$ 下任何新数据的似然。就我们的目的而言，贝叶斯方法和最大似然法之间的两个关键区别是包含先验似然和重新缩放数值，以便使后验概率的总和达到1.0。重要的一点是，将给定一组参数的数据似然转换为给定数据参数的真实概率。给定数据 $x$ 的特定参数集 $\theta$ 的后验概率定义为：
+
+$$
+\begin{equation}
+P(\theta|x)=\frac{L(x|\theta)P(\theta)}{\sum\limits_{i=1}^{n}{\left[ L(x_i|\theta)P(\theta)\right]}}
+\end{equation}
+$${#eq:eq431}
+
+```{=tex}
+\begin{equation}  
+P(\theta|x)=\frac{L(x|\theta)P(\theta)}{\sum\limits_{i=1}^{n}{\left[ L(x_i|\theta)P(\theta)\right]}}  
+(\#eq:eq43)  
+\end{equation}
+```
+其中 $P(\theta)$ 为参数集 $\theta$ 的先验概率，通过给定参数 $\theta$ 的数据 $x$ 似然、$L(x|\theta)p(\theta)$ 进行更新，除数 $\sum_{i=1}^n[L(x_i|\theta)P(\theta)]$ 对结果重新缩放或归一化，因此在给定数据的情况下，所有参数向量 $\sum P(\theta|x)$ 的后验概率之和为1.0。最终方程（\@ref(eq:eq43)）是一个近似值，因为除数中的总和实际上应该是一个连续分布的积分，但在实践中，近似值就足够了，而且是处理复杂渔业模型参数时的唯一实际选择，其后验分布没有简单的分析解。
+
+这里我们将主要关注负对数似然的最小化（相当于最大似然）。尽管其他方法也会得到一些关注。当我们探讨不确定性的特征时，贝叶斯方法将得到更多的关注。
+
+微软的Excel在很多方面都是很好的软件，但是实现最大似然法，特别是贝叶斯法往往是缓慢和笨拙的，它们更适合于在R中实现。
+
+识别平方残差之和、最大似然法和贝叶斯法并不是一个详尽的清单，它是在对数据进行模型拟合时可能使用的标准。例如，可以使用 "绝对残差之和"（sum of absolute residuals, SAR），它通过使用残差的绝对值而不是将其平方化来避免合并正负残差的问题（Birkes and Dodge, 1993）。尽管存在这种最佳模型拟合的替代标准，我们将只关注上述三种。其他更常用的替代方法包括所谓的稳健方法，这些方法致力于减少现有数据中的离群值，或极端的、被认为是不典型的值的影响。如前所述，优化是一个庞大而详细的研究领域，我向你推荐它的研究，并祝你好运。
+
+## R语言中的模型拟合
+
+虽然覆盖参数空间的网格搜索可能是寻找最佳参数集的一种可能的方法，但随着参数数量增加到两个以上，它将变得越来越难操作，直到最后变得不可行。我们将不再考虑这种可能性。相反，为了便于寻找最佳参数集，我们需要一个用软件实现的非线性优化器。
+
+R系统有一系列不同的优化函数，每个函数都使用不同的算法（请参见CRAN任务中关于优化的内容）。解算函数（`nlm()`）和其他函数一样，需要给出一个参数值的初始猜测，然后这些初始参数值由优化函数改变，在每次改变时，预测值会像`ssq()` 或`negLL()` 一样重新计算。优化函数，如`nlm()`，继续改变参数值（它们如何做到这一点是算法不同的地方），直到找到一个组合，根据所选择的任何标准被定义为 "最适合"（或无法找到进一步的改进）。渔业种群评估模型通常有许多参数，数量在10或100个左右（一些有更多的参数，需要更多的专业软件，例如Fournier等，1998；Fournier等，2012；Kristensen等，2016）。在本书中，我们不会估计大量的参数，但无论数量多少，其原理都是相似的。
+
+### 模型需求
+
+讨论模型拟合的理论是有帮助的，但并没有阐明如何在 R 中实现在实践中拟合模型。优化软件用于改变参数向量内的值，但我们需要为其提供重复计算预测值的方法，该预测值将用于与观测值进行多次比较以找到最佳解决方案（如果成功的）。我们需要开发可以重复调用的代码块，这正是设计 R 语言函数的目的。为了在 R语言 中实现对现实世界问题的模型拟合，我们需要考虑四个形式要求：
+
+-   来自所研究系统的观测（数据）。这可能是渔业中一个具有观测到的渔获量、cpue、渔获量的年龄和长度组成等，或者它可能是更简单的东西，例如鱼样本的观测到的长度和相关的年龄（但是如何将其放入 R ?),
+
+-   第一个 R语言函数，表示系统的候选模型，当提供参数向量时，该函数用于计算预测值，以便与任何可用的观测值进行比较，
+
+-   第二个 R语言 函数，计算选定的最佳拟合标准、最小化最小二乘或最小化负对数似然，以便将观测值与预测值进行比较。这需要能够返回单个值，反映输入参数和数据，然后可以通过最终所需的函数最小化，即
+
+-   第三个R 语言函数（我们将倾向于使用 `nlm()`）来自动优化所选最佳拟合标准的值。
+
+因此，需要输入数据和三个函数（图\@ref(fig:fig41)）但是，因为我们可以使用内置函数来进行优化，模型拟合通常需要编写最多两个函数，一个用于从使用的任何模型计算预测值另一个用于计算拟合标准（有时，在更简单的练习中，这两个可以组合成一个函数）。
+
+我们在本书中假设读者至少熟悉模型拟合背后的概念，如拟合线性回归，因此我们将直接转向非线性模型拟合。这些相对简单的示例的主要目的是介绍 R 中可用求解器的使用和语法。
+
+```{r, fig41, echo=FALSE, out.width= '50%', fig.align='center', fig.cap= "Inputs, functional requirements, and outputs, when fitting a model to data. The optimization function (here nlm()) minimizes the negative log-likelihood (or sum-of squares) and requires an initial parameter vector to begin. In addition, the optimizer requires a function (perhaps negLL()) to calculate the corresponding negative log-likelihood for each vector of parameters it produces in its search for the minimum. To calculate the negative log-likelihood requires a function (perhaps vB()) to generate predicted values for comparison with the input observed values."}
+knitr::include_graphics('f401-1.png')
+```
+
+### 年龄-体长例子
+
+将模型拟合到数据仅仅意味着估计模型的参数，以便其预测与观测结果相匹配，以及根据选择的最佳拟合标准。作为在 R 中将模型拟合到数据的第一个说明，我们将使用一个简单的示例用著名的 von Bertalanffy 增长曲线 (von Bertalanffy, 1938) 拟合一组年龄-长度数据。这样的数据集包含在 R 包 **MQMF**（尝试 `?LatA`）中。要使用您自己的数据，一种选择是生成一个逗号分隔的变量 (csv) 文件，其中包含最少的年龄和长度列，每个列都有一个列名（LatA 仅有年龄和长度列；请参阅其帮助页面）。可以使用 `laa <- read.csv(file="filename.csv", header=TRUE)` 将此 csv 文件读入 R中。
+
+von Bertalanffy 长度-年龄生长曲线表示为：
+
+```{=tex}
+\begin{equation}  
+\begin{split}    
+& {{\hat{L}}_t}={L_{\infty}}\left( 1-{e^{\left( -K\left( t-{t_0} \right) \right)}} \right) \\    
+& {L_t}={L_{\infty}}\left( 1-{e^{\left( -K\left( t-{t_0} \right) \right)}} \right)+\varepsilon  \\    
+& {L_t}= {\hat{L}}_t + \varepsilon    
+\end{split}   
+(\#eq:eq44)   
+\end{equation}
+```
+其中 $\hat L_t$ 为年龄 $t$ 的期望或预测长度，$L_{\infty}$ 为渐近平均最大长度，$K$ 为是决定达到最大值的增长率系数，$t_0$ 为物种长度0时的假设年龄（von Bertalanffy, 1938），一旦我们有了$L_{\infty}$，$K$ ，$t_0$ 的估算值（或假设值），该非线性方程就提供了一种预测不同年龄的年龄-长度的方法。在拟合数据模型时，使用\@ref(eq:eq44)中的下面两个方程，其中$L_t$ 为观测值，等于预测值加上正态随机离差$\varepsilon = N(0, \sigma^2)$ ，其中的每个值可能是正的或负的（某一年龄的观测值可能大于或小于期望长度）。最下面的方程实际上是关于决定使用什么剩余误差结构。在本章中，我们将描述生态学和渔业中使用的一系列可供选择的误差结构。它们并非都是可加的，有些是用函数关系而不是常数定义的（如$\sigma$）。
+
+关于式\@ref(eq:eq44)是非线性的表述是明确的，因为早期估计von Bertalanffy (`vB()`)生长曲线参数值的方法涉及各种旨在近似线性化曲线的变换(例如Beverton和Holt, 1957)。在20世纪50年代末和60年代，拟合von Bertalanffy 曲线不是一件小事。令人高兴的是，不再需要这样的转换，这样的曲线拟合也变得很简单。
+
+### 其它的生长模型
+
+个体生长的研究文献很多，描述生物体生长的模型多种多样(Schnute and Richards, 1990)。自Beverton和Holt(1957)引入以来，von Bertalanffy (`vB()`)曲线一直是主要的渔业模型，已被渔业科学家广泛应用。然而，只是因为该模型非常普遍命令使用，对于所有物种来说，并不一定意味着该模型总是提供生长的最佳描述。模型选择是渔业建模中一个至关重要但经常被忽视的方面(Burnham and Anderson, 2002;Helidoniotis and Haddon, 2013)。这里两种替代`vB()`的两种模型可能是Gompertz生长曲线(Gompertz, 1925):
+
+```{=tex}
+\begin{equation}
+\hat{L_t} =ae^{-be^{ct}} \text{ or } \hat{L_t}=a \exp(-b \exp(ct)) 
+(\#eq:eq45)
+\end{equation}
+```
+以及广义Michaelis-Menten 方程（Maynard Smith and Slatkin, 1973; Legendre and Legendre, 1998):
+
+```{=tex}
+\begin{equation}  
+{{\hat{L}}_{t}}=\frac{at}{b+{{t}^{c}}}  
+(\#eq:eq46)  
+\end{equation}
+```
+每个模型也有 a、b 和 c三个参数，每个模型都能对生长过程的经验数据作出令人信服的描述。可以对某些参数进行生物学解释（如最大平均长度），但这些模型最终只提供了对生长过程的经验描述。如果把模型解释为反映了现实，就会导致完全不可信的预测，如不存在一米长的鱼（Knight，1968 年）。在文献中，参数可以有不同的符号（例如，Maynard Smith 和 Slatkin（1973）用 $R_0$ 代替 $a$ 表示 Michaelis-Menton），但基本结构形式是相同的。在对 MQMF 的年龄-长度数据集 $LatA$ 中的鱼类进行von Bertalanffy生长曲线拟合后，我们可以利用不同模型来说明尝试这些替代模型的价值，并对应该使用哪种模型保持开放的心态。这个问题在我们讨论不确定性时会再次出现，因为我们可以从不同的模型中得到不同的结果。在对任何自然过程建模时，模型选择都是需要做出的重大决定之一。重要的是，通过这种方式尝试不同的模型，还能强化模型与数据拟合的过程。
+
+## 残差平方和
+
+数据拟合模型的经典方法称为 "最小残差平方和"（见式\@ref(eq:eq41) 和式\@ref(eq:eq47)），或更常称为 "最小二乘法"。这种方法被认为是高斯提出的（Nievergelt, 2000, 引用了高斯 1823 年用拉丁文撰写的一本书的译文：*Theoria combinationis observationum erroribus minimis obnoxiae*）。无论如何，最小二乘法符合两个多世纪以来用于确定一组预测值与观测值最佳拟合的策略。这种策略就是确定一个所谓的目标函数（最佳拟合标准），根据函数结构，可以将其最小化或最大化。就残差平方和而言，我们需要从相关的观测值中减去每个预测值，将不同的结果平方（以避免出现负值），然后将所有值相加，并使用数学（解析解）或其他方法将该相加值最小化：
+
+```{=tex}
+\begin{equation}  
+ssq=\sum\limits_{i=1}^{n}{{{\left( {{O}_{i}}-{\hat{E}_{i}} \right)}^{2}}}  
+(\#eq:eq47)  
+\end{equation}
+```
+其中，$sqq$ 为*n*个观测值的残差平方和，$O_i$ 为第$i$ 个观测值，$E_i$为第第$i$ 个观测值的期望值或预测值。**MQMF**包中的`ssq` 函数仅仅是一个封装器，它调用了用于生成预测值的任何函数，然后计算并返回平方差和。根据不同问题的复杂程度和数据输入，我们通常需要创建新的函数作为封装。`ssq()` 很好地说明了这样一个事实，即在一个传递给函数的参数中，也可以传递其他函数（在本例中，在`ssq()`内我们调用了传递给`funk` 的函数，当然在使用`ssq()`时，我们输入的是与当前问题相关的实际函数，也许是`vB`，注意在用作函数参数时没有括号）。
+
+### 最小二乘法的假设
+
+最小二乘方法的一个主要假设是，残差项呈正态分布，所有观测变量的方差相等；即在$\varepsilon = N(0, \sigma^2)$ 中，$\sigma^2$ 不变。如果以任何方式对数据进行变换，则变换对残差的影响可能违反这一假设。相反，如果残差以系统的方式变化，则转换可以标准化残差。因此，如果数据是对数正态分布，那么对数变换将使数据标准化，然后可以有效地使用最小二乘。与往常一样，考虑或可视化数据和残差的形式(由拟合模型产生)是一种很好的做法。
+
+### 数值求解
+
+渔业科学中大多数有趣的问题都没有解析解（如线性回归），有必要使用数值方法通过定义的"最佳拟合"标准（如最小残差平方和(最小二乘)）来寻找最佳拟合模型。这显然会涉及到一点R编程，但是R的一个很大的优势是，一旦你开发了一套分析方法，就可以直接地将其应用到新的数据集。
+
+在下面的示例中，我们用**MQMF**中的一些实用函数来辅助描述。我们需要5个函数拟合和比较上文定义的3种不同的生长模型，其中4个需要编写。前3个函数用于估计与观测数据进行比较的各年龄长度预测值。本例有3个候选模型函数分别对应3种不同的生长曲线：`vB()`、`Gz()`和`mm()`。第4个函数用作计算预测值及其相关观测值的平方和残差。这里将使用**MQMF**中的函数`ssq()`（你应该检查并理解其代码）。该函数返回单一数值，该值将由最后一个函数`nlm()`最小化，该函数需要自动最小化求解。R函数`nlm()`使用用户定义的通用函数，用 $f$ 表示 (尝试`args(nlm)`，或`formals(nlm)`以查看完整的参数列表），用于计算最小值（在本例中为`ssq()`），而`ssq()`又使用预测生长曲线中各年龄长度的函数（例如`vB()`）。如果我们使用不同的生长曲线函数（例如`Gz()`），只需将`nlm()`调用代码中指向`vB()的地方改为Gz()`，并修改参数值以适应`Gz()`函数，以便代码产生可用的结果。从根本上说，`nlm()`通过改变输入参数(称作*p*)来最小化`ssq()`，无论选择哪个参数，都会改变生长函数`vB()`、`Gz()`或`mm()`的结果，。
+
+`nlm()`只是**R**中用于非线性优化的函数之一，候选函数包括`optim()`和`nlminb()`(请阅读`nlm`中的文档，CRAN上关于优化的任务视图列出了旨在解决优化问题的包)。
+
+```{r}
+library(MQMF)
+library(ggplot2)
+ #setup optimization using growth and ssq  
+data(LatA)      # try ?LatA   assumes library(MQMF) already run  
+ #convert equations 4.4 to 4.6 into vectorized R functions  
+ #These will over-write the same functions in the MQMF package  
+vB <- function(p, ages) return(p[1]*(1-exp(-p[2]*(ages-p[3]))))  
+Gz <- function(p, ages) return(p[1]*exp(-p[2]*exp(p[3]*ages)))  
+mm <- function(p, ages) return((p[1]*ages)/(p[2] + ages^p[3]))  
+ #specific function to calc ssq. The ssq within MQMF is more  
+ssq <- function(p,funk,agedata,observed) {        #general and is  
+  predval <- funk(p,agedata)        #not limited to p and agedata  
+  return(sum((observed - predval)^2,na.rm=TRUE))  
+} #end of ssq   
+ # guess starting values for Linf, K, and t0, names not needed  
+pars <- c("Linf"=27.0,"K"=0.15,"t0"=-2.0) #ssq should=1478.449  
+ssq(p=pars, funk=vB, agedata=LatA$age, observed=LatA$length)   
+```
+
+`ssq()`函数取代了全局环境中的`MQMF::ssq()`函数，但也返回一个数值，例如上面的1478.449，它是`nlm()`函数的第一个输入，并且是最小值。
+
+### 将函数作为参数传递给其它函数
+
+在上例中，我们定义了一些用于模型拟合数据所需的函数，确定了要比较的生长模型，也定义了计算平方和的函数。刚刚做的一个非常重要的方面是，为了计算平方和，我们将`vB()`函数作为参数传递给`ssq()`函数。这意味着我们传递了一个函数，它有参数，作为另一个函数的参数之一。你可以在这里看到潜在的混乱，所以有必要集中精力，保持清晰。目前，我们定义`ssq()`的方式似乎并没有那么引人注目，因为我们已经在对`ssq()`的调用中显式地定义了两个函数的参数。但是R有一些妙招，我们可以用它来泛化包含其他函数作为参数的函数，主要的一个使用了神奇的省略号`…`，对于任何R函数，除非实参在其定义中设置了默认值，否则每个实参都必须给定一个值。在上面的`ssq()`函数中，我们包含了仅由`ssq()` 使用的参数(*funk*和*observed*)，以及仅由函数`funk`使用的参数 (*p*和*agedata*)。这在本例子中很有效，因为我们故意将生长函数定义为具有相同的输入参数，但如果我们想使用的`funk`有不同的输入，可能是因为我们拟合的是选择性曲线而不是生长曲线，该怎么办？显然，我们需要编写一个不同的`ssq()`函数。为了允许在更多情况下重用更通用的函数，R的作者(R Core Team, 2019)包含了这个概念`…`，它将匹配其他方式不匹配的任何参数，因此可用于输入`funk`函数的参数。因此，我们可以这样重新定义`ssq()`:
+
+```{r}
+ # Illustrates use of names within function arguments  
+vB <- function(p,ages) return(p[1]*(1-exp(-p[2] *(ages-p[3]))))  
+ssq <- function(funk,observed,...) { # only define ssq arguments  
+  predval <- funk(...) # funks arguments are implicit  
+  return(sum((observed - predval)^2,na.rm=TRUE))  
+} # end of ssq   
+pars <- c("Linf"=27.0,"K"=0.15,"t0"=-2.0) # ssq should = 1478.449  
+ssq(p=pars, funk=vB, ages=LatA$age, observed=LatA$length) #if no  
+ssq(vB,LatA$length,pars,LatA$age) # name order is now vital!  
+```
+
+这意味着`ssq()`函数现在更加通用，可以与任何输入函数一起使用，这些输入函数可用于生成一组预测值，以便与一组观测值进行比较。**MQMF**中的`ssq()`函数就是这样实现的；查阅帮助 `?ssq`。一般的想法是，您必须定义主函数中使用的所有参数，但任何仅在被调用函数（此处称为*funk*）中使用的参数都可以在`…`中传递。最好是显式地命名参数，这样它们的顺序就无关紧要了，并且您需要非常小心地键入，如果您拼错了通过`…`传递的参数的名称，并不一定会出错！例如，使用大写的*LatA\$Age*而不是*LatA\$age*不会出错，但会导致结果为0而不是1478.440。这是因为*LatA\$Age = NULL*，即使输入不正确也是有效的。很明显，`…`可能非常有用，但如果你像我一样输入错误，其本身也是有风险的。
+
+```{r}
+ # Illustrate a problem with calling a function in a function  
+ # LatA$age is typed as LatA$Age but no error, and result = 0  
+ssq(funk=vB, observed=LatA$length, p=pars, ages=LatA$Age) # !!!  
+```
+
+如果你匆忙行事，没有给参数命名，那么如果你弄错了参数顺序，也会失败。例如，如果你要输入的是`ssq(LatA$length, vB, pars, LatA$age)`而不是`ssq(vB, LatA$length, pars, LatA$age)`，就会出现错误：*Error in funk(...): could not find function " funk "*。为了以防万一，你可以自己试试。对你的代码进行试验几乎没什么坏处，不会弄坏你的电脑，而你可能会学到一些东西。
+
+### 拟合模型
+
+如果我们绘制*LatA*数据集图（图\@ref(fig:fig42)），可以看到一些典型的年龄-长度数据。图中有358个点（试试`dim(LatA)`），许多点彼此重叠，但是当我们使用`plot()`函数中`rgb()`选项来改变图中颜色的透明度时，较高年龄组鱼类的颜色相对稀疏性就会显现出来。另外，我们可以使用`jitter()`为每个绘制点的位置添加噪声，以查看数据点的相对密度。每当你处理经验数据时，总是值得你花时间至少将其绘制成画并探索其属性。
+
+```{r fig42, fig.cap= "Simulated female length-at-age data for 358 Redfish, Centroberyx affinis, based on samples from eastern Australia. Full intensity colour means >= 5 points."}
+
+ #plot the LatA data set   Figure 4.2  
+parset()        # parset and getmax are two MQMF functions   
+ymax <- getmax(LatA$length) # simplifies use of base graphics. For  
+ # full colour, with the rgb as set-up below, there must be >= 5 obs  
+plot(LatA$age,LatA$length,type="p",pch=16,cex=1.2,xlab="Age Years",   
+     ylab="Length cm",col=rgb(1,0,0,1/5),ylim=c(0,ymax),yaxs="i",  
+     xlim=c(0,44),panel.first=grid())  
+
+# ggplot(data = LatA, aes(x = age, y = length)) +
+#   geom_point(size = 3, color = "red", alpha = 0.2) +
+#   labs(x = "Age Years", 
+#        y = "Length cm") +
+#   theme_bw()
+  
+
+```
+
+与其继续猜测参数值并手动修改它们，我们可以使用`nlm()`(或`optim()`或`nlminb()`，它们的语法不同)来拟合所选的*LatA*数据的生长模型或曲线。这不仅说明了`nlm()`的语法，还说明了另外两个**MQMF**实用R函数`magnitude()`和`outfit()`的使用(请查阅`?nlm`、`?magnitude`和`?outfit`)。还可以查看每个函数中的代码（在控制台中输入每个函数的名称，不带参数或括号）。从现在起，我将减少提示你查看所使用函数细节的次数，但是如果看到一个新的函数，希望现查看其帮助、语法，尤其是代码是有意义的，就像查看每个所用变量的内容一样。
+
+3个生长模型中的每一个都需要估计3个参数，我们需要对每个参数进行初始猜测，以启动`nlm()`求解。我们所做的就是为`nlm()`函数的每个形参/实参提供值。此外，我们还使用了2个额外的参数，*typsize*和*iterlim*。*typesize*在`nlm()`帮助中定义为"每个参数最小值的估计"。加入这2个参数一般有助于稳定搜索算法，因为它可以确保对每个参数值迭代变化尺度大致相同。一种非常常见的替代方法（我们将在更复杂的模型中使用）是在输入`nlm()`时对每个参数进行对数变换，然后在调用的函数中对它们进行反变换，以计算预测值。但是，这只能在保证参数始终为正值情况下才可行。例如，对于von Bertalanffy曲线，$t_0$ 参数通常是负值，因此应使用`magnitude()`而不是对数变换方法。默认的`iterlim=100`意味着最多迭代100次，这有时是不够的，所以如果迭代达到100次，您应该将该数值增加到1000。你很快就会发现，在每次模型拟合过程中，唯一改变的是`ssq()`中的*funk*所指向的函数和初始参数值。这可以通过有意识地构建生长函数，使其使用完全相同的参数（通过`…`传递）。您也可以尝试在不设置*typsize*和*interlim*选项的情况下运行其中的一个或两个函数。还请注意，我们运行Michaelis-Menton曲线时使用了两个略有不同的初始点。
+
+```{r}
+ # use nlm to fit 3 growth curves to LatA, only p and funk change 
+ages <- 1:max(LatA$age) # used in comparisons   
+pars <- c(27.0,0.15,-2.0) # von Bertalanffy  
+bestvB <- nlm(f=ssq,funk=vB,observed=LatA$length,p=pars,  
+             ages=LatA$age,typsize=magnitude(pars))  
+outfit(bestvB,backtran=FALSE,title="vB"); cat("\n")   
+pars <- c(26.0,0.7,-0.5) # Gompertz  
+bestGz <- nlm(f=ssq,funk=Gz,observed=LatA$length,p=pars,  
+             ages=LatA$age,typsize=magnitude(pars))  
+outfit(bestGz,backtran=FALSE,title="Gz"); cat("\n")   
+pars <- c(26.2,1.0,1.0) # Michaelis-Menton - first start point  
+bestMM1 <- nlm(f=ssq,funk=mm,observed=LatA$length,p=pars,  
+             ages=LatA$age,typsize=magnitude(pars))  
+outfit(bestMM1,backtran=FALSE,title="MM"); cat("\n")  
+pars <- c(23.0,1.0,1.0) # Michaelis-Menton - second start point  
+bestMM2 <- nlm(f=ssq,funk=mm,observed=LatA$length,p=pars,  
+             ages=LatA$age,typsize=magnitude(pars))  
+outfit(bestMM2,backtran=FALSE,title="MM2"); cat("\n")   
+```
+
+这些都是数值解，它们不能保证是正确的解。请注意，第一个Michaelis-Menton解(从26.2,1,1开始)的梯度相对较大，但它的SSQ(1335.96)非常接近第二个Michaelis-Menton模型拟合，而且比vB或Gz曲线更小（更好）。然而，梯度值表明该模型的拟合可以而且应该得到改进。如果您将参数*a*（首个MM参数）的初始参数估计值从上次模型拟合中的26.2降到了23，我们就会得到稍有不同的参数值、稍小的SSQ以及更小的梯度，从而更有把握地认为结果是个真正的最小值。实际上，如果要运行`cbind(mm(bestMM1$estimate,ages)， mm(bestMM2$estimate,ages))`，可以计算出预测值的差异从-0.018到0.21%，而如果将vB预测值包括在内，MM2与vB预测的差异从-6.15到9.88%(忽略40.6%的最大偏差)。你也可以尝试从vB模型的估计中省略*typsize*参数，这样仍然会得到最佳结果，但可查看梯度以了解为什么使用*typsize*有助于优化。在设置这些示例时，偶尔运行`Gz()`模型会出现*steptol*可能太小的注释，将其从默认的1e-06改为1e-05可以很快解决这个问题。如果您遇到了这种情况，请在`nlm()`命令中添加一条语句`steptol=1e-05`，看看诊断是否有所改善。
+
+显而易见的结论是，我们应该经常查阅`nlm()`的诊断注释，考虑得到的解的方案的梯度，并且使用多组初始参数猜测，以确保得到稳定的解。数值求解以软件实现为基础，用于决定何时停止迭代的规则有时会被次优解所欺骗。我们的目标是找到全局最小值，而不是局部最小值。任何非线性模型都可能产生此类次优解，因此自动拟合此类模型并非易事。在这种情况下，永远不要假设在这种情况下你得到的第一个答案一定是你正在寻找的最佳答案，即使描绘的模型拟合看起来是可以接受的。
+
+在函数调用中，如果你为每个参数命名，那么严格来讲，顺序并不重要，但我发现一致的用法可以简化代码的阅读，因此即使使用显式名称，也建议使用标准顺序。如果我们不使用显式名称，则`nlm()`的语法要求首先定义函数最小化（*f*）。此外，它还要求*f*函数，无论它是什么，在*p*参数中使用初始参数猜测，如果未命名，则必须排在第二位。如果你在控制台中输入`formals(nlm)`或`args(nlm)`，就可得到可以输入到函数的可能参数以及它们的默认值（如果存在）:
+
+```{r}
+ #The use of args() and formals()   
+args(nlm) # formals(nlm) uses more screen space. Try yourself.  
+```
+
+正如所见，首先要最小化函数f(在本例中是`ssq()`)，然后是初始参数*p*，它必须是*f*所指向的任何函数所需的第一个参数。接着是省略号(三个点)，它概括了任何函数*f*的`nlm()`代码，其后是可能的参数集，所有这些参数都具有默认值。我们修改了*typsize*和*iterm*(有时也修改了`Gz()` 中的*steptol*）；请参阅`nlm()`帮助以获得对每种方法的解释。
+
+在R中，...实际上指的是所需的任何其他输入，例如函数*f*指向的任何参数（本例中为`ssq`）。如果Et `?ssq`查看参数或代码或帮助，将会看到所需函数*funk*，该函数将用于计算相对于`ssq()`的下一个所需输入的期望值，为观测值的向量（如$O_i-E_i$）。请注意，这里没有明确提到*funk*使用的参数，这些参数假定是通过....传递的。在对`ssq()`的每次调用中，我们都显式地填充了这些参数，例如`nlm(f=ssq,funk=Gz, observed=LatA$length, p=pars, ages=LatA$age，)`。这样，所有要求都已满足，`ssq()`就可以开始工作。如果不小心忽略了`ages=LatA$age`参数，那么在这种情况下，R会出现如下揭示：*Error in funk(par, independent) : argument "ages" is missing, with no default*（我相信你会相信我的，但你自己试试也无妨!)。
+
+就生长曲线模型拟合而言，绘制结果提供了一个直观的比较，说明了三条生长曲线之间的差异(Murrell, 2011)。
+
+```{r fig43, fig.cap= "Female Length-at-Age data from 358 simulated female redfish with three optimally fitted growth curves drawn on top."}
+ #Female length-at-age + 3 growth fitted curves Figure 4.3  
+predvB <- vB(bestvB$estimate,ages) #get optimumpredicted lengths  
+predGz <- Gz(bestGz$estimate,ages) # using the outputs  
+predmm <- mm(bestMM2$estimate,ages) #from the nlm analysis above  
+ymax <- getmax(LatA$length) #try ?getmax or getmax [no brackets]  
+xmax <- getmax(LatA$age)  #there is also a getmin, not used here  
+parset(font=7)   # or use parsyn() to prompt for the par syntax  
+plot(LatA$age,LatA$length,type="p",pch=16, col=rgb(1,0,0,1/5),  
+     cex=1.2,xlim=c(0,xmax),ylim=c(0,ymax),yaxs="i",xlab="Age",  
+     ylab="Length (cm)",panel.first=grid())  
+lines(ages,predvB,lwd=2,col=4)        # vB    col=4=blue  
+lines(ages,predGz,lwd=2,col=1,lty=2)  # Gompertz  1=black  
+lines(ages,predmm,lwd=2,col=3,lty=3)  # MM        3=green  
+ #notice the legend function and its syntax.  
+legend("bottomright",cex=1.2,c("von Bertalanffy","Gompertz",  
+       "Michaelis-Menton"),col=c(4,1,3),lty=c(1,2,3),lwd=3,bty="n")  
+
+# ggplot() +
+#   geom_point(data = LatA, aes(x = age, y = length), 
+#              color = "red", alpha = 0.2) +
+#   geom_line(aes(x = ages, y = predvB), color = "blue") +
+#   geom_line(aes(x = ages, y = predGz), color = "black") +
+#   geom_line(aes(x = ages, y = predmm), color = "green") +
+#   theme_bw()
+
+```
+
+### 目标模型选择
+
+在上述三种生长模型中，最优模型拟合定义为使预测值与实测值之间的平方和残差最小。根据这一标准，第二个生长模型Michaelis-Menton曲线比von Bertalanffy曲线和Gompertz曲线更适合。但我们真的能说第二条米切里斯-门通曲线比第一条曲线"更好"拟合吗?就最终溶液的梯度而言，第二条曲线显然更好，但严格的拟合标准只是最小SSQ，差异小于0.01个单位。模型选择通常是使用参数的数量和根据所选标准的拟合质量之间的权衡。如果我们设计一个具有更多参数的模型，这通常会导致更大的灵活性和更接近观测数据的改进能力。在极端情况下，如果我们有和观测值一样多的参数，我们可以有一个完美的模型拟合，但是，当然，我们对我们正在建模的系统一无所知。LatA数据集有358个参数，这显然是过度参数化的情况，但如果我们只将参数数量增加到10个呢?毫无疑问，曲线的形状会很奇怪，但SSQ可能会更低。Burnham和Anderson(2002)详细讨论了参数数量和模型与数据的拟合质量之间的权衡关系。在20世纪70年代，人们开始使用信息论来开发一种量化模型参数和模型拟合质量之间权衡的方法。Akaike(1974)描述了他的Akaike信息标准(AIC)，该标准基于最大似然和信息理论原理(稍后会详细介绍)，但幸运的是，Burnham和Anderson(2002)在使用最小平方和残差时提供了另一种选择，这是Atkinson(1980)中包含的一种变体:
+
+```{=tex}
+\begin{equation}  
+AIC=N \left(log\left(\hat\sigma^2 \right) \right)+2p  
+(\#eq:eq48)  
+\end{equation}
+```
+其中$N$ 为观测数，$p$ 为"模型内独立调整参数数量"（Akaike，1974，p716），$\hat{\sigma}^2$ 为方差的最大似然估计，仅表示残差平方和除以$N$ 而非 $N-1$ ：
+
+```{=tex}
+\begin{equation}  
+\hat\sigma^2 = \frac{\Sigma\varepsilon^2}{N} = \frac{ssq}{N}  
+(\#eq:eq49)  
+\end{equation}
+```
+即使有了*AIC*，也很难确定，当使用最小二乘时，差异是否可以被认为是统计上显著的差异。有与方差分析相关的方法，但当使用最大似然时，这些问题能够得到更可靠的回答，所以我们将在后面的部分中解决这个问题。
+
+如果想在拟合模型时获得生物学上合理的或可站得住脚的解释，那么模型选择不能仅仅依赖于统计拟合的质量。相反，它应该反映理论预期(例如，种群中的平均生长是否包括随着时间的推移个体大小的平稳增长，等等)。除了数据的统计拟合之外，这些考虑因素似乎没有得到足够的重视，但只有在出现生物学上不可信的模型结果或提出不可信的模型结构时才变得重要。它显然有助于理解正在建模的过程的生物学期望。
+
+### 残差选择对模型拟合的影响
+
+在生长模型例子中，我们使用了正态随机偏差，但我们可以问，如果我们使用，例如对数正态偏差，我们是否会得到相同的答案？在这种情况下，我们所需要做的就是在计算残差平方和之前对观测值和预测值进行对数变换(参见下面关于对数正态残差的内容)。
+
+```{=tex}
+\begin{equation}  
+ssq=\sum\limits_{i=1}^{n}{{{\left( log({O_i})- log({\hat{E_i}}) \right)}^{2}}}  
+(\#eq:eq410)  
+\end{equation}
+```
+这里我们继续在`outfit()`中使用*backtran=FALSE*选项，因为我们是对数据进行对数转换，而不是对参数进行对数转换，因此不需要进行反向转换。
+
+```{r}
+ # von Bertalanffy   
+pars <- c(27.25,0.15,-3.0)  
+bestvBN <- nlm(f=ssq,funk=vB,observed=LatA$length,p=pars,  
+             ages=LatA$age,typsize=magnitude(pars),iterlim=1000)  
+outfit(bestvBN,backtran=FALSE,title="Normal errors"); cat("\n")   
+ # modify ssq to account for log-normal errors in ssqL  
+ssqL <- function(funk,observed,...) {  
+  predval <- funk(...)  
+  return(sum((log(observed) - log(predval))^2,na.rm=TRUE))  
+} # end of ssqL  
+bestvBLN <- nlm(f=ssqL,funk=vB,observed=LatA$length,p=pars,  
+             ages=LatA$age,typsize=magnitude(pars),iterlim=1000)  
+outfit(bestvBLN,backtran=FALSE,title="Log-Normal errors")  
+```
+
+在这种情况下，使用正态和对数正态残差产生的曲线几乎没有区别（图\@ref(fig:fig44)）。尽管它们的参数不同(使用ylim=c(10,ymax)使差异更清楚)。除了视觉上的不同，不同的模型甚至没有可比性。如果我们比较它们各自的平方和残差，一个有1361.0，另一个只有3.153。当我们考虑到平方和计算中对数变换的影响时，这并不奇怪。但这意味着我们不能只看表格输出，然后决定哪个版本比另一个更适合数据。它们是严格不相称的，尽管它们使用的是完全相同的模型。不同残差结构的使用需要在考虑相对模型拟合以外的方式进行辩护。这个例子强调，虽然模型的选择显然很重要，但残差结构的选择也是模型结构的一部分，同样重要。
+
+```{r fig44, fig.cap="Female Length-at-Age data from 358 female redfish, Centroberyx affinis, with two von Bertalanffy growth curves fitted using Normal and Log-Normal residuals."}
+
+ # Now plot the resultibng two curves and the data Fig 4.4  
+predvBN <- vB(bestvBN$estimate,ages)   
+predvBLN <- vB(bestvBLN$estimate,ages)   
+ymax <- getmax(LatA$length)   
+xmax <- getmax(LatA$age)      
+parset()                
+plot(LatA$age,LatA$length,type="p",pch=16, col=rgb(1,0,0,1/5),  
+     cex=1.2,xlim=c(0,xmax),ylim=c(0,ymax),yaxs="i",xlab="Age",  
+     ylab="Length (cm)",panel.first=grid())  
+lines(ages,predvBN,lwd=2,col=4,lty=2)   # add Normal dashed  
+lines(ages,predvBLN,lwd=2,col=1)        # add Log-Normal solid  
+legend("bottomright",c("Normal Errors","Log-Normal Errors"),  
+       col=c(4,1),lty=c(2,1),lwd=3,bty="n",cex=1.2)  
+```
+
+### 关于初始模型拟合的说明
+
+上面例子中的曲线比较本身就很有趣，不过，我们还说明了 `nlm()` 的语法以及如何将模型拟合到数据中。将函数作为参数传递给另一个函数的能力（就像这里我们将 `ssq` 作为 *f* 传递给 `nlm()`，将 `vB`、`Gz` 和 `mm` 作为 *funk* 传递给 `ssq()`）是 R 的优势之一，但也是其复杂性所在。它简化了`ssq()`等函数的重用，在这些函数中，我们只需改变输入函数，就能从本质上相同的代码中得到完全不同的答案。熟悉这些方法的最佳途径是使用自己的数据集。绘制您的数据和任何模型拟合图，因为如果模型拟合图看起来不寻常，那么很可能就是不寻常的，值得再看一遍或三遍。
+
+使用平方和法可以取得很好的效果，但在处理现实世界的多样性时，要求在期望值附近的残差呈正态分布以及方差恒定的假设是有限制的。为了使用正态分布以外的概率密度分布和非恒定方差，我们应该转而使用最大似然法。
+
+## 最大似然
+
+在 R 中使用似然比较简单，因为有许多概率密度函数（PDF）的内置函数以及一系列定义其他 PDF 的软件包。再重复一遍，最大似然法的目的是使用软件搜索模型参数集，使观测数据的总似然最大化。要使用这一最优模型拟合标准，需要对模型进行定义，以便将每个观测值（可用数据）的概率或似然值指定为模型中参数值和其他变量的函数（式\@ref(eq:eq42)和式\@ref(eq:eq411)）。重要的是，这种规范包括对所选 PDF 的变异性或扩散性的估计（正态分布中的$\sigma$ 只是最小二乘法的副产品）。使用最大似然法的一个主要优点是，残差结构或关于数据预期中心倾向的观测值的预期分布不一定是正态分布。如果可以定义概率密度函数 (PDF)，则可以在最大似然法框架中使用；有关许多有用概率密度函数的定义，请参见 Forbes et al, (2011)。
+
+### 入门范例
+
+我们将使用众所周知的正态分布来说明这些方法，然后扩展该方法以包含一系列可选的pdf。对于数据模型拟合而言，每个PDF的主要意义在于定义单个观测值的概率密度或似然值。对于平均期望值为 $\bar x$ 或 $\mu$ 的正态分布，给定单一值 $x_i$ 的概率密度或似然定义为:
+
+```{=tex}
+\begin{equation}  
+L\left( {x_i}|\mu_{i} ,\sigma  \right)=\frac{1}{\sigma \sqrt{2\pi }}{{e}^{\left( \frac{-{{\left( {x_i}-\mu_{i}  \right)}^{2}}}{2\sigma^2 } \right)}}  
+(\#eq:eq411)  
+\end{equation}
+```
+其中$\sigma$ 为与$\mu_i$ 相关的标准差。这确定了最小二乘法和最大似然方法之间的直接区别，在后者中，需要一个PDF的完整定义，在正态分布的情况下，它包括对均值估计 $\mu$ 周围残差的标准偏差的显式估计。这样的估计不需要最小二乘，虽然很容易从SSQ值中得到。
+
+例如，我们可以从正态分布中生成一个观测样本(参见`?rnorm`)，然后计算该样本的均值和标准差，并比较给定的样本值与 *rnorm* 函数中使用的原始均值和标准差的参数估计值的可能性有多大（表\@ref(tab:tab41) ）：
+
+```{r tab41}
+ # Illustrate Normal random likelihoods. see Table 4.1  
+set.seed(12345)       # make the use of random numbers repeatable  
+x <- rnorm(10,mean=5.0,sd=1.0)      # pseudo-randomly generate 10   
+avx <- mean(x)                      # normally distributed values  
+sdx <- sd(x)          # estimate the mean and stdev of the sample            
+L1 <- dnorm(x,mean=5.0,sd=1.0)   # obtain likelihoods, L1, L2 for   
+L2 <- dnorm(x,mean=avx,sd=sdx)    # each data point for both sets  
+result <- cbind(x,L1,L2,"L2gtL1"=(L2>L1))      # which is larger?  
+result <- rbind(result,c(NA,prod(L1),prod(L2),1)) # result+totals  
+rownames(result) <- c(1:10,"product")  
+colnames(result) <- c("x","original","estimated","est > orig")  
+knitr::kable(result, caption = "An illustration of using normal random values and related normal likelihoods. The estimated column has the larger total likelihood. 1=TRUE, 0=FALSE.")
+```
+
+表\@ref(tab:tab41)的最下面一行包含每列似然值的乘积(使用R函数`prod()`求得)。毫不奇怪，当我们使用样本的均值和标准差估计(估计，L2)而不是原始值的*mean=5*和*sd=1.0*(原始，L1)时，求得最大似然，即8.9201095\^{-6} \> 4.7521457 \^{6}。在本例中，我可以确定这些值，因为在代码开始时使用了R函数`set.seed()` ，以便在特定位置启动伪随机数生成器。如果你通常使用`set.seed()`，不会重复使用相同的旧序列，例如12345，因为您可能会破坏伪随机数是随机数序列的良好近似值的想法，也许可以使用`getseed()`来提供合适的种子数。
+
+因此，`rnorm()` 函数提供了由均值和 stdev 确定分布中的伪随机数，`dnorm()` 函数提供了观测值在均值和 stdev 条件下的概率密度或似然（相当于式\@ref(eq:eq411)）。累积概率密度函数（cdf）由函数 `pnorm()` 提供，量化值由 `qnorm()` 确定。平均值自然具有最大的似然。还要注意的是，正态曲线是围绕均值对称的。
+
+```{r}
+ # some examples of pnorm, dnorm, and qnorm, all mean = 0  
+cat("x = 0.0        Likelihood =",dnorm(0.0,mean=0,sd=1),"\n")   
+cat("x = 1.95996395 Likelihood =",dnorm(1.95996395,mean=0,sd=1),"\n")   
+cat("x =-1.95996395 Likelihood =",dnorm(-1.95996395,mean=0,sd=1),"\n")   
+ # 0.5 = half cumulative distribution  
+cat("x = 0.0        cdf = ",pnorm(0,mean=0,sd=1),"\n")   
+cat("x = 0.6744899  cdf = ",pnorm(0.6744899,mean=0,sd=1),"\n")  
+cat("x = 0.75       Quantile =",qnorm(0.75),"\n") # reverse pnorm  
+cat("x = 1.95996395 cdf = ",pnorm(1.95996395,mean=0,sd=1),"\n")  
+cat("x =-1.95996395 cdf = ",pnorm(-1.95996395,mean=0,sd=1),"\n")  
+cat("x = 0.975      Quantile =",qnorm(0.975),"\n") # expect ~1.96  
+ # try x <- seq(-5,5,0.2); round(dnorm(x,mean=0.0,sd=1.0),5)  
+```
+
+我们可以看到，单个似然值可能是相对较大的数字，但当它们相乘时，很快就会变成相对较小的数字。当观测数据的数量增加时，就会出现误差。即使只有十个数字，当我们将所有单个似然值相乘（使用 `prod()`）时，结果也会很快变得非常小。如果使用与表\@ref(tab:tab41)中的十个数字类似的另外十个数字，总似然很容易降到 1e-11 或 1e-12。随着观察次数的增加，出现四舍五入错误的几率（即使在 64 位计算机上）也开始增加。与其将许多小数相乘得到一个极小的数，不如将这些小数相乘的标准解决方案是对似然值进行自然对数变换，然后相加。最大化对数变换似然值之和与最大化单个似然值之积一样，都能获得最佳参数。此外，许多软件中的优化器似乎都是为了最有效地最小化某个函数而设计的。简单的解决方案是，我们不最大化单个似然的乘积，而是最小化负对数似然的总和（*-veLL* 或 `negLL()`）。
+
+## 正态分布的似然
+
+概率似乎是一种相当奇怪的生物。当它们来自连续的概率密度函数（PDFs）时，尽管它们具有许多相同的属性，但严格来说它们并不是概率（Edwards，1972 ）。严格来讲，它们与概率密度函数下某一点的概率密度有关。根据概率的定义，整条曲线下的面积总和必须为 1.0，但连续概率密度函数任何一点下的面积都会变得无穷小。正态似然的定义使用式\@ref(eq:eq411)），而累积密度函数为:
+
+```{=tex}
+\begin{equation}  
+{cdf}=1=\int\limits_{x=-\infty }^{\infty }{\frac{1}{\sigma \sqrt{2\pi }}}{{e}^{\left( \frac{-{{\left( x-\mu  \right)}^{2}}}{2{{\sigma }^{2}}} \right)}}  
+(\#eq:eq412)  
+\end{equation}
+```
+我们可以使用`dnorm()` 和 `pnorm()` 计算似然和累积密度函数（cdf）（图\@ref(fig:fig45)）。
+
+```{r fig45, fig.cap="A dotted red curve depicting the expected normal likelihoods for a mean = 0 and sd = 1.0, along with the cumulative density of the same normal likelihoods as a black line. The blue line identifies a cumulative probability of 0.5."}
+ # Density plot and cumulative distribution for Normal   Fig 4.5  
+x <- seq(-5,5,0.1)  # a sequence of values around a mean of 0.0  
+NL <- dnorm(x,mean=0,sd=1.0)   # normal likelihoods for each X  
+CD <- pnorm(x,mean=0,sd=1.0)   # cumulative density vs X  
+plot1(x,CD,xlab="x = StDev from Mean",ylab="Likelihood and CDF")  
+lines(x,NL,lwd=3,col=2,lty=3) # dashed line as these are points  
+abline(h=0.5,col=4,lwd=1)  
+```
+
+这听起来不错，但在这样的曲线下，*x*变量的特定值来说，确定这样一条曲线下的特定值意味着什么呢？在图\@ref(fig:fig45)中，我们用虚线表示图中的似然是局部估计，不构成连续的线。每个都表示在给定*x*值处的似然。我们在上文中已经看到，对于mean= 0.0和stdev = 1.0的分布，在0.0值处的概率密度为0.3989423。让我们简单地查看一下似然和概率之间可能存在的混淆。如果我们考虑概率密度函数的一小部分，在x = 3.4到3.6的值之间mean= 5.0,st.dev = 1.0的概率密度函数，我们可能会看到类似图\@ref(fig:fig46)的情况:
+
+```{r fig46, fig.cap= "Probability densities for a normally distributed variate X, with a mean of 5.0 and a standard deviation of 1.0. The PDF value at x = 3.5 is 0.129518, so the area of the boxes outlined in red is 0.0129518, which approximates the total probability of a value between 3.45 - 3.55, which would really be the area under the curve."}
+ #function facilitates exploring different polygons Fig 4.6  
+plotpoly <- function(mid,delta,av=5.0,stdev=1.0) {  
+   neg <- mid-delta;  pos <- mid+delta  
+   pdval <- dnorm(c(mid,neg,pos),mean=av,sd=stdev)  
+   polygon(c(neg,neg,mid,neg),c(pdval[2],pdval[1],pdval[1],  
+                          pdval[2]),col=rgb(0.25,0.25,0.25,0.5))  
+   polygon(c(pos,pos,mid,pos),c(pdval[1],pdval[3],pdval[1],  
+                                pdval[1]),col=rgb(0,1,0,0.5))     
+   polygon(c(mid,neg,neg,mid,mid),  
+        c(0,0,pdval[1],pdval[1],0),lwd=2,lty=1,border=2)  
+   polygon(c(mid,pos,pos,mid,mid),  
+        c(0,0,pdval[1],pdval[1],0),lwd=2,lty=1,border=2)   
+   text(3.395,0.025,paste0("~",round((2*(delta*pdval[1])),7)),
+        cex=1.1,pos=4)  
+   return(2*(delta*pdval[1])) # approx probability, see below  
+} # end of plotpoly, a temporary function to enable flexibility  
+ #This code can be re-run with different values for delta  
+x <- seq(3.4,3.6,0.05) # where under the normal curve to examine  
+pd <- dnorm(x,mean=5.0,sd=1.0) #prob density for each X value  
+mid <- mean(x)      
+delta <- 0.05  # how wide either side of the sample mean to go?   
+parset()       # a pre-defined MQMF base graphics set-up for par  
+ymax <- getmax(pd)    # find maximum y value for the plot  
+plot(x,pd,type="l",xlab="Variable x",ylab="Probability Density",  
+     ylim=c(0,ymax),yaxs="i",lwd=2,panel.first=grid())  
+approxprob <- plotpoly(mid,delta)  #use function defined above  
+```
+
+完整概率密度函数（ PDF） 下的面积总和为 1.0，因此得到图\@ref(fig:fig46)中 3.45 和 3.55 之间值的概率是长方形面积减去左三角形面积再加上右三角形面积之和。三角形几乎是对称的，因此可以近似地相互抵消，所以近似解法就是将其中一个长方形的面积乘以 2.0。当 delta（长方形在 x 轴上的宽度）为 0.05 时，概率 = 0.0129518。如果将 delta 值改为 0.01，那么近似概率 = 0.0025904，随着 delta 值的减小，总概率也随之减小，尽管 3.5 时的概率密度仍为 0.1295176。显然，似然值与连续 PDF 中的概率并不相同（见 Edwards, 1972）。曲线下面积概率的最佳估计值为 `pnorm(3.55,5,1) - pnorm(3.45,5,1)`，即 = 0.0129585。
+
+### 与平方和等同
+
+当使用正态似然来拟合数据模型时，我们实际做的是设置，使得每个可用观测值的负对数似然之和最小化。幸运的是，我们可以使用`dnorm()`来估计似然。事实上，如果我们使用正态分布残差或对数变换的对数正态分布数据使用极大似然方法拟合模型，则得到的参数估计与使用最小二乘法得到的参数估计相同(参见下文式\@ref(eq:eq419)的推导和形式)。拟合模型需要生成一组预测值$\hat x$ (x-hat)，为其他自变量$\theta(x)$ 的函数，其中$\theta$ 是函数关系中使用的参数列。n个观测值的对数似然定义为:
+
+```{=tex}
+\begin{equation}  
+LL(x|\theta)=\sum\limits_{i=1}^{n}{log\left( \frac{1}{\hat{\sigma }\sqrt{2\pi }}{{e}^{\left( \frac{-{{\left( {x_i}-{{\hat{x}}_{i}} \right)}^{2}}}{2{{{\hat{\sigma }}}^{2}}} \right)}} \right)}  
+(\#eq:eq413)  
+\end{equation}
+```
+$LL(x|\theta)$ 读作给定$\theta$ 个参数（$\mu$ 和 $\hat \sigma$）时观测值 $x$ 的对数似然；符号"\|"读作"给定"。这个看似复杂的方程式其实可以大大简化。首先，我们可以将指数项之前的常数移到求和项之外，乘以$n$ ，然后将剩余指数项的自然对数反变换为指数：
+
+```{=tex}
+\begin{equation}  
+LL(x|\theta)=n log\left( \frac{1}{\hat{\sigma }\sqrt{2\pi }} \right)+\frac{1}{2{\hat{\sigma }^{2}}}\sum\limits_{i=1}^{n}{\left( -{{\left( x_i-\hat{x}_i \right)}^{2}} \right)}  
+(\#eq:eq414)  
+\end{equation}
+```
+$\hat \sigma^2$ 是数据方差的最大似然估计（记住是除以n而非n--1）：
+
+```{=tex}
+\begin{equation}  
+{{\hat{\sigma }}^{2}}=\frac{\sum\limits_{i=1}^{n}{{{\left( x_i-\hat{x}_i \right)}^{2}}}}{n}  
+(\#eq:eq415)  
+\end{equation}
+```
+如果用式\@ref(eq:eq415)中 $\hat \sigma^2$ 代入式\@ref(eq:eq414)，则 $(x_i-\hat x_i)^2$ 用 $-n/2$ 代替：
+
+```{=tex}
+\begin{equation}  
+LL(x|\theta)=n{log}\left( \left( {\hat{\sigma }\sqrt{2\pi }} \right)^{-1} \right) - \frac{n}{2}  
+(\#eq:eq416)  
+\end{equation}
+```
+化简平方根意味着将- 1移至对数项外面，n变成- n，我们可以将平方根变成指数1/2，然后将 $\log(\hat \sigma)$ 项加到 $\pi$ 项上：
+
+```{=tex}
+\begin{equation}  
+LL(x|\theta)=-n\left( {log}\left( {{\left( 2\pi  \right)}^{\frac{1}{2}}} \right)+{log}\left( {\hat{\sigma }} \right) \right)-\frac{n}{2}  
+(\#eq:eq417)  
+\end{equation}
+```
+将幂指数 $1/2$ 移到第1个*log*项外：
+
+```{=tex}
+\begin{equation}  
+LL(x|\theta)=-\frac{n}{2}\left( {log}\left( 2\pi  \right)+2{log}\left( {\hat{\sigma }} \right) \right)-\frac{n}{2}  
+(\#eq:eq418)  
+\end{equation}
+```
+然后将 $n/2$ 简化，并将整个方程两边乘以- 1，以转换为负对数似然，从而得到正态分布值的负对数似然的最终简化:
+
+```{=tex}
+\begin{equation}  
+-LL(x|\theta)=\frac{n}{2}\left( {log}\left( 2\pi  \right) + 2{log} \left( {\hat{\sigma }} \right) + 1 \right)  
+(\#eq:eq419)  
+\end{equation}
+```
+其中唯一的非常数部分是 $\hat \sigma$ 的值，它是残差平方和除以 n 的平方根，所以现在应该很清楚了，为什么使用最大似然时获得的参数，如果使用正态随机误差，与从最小二乘方法得到的参数相同。
+
+### 应用正态似然拟合数据模型
+
+我们可以使用数据集 *LatA* 中的模拟雌性红鱼数据重复这个例子，图，
+
+我们可以使用数据集 LatA中的模拟雌性红鱼数据来重复这个例子（图 \@ref(fig:fig47)），我们用它来说明平方残差之和的使用。理想情况下，我们应该得到相同的答案，但估计值为 $\sigma$ 的估计值。**MQMF** 函数 `plot1()` 只是绘制单个图形（*type="l "*或 *type="p"*；请参阅 `?plot1`）的一种快速方法，没有太多空白。如果你比我更喜欢空白，请编辑 `plot1()`！
+
+```{r fig47, fig.cap= "The length-at-age data contained within the LatA data set for female Redfish Centroberyx affinis. Full colour means >= 5 points."}
+ #plot of length-at-age data  Fig 4.7  
+data(LatA) # load the redfish data set into memory and plot it  
+ages <- LatA$age;  lengths <- LatA$length  
+plot1(ages,lengths,xlab="Age",ylab="Length",type="p",cex=0.8,  
+      pch=16,col=rgb(1,0,0,1/5))  
+```
+
+现在，我们可以使用 **MQMF** 函数 `negNLL()`（负正态对数似然值）以确定使用正态随机误差的负对数似然值之和（`negLL()`对对数正态分布数据也有同样的作用）。如果你查看一下 `negNLL()` 的代码，就会发现它与 `ssq()` 一样，都是将一个函数作为参数传递给它，然后用它来计算每个输入年龄的预测平均值（在本例中是使用 **MQMF** 函数 `vB()`计算的年龄长度），然后使用 `dnorm()` 以预测值作为平均值，并使用数据中的年龄-长度观测值来计算 -veLL 之和。年龄数据是通过省略号（...）传递的，并没有在 `negNLL()` 中明确声明为参数。该函数在结构上与 `ssq()` 非常相似，输入要求完全相同，但 *pars* 是显式传递的，而不是在...中传递，因为 *pars* 的最后一个值必须是残差的 stdev，它将在 `negNLL()` 中使用，而不只是在 *funk* 中使用。因此，`negNLL()`的运行方式与`ssq()`非常相似，它是调用函数生成预测值的封装程序，然后使用 `dnorm()` 在每次调用时返回一个数字。因此，`nlm()` 会最小化 `negNLL()`，而 `negNLL()` 又会调用 `vB()`。
+
+```{r}
+ # Fit the vB growth curve using maximum likelihood  
+pars <- c(Linf=27.0,K=0.15,t0=-3.0,sigma=2.5) # starting values  
+ # note, estimate for sigma is required for maximum likelihood  
+ansvB <- nlm(f=negNLL,p=pars,funk=vB,observed=lengths,ages=ages,  
+             typsize=magnitude(pars))  
+outfit(ansvB,backtran=FALSE,title="vB by minimum -veLL")  
+```
+
+## 对数正态似然

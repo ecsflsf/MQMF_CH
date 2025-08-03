@@ -1,0 +1,25 @@
+{
+    "entries": [
+        {
+            "file": "01-intro.qmd",
+            "type": "eq",
+            "id": "1_3",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "01-intro.qmd",
+            "type": "eq",
+            "id": "1_1",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "01-intro.qmd",
+            "type": "eq",
+            "id": "1_2",
+            "suffix": "",
+            "title": ""
+        }
+    ]
+}

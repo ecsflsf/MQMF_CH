@@ -1,0 +1,60 @@
+{
+    "entries": [
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "sec",
+            "id": "staticmodel",
+            "suffix": "",
+            "title": "静态模型"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_4",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5_2",
+            "suffix": "",
+            "title": "Pitcher 和 Macdonald（1973）的近似龄长数据与 von Bertalanffy 生长曲线的拟合季节版本。下图是正态随机残差图，残差仍有一系列高于和低于零的运行，但不如非季节性曲线那么有规律。"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_1",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_3",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5_3",
+            "suffix": "",
+            "title": "|"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "fig",
+            "id": "5_1",
+            "suffix": "",
+            "title": "|"
+        },
+        {
+            "file": "05-staticmodel.qmd",
+            "type": "eq",
+            "id": "5_2",
+            "suffix": "",
+            "title": ""
+        }
+    ]
+}

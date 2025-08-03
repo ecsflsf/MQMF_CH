@@ -1,0 +1,6 @@
+[1,"==> quarto preview index.qmd --to html --no-watch-inputs --no-browse\n\n"]
+[1,"pandoc \n  to: html\n  output-file: index.html\n  standalone: true\n  toc: true\n  number-sections: false\n  title-prefix: 使用 R 语言进行渔业建模和定量方法研究\n  section-divs: true\n  html-math-method:\n    method: mathjax\n    url: >-\n      https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML\n  wrap: none\n  default-image-extension: png\n  toc-depth: 3\n  \nmetadata\n  crossref:\n    chapters: true\n    eq-prefix: 公式\n    fig-prefix: 图\n    tbl-prefix: 表\n    fig-title: 图\n    tbl-title: 表\n  document-css: false\n  link-citations: true\n  date-format: long\n  lang: zh\n  bibliography:\n    - references.bib\n    - packages.bib\n  citation-location: document\n  theme:\n    light: flatly\n    dark: darkly\n  toc-title: 目录\n  toc-expand: 2\n  code-copy: true\n  tblcap-align: center\n  fig-cap-align: center\n  title: 使用 R 语言进行渔业建模和定量方法研究\n  subtitle: Using R for Modelling and Quantitative Methods in Fisheries\n  author: Malcolm Haddon\n  \n"]
+[1,"Output created: docs\\index.html\n\nPreparing to preview\n\nWatching files for changes\nBrowse at http://localhost:5340/\n"]
+[1,"GET: /\n"]
+[1,"WARNING: Unable to resolve link target: 05-statiicModel.qmd\n"]
+[1,"GET: /01-intro.html\n"]

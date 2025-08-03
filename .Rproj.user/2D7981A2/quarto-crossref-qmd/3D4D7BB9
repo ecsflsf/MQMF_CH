@@ -1,0 +1,557 @@
+{
+    "entries": [
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_9",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_3",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_32",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_18",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_13",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "tbl",
+            "id": "4_4",
+            "suffix": "",
+            "title": "A tabulation of the predicted counts for the two normal distributions from the optimum model fit. The original sample had 262 observations."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_24",
+            "suffix": "",
+            "title": "A constant set of prior probabilities accumulated on a linear scale and on a log scale."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_10",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_11",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_2",
+            "suffix": "",
+            "title": "Simulated female length-at-age data for 358 Redfish, Centroberyx affinis, based on samples from eastern Australia. Full intensity colour means >= 5 points."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_36",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_22",
+            "suffix": "",
+            "title": "Different Gamma distributions all with a scale c = 1.0."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_14",
+            "suffix": "",
+            "title": "The optimum fit of the Schaefer surplus production model to the abdat data set plotted in log-space on the y-axis."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_33",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_25",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_49",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_21",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "sec",
+            "id": "paraestimat",
+            "suffix": "",
+            "title": "模型参数估算"
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_44",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_11",
+            "suffix": "",
+            "title": " \"5000 个随机点的对数正态分布，meanlog=0.7，sdlog=0.5，显示偏差校正后的平均值、模式和中位数。右侧是拟合正态分布的对数变换版本。A Log-Normal distribution of 5000 random points with meanlog=0.7 and sdlog=0.5 showing the bias-corrected mean, the mode, and the median. On the right is the log-transformed version with a fitted normal distribution."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_15",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_37",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_38",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_13",
+            "suffix": "",
+            "title": "The abdat data set plotting the catch and the cpue through time to illustrate their relationship."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_3",
+            "suffix": "",
+            "title": "358 尾雌性长度-年龄数据模拟得到的雌性红鱼的三条最大拟合生长曲线Female Length-at-Age data from 358 simulated female redfish with three optimally fitted growth curves drawn on top."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_35",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_29",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_12",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "tbl",
+            "id": "4_2 ",
+            "suffix": "",
+            "title": "The Exmouth Gulf tiger prawn data set of spawning biomass with consequent recruitment levels, with the predicted recruitment level from the optimum model fit, along with the Log-Normal"
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_17",
+            "suffix": "",
+            "title": "通过标记实验，对151只海狗进行了标记，得出了海狗种群大小的两种估计，种群大小与似然分布(Greaves, 1992)。右边的黑线来自222只观察到的幼崽的32个标记，而左边的虚线来自181只观察到的31个标记。模型(最佳种群估计值)由竖线和图例表示。"
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_27",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_4",
+            "suffix": "",
+            "title": "Female Length-at-Age data from 358 female redfish, Centroberyx affinis, with two von Bertalanffy growth curves fitted using Normal and Log-Normal residuals."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_4",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_45",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_12",
+            "suffix": "",
+            "title": "The optimum fit to the Exmouth Gulf tiger prawns Beverton-Holt stock recruitment relationship using log-normal likelihoods."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_15",
+            "suffix": "",
+            "title": "如果性别比为 1:1，那么在 60 只动物样本中只观察到 20 只雄性动物的可能性有多大。垂直红线是 95% 置信区间的下限，表明只观察到 20 只的可能性不大。A graphical answer to the question of how likely is it to obtain only 20 males in a sample of 60 animals if the sex ratio is 1:1. The vertical red line is the lower bound of the 95% confidence intervals, which suggests that observing only 20 would be unlikely."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_5",
+            "suffix": "",
+            "title": "A dotted red curve depicting the expected normal likelihoods for a mean = 0 and sd = 1.0, along with the cumulative density of the same normal likelihoods as a black line. The blue line identifies a cumulative probability of 0.5."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_21",
+            "suffix": "",
+            "title": "长度-频率信息左侧模式的最佳拟合。使用长度分组中值或边界值的参数值差异出现在小数点后第四位。右侧模式的差异很小，无法辨别。The optimum fit to the left-hand mode of the length-frequency information. The differences in parameter values between using size-class midpts or bounds occurs at the fourth decimal place. The difference in the right-hand mode was so small as not to be discernible."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_41",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_1",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_31",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_7",
+            "suffix": "",
+            "title": "The length-at-age data contained within the LatA data set for female Redfish Centroberyx affinis. Full colour means >= 5 points."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_30",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_47",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_22",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_16",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_23",
+            "suffix": "",
+            "title": "Different Beta probability density distributions all with a shape1 value = 3.0, and with values of shape2 ranging from 1 to 10."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_2",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_40",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_39",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_20",
+            "suffix": "",
+            "title": "根据对 1992 年塔斯马尼亚南部采样的幼鲍长度-频率计数的初始参数猜测得出的两个正态分布。Two Normal distributions from initial parameter guesses imposed upon the length-frequency counts of juvenile abalone from southern Tasmania sampled in 1992."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_48",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_46",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_50",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_43",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_7",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_42",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_5",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_9",
+            "suffix": "",
+            "title": "The residual values for von Bertalanffy curve fitted to the female LatA data. There is a clear pattern between the ages of 3 - 10, which reflects the nature of residuals when the mean expected length for a given age is constant and compared to these rounded length measurements"
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_19",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_20",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_6",
+            "suffix": "",
+            "title": "Probability densities for a normally distributed variate X, with a mean of 5.0 and a standard deviation of 1.0. The PDF value at x = 3.5 is 0.129518, so the area of the boxes outlined in red is 0.0129518, which approximates the total probability of a value between 3.45 - 3.55, which would really be the area under the curve."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_10",
+            "suffix": "",
+            "title": "说明对数正态概率密度函数的两幅图。左图是一组不同参数集的似然分布，右图是前四个对数正态分布的对数变换版本。\\\\ Two plots illustrating the Log-Normal probability density function. Left is a group of likelihood distributions for different parameter sets, while right is the log-transformed versions of these first four Log-Normal distributions."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "tbl",
+            "id": "4_3",
+            "suffix": "",
+            "title": "格雷夫斯（1992）在新西兰南岛西海岸开阔湾岛对新西兰海狗幼崽进行的三次计数。种群估计值、标准误差和置信区间均采用确定性方程计算得出。前两行为独立计数，后一行为六次独立计数的平均值。Three of the counts of New Zealand fur seal pups made by Greaves (1992) on Open Bay Island, West Coast, South Island, New Zealand. The Population estimates, Standard error and confidence intervals were calculated using deterministic equations. The top two rows were independent counts while the bottom row averages six separate counts."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_6",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_17",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_18",
+            "suffix": "",
+            "title": "前两个海狗幼崽样本的综合似然（黑线）。与单个样本相比，这些样本的百分位数置信区间（垂直细红线）更小。六个样本的平均计数和样本量（绿色虚线）在平均位置上与单个样本相似，但百分比置信区间更宽。图例显示了组合似然曲线的最佳值和 95% 百分位数 CI。The combined likelihood from the first two fur seal pup samples (black line). These have tighter percentile confidence intervals (vertical thin red lines) than the individual samples. The average count and sample size of six samples (green dashed line) remains similar in mean location to the single samples but would have much wider CI. The legend shows the optimum and the 95% percentile CI foir the combined likelihoods curve."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_14",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "tbl",
+            "id": "4_1",
+            "suffix": "",
+            "title": "An illustration of using normal random values and related normal likelihoods. The estimated column has the larger total likelihood. 1=TRUE, 0=FALSE."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_34",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_1",
+            "suffix": "",
+            "title": "Inputs, functional requirements, and outputs, when fitting a model to data. The optimization function (here nlm()) minimizes the negative log-likelihood (or sum-of squares) and requires an initial parameter vector to begin. In addition, the optimizer requires a function (perhaps negLL()) to calculate the corresponding negative log-likelihood for each vector of parameters it produces in its search for the minimum. To calculate the negative log-likelihood requires a function (perhaps vB()) to generate predicted values for comparison with the input observed values."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_16",
+            "suffix": "",
+            "title": "Representing the relative likelihood of the proportional sex-ratio when a sample exhibits only 20 males out of 60. Note that the likelihood of there having been a sex-ratio of 0.5 is confirmed as very low."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_24",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_23",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_28",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_8",
+            "suffix": "",
+            "title": "Optimum von Bertalanffy and Michaelis-Menton growth curves fitted to the female LatA Redfish data. Note the two curves are effectively coincident where the observations are most concentrated. Note the y-axis starts at 10."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_8",
+            "suffix": "",
+            "title": ""
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "fig",
+            "id": "4_19",
+            "suffix": "",
+            "title": "The length-frequency counts of a sample of juvenile abalone from the south-east of Tasmania illustrating two modes taken in 1992."
+        },
+        {
+            "file": "04-application.qmd",
+            "type": "eq",
+            "id": "4_26",
+            "suffix": "",
+            "title": ""
+        }
+    ]
+}
