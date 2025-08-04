@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>使用 R 语言进行渔业建模和定量方法研究 - 2&nbsp; R 语言的不完全介绍</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-simpopmodel.html" rel="next">
+<link href="./01-intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script><script>
+    MathJax ={
+  tex: {
+    macros: {
+      bm: ["{\\boldsymbol #1}",1],
+    }
+  }
+};
+</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="切换侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-NonIntroductiontoR.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R 语言的不完全介绍</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="切换侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">使用 R 语言进行渔业建模和定量方法研究</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于建模</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-NonIntroductiontoR.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R 语言的不完全介绍</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-simpopmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">简单种群模型</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-application.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">模型参数估算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-staticModel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">静态模型</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">不确定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-spm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">剩余生产模型</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">参考文献</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2"><h2 id="toc-title">目录</h2>
+   
+  <ul>
+<li><a href="#%E7%AE%80%E4%BB%8B" id="toc-简介" class="nav-link active" data-scroll-target="#%E7%AE%80%E4%BB%8B"><span class="header-section-number">2.1</span> 简介</a></li>
+  <li>
+<a href="#r%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A8%8B" id="toc-r语言中的编程" class="nav-link" data-scroll-target="#r%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A8%8B"><span class="header-section-number">2.2</span> R语言中的编程</a>
+  <ul class="collapse">
+<li><a href="#%E4%BB%8E-r-%E8%AF%AD%E8%A8%80%E5%BC%80%E5%A7%8B" id="toc-从-r-语言开始" class="nav-link" data-scroll-target="#%E4%BB%8E-r-%E8%AF%AD%E8%A8%80%E5%BC%80%E5%A7%8B"><span class="header-section-number">2.2.1</span> 从 R 语言开始</a></li>
+  <li><a href="#r-%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E5%8C%85" id="toc-r-语言程序包" class="nav-link" data-scroll-target="#r-%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E5%8C%85"><span class="header-section-number">2.2.2</span> R 语言程序包</a></li>
+  <li><a href="#%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8-mqmf" id="toc-开始使用-mqmf" class="nav-link" data-scroll-target="#%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8-mqmf"><span class="header-section-number">2.2.3</span> 开始使用 MQMF</a></li>
+  <li><a href="#%E5%9C%A8%E5%87%BD%E6%95%B0%E5%86%85%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81" id="toc-在函数内检查代码" class="nav-link" data-scroll-target="#%E5%9C%A8%E5%87%BD%E6%95%B0%E5%86%85%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81"><span class="header-section-number">2.2.4</span> 在函数内检查代码</a></li>
+  <li><a href="#%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0" id="toc-使用函数" class="nav-link" data-scroll-target="#%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0"><span class="header-section-number">2.2.5</span> 使用函数</a></li>
+  <li><a href="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90" id="toc-随机数生成" class="nav-link" data-scroll-target="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90"><span class="header-section-number">2.2.6</span> 随机数生成</a></li>
+  <li><a href="#r%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E8%BE%93%E5%87%BA" id="toc-r语言中的输出" class="nav-link" data-scroll-target="#r%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E8%BE%93%E5%87%BA"><span class="header-section-number">2.2.7</span> R语言中的输出</a></li>
+  <li><a href="#r%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E7%BB%98%E5%9B%BE" id="toc-r语言中的绘图" class="nav-link" data-scroll-target="#r%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E7%BB%98%E5%9B%BE"><span class="header-section-number">2.2.8</span> R语言中的绘图</a></li>
+  <li><a href="#%E5%9B%A0%E7%B4%A0%E5%A4%84%E7%90%86" id="toc-因素处理" class="nav-link" data-scroll-target="#%E5%9B%A0%E7%B4%A0%E5%A4%84%E7%90%86"><span class="header-section-number">2.2.9</span> 因素处理</a></li>
+  <li><a href="#%E6%95%B0%E6%8D%AE%E8%BE%93%E5%85%A5" id="toc-数据输入" class="nav-link" data-scroll-target="#%E6%95%B0%E6%8D%AE%E8%BE%93%E5%85%A5"><span class="header-section-number">2.2.10</span> 数据输入</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#%E7%BC%96%E5%86%99%E5%87%BD%E6%95%B0" id="toc-编写函数" class="nav-link" data-scroll-target="#%E7%BC%96%E5%86%99%E5%87%BD%E6%95%B0"><span class="header-section-number">2.3</span> 编写函数</a>
+  <ul class="collapse">
+<li><a href="#%E7%AE%80%E5%8D%95%E5%87%BD%E6%95%B0" id="toc-简单函数" class="nav-link" data-scroll-target="#%E7%AE%80%E5%8D%95%E5%87%BD%E6%95%B0"><span class="header-section-number">2.3.1</span> 简单函数</a></li>
+  <li><a href="#%E5%87%BD%E6%95%B0%E8%BE%93%E5%85%A5%E5%80%BC" id="toc-函数输入值" class="nav-link" data-scroll-target="#%E5%87%BD%E6%95%B0%E8%BE%93%E5%85%A5%E5%80%BC"><span class="header-section-number">2.3.2</span> 函数输入值</a></li>
+  <li><a href="#r%E5%AF%B9%E8%B1%A1" id="toc-r对象" class="nav-link" data-scroll-target="#r%E5%AF%B9%E8%B1%A1"><span class="header-section-number">2.3.3</span> R对象</a></li>
+  <li><a href="#%E5%AF%B9%E8%B1%A1%E8%8C%83%E5%9B%B4" id="toc-对象范围" class="nav-link" data-scroll-target="#%E5%AF%B9%E8%B1%A1%E8%8C%83%E5%9B%B4"><span class="header-section-number">2.3.4</span> 对象范围</a></li>
+  <li><a href="#%E5%87%BD%E6%95%B0%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA" id="toc-函数输入与输出" class="nav-link" data-scroll-target="#%E5%87%BD%E6%95%B0%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA"><span class="header-section-number">2.3.5</span> 函数输入与输出</a></li>
+  </ul>
+</li>
+  <li><a href="#%E9%99%84%E5%BD%95%E5%B0%91%E6%9C%89%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0" id="toc-附录少有人使用的函数" class="nav-link" data-scroll-target="#%E9%99%84%E5%BD%95%E5%B0%91%E6%9C%89%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0"><span class="header-section-number">2.4</span> 附录：少有人使用的函数</a></li>
+  <li><a href="#%E9%99%84%E5%BD%95%E5%85%B6%E5%AE%83%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90" id="toc-附录其它学习资源" class="nav-link" data-scroll-target="#%E9%99%84%E5%BD%95%E5%85%B6%E5%AE%83%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="header-section-number">2.5</span> 附录：其它学习资源</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">
+<span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R 语言的不完全介绍</span>
+</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> 代码</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">显示所有代码</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">隐藏所有代码</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">查看源代码</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="简介" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="简介">
+<span class="header-section-number">2.1</span> 简介</h2>
+<p>这本书是《<em>渔业建模和定量方法</em>》（<em>Modelling and Quantitative Methods in Fisheries</em>）中描述的一些材料的分支和改编版本 <span class="citation" data-cites="haddon2011">(<a href="#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>)</span>。主要变化涉及使用 <code>R语言</code>（R 核心团队，2019 ）以扩展和实施选定的渔业和生态分析。这本书以不同的文字，更多是强调如何进行分析，在许多地方，使用的例子将在细节上与先前书中使用的不同。</p>
+<p>使用 <code>R语言</code> 进行分析与使用 Microsoft Excel <span class="citation" data-cites="haddon2011">(<a href="#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>)</span>（如Haddon, 2001, 2011 ）是非常不同的命题。这意味着分析的机制和结果不会直接摆在分析人员面前。但是，即使在使用 Excel时，如果分析涉及到在Visual Basic for Application 中使用宏，那也涉及到一定程度的抽象。使用 <code>R语言</code> 作为编程语言只是在所有的例子中完成抽象。一般来说，我尽量坚持”没坏就不修”的原则，所以你可以假设有很好的理由搬到 <code>R</code>。</p>
+</section><section id="r语言中的编程" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="r语言中的编程">
+<span class="header-section-number">2.2</span> R语言中的编程</h2>
+<p>开源软件<code>R语言</code>对于进行统计分析显然很有用，但它也提供了非常灵活和强大的编程环境。对于科学程序员来讲，<code>R</code>有很多优势，因为它是一种非常高级的语言，可以通过编写自己的脚本或函数来扩展这些命令，以进行专门的分析或其他操作，如数据操作或定制制图。如此灵活有很多优点，但也意味着学习 <code>R</code> 的语法可能是面临着挑战。很多可用的，大多是开源的R包（请参阅<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>），增强其灵活性，但也有可能增加其语法的复杂性。</p>
+<p>幸运的是，已经出版了许多优秀的书籍，可以向人们展示他们可能需要使用 <code>R</code> 并成为 <code>R</code> 程序员的技能 <span class="citation" data-cites="crawley2007 matloff2011 murrell2018a venables2002 wickham2019">(如， <a href="#ref-crawley2007" role="doc-biblioref">Crawley 2007</a>; <a href="#ref-matloff2011" role="doc-biblioref">Matloff 2011</a>; <a href="#ref-murrell2018a" role="doc-biblioref">Murrell 2018</a>; <a href="#ref-venables2002" role="doc-biblioref">Venables 和 Ripley 2002</a>; <a href="#ref-wickham2019" role="doc-biblioref">Wickham 2019</a>；等)</span>。<span class="citation" data-cites="wickham2019">Wickham (<a href="#ref-wickham2019" role="doc-biblioref">2019</a>)</span> 的书为《<em>高级R</em>》（<em>Advanced R</em>），但不要让”高级”让你失望，它充满了优秀的细节，如果您想先体验一下，可以在以下网址查看网络版本 <a href="https://adv-r.hadley.nz/" class="uri">https://adv-r.hadley.nz/</a>。本章附录中列出了其他学习资源。</p>
+<p>它还试图描述一些复杂性，比如如何处理不确定性，以及如何处理它们。本书的重点是开发和拟合数据模型，使它们运行，并展示它们的输出。</p>
+<p>因此，本书不是用来教任何人如何使用 <code>R</code> 编程的。事实上，此处包含的 <code>R</code> 代码很少优雅，也不太可能是万无一失的，但其目的是尽可能简单地说明使用 <code>R</code> 用数据拟合生物模型的不同方法。它还试图描述一些复杂性，如处理不确定性，这个问题你一直会碰到，以及如何处理他们。本书的重点是开发和拟合数据的模型，使其运行，并展示结果的输出。然而，<code>R</code> 中有几个构造将在接下来的内容中多次使用，本章旨在引入它们，以便用户在相对较新的 R 时不会放慢速度，但需要强调的是，假设用户熟悉 R。我们将简要介绍如何开始，如何检查函数内的代码、打印、绘图、因子的使用，以及函数的使用和编写。重要的是，我们还将考虑使用 R 的非线性解算或优化。会考虑许多示例，并包括示例数据集以加快这些示例速度。但是，如果读者有自己的数据集，那么这些数据集应尽可能使用，因为很少有东西能鼓励学习和理解，以及分析自己的数据。</p>
+<section id="从-r-语言开始" class="level3" data-number="2.2.1"><h3 data-number="2.2.1" class="anchored" data-anchor-id="从-r-语言开始">
+<span class="header-section-number">2.2.1</span> 从 R 语言开始</h3>
+<p>请记住，这本书的目的不是教任何人如何使用R，而是试图展示R可以用于生态分析的方法，特别是种群动态和渔业。在这本书中开始使用R需要一些东西:</p>
+<ul>
+<li><p>从<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>下载最新版本的 R 语言并将其安装在计算机上。</p></li>
+<li><p>下载 <code>RStudio</code>，可以从 RStudio 网站<a href="https://rstudio.com/" class="uri">https://rstudio.com/</a>上的下载选项免费获得。RStudio 现在是一个成熟且结构良好的研发环境，建议使用RStudio。或者，使用您自己选择的其他软件来编辑文本文件和存储代码文件。找到操作方式，自己的工作流程，这对你感觉最好。理想情况下，你应该能够专注于你试图做什么，而不是你是如何做到这一点。</p></li>
+<li><p>从 CRAN 或 github 下载本书的程序包 <strong>MQMF</strong>。要从 CRAN上下载，可以非常简单地使用RStudio中的 “package”选项 。也可在 <a href="https://github.com/haddonm/MQMF" class="uri">https://github.com/haddonm/MQMF</a> 的github上 ，克隆包的R项目文件或直接使用<code>devtools</code>用下列命令直接安装<code>devtools::install_github("https://github.com/haddonm/MQMF")</code></p></li>
+<li><p>至少拥有一些关于R的实用知识以及如何使用它。如果你是R的初学者，明智的做法是使用一个或多个介绍性文本，以及在网上搜索 “introductory R” 也将产生一个实质性的清单。RStudio 的文档也会让你开始。请参阅本章的附录。</p></li>
+</ul>
+<p>为了节省空间，本书的文本中将只描述分析中使用的功能的一些细节。从 <strong>MQMF</strong> 包中检查代码的详细信息将是了解每个分析以及如何实现这些分析的一个重要部分。阅读每个功能的帮助文件（键入控制台），并尝试提供示例。在 RStudio 中，人们只需在帮助页面中选择示例代码，并且像往常一样，使用 {ctrl}{enter} 来运行选定的行。或者，选择并复制它们到控制台中以运行示例，改变输入以探索它们的工作原理。包装功能很可能包含额外的细节和错误捕获，这是改进，但这需要空间和时间在书中的阐述。</p>
+</section><section id="r-语言程序包" class="level3" data-number="2.2.2"><h3 data-number="2.2.2" class="anchored" data-anchor-id="r-语言程序包">
+<span class="header-section-number">2.2.2</span> R 语言程序包</h3>
+<p>用于各种各样分析的大量 R 包（几千个）（见<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>）是R语言令人难以置信的强项，但公平地说，这种多样性也导致了学习所有可用函数所需的 R 语法的一些复杂性。基础 R（安装 R 时状态）自动包含 7个 R 包（请在控制台中使用 <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> 尝试查看列表）。因此， 在 R 中使用R包通常情况下是很自然的，不使用其他人的包将是一个非常愚蠢的想法，因为这意味着将有大量的完全可用的包的重复使用，但因为这里的目的是说明分析的细节，而不是专注于 R 语言，主要是使用默认或”基础”安装，虽然在少数地方，建议自己将作出考虑和探索R包。例如，当我们需要使用多元正态分布时，我们将使用 <strong>mvtnorm</strong> 包。在 RStudio 中使用 [package] 选项卡，很容易安装这些 R 包。或者，控制台中使用 <code>install.packages("mvtnorm")</code> 安装，这也应该做的工作。其他包将根据需要进行安装。无论我在哪里写 “install library(xxxxx)”，都应理解为安装 指定库及其所有依赖库。许多程序包都需要并调用其他程序包，因此除了程序包自身外，还需要有其它依赖包。例如，<strong>MQMF</strong> 包需要安装包 <strong>mvtnorm</strong> 和 <strong>MASS</strong>。如果你在控制台中输入 <code>packageDescription("MQMF)</code>，就会列出程序包的描述文件内容（所有程序包都有显示）。在显示内容中你会看到，<strong>MASS</strong> 和 <strong>mvtnorm</strong> 都需载入，因此它们需要随着 <strong>MQMF</strong> 一起安装。</p>
+<p>这本书侧重于使用”基础”R包，这是一个有意识的决定。目前，R 社区内部正在发生一些重要发展，特别是所谓的”tidyverse”的出现，其为的库集，即旨在改进或至少改变 R 使用方式。您可以在<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>上探索使用 R 的新方法，其主页目前指出：“tidyverse 是专为数据科学设计的 R 包的有意见的集合。所有软件包都具有基本的设计理念、语法和数据结构。其中许多创新确实是有效的，非常值得学习。但是，”基础”R 的一个优点是，它非常稳定，只有经过对与以前版本兼容性的广泛测试后才引入更改。此外，开发使用”基础”R 的基准，可以更知情地选择如果您愿意，整洁的哪些部分可以采用。无论情况如何，在这里，我们将使用尽可能少的额外库，除了’基地’安装和书自己的包。</p>
+</section><section id="开始使用-mqmf" class="level3" data-number="2.2.3"><h3 data-number="2.2.3" class="anchored" data-anchor-id="开始使用-mqmf">
+<span class="header-section-number">2.2.3</span> 开始使用 MQMF</h3>
+<p><strong>MQMF</strong> 程序包已经过测试，在 PC、Linux（Fedora） 和Apple计算机上的行为都与本书中的预期一致。在 Apple 计算机上，有必要在 PC 上安装包的 .tar.gz 版本，在 PC 上，无论是 .zip 还是 .tag.gz 都可以安装，RStudio 也可以为您安装此 R 包。<code>tar.gz</code> 版本的一个优点是，源文件和库的 tar.gz 存档包含所有原始代码，以便在您愿意时进行更深入的检查。此代码也可以在 MQMF github 仓库中检查。</p>
+<p>安装 <strong>MQMF</strong> 包后，通过命令 <code><a href="https://github.com/haddonm/MQMF/">library(MQMF)</a></code> 可以将该包含在 R 会话中。通过使用 <code><a href="https://rdrr.io/pkg/MQMF/man/MQMF.html">?MQMF</a></code> 或 <code>?MQMF-Package</code> 立即生成某些文档。该列表的底部是包名、版本号和”索引”的超链接。如果您单击该”索引”链接，则会生成与 <strong>MQMF</strong>内与导出函数和数据集相关的所有文档列表；这也可适用于检查任何 R 包。通过打开所需的链接或使用 <code>?</code> 操作符可列出包中包括的每个输出函数和数据集，也可以获得每个包的更多详细信息；例如，尝试在控制台键入或输入 <code><a href="https://rdrr.io/r/base/search.html">?search</a></code> 或 <code><a href="https://rdrr.io/r/base/mean.html">?mean</a></code>。RStudio 的 “Help” 选项卡中生成的材料描述了该函数的功能，并且通常至少提供了如何使用函数的示例。在本书中，可以在 RStudio 中的控制台输入R代码或作为脚本保存并发送给 R 以 <code>consolas</code> 字体（所有字符都使用相同空间的单间间字体）在略带灰色的框形中呈现。包名用粗体表示，函数名以 <code>function()</code> 开始，以圆形括号结束。括号是将其与其他 <code>code</code> 文本区分开来，后者通常将指变量、参数和函数参数。</p>
+<p>当然，开始的另一种选择是完成所有必需的安装，然后开始下一章的工作，尽管首先完成本章的其余部分可能是明智的，因为它将介绍绘图和检查不同函数的工作方式等内容。</p>
+</section><section id="在函数内检查代码" class="level3" data-number="2.2.4"><h3 data-number="2.2.4" class="anchored" data-anchor-id="在函数内检查代码">
+<span class="header-section-number">2.2.4</span> 在函数内检查代码</h3>
+<p>提高对任何编程语言理解的一个有效方法是研究其他人如何解决不同的问题。R 的一个极好的方面是，只需在控制台中键入一个函数名，即可研究其他人的代码，而省略任何括号。如果使用 <code><a href="https://github.com/haddonm/MQMF/">library(MQMF)</a></code> 加载 <strong>MQMF</strong>，比如，则可尝试键入 <code>plot1</code>。 如果RStudio帮助添加了一组括号，那么在按 return 之前删除它们。这将 <code><a href="https://rdrr.io/pkg/MQMF/man/plot1.html">plot1()</a></code> 的代码显示在控制台上。尝试完全自己键入 <code>lm</code>，则会从 <code>stats</code>包中列出线性模型函数的内容。在检查函数（如 <code>mean</code> ）时，有许多函数仅提到类似 <code>useMethod("mean")</code> 的内容。这表明该函数是 S3 通用函数，指向可用于该函数的每个对象类别的不同方法（假设读者知道 R 中的不同类，如向量、矩阵、列表等;如果不搜索”R 类”，则应启发您）。当然，R 中有许多类别的对象，但除此之外，还可以定义自己的类。当我们讨论我们自己编写的函数时，我们会多谈一些这类事情。同时，当找到 <code>UseMethod("mean")</code> 时，然后可用于这些函数的具体方法可以通过使用 <code>methods("mean")</code> 列出：例如，尝试 <code>method("print")</code>。每个此类通用函数都有默认行为，因为它指向对象类，而对象类没有特定定义。如果你键入 <code>getS3method("print","default")</code>，那么你可以看到与函数相关的代码，并可将它与 <code>getS3mehtod("print", "table")</code>的代码进行比较。例如，在某些情况下，<code>print.table</code>将直接运行，但 <code>getS3method</code> 应始终有效。如果想要开发可开发的专用 R 对象（定义类）的定制打印、绘图或进一步处理，则可以自己使用 S3 类 <span class="citation" data-cites="venables2002 wickham2019">(<a href="#ref-venables2002" role="doc-biblioref">Venables 和 Ripley 2002</a>; <a href="#ref-wickham2019" role="doc-biblioref">Wickham 2019</a>)</span>。</p>
+<p>一旦加载了一个 R 包，比如 <code><a href="https://github.com/haddonm/MQMF/">library(MQMF)</a></code>，其中的输出对象列表可通过使用 <code>ls</code> 函数得到 ，也可用 <code>ls("package:MQMF")</code> 或 <code>ls.str("package:MQMF")</code>； 通过使用 <code><a href="https://rdrr.io/r/utils/ls_str.html">?ls.str</a></code> 查看两个 <code>ls</code>函数。或者，无需加载包，也可以使用，例如，<code><a href="https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html">mvtnorm::dmvnorm</a></code>、 <code><a href="https://rdrr.io/pkg/MQMF/man/plot1.html">MQMF::plot1</a></code> 或 <code><a href="https://rdrr.io/pkg/MQMF/man/grapes-ni-grapes.html">MQMF::'%ni%'</a></code>，其中<code>::</code> 允许我们查看内部包，假设它们至少已安装完毕。如果 <code>::</code> 报告不存在此类函数，请尝试三个冒号 <code>:::</code>，因为仅在包内内部使用的函数通常不会导出，这意味着没有 <code>:::</code>选项就不容易访问（即使未导出其名称也可能在导出的函数内可见）。最后，无需先加载库，就可以通过使用 <code>getNamespaceExports("MQMF")</code> 看到导出的函数名，其输出可以通过使用 <code>sort(getNamespaceExports("MQMF"))</code> 命令进行简化。</p>
+</section><section id="使用函数" class="level3" data-number="2.2.5"><h3 data-number="2.2.5" class="anchored" data-anchor-id="使用函数">
+<span class="header-section-number">2.2.5</span> 使用函数</h3>
+<p>R是一种使用函数的语言，它既可以进行交互使用，也可以使用脚本 <span class="citation" data-cites="chambers2008 chambers2017 wickham2019">(<a href="#ref-chambers2008" role="doc-biblioref">Chambers 2008</a>, <a href="#ref-chambers2017" role="doc-biblioref">2017</a>; <a href="#ref-wickham2019" role="doc-biblioref">Wickham 2019</a>)</span>。这意味着最好对函数、它们的结构以及如何使用它们有一个很好的理解。您会发现，一旦开始编写代码块，自然就会将它们封装到函数中，这样重复调用代码就会变得更简单。<code>MQMF</code>的示例函数 <code>countones</code> 可用来说明其结构。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#make a function called countones2, don't overwrite original  </span></span>
+<span><span class="va">countones2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  <span class="co"># or  </span></span>
+<span><span class="va">countones3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>  </span>
+<span><span class="va">vect</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>  <span class="co"># there are three ones  </span></span>
+<span><span class="fu">countones2</span><span class="op">(</span><span class="va">vect</span><span class="op">)</span>  <span class="co"># should both give the answer: 3  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">countones3</span><span class="op">(</span><span class="va">vect</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">7100809</span><span class="op">)</span> <span class="co"># if repeatability is desirable.   </span></span>
+<span><span class="va">matdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">trunc</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span><span class="op">*</span><span class="fl">10</span><span class="op">)</span>,nrow<span class="op">=</span><span class="fl">5</span>,ncol<span class="op">=</span><span class="fl">8</span><span class="op">)</span>  </span>
+<span><span class="va">matdat</span> <span class="co">#a five by eight matrix of random numbers between 0 - 9  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+[1,]    5    9    6    0    5    3    1    7
+[2,]    8    8    5    2    1    5    8    2
+[3,]    7    9    5    1    7    1    0    8
+[4,]    5    1    7    9    2    6    2    9
+[5,]    5    5    4    1    6    0    2    4</code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">matdat</span>,<span class="fl">2</span>,<span class="va">countones3</span><span class="op">)</span>  <span class="co"># apply countones3 to 8 columns  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 1 0 2 1 1 1 0</code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">matdat</span>,<span class="fl">1</span>,<span class="va">countones3</span><span class="op">)</span>  <span class="co"># apply countones3 to 5 rows  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 1 2 1 1</code></pre>
+</div>
+</div>
+<p><code>countones2()</code>函数的作用是读取一个向量 <span class="math inline">\(x\)</span>，计算其中 1 的个数，并返回该个数;它可以单独使用，也可以在另一个函数(如 <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>中使用，以将 <code><a href="https://rdrr.io/pkg/MQMF/man/countones.html">countones()</a></code>函数应用于矩阵或 data.frame 的行或列。<code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>函数以及相关的 <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>和 <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>函数，一般用作列表（参见 <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>的帮助文件），对于将给定函数应用到矩阵的列或行和data.frames 都非常有用。data.frame 是特殊的列表，允许混合类的矩阵。可以生成在 apply() 族中使用的非常短的函数，<code>MQMF</code>包括了<code>countgtone</code>、<code>countgtzero</code>、<code>countones</code>、<code>countNAs</code>和<code>countzeros</code>，作为示例实用函数;每个帮助文件中都给出了示例。</p>
+<p>函数可有输入参数，也可有默认值，它应该返回一个对象(可能是一个值，一个向量，一个矩阵，一个列表，等等)或执行一个操作。理想情况下，不应改变工作或全局环境 <span class="citation" data-cites="chambers2017 wickham2019">(<a href="#ref-chambers2017" role="doc-biblioref">Chambers 2017</a>; <a href="#ref-wickham2019" role="doc-biblioref">Wickham 2019</a>)</span> ，尽管对象打印或绘图的函数是个例外:</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#A more complex function prepares to plot a single base graphic  </span></span>
+<span> <span class="co">#It has the syntax for opening a window outside of Rstudio and   </span></span>
+<span> <span class="co">#defining a base graphic  </span></span>
+<span><span class="va">plotprep2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">plots</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,<span class="va">width</span><span class="op">=</span><span class="fl">6</span>, <span class="va">height</span><span class="op">=</span><span class="fl">3.75</span>,<span class="va">usefont</span><span class="op">=</span><span class="fl">7</span>,   </span>
+<span>                      <span class="va">newdev</span><span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.cur</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"null device"</span>,<span class="st">"RStudioGD"</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span>   </span>
+<span>      <span class="op">(</span><span class="va">newdev</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>  </span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.new</a></span><span class="op">(</span>width<span class="op">=</span><span class="va">width</span>,height<span class="op">=</span><span class="va">height</span>,noRStudioGD <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  </span>
+<span>  <span class="op">}</span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="va">plots</span>,mai<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.45</span>,<span class="fl">0.45</span>,<span class="fl">0.1</span>,<span class="fl">0.05</span><span class="op">)</span>,oma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">0.75</span>,mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.35</span>,<span class="fl">0.35</span>,<span class="fl">0</span><span class="op">)</span>,font.axis<span class="op">=</span><span class="va">usefont</span>,font<span class="op">=</span><span class="va">usefont</span>,   </span>
+<span>      font.lab<span class="op">=</span><span class="va">usefont</span><span class="op">)</span>  </span>
+<span><span class="op">}</span>  <span class="co">#  see ?plotprep; see also parsyn() and parset()  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>但愿这个 <code>plotprep2()</code> 示例能够强调这样一个事实：如果您看到某人编写的函数，您可以对其进行定制以更符合自己的需求，那么没有理由你不应该这么做。 当然，在文档中引用已知的原始函数是很好的做法，但是编写自己的函数的主要优势正是这种自定义工作环境的能力(请参阅后面的<em>编写函数</em>部分)。</p>
+</section><section id="随机数生成" class="level3" data-number="2.2.6"><h3 data-number="2.2.6" class="anchored" data-anchor-id="随机数生成">
+<span class="header-section-number">2.2.6</span> 随机数生成</h3>
+<p>R提供了大量的概率密度函数(例如，正态分布、Beta 分布等等)。对建模人员有很大好处的是，R还提供了从每个分布中生成随机样本的标准方法。当然，这些样本实际上是伪随机数，因为真正的随机过程是非常难模拟的。尽管如此，R中还是有一些非常有效的伪随机数生成器。试着在控制台中输入 <code><a href="https://rdrr.io/r/base/Random.html">RNGkind()</a></code>，看看当前在您自己的计算机上使用的是什么。 如果在代码中键入 <code>RNGkind</code> （不带括号），在代码中，将看到从<em>kind</em> 向量中可用的生成器列表。</p>
+<p>伪随机数生成器在长循环中生成一长串数字，每个数字都依赖于前面的数字。这类生成机的早期版本臭名昭著地具有短循环，但R中默认的生成器，即众所周知的 Mersenne-Twister，据报道其周期为 <span class="math inline">\(2^{19937} - 1\)</span>，这是一个相当大的数字。然而，即使是一个大的循环，它也必须从某个地方开始，而那个地方被称为种子。如果每次都使用相同的种子，那么每次尝试使用它们时就会获得相同的伪随机值系列。如果使用随机数的特定模拟具有特定的行为方式，那么这种重复性就非常有用，因为它有助于了解所使用的种子，以便能够进行重复。在 <code><a href="https://rdrr.io/r/base/Random.html">?RNGkind</a></code> 的帮助文件中，它指出:“最初，没有种子;当需要时，从当前时间和进程ID创建一个新的。因此，在默认情况下，不同的会话将给出不同的模拟结果。”但是该帮助也声明:“提供的大多数统一生成器返回被转换为双精度的32位整数值，因此它们最多接受 <span class="math inline">\(2^{32}\)</span> 个不同的值，非常长的运行将返回重复的值”。<span class="math inline">\(2^{32} \sim 42.95\)</span> 10亿(千百万) 所以要警告。它还警告说，如果恢复以前保存的工作区，那么以前的种子将会返回。这些隐藏的细节是值得记住的，这样人们就可以充分意识到分析实际上在做什么。</p>
+<p>为了使我们自己的模拟可重复，我们希望保存使用的种子和特定试验的结果。可以使用 <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code> 函数设置种子，如 <code>set.seed(12345)</code>。我特意用 12345 来说明，在你的头脑中创建一个种子不一定是一个好主意。我们可能都有很好的想象力(也可能没有)，但当我们要编造一系列随机的种子时，最好使用不同的方法。尽管人们的最佳意图是编造种子，但这往往会导致重复使用特定数字，从而导致模拟结果存在偏差。生成此类种子的一种方法是使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/getseed.html">getseed()</a></code>。它使用系统时间（ <code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code>）获得一个整数，该整数的数字随后被伪随机地重新排序。看看它的代码，看看它是如何工作的。 似乎只在真正需要能够重复使用随机数的特定分析时才使用 <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code> 是合理的。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Examine the use of random seeds.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/haddonm/MQMF/">MQMF</a></span><span class="op">)</span></span>
+<span><span class="va">seed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/getseed.html">getseed</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># you will very likely get different naswers</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">seed</span><span class="op">)</span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,<span class="fl">5</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.11413  1.54173 -0.37487 -0.53958  0.31271</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123456</span><span class="op">)</span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,<span class="fl">5</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.83373 -0.27605 -0.35500  0.08749  2.25226</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/haddonm/MQMF/">MQMF</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">seed</span><span class="op">)</span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,<span class="fl">5</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.11413  1.54173 -0.37487 -0.53958  0.31271</code></pre>
+</div>
+</div>
+</section><section id="r语言中的输出" class="level3" data-number="2.2.7"><h3 data-number="2.2.7" class="anchored" data-anchor-id="r语言中的输出">
+<span class="header-section-number">2.2.7</span> R语言中的输出</h3>
+<p>大多数显示意味着分析的输出被写入控制台，尽管将对象的内容写入文件的选项也存在（参见<code><a href="https://rdrr.io/r/base/save.html">?save</a></code> 和 <code><a href="https://rdrr.io/r/base/load.html">?load</a></code>，也参见 <code><a href="https://rdrr.io/r/utils/write.table.html">?write.table</a></code> 和 <code><a href="https://rdrr.io/r/utils/read.table.html">?read.table</a></code>）。如果您想要保存发送到控制台的所有输出的记录，那么也可以使用 <code><a href="https://rdrr.io/r/base/sink.html">sink()</a></code> 函数来做到这一点，它将输出从R转换到一个指定的文本文件。通过使用 <code>sink(file="filename"， split=TRUE)</code>， <code>split=TRUE</code> 参数意味着可以将输出显示在屏幕上，也可以发送到文件中。可以通过重复 <code><a href="https://rdrr.io/r/base/sink.html">sink()</a></code> 调用来关闭文件的输出，但括号中不包含任何内容。如果没有显式包含”filename”的路径，那么该文件将被发送到工作目录(参见 <code><a href="https://rdrr.io/r/base/getwd.html">?getwd</a></code>)。<code><a href="https://rdrr.io/r/base/sink.html">sink()</a></code> 函数对于记录会话很有用，但是如果会话在关闭接收之前崩溃，那么它仍然可以运行。与其试图记住这个问题，还不如在脚本的早期包含类似于 <code>on.exit(suppressWarnings(sink()))</code> 的内容。<code><a href="https://rdrr.io/r/base/on.exit.html">on.exit()</a></code> 函数对于在运行可能无法完成的分析之后进行清理非常有用。</p>
+</section><section id="r语言中的绘图" class="level3" data-number="2.2.8"><h3 data-number="2.2.8" class="anchored" data-anchor-id="r语言中的绘图">
+<span class="header-section-number">2.2.8</span> R语言中的绘图</h3>
+<p>使用R简化了高质量图形的制作，在 www 和书籍中都有许多有用的资源描述R的图形可能性 <span class="citation" data-cites="murrell2018a">(例如 <a href="#ref-murrell2018a" role="doc-biblioref">Murrell 2018</a>)</span>。在这里，我们只关注于使用R标准安装中的基本图形。与R中实现的其他主要图形包相比，基本图形包的复杂程度或能力较低是可能的(例如，您应该探索使用 <code>lattice</code>、<code>ggplot2</code>、<code>graph</code>、<code>vcd</code>、<code>scatterplot3d</code> 和其他可用图形包的选项;您可能会发现其中一个或多个可能比基本图形更适合您的编程风格)。然而，通过基础或传统图形，可以满足我们所需要的大多数绘图需求。如何在R中生成图形提供了一个很好的说明，在任何给定的编程语言中通常有许多方法来做同样的事情。对于特定的任务，有些方法显然比其他方法更有效，但无论如何，找到你觉得舒服的方法、方法和包是一个好主意，因为这里的目的是快速、正确地完成工作，不要学习 R 语言中所有的选项(现在所有可用的包都非常广泛）。也就是说，你对R语言和语法的了解越多，你解决特定问题或任务的选择就越多;到处都有权衡!</p>
+<p>其中，<strong>MQMF</strong> 包含一个执行绘图函数的函数数组。关于R的一个优点是，通过调整各种图形参数，可以很容易地生成并实时优化图表和绘图，直到得到所需的形式。一旦最后定稿，还可以生成出版物质量的图形文件，以便编入报告或随手稿寄出。首先检查 <code><a href="https://rdrr.io/pkg/MQMF/man/plotprep.html">MQMF::plotprep</a></code> 代码，以了解它如何定义绘图区域、边距以及如何格式化绘图的其他细节。<code><a href="https://rdrr.io/pkg/MQMF/man/plotprep.html">plotprep()</a></code> 可以用作快捷设置格式为基础的图形块(外部RStudio情节窗口),如果想要变化，那么 <code><a href="https://rdrr.io/pkg/MQMF/man/parsyn.html">parsyn()</a></code> 为 <code><a href="https://rdrr.io/r/graphics/par.html">par()</a></code> 函数写的核心语法到控制台,可以复制到您自己的代码和用于起动器基本图形绘制。如果你满足于RStudio中的绘图窗口，那么你只需要 <code><a href="https://rdrr.io/pkg/MQMF/man/parsyn.html">parsyn()</a></code> 。一旦熟悉了 <code><a href="https://rdrr.io/r/graphics/par.html">par()</a></code> 函数的语法，您就可以使用 <code><a href="https://rdrr.io/pkg/MQMF/man/parset.html">MQMF::parset()</a></code> 函数作为快捷方式或包装器函数。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/haddonm/MQMF/">MQMF</a></span><span class="op">)</span>   <span class="co"># The development of a simple graph  see Fig. 2.1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"LatA"</span><span class="op">)</span>  <span class="co">#LatA = length at age data; try properties(LatA)  </span></span>
+<span> <span class="co">#The statements below open the RStudio graphics window, but opening  </span></span>
+<span> <span class="co">#a separate graphics window using plotprep is sometimes clearer.  </span></span>
+<span> <span class="co">#plotprep(width=6.0,height=5.0,newdev=FALSE)   </span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/setpalette.html">setpalette</a></span><span class="op">(</span><span class="st">"R4"</span><span class="op">)</span> <span class="co">#a more balanced, default palette see its help  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>,mai<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.45</span>,<span class="fl">0.45</span>,<span class="fl">0.1</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span>  <span class="co"># see ?parsyn  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">0.75</span>, mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.35</span>,<span class="fl">0.35</span>,<span class="fl">0</span><span class="op">)</span>, font.axis<span class="op">=</span><span class="fl">7</span>,font<span class="op">=</span><span class="fl">7</span>,font.lab<span class="op">=</span><span class="fl">7</span><span class="op">)</span>   </span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">LatA</span><span class="op">$</span><span class="va">age</span><span class="op">)</span> <span class="co">#examine effect of different input parameters  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">LatA</span><span class="op">$</span><span class="va">age</span>,breaks<span class="op">=</span><span class="fl">20</span>,col<span class="op">=</span><span class="fl">3</span>,main<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="co"># 3=green #try ?hist  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">LatA</span><span class="op">$</span><span class="va">age</span>,breaks<span class="op">=</span><span class="fl">30</span>,main<span class="op">=</span><span class="st">""</span>,col<span class="op">=</span><span class="fl">4</span><span class="op">)</span> <span class="co"># 4=blue  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">LatA</span><span class="op">$</span><span class="va">age</span>, breaks<span class="op">=</span><span class="fl">30</span>,col<span class="op">=</span><span class="fl">2</span>, main<span class="op">=</span><span class="st">""</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">43</span><span class="op">)</span>, <span class="co">#2=red  </span></span>
+<span>     xlab<span class="op">=</span><span class="st">"Age (years)"</span>,ylab<span class="op">=</span><span class="st">"Count"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="02-NonIntroductiontoR_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>An example series of histograms using data from the MQMF data set LatA, illustrating how one can iterate towards a final plot. See also the function uphist().</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="因素处理" class="level3" data-number="2.2.9"><h3 data-number="2.2.9" class="anchored" data-anchor-id="因素处理">
+<span class="header-section-number">2.2.9</span> 因素处理</h3>
+<p>R的一个可能导致挫折和困难的方面是使用因素来表示分类变量。这将分类变量转换为因子的级别(不同值)，甚至是已经有数值的因子。例如，在标准化渔业 CPUE 时，通常至少使用一些分类变量，因此，如果一个水深类别为 50 - 600 米，每个步骤为 50，那么在标准化中需要将这些类别作为固定的分类因子而不是数值处理。但是，一旦转换为一组因子，它们就不再表现为原始的数值变量，而这通常是绘制时所需要的。但是，如果它们最初是<em>数值</em>的，则可以使用函数 <code><a href="https://rdrr.io/pkg/MQMF/man/facttonum.html">facttonum()</a></code> 进行恢复。在探索与因素有关的一些问题的示例代码中，请注意 <code><a href="https://rdrr.io/r/base/try.html">try()</a></code> 函数的使用（另请参阅 <code><a href="https://rdrr.io/r/base/conditions.html">tryCatch()</a></code>）。这用于防止 r-code 由于试图将一个因子乘以标量的错误而停止。这在开发代码和使用 bookdown 和 Rmarkdown 编写书籍时非常有用。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Dealing with factors/categories can be tricky  </span></span>
+<span><span class="va">DepCat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">300</span>,<span class="fl">600</span>,<span class="fl">50</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>; <span class="va">DepCat</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] 300 350 400 450 500 550 600 300 350 400 450 500 550 600
+Levels: 300 350 400 450 500 550 600</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="va">DepCat</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, silent<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="co">#only returns NA and a warning!  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">DepCat</span><span class="op">)</span> <span class="co"># returns the levels not the original values  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 2 3 4 5 6 7 1 2 3 4 5 6 7</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">DepCat</span><span class="op">)</span><span class="op">)</span> <span class="co">#converts 7 levels not the replicates  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 300 350 400 450 500 550 600</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DepCat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">DepCat</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">DepCat</span><span class="op">]</span> <span class="co"># try ?facttonum  </span></span>
+<span> <span class="co">#converts replicates in DepCat to numbers, not just the levels   </span></span>
+<span><span class="fl">5</span> <span class="op">*</span> <span class="va">DepCat</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>   <span class="co"># now treat DepCat as numeric  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 2000</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DepCat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">300</span>,<span class="fl">600</span>,<span class="fl">50</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>; <span class="va">DepCat</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] 300 350 400 450 500 550 600 300 350 400 450 500 550 600
+Levels: 300 350 400 450 500 550 600</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/facttonum.html">facttonum</a></span><span class="op">(</span><span class="va">DepCat</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] 300 350 400 450 500 550 600 300 350 400 450 500 550 600</code></pre>
+</div>
+</div>
+<p>通常，获取 data.frame 的一个副本并在该副本中分解变量会更简单，因此，如果您想使用原始变量进行进一步的操作或绘图，您不需要将它们从数字转换为因子。</p>
+<p>当数据被读入 R 中的 data.frame 时，默认的行为是将字符串或字符视为因子。您可以通过在控制台中输入 <code><a href="https://rdrr.io/r/base/options.html">options()</a></code> 来发现很多 R 选项的默认设置。如果你搜索 $stringsAsFactors (注意大写字母)，你会发现它默认为 TRUE。如果您希望关闭此功能，可以使用 <code>option(stringsAsFactors=FALSE)</code> 轻松完成。从关于因素的代码块中可以明显看出，在处理分类变量时需要格外小心。</p>
+</section><section id="数据输入" class="level3" data-number="2.2.10"><h3 data-number="2.2.10" class="anchored" data-anchor-id="数据输入">
+<span class="header-section-number">2.2.10</span> 数据输入</h3>
+<p>与所有编程语言(和统计包)一样，一个共同的需求是输入数据以便进行分析。R 非常擅长数据操作，这类事情在 <span class="citation" data-cites="crawley2007">Crawley (<a href="#ref-crawley2007" role="doc-biblioref">2007</a>)</span> 等书中有很好的描述。当然，也有许多处理数据操作的 R 包。一个特别有用的是 <code>dplr</code>，它是 <code>tidyverse</code> 组的一部分。但是在这里，我们只会提到几种将数据输入 r 的方法。一种非常常见和低级的方法是简单地使用文本文件作为输入。我仍然经常使用逗号分隔值 (.csv) 文件，因为它易于生成，而且可以从许多不同的编辑器打开和编辑。可以轻松使用 <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>或 <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code>。一旦数据被读入 R，就可以通过 <code>save(object,file="filename.RData")</code> 将其保存为更有效的存储格式，之后可以使用 <code>load(file="filename.RData")</code> 将其加载到R。查看 <code><a href="https://rdrr.io/r/base/save.html">?save</a></code> 和 <code><a href="https://rdrr.io/r/base/load.html">?load</a></code> 的细节。</p>
+<p>在本书的示例中，我们将使用属于 <strong>MQMF</strong> 包一部分的数据集，但是通过复制这些数据集中使用的格式，一旦将数据加载到R中，您就可以使用自己的数据了。</p>
+</section></section><section id="编写函数" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="编写函数">
+<span class="header-section-number">2.3</span> 编写函数</h2>
+<p>如果你打算使用 R 来进行任何分析，你通常会使用一个文本编辑器来输入你的 R 代码，并且至少保存这些脚本以备以后使用。在许多情况下，您可能需要重复一系列命令，这些命令可能使用的变量和或参数的输入值有所不同。尽管使用 <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> 作为中间步骤并非不可能，但这种情况和许多其他情况最好的解决办法是将代码转换为函数。您将在下面的文本和 <strong>MQMF</strong> 包中看到许多函数示例，为了充分利用文本中表达的思想，您会发现学习如何编写自己的函数很有帮助。</p>
+<p>函数的结构总是相同的:</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Outline of a function's structure  </span></span>
+<span><span class="va">functionname</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">argument1</span>, <span class="va">fun</span>,<span class="va">...</span><span class="op">)</span> <span class="op">{</span>  </span>
+<span>  <span class="co"># body of the function   </span></span>
+<span>  <span class="co">#   </span></span>
+<span>  <span class="co"># the input arguments and body of a function can include other  </span></span>
+<span>  <span class="co"># functions, which may have their own arguments, which is what  </span></span>
+<span>  <span class="co"># the ... is for. One can include other inputs that are used but  </span></span>
+<span>  <span class="co"># not defined early on and may depend on what function is brought  </span></span>
+<span>  <span class="co"># into the main function. See for example negLL(), and others   </span></span>
+<span>  <span class="va">answer</span> <span class="op">&lt;-</span> <span class="fu">fun</span><span class="op">(</span><span class="va">argument1</span><span class="op">)</span> <span class="op">+</span> <span class="fl">2</span>   </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">answer</span><span class="op">)</span>  </span>
+<span><span class="op">}</span> <span class="co"># end of functionname  </span></span>
+<span><span class="fu">functionname</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">mean</span><span class="op">)</span>  <span class="co"># = mean(1,2,3,4,5)= 3 + 2 = 5  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+</div>
+<p>我们将开发一个示例来说明如何将这些函数组合在一起。</p>
+<section id="简单函数" class="level3" data-number="2.3.1"><h3 data-number="2.3.1" class="anchored" data-anchor-id="简单函数">
+<span class="header-section-number">2.3.1</span> 简单函数</h3>
+<p>通常我们会有一个简单的公式，比如生长函数或者描述鱼类成熟度的函数。例如，von Bertalanffy 曲线在渔业研究中使用得相当多。</p>
+<p><span id="eq-2_1"><span class="math display">\[
+\hat{L_t}=L_{\infty}{\left (1-e^{-K(t-t_0)} \right )}
+\qquad(2.1)\]</span></span></p>
+<p>在R中 <a href="#eq-2_1" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-2_1</span></a> 可以以多种方式呈现,第一个简单的代码在一个代码块中，用年龄步长进行循环运算，或者矢量化,或者更合理,使用方程转化为一个函数,可以多次调用而不是复制显式行代码。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co"># Implement the von Bertalanffy curve in multiple ways  </span></span>
+<span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span>  </span>
+<span><span class="va">nages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ages</span><span class="op">)</span>  </span>
+<span><span class="va">Linf</span> <span class="op">&lt;-</span> <span class="fl">50</span>;  <span class="va">K</span> <span class="op">&lt;-</span> <span class="fl">0.2</span>;  <span class="va">t0</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">0.75</span>  </span>
+<span> <span class="co"># first try a for loop to calculate length for each age  </span></span>
+<span><span class="va">loopLt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">nages</span><span class="op">)</span>  </span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">ag</span> <span class="kw">in</span> <span class="va">ages</span><span class="op">)</span> <span class="va">loopLt</span><span class="op">[</span><span class="va">ag</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Linf</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">K</span> <span class="op">*</span> <span class="op">(</span><span class="va">ag</span> <span class="op">-</span> <span class="va">t0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span> <span class="co"># the equations are automatically vectorized so more efficient  </span></span>
+<span><span class="va">vecLt</span> <span class="op">&lt;-</span> <span class="va">Linf</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">K</span> <span class="op">*</span> <span class="op">(</span><span class="va">ages</span> <span class="op">-</span> <span class="va">t0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># or we can convert   </span></span>
+<span> <span class="co"># the equation into a function and use it again and again  </span></span>
+<span><span class="va">vB</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pars</span>,<span class="va">inages</span><span class="op">)</span> <span class="op">{</span> <span class="co"># requires pars=c(Linf,K,t0)  </span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">pars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">pars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="op">(</span><span class="va">inages</span> <span class="op">-</span> <span class="va">pars</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span><span class="op">}</span>  </span>
+<span><span class="va">funLt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/vB.html">vB</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Linf</span>,<span class="va">K</span>,<span class="va">t0</span><span class="op">)</span>,<span class="va">ages</span><span class="op">)</span>  </span>
+<span><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">ages</span>,<span class="va">funLt</span>,<span class="va">vecLt</span>,<span class="va">loopLt</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-lable="tbl-table1">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Three different ways of generating the same growth curve</caption>
+<thead><tr class="header">
+<th style="text-align: right;">ages</th>
+<th style="text-align: right;">funLt</th>
+<th style="text-align: right;">vecLt</th>
+<th style="text-align: right;">loopLt</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">14.77</td>
+<td style="text-align: right;">14.77</td>
+<td style="text-align: right;">14.77</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">21.15</td>
+<td style="text-align: right;">21.15</td>
+<td style="text-align: right;">21.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">26.38</td>
+<td style="text-align: right;">26.38</td>
+<td style="text-align: right;">26.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">30.66</td>
+<td style="text-align: right;">30.66</td>
+<td style="text-align: right;">30.66</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">34.17</td>
+<td style="text-align: right;">34.17</td>
+<td style="text-align: right;">34.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">37.04</td>
+<td style="text-align: right;">37.04</td>
+<td style="text-align: right;">37.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">39.39</td>
+<td style="text-align: right;">39.39</td>
+<td style="text-align: right;">39.39</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">41.31</td>
+<td style="text-align: right;">41.31</td>
+<td style="text-align: right;">41.31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">42.89</td>
+<td style="text-align: right;">42.89</td>
+<td style="text-align: right;">42.89</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">44.18</td>
+<td style="text-align: right;">44.18</td>
+<td style="text-align: right;">44.18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">45.23</td>
+<td style="text-align: right;">45.23</td>
+<td style="text-align: right;">45.23</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">46.10</td>
+<td style="text-align: right;">46.10</td>
+<td style="text-align: right;">46.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">46.80</td>
+<td style="text-align: right;">46.80</td>
+<td style="text-align: right;">46.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">47.38</td>
+<td style="text-align: right;">47.38</td>
+<td style="text-align: right;">47.38</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">47.86</td>
+<td style="text-align: right;">47.86</td>
+<td style="text-align: right;">47.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">48.25</td>
+<td style="text-align: right;">48.25</td>
+<td style="text-align: right;">48.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">48.56</td>
+<td style="text-align: right;">48.56</td>
+<td style="text-align: right;">48.56</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">48.82</td>
+<td style="text-align: right;">48.82</td>
+<td style="text-align: right;">48.82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">49.04</td>
+<td style="text-align: right;">49.04</td>
+<td style="text-align: right;">49.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">49.21</td>
+<td style="text-align: right;">49.21</td>
+<td style="text-align: right;">49.21</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>使用向量化比使用循环更有效地编写代码，而且一旦人们习惯了这种想法，代码也会变得更易读。当然，可以直接复制进行计算的 R 的矢量化行，即 <code>vecLt &lt;- Linf * (1 - exp(- k * (ages - t0)))</code>，而不是使用函数调用。但也可以在函数中包含错误检查和其他细节，使用函数调用应该有助于避免意外引入错误。此外，许多函数包含大量的代码行，因此使用函数调用也使整个程序更易于阅读和维护。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#A vB function with some error checking  </span></span>
+<span><span class="va">vB</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pars</span>,<span class="va">inages</span><span class="op">)</span> <span class="op">{</span> <span class="co"># requires pars=c(Linf,K,t0)  </span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">pars</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">inages</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>  </span>
+<span>    <span class="va">Lt</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">pars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="op">(</span><span class="va">inages</span> <span class="op">-</span> <span class="va">pars</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Not all input values are numeric! \n"</span><span class="op">)</span><span class="op">)</span> <span class="op">}</span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">Lt</span><span class="op">)</span>  </span>
+<span><span class="op">}</span>  </span>
+<span><span class="va">param</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">0.2</span>,<span class="st">"-0.75"</span><span class="op">)</span>  </span>
+<span><span class="va">funLt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/vB.html">vB</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">param</span><span class="op">)</span>,<span class="va">ages</span><span class="op">)</span> <span class="co">#try without the as.numeric  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/halftable.html">halftable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">ages</span>,<span class="va">funLt</span><span class="op">)</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>   ages    funLt ages    funLt
+1     1 14.76560   11 45.23154
+2     2 21.15251   12 46.09592
+3     3 26.38167   13 46.80361
+4     4 30.66295   14 47.38301
+5     5 34.16816   15 47.85739
+6     6 37.03799   16 48.24578
+7     7 39.38760   17 48.56377
+8     8 41.31130   18 48.82411
+9     9 42.88630   19 49.03726
+10   10 44.17579   20 49.21178</code></pre>
+</div>
+</div>
+</section><section id="函数输入值" class="level3" data-number="2.3.2"><h3 data-number="2.3.2" class="anchored" data-anchor-id="函数输入值">
+<span class="header-section-number">2.3.2</span> 函数输入值</h3>
+<p>使用函数有很多优点。每个函数都有自己的分析环境，其主要优点是每个函数的环境都与函数外部的分析隔离开来。此外，全局环境(在其中完成许多工作)与不同函数中的工作是隔离的。因此，在函数中可以声明一个变量 <em>popnum</em>，并以多种方式更改它的值，但这对函数外同名的变量没有影响。这意味着一个函数的操作范围仅限于该函数。有一些方法可以让函数内部发生的事情直接影响外部变量，但我不会教人们坏习惯，我只会给出搜索符号的提示 -&gt;&gt;。忘记特殊的情况，一个函数与它发现自己所在的环境(一个人可以有函数，在函数中，在函数中，…) 交互的唯一方式是通过它的参数，以及通过它完成时的返回。在上面定义的 <code><a href="https://rdrr.io/pkg/MQMF/man/vB.html">vB()</a></code> 函数中，参数是 <em>pars</em> 和 <em>inages</em>，它显式地返回<em>Lt</em>。函数将返回上一次活动计算的结果，但在本书中，我们总是调用 <code><a href="https://rdrr.io/r/base/function.html">return()</a></code> 以确保返回的内容是显式和清晰的。有时，人们可以牺牲增加的简洁来增加清晰度。</p>
+<p>在使用函数时，可以显式地使用参数名 <code>vB(pars=param, inages=1:20)</code> 或隐式地使用 <code>vB(param,1:20)</code>。如果隐式使用，则输入参数的顺序很重要。如果以错误的顺序输入,函数将愉快地使用 1:20 的前三个值作为参数，并将 <code>param=c(50,0.02, 0.75)</code> 作为所需的年龄(从 <em>VB(ages, param)</em> 获得以下预测长度: 1.0000 -269.4264 -1807.0424)。如果使用了参数名，那么顺序并不重要。输入所有这些名称可能会让人觉得需要付出更多的努力，但它最终确实使编程变得更容易，并且充当了另一个自我文档的来源。当然，应该开发一种适合自己的编程风格，自然地，可以从错误中学习。</p>
+<p>从本质上讲，软件是顺从的。如果我们将 <code><a href="https://rdrr.io/pkg/MQMF/man/vB.html">vB()</a></code> 函数的参数前后混乱，如我们所见，它仍然会尽力返回一个答案或尝试失败。使用相对简单的软件和函数，不难确保任何这样的参数和数据输入以正确的顺序和可识别的形式呈现给函数。一旦我们开始生成更多的相互联系和复杂的软件，其中一个过程的输出形成了对其他过程的输入，那么所涉及的计划需要扩展到参数和数据使用的格式。错误检查就变得比只使用单个函数重要得多。</p>
+</section><section id="r对象" class="level3" data-number="2.3.3"><h3 data-number="2.3.3" class="anchored" data-anchor-id="r对象">
+<span class="header-section-number">2.3.3</span> R对象</h3>
+<p>我们将R语言视为一种编程语言，在编写任何软件时都应该认真对待它的设计。只关注R，有两个原则可以帮助这样的设计 <span class="citation" data-cites="chambers2017">(<a href="#ref-chambers2017" role="doc-biblioref">Chambers 2017, p4</a>)</span> 。 1. 存在于R中的一切都是一个对象。</p>
+<ol start="2" type="1">
+<li>在R中发生的一切都是一个函数调用。</li>
+</ol>
+<p>这意味着任何函数输入的每个参数或形参和数据集都是R对象，就像函数(如果有的话)返回的都是R对象一样。</p>
+</section><section id="对象范围" class="level3" data-number="2.3.4"><h3 data-number="2.3.4" class="anchored" data-anchor-id="对象范围">
+<span class="header-section-number">2.3.4</span> 对象范围</h3>
+<p>您可能想知道为什么我在上面的 <code><a href="https://rdrr.io/pkg/MQMF/man/vB.html">vB()</a></code> 函数参数中使用 <em>inages</em> 而不是 <em>ages</em>。这纯粹是为了避免混淆每个变量的范围。如上所述，在R中，所有操作都发生在环境中，全局环境是在使用控制台或简单脚本时输入的环境。重要的是要认识到，您编写的任何函数都有自己的环境，其中包含内部变量的作用域。然而，即使 R 对象没有作为参数传递给函数，该对象仍然可以在函数中看到。但是，函数内部的工作对全局或调用环境是隐藏的。如果在函数内部定义了一个变量，但在函数外部使用了相同的变量名，那么当使用变量名时，它首先会在自己的环境中搜索，并使用内部定义的版本，而不是外部定义的版本。不过，最好的做法是在函数内部使用与函数外部不同的对象名称。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co"># demonstration that the globel environment is 'visible' inside a  </span></span>
+<span> <span class="co"># a function it calls, but the function's environment remains  </span></span>
+<span> <span class="co"># invisible to the global or calling environment  </span></span>
+<span><span class="va">vBscope</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">pars</span><span class="op">)</span> <span class="op">{</span> <span class="co"># requires pars=c(Linf,K,t0)  </span></span>
+<span>  <span class="va">rhside</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">pars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="op">(</span><span class="va">ages</span> <span class="op">-</span> <span class="va">pars</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span>  <span class="va">Lt</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="va">rhside</span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">Lt</span><span class="op">)</span>  </span>
+<span><span class="op">}</span>  </span>
+<span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>; <span class="va">param</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50</span>,<span class="fl">0.2</span>,<span class="op">-</span><span class="fl">0.75</span><span class="op">)</span>  </span>
+<span><span class="fu">vBscope</span><span class="op">(</span><span class="va">param</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] 14.76560 21.15251 26.38167 30.66295 34.16816 37.03799 39.38760 41.31130
+ [9] 42.88630 44.17579</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="va">rhside</span><span class="op">)</span>    <span class="co"># note the use of try() which can trap errors ?try  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Error in eval(expr, envir) : 找不到对象'rhside'</code></pre>
+</div>
+</div>
+</section><section id="函数输入与输出" class="level3" data-number="2.3.5"><h3 data-number="2.3.5" class="anchored" data-anchor-id="函数输入与输出">
+<span class="header-section-number">2.3.5</span> 函数输入与输出</h3>
+<p>像大多数软件一样，R 函数总是有输入和输出(尽管两者可能都是 <em>NULL</em>；函数的括号可以为空，例如 <code><a href="https://rdrr.io/pkg/MQMF/man/parsyn.html">parsyn()</a></code>)。当输入参数向量或数据矩阵时，采用标准格式是明智的，我的意思是设置标准格式。这样，任何处理此类数据的函数都可以对其格式进行假设。理想情况下，在使用任何输入数据之前进行数据检查仍然是一个好主意，但这可以通过遵循任何确定的标准格式来简化。</p>
+<p>重要的是要知道和理解输入到每个函数中的数据的结构，因为向量繁殖需要以不同的方式引用到矩阵中，而矩阵的行为也与 data.frame 不同。通常最好通过列名显式地引用矩阵，因为不能保证所有这样的数据集都按照 <em>schaef</em> 中找到的顺序。我们可以比较 <code>schaef[，2]</code> 和 <code>schaef[，"catch"]</code>，和 <code>schaef$catch</code>。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Bring the data-set schaef into the working of global environment  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">schaef</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#examine the properties of the data-set schaef  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">schaef</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="va">schaef</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">2</span><span class="op">]</span>  </span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="va">schaef</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"catch"</span><span class="op">]</span>  </span>
+<span><span class="va">c</span> <span class="op">&lt;-</span> <span class="va">schaef</span><span class="op">$</span><span class="va">catch</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">a</span>,<span class="va">b</span>,<span class="va">c</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>         a     b     c
+[1,] 60913 60913 60913
+[2,] 72294 72294 72294
+[3,] 78353 78353 78353
+[4,] 91522 91522 91522
+[5,] 78288 78288 78288</code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mschaef</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">schaef</span><span class="op">)</span>  </span>
+<span><span class="va">mschaef</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"catch"</span><span class="op">]</span>  <span class="co"># ok  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> 1934  1935  1936  1937  1938 
+60913 72294 78353 91522 78288 </code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="va">mschaef</span><span class="op">$</span><span class="va">catch</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span> <span class="co">#invalid for matrices  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Error in mschaef$catch : $ operator is invalid for atomic vectors</code></pre>
+</div>
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">d</span>  <span class="co"># had we not used try()eveerything would have stopped.  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "Error in mschaef$catch : $ operator is invalid for atomic vectors\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+&lt;simpleError in mschaef$catch: $ operator is invalid for atomic vectors&gt;</code></pre>
+</div>
+</div>
+<p>通过测试 <code>schaef</code> 对象的<em>类</em>，我们可以看到它是 data.frame 而不是矩阵。因此，处理这些输入可能不像乍一看那么简单。是的，列的顺序可能会改变，但名称也可能不同。因此，我们至少要做一些检查，使我们的软件至少在一定程度上是安全的。通常我们是唯一使用我们编写的软件的人，但我发现这并不意味着我不需要尝试使它万无一失(似乎有时我是愚蠢的)。</p>
+<p>注意，在 <code>schaef</code> 中，我们使用了所有小写的列标题，这并不总是常见的。正如我们所看到的，列名很重要，因为引用 data.frame 通常会更好，就像引用矩阵一样。通常，在编程时，我们可以使用不止一个选项。我们可以强制输入数据矩阵变成 data.frame，但也可以强制列名为小写。我知道列名已经是小写的了，但是这里我们讨论的是一个接收任意给定数据集的函数。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Convert column names of a data.frame or matrix to lowercase  </span></span>
+<span><span class="va">dolittle</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">indat</span><span class="op">)</span> <span class="op">{</span>  </span>
+<span>   <span class="va">indat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">indat</span><span class="op">)</span>  </span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">indat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">indat</span><span class="op">)</span><span class="op">)</span>  </span>
+<span>   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>dfdata<span class="op">=</span><span class="va">indat1</span>,indat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span><span class="op">}</span> <span class="co"># return the original and the new version  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">schaef</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">schaef</span><span class="op">)</span><span class="op">)</span>  </span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">dolittle</span><span class="op">(</span><span class="va">schaef</span><span class="op">)</span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">out</span>, width<span class="op">=</span><span class="fl">63</span>, strict.width<span class="op">=</span><span class="st">"cut"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>List of 2
+ $ dfdata:'data.frame': 22 obs. of  4 variables:
+  ..$ YEAR  : int [1:22] 1934 1935 1936 1937 1938 1939 1940 1..
+  ..$ CATCH : int [1:22] 60913 72294 78353 91522 78288 110417..
+  ..$ EFFORT: int [1:22] 5879 6295 6771 8233 6830 10488 10801..
+  ..$ CPUE  : num [1:22] 10.4 11.5 11.6 11.1 11.5 ...
+ $ indat : num [1:22, 1:4] 1934 1935 1936 1937 1938 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:22] "1934" "1935" "1936" "1937" ...
+  .. ..$ : chr [1:4] "year" "catch" "effort" "cpue"</code></pre>
+</div>
+</div>
+<p>因此，在接下来的内容中，我们将尝试仅对与渔业相关的数据使用小写列名，我们将使用标准名称 “year”、“catch”、“cpue” 等，但我们也将在期望输入数据矩阵的函数中包含一条转换为 <em>tolower</em> 的语句。当输入包含与渔业相关的数据矩阵、年龄组成数据、与生长、成熟、补充和选择性有关的生物常数向量以及其他数据的更复杂列表对象时，这些细节就变得更加重要。在任何稍微复杂一点的软件设计中，都应该确定标准格式并检查此类输入。</p>
+<p>在 <code>schaef</code> 的情况下，这是在评估中与剩余产量模型一起使用的数据。这是合理的想法开发函数提前预支了一个先于它是否包含所有所需的数据,在数据是否有差距,和其他细节,之前用于评估一个甚至可以开发<em>S3</em>类为特定分析,这将允许将函数添加到通用函数，如 <em>print</em>、<em>plot</em>、<em>summary</em>，以及创建自己的新泛型方法函数。</p>
+<p>另外，可以简单地编写函数来为特定的分析生成可定制的图，以执行可能重复多次的特定任务。可以通过函数 <code><a href="https://rdrr.io/pkg/MQMF/man/plotspmdat.html">plotspmdat()</a></code> 找到一个示例，该函数将获取典型的渔业数据，并绘制渔获量和 cpue 的时间序列。</p>
+<div class="cell">
+<details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Could have used an S3 plot method had we defined a class   Fig.2.2 </span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/plotspmdat.html">plotspmdat</a></span><span class="op">(</span><span class="va">schaef</span><span class="op">)</span> <span class="co"># examine the code as an eg of a custom plot  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="02-NonIntroductiontoR_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>The catch and cpue data from the MQMF data-set schaef plotted automatically.</figcaption></figure>
+</div>
+</div>
+</div>
+</section></section><section id="附录少有人使用的函数" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="附录少有人使用的函数">
+<span class="header-section-number">2.4</span> 附录：少有人使用的函数</h2>
+<p>下面列出的函数只是为了帮助读者记住R中一些容易被遗忘的函数，因为它们很少被使用，尽管它们在处理实际问题时非常有用。</p>
+<p><code>getNamespaceExports("MQMF")</code></p>
+<p><code>getS3method("print","default")</code> 通常 <code>print.default</code> 也可以</p>
+<p><code>ls(“package:MQMF”)</code> 列出包中的输出函数</p>
+<p><code>ls.str(“package:MQMF”)</code>列出函数及其语法</p>
+<p><code>methods(“print”)</code>列出适用的S3方法</p>
+<p><code>on.exit(suppressWarnings(sink()))</code> 退出运行的清洗方法（即使失败）</p>
+<p><code>packageDescription("MQMF")</code></p>
+<p><code><a href="https://rdrr.io/r/base/Random.html">RNGkind()</a></code>正在使用的随机数生成器</p>
+<p><code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code></p>
+<p><code>sink("filename",split=TRUE)</code> then after lots of screen output sink(),</p>
+<p><code>suppressWarnings(sink())</code> removes a sink quietly if a run crashes and leaves one open</p>
+</section><section id="附录其它学习资源" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="附录其它学习资源">
+<span class="header-section-number">2.5</span> 附录：其它学习资源</h2>
+<p>Other Books: these two have a tidyverse bent.</p>
+<p>Wickham and Grolemund (2017) <em>R for Data Science</em> <a href="https://r4ds.had.co.nz/" class="uri">https://r4ds.had.co.nz/</a></p>
+<p>Grolemund (2014) <em>Hands-On Programming with R</em> <a href="https://rstudio-education.github.io/hopr/" class="uri">https://rstudio-education.github.io/hopr/</a></p>
+<p>There are blogs devoted to R. I rather like <a href="https://www.r-bloggers.com/" class="uri">https://www.r-bloggers.com/</a> but I get that delivered to my email. This blog lists many others.</p>
+<p>There is even an open-source journal concerning R</p>
+<p><a href="https://journal.r-project.org/" class="uri">https://journal.r-project.org/</a></p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-chambers2008" class="csl-entry" role="listitem">
+Chambers, John M. 2008. <em>Software for Data Analysis</em>. Springer New York. <a href="https://doi.org/10.1007/978-0-387-75936-4">https://doi.org/10.1007/978-0-387-75936-4</a>.
+</div>
+<div id="ref-chambers2017" class="csl-entry" role="listitem">
+———. 2017. <em>Extending R</em>. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/9781315381305">https://doi.org/10.1201/9781315381305</a>.
+</div>
+<div id="ref-crawley2007" class="csl-entry" role="listitem">
+Crawley, Michael J. 2007. <span>《The R Book》</span>, 四月. <a href="https://doi.org/10.1002/9780470515075">https://doi.org/10.1002/9780470515075</a>.
+</div>
+<div id="ref-haddon2011" class="csl-entry" role="listitem">
+Haddon, Malcolm. 2011. <em>Modelling and Quantitative Methods in Fisheries</em>. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/9781439894170">https://doi.org/10.1201/9781439894170</a>.
+</div>
+<div id="ref-matloff2011" class="csl-entry" role="listitem">
+Matloff, Norman. 2011. <em>The Art of R Programming: A Tour of Statistical Software Design</em>. 1st edition. San Francisco: No Starch Press.
+</div>
+<div id="ref-murrell2018a" class="csl-entry" role="listitem">
+Murrell, Paul. 2018. <em>R Graphics, Third Edition</em>. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/9780429422768">https://doi.org/10.1201/9780429422768</a>.
+</div>
+<div id="ref-venables2002" class="csl-entry" role="listitem">
+Venables, W. N., 和 B. D. Ripley. 2002. <em>Modern Applied Statistics with S</em>. Springer New York. <a href="https://doi.org/10.1007/978-0-387-21706-2">https://doi.org/10.1007/978-0-387-21706-2</a>.
+</div>
+<div id="ref-wickham2019" class="csl-entry" role="listitem">
+Wickham, Hadley. 2019. <em>Advanced R</em>. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/9781351201315">https://doi.org/10.1201/9781351201315</a>.
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./01-intro.html" class="pagination-link  aria-label=">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于建模</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-simpopmodel.html" class="pagination-link" aria-label="<span class='chapter-number'>3</span>&nbsp; <span class='chapter-title'>简单种群模型</span>">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">简单种群模型</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">源代码</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb56" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># R 语言的不完全介绍</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## 简介</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>这本书是《*渔业建模和定量方法*》（*Modelling and Quantitative Methods in Fisheries*）中描述的一些材料的分支和改编版本 <span class="co">[</span><span class="ot">@haddon2011</span><span class="co">]</span>。主要变化涉及使用 <span class="in">`R语言`</span>（R 核心团队，2019 ）以扩展和实施选定的渔业和生态分析。这本书以不同的文字，更多是强调如何进行分析，在许多地方，使用的例子将在细节上与先前书中使用的不同。</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>使用 <span class="in">`R语言`</span> 进行分析与使用 Microsoft Excel <span class="co">[</span><span class="ot">@haddon2011</span><span class="co">]</span>（如Haddon, 2001, 2011 ）是非常不同的命题。这意味着分析的机制和结果不会直接摆在分析人员面前。但是，即使在使用 Excel时，如果分析涉及到在Visual Basic for Application 中使用宏，那也涉及到一定程度的抽象。使用 <span class="in">`R语言`</span> 作为编程语言只是在所有的例子中完成抽象。一般来说，我尽量坚持"没坏就不修"的原则，所以你可以假设有很好的理由搬到 <span class="in">`R`</span>。</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## R语言中的编程</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>开源软件<span class="in">`R语言`</span>对于进行统计分析显然很有用，但它也提供了非常灵活和强大的编程环境。对于科学程序员来讲，<span class="in">`R`</span>有很多优势，因为它是一种非常高级的语言，可以通过编写自己的脚本或函数来扩展这些命令，以进行专门的分析或其他操作，如数据操作或定制制图。如此灵活有很多优点，但也意味着学习 <span class="in">`R`</span> 的语法可能是面临着挑战。很多可用的，大多是开源的R包（请参阅<span class="ot">&lt;https://cran.r-project.org/&gt;</span>），增强其灵活性，但也有可能增加其语法的复杂性。</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>幸运的是，已经出版了许多优秀的书籍，可以向人们展示他们可能需要使用 <span class="in">`R`</span> 并成为 <span class="in">`R`</span> 程序员的技能 <span class="co">[</span><span class="ot">如， @crawley2007; @matloff2011; @murrell2018a; @venables2002; @wickham2019；等</span><span class="co">]</span>。@wickham2019 的书为《*高级R*》（*Advanced R*），但不要让"高级"让你失望，它充满了优秀的细节，如果您想先体验一下，可以在以下网址查看网络版本 <span class="ot">&lt;https://adv-r.hadley.nz/&gt;</span>。本章附录中列出了其他学习资源。</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>它还试图描述一些复杂性，比如如何处理不确定性，以及如何处理它们。本书的重点是开发和拟合数据模型，使它们运行，并展示它们的输出。</span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>因此，本书不是用来教任何人如何使用 <span class="in">`R`</span> 编程的。事实上，此处包含的 <span class="in">`R`</span> 代码很少优雅，也不太可能是万无一失的，但其目的是尽可能简单地说明使用 <span class="in">`R`</span> 用数据拟合生物模型的不同方法。它还试图描述一些复杂性，如处理不确定性，这个问题你一直会碰到，以及如何处理他们。本书的重点是开发和拟合数据的模型，使其运行，并展示结果的输出。然而，<span class="in">`R`</span> 中有几个构造将在接下来的内容中多次使用，本章旨在引入它们，以便用户在相对较新的 R 时不会放慢速度，但需要强调的是，假设用户熟悉 R。我们将简要介绍如何开始，如何检查函数内的代码、打印、绘图、因子的使用，以及函数的使用和编写。重要的是，我们还将考虑使用 R 的非线性解算或优化。会考虑许多示例，并包括示例数据集以加快这些示例速度。但是，如果读者有自己的数据集，那么这些数据集应尽可能使用，因为很少有东西能鼓励学习和理解，以及分析自己的数据。</span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### 从 R 语言开始</span></span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>请记住，这本书的目的不是教任何人如何使用R，而是试图展示R可以用于生态分析的方法，特别是种群动态和渔业。在这本书中开始使用R需要一些东西:</span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>从<span class="ot">&lt;https://cran.r-project.org/&gt;</span>下载最新版本的 R 语言并将其安装在计算机上。</span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>下载 <span class="in">`RStudio`</span>，可以从 RStudio 网站<span class="ot">&lt;https://rstudio.com/&gt;</span>上的下载选项免费获得。RStudio 现在是一个成熟且结构良好的研发环境，建议使用RStudio。或者，使用您自己选择的其他软件来编辑文本文件和存储代码文件。找到操作方式，自己的工作流程，这对你感觉最好。理想情况下，你应该能够专注于你试图做什么，而不是你是如何做到这一点。</span>
+<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>从 CRAN 或 github 下载本书的程序包 **MQMF**。要从 CRAN上下载，可以非常简单地使用RStudio中的 "package"选项 。也可在 <span class="ot">&lt;https://github.com/haddonm/MQMF&gt;</span> 的github上 ，克隆包的R项目文件或直接使用<span class="in">`devtools`</span>用下列命令直接安装<span class="in">`devtools::install_github("https://github.com/haddonm/MQMF")`</span></span>
+<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>至少拥有一些关于R的实用知识以及如何使用它。如果你是R的初学者，明智的做法是使用一个或多个介绍性文本，以及在网上搜索 "introductory R" 也将产生一个实质性的清单。RStudio 的文档也会让你开始。请参阅本章的附录。</span>
+<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a>为了节省空间，本书的文本中将只描述分析中使用的功能的一些细节。从 **MQMF** 包中检查代码的详细信息将是了解每个分析以及如何实现这些分析的一个重要部分。阅读每个功能的帮助文件（键入控制台），并尝试提供示例。在 RStudio 中，人们只需在帮助页面中选择示例代码，并且像往常一样，使用 {ctrl}{enter} 来运行选定的行。或者，选择并复制它们到控制台中以运行示例，改变输入以探索它们的工作原理。包装功能很可能包含额外的细节和错误捕获，这是改进，但这需要空间和时间在书中的阐述。</span>
+<span id="cb56-32"><a href="#cb56-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a><span class="fu">### R 语言程序包</span></span>
+<span id="cb56-34"><a href="#cb56-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-35"><a href="#cb56-35" aria-hidden="true" tabindex="-1"></a>用于各种各样分析的大量 R 包（几千个）（见<span class="ot">&lt;https://cran.r-project.org/&gt;</span>）是R语言令人难以置信的强项，但公平地说，这种多样性也导致了学习所有可用函数所需的 R 语法的一些复杂性。基础 R（安装 R 时状态）自动包含 7个 R 包（请在控制台中使用 <span class="in">`sessionInfo()`</span> 尝试查看列表）。因此， 在 R 中使用R包通常情况下是很自然的，不使用其他人的包将是一个非常愚蠢的想法，因为这意味着将有大量的完全可用的包的重复使用，但因为这里的目的是说明分析的细节，而不是专注于 R 语言，主要是使用默认或"基础"安装，虽然在少数地方，建议自己将作出考虑和探索R包。例如，当我们需要使用多元正态分布时，我们将使用 **mvtnorm** 包。在 RStudio 中使用 \[package\] 选项卡，很容易安装这些 R 包。或者，控制台中使用 `install.packages("mvtnorm")` 安装，这也应该做的工作。其他包将根据需要进行安装。无论我在哪里写 "install library(xxxxx)"，都应理解为安装 指定库及其所有依赖库。许多程序包都需要并调用其他程序包，因此除了程序包自身外，还需要有其它依赖包。例如，**MQMF** 包需要安装包 **mvtnorm** 和 **MASS**。如果你在控制台中输入 `packageDescription("MQMF)`，就会列出程序包的描述文件内容（所有程序包都有显示）。在显示内容中你会看到，**MASS** 和 **mvtnorm** 都需载入，因此它们需要随着 **MQMF** 一起安装。</span>
+<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-37"><a href="#cb56-37" aria-hidden="true" tabindex="-1"></a>这本书侧重于使用"基础"R包，这是一个有意识的决定。目前，R 社区内部正在发生一些重要发展，特别是所谓的"tidyverse"的出现，其为的库集，即旨在改进或至少改变 R 使用方式。您可以在<span class="ot">&lt;https://www.tidyverse.org/&gt;</span>上探索使用 R 的新方法，其主页目前指出："tidyverse 是专为数据科学设计的 R 包的有意见的集合。所有软件包都具有基本的设计理念、语法和数据结构。其中许多创新确实是有效的，非常值得学习。但是，"基础"R 的一个优点是，它非常稳定，只有经过对与以前版本兼容性的广泛测试后才引入更改。此外，开发使用"基础"R 的基准，可以更知情地选择如果您愿意，整洁的哪些部分可以采用。无论情况如何，在这里，我们将使用尽可能少的额外库，除了'基地'安装和书自己的包。</span>
+<span id="cb56-38"><a href="#cb56-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-39"><a href="#cb56-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### 开始使用 MQMF</span></span>
+<span id="cb56-40"><a href="#cb56-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-41"><a href="#cb56-41" aria-hidden="true" tabindex="-1"></a>**MQMF** 程序包已经过测试，在 PC、Linux（Fedora） 和Apple计算机上的行为都与本书中的预期一致。在 Apple 计算机上，有必要在 PC 上安装包的 .tar.gz 版本，在 PC 上，无论是 .zip 还是 .tag.gz 都可以安装，RStudio 也可以为您安装此 R 包。<span class="in">`tar.gz`</span> 版本的一个优点是，源文件和库的 tar.gz 存档包含所有原始代码，以便在您愿意时进行更深入的检查。此代码也可以在 MQMF github 仓库中检查。</span>
+<span id="cb56-42"><a href="#cb56-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-43"><a href="#cb56-43" aria-hidden="true" tabindex="-1"></a>安装 **MQMF** 包后，通过命令 `library(MQMF)` 可以将该包含在 R 会话中。通过使用 `?MQMF` 或 `?MQMF-Package` 立即生成某些文档。该列表的底部是包名、版本号和"索引"的超链接。如果您单击该"索引"链接，则会生成与 **MQMF**内与导出函数和数据集相关的所有文档列表；这也可适用于检查任何 R 包。通过打开所需的链接或使用 <span class="in">`?`</span> 操作符可列出包中包括的每个输出函数和数据集，也可以获得每个包的更多详细信息；例如，尝试在控制台键入或输入 <span class="in">`?search`</span> 或 <span class="in">`?mean`</span>。RStudio 的 "Help" 选项卡中生成的材料描述了该函数的功能，并且通常至少提供了如何使用函数的示例。在本书中，可以在 RStudio 中的控制台输入R代码或作为脚本保存并发送给 R 以 <span class="in">`consolas`</span> 字体（所有字符都使用相同空间的单间间字体）在略带灰色的框形中呈现。包名用粗体表示，函数名以 <span class="in">`function()`</span> 开始，以圆形括号结束。括号是将其与其他 <span class="in">`code`</span> 文本区分开来，后者通常将指变量、参数和函数参数。</span>
+<span id="cb56-44"><a href="#cb56-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-45"><a href="#cb56-45" aria-hidden="true" tabindex="-1"></a>当然，开始的另一种选择是完成所有必需的安装，然后开始下一章的工作，尽管首先完成本章的其余部分可能是明智的，因为它将介绍绘图和检查不同函数的工作方式等内容。</span>
+<span id="cb56-46"><a href="#cb56-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-47"><a href="#cb56-47" aria-hidden="true" tabindex="-1"></a><span class="fu">### 在函数内检查代码</span></span>
+<span id="cb56-48"><a href="#cb56-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-49"><a href="#cb56-49" aria-hidden="true" tabindex="-1"></a>提高对任何编程语言理解的一个有效方法是研究其他人如何解决不同的问题。R 的一个极好的方面是，只需在控制台中键入一个函数名，即可研究其他人的代码，而省略任何括号。如果使用 <span class="in">`library(MQMF)`</span> 加载 **MQMF**，比如，则可尝试键入 <span class="in">`plot1`</span>。 如果RStudio帮助添加了一组括号，那么在按 return 之前删除它们。这将 <span class="in">`plot1()`</span> 的代码显示在控制台上。尝试完全自己键入 <span class="in">`lm`</span>，则会从 <span class="in">`stats`</span>包中列出线性模型函数的内容。在检查函数（如 <span class="in">`mean`</span> ）时，有许多函数仅提到类似 <span class="in">`useMethod("mean")`</span> 的内容。这表明该函数是 S3 通用函数，指向可用于该函数的每个对象类别的不同方法（假设读者知道 R 中的不同类，如向量、矩阵、列表等;如果不搜索"R 类"，则应启发您）。当然，R 中有许多类别的对象，但除此之外，还可以定义自己的类。当我们讨论我们自己编写的函数时，我们会多谈一些这类事情。同时，当找到 <span class="in">`UseMethod("mean")`</span> 时，然后可用于这些函数的具体方法可以通过使用 <span class="in">`methods("mean")`</span> 列出：例如，尝试 <span class="in">`method("print")`</span>。每个此类通用函数都有默认行为，因为它指向对象类，而对象类没有特定定义。如果你键入 <span class="in">`getS3method("print","default")`</span>，那么你可以看到与函数相关的代码，并可将它与 <span class="in">`getS3mehtod("print", "table")`</span>的代码进行比较。例如，在某些情况下，<span class="in">`print.table`</span>将直接运行，但 <span class="in">`getS3method`</span> 应始终有效。如果想要开发可开发的专用 R 对象（定义类）的定制打印、绘图或进一步处理，则可以自己使用 S3 类 <span class="co">[</span><span class="ot">@venables2002; @wickham2019</span><span class="co">]</span>。</span>
+<span id="cb56-50"><a href="#cb56-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-51"><a href="#cb56-51" aria-hidden="true" tabindex="-1"></a>一旦加载了一个 R 包，比如 <span class="in">`library(MQMF)`</span>，其中的输出对象列表可通过使用 <span class="in">`ls`</span> 函数得到 ，也可用 <span class="in">`ls("package:MQMF")`</span> 或 <span class="in">`ls.str("package:MQMF")`</span>； 通过使用 <span class="in">`?ls.str`</span> 查看两个 <span class="in">`ls`</span>函数。或者，无需加载包，也可以使用，例如，<span class="in">`mvtnorm::dmvnorm`</span>、 <span class="in">`MQMF::plot1`</span> 或 <span class="in">`MQMF::'%ni%'`</span>，其中<span class="in">`::`</span> 允许我们查看内部包，假设它们至少已安装完毕。如果 <span class="in">`::`</span> 报告不存在此类函数，请尝试三个冒号 <span class="in">`:::`</span>，因为仅在包内内部使用的函数通常不会导出，这意味着没有 <span class="in">`:::`</span>选项就不容易访问（即使未导出其名称也可能在导出的函数内可见）。最后，无需先加载库，就可以通过使用 <span class="in">`getNamespaceExports("MQMF")`</span> 看到导出的函数名，其输出可以通过使用 <span class="in">`sort(getNamespaceExports("MQMF"))`</span> 命令进行简化。</span>
+<span id="cb56-52"><a href="#cb56-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-53"><a href="#cb56-53" aria-hidden="true" tabindex="-1"></a><span class="fu">### 使用函数</span></span>
+<span id="cb56-54"><a href="#cb56-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-55"><a href="#cb56-55" aria-hidden="true" tabindex="-1"></a>R是一种使用函数的语言，它既可以进行交互使用，也可以使用脚本 <span class="co">[</span><span class="ot">@chambers2008; @chambers2017; @wickham2019</span><span class="co">]</span>。这意味着最好对函数、它们的结构以及如何使用它们有一个很好的理解。您会发现，一旦开始编写代码块，自然就会将它们封装到函数中，这样重复调用代码就会变得更简单。<span class="in">`MQMF`</span>的示例函数 <span class="in">`countones`</span> 可用来说明其结构。</span>
+<span id="cb56-56"><a href="#cb56-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-59"><a href="#cb56-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-60"><a href="#cb56-60" aria-hidden="true" tabindex="-1"></a><span class="co">#make a function called countones2, don't overwrite original  </span></span>
+<span id="cb56-61"><a href="#cb56-61" aria-hidden="true" tabindex="-1"></a>countones2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">return</span>(<span class="fu">length</span>(<span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">1</span>)))  <span class="co"># or  </span></span>
+<span id="cb56-62"><a href="#cb56-62" aria-hidden="true" tabindex="-1"></a>countones3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">return</span>(<span class="fu">length</span>(x[x <span class="sc">==</span> <span class="dv">1</span>]))  </span>
+<span id="cb56-63"><a href="#cb56-63" aria-hidden="true" tabindex="-1"></a>vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)  <span class="co"># there are three ones  </span></span>
+<span id="cb56-64"><a href="#cb56-64" aria-hidden="true" tabindex="-1"></a><span class="fu">countones2</span>(vect)  <span class="co"># should both give the answer: 3  </span></span>
+<span id="cb56-65"><a href="#cb56-65" aria-hidden="true" tabindex="-1"></a><span class="fu">countones3</span>(vect)  </span>
+<span id="cb56-66"><a href="#cb56-66" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7100809</span>) <span class="co"># if repeatability is desirable.   </span></span>
+<span id="cb56-67"><a href="#cb56-67" aria-hidden="true" tabindex="-1"></a>matdat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">trunc</span>(<span class="fu">runif</span>(<span class="dv">40</span>)<span class="sc">*</span><span class="dv">10</span>),<span class="at">nrow=</span><span class="dv">5</span>,<span class="at">ncol=</span><span class="dv">8</span>)  </span>
+<span id="cb56-68"><a href="#cb56-68" aria-hidden="true" tabindex="-1"></a>matdat <span class="co">#a five by eight matrix of random numbers between 0 - 9  </span></span>
+<span id="cb56-69"><a href="#cb56-69" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(matdat,<span class="dv">2</span>,countones3)  <span class="co"># apply countones3 to 8 columns  </span></span>
+<span id="cb56-70"><a href="#cb56-70" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(matdat,<span class="dv">1</span>,countones3)  <span class="co"># apply countones3 to 5 rows  </span></span>
+<span id="cb56-71"><a href="#cb56-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-72"><a href="#cb56-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-73"><a href="#cb56-73" aria-hidden="true" tabindex="-1"></a><span class="in">`countones2()`</span>函数的作用是读取一个向量 $x$，计算其中 1 的个数，并返回该个数;它可以单独使用，也可以在另一个函数(如 <span class="in">`apply()`</span>中使用，以将 <span class="in">`countones()`</span>函数应用于矩阵或 data.frame 的行或列。<span class="in">`apply()`</span>函数以及相关的 <span class="in">`lapply()`</span>和 <span class="in">`sapply()`</span>函数，一般用作列表（参见 <span class="in">`lapply()`</span>的帮助文件），对于将给定函数应用到矩阵的列或行和data.frames 都非常有用。data.frame 是特殊的列表，允许混合类的矩阵。可以生成在 apply() 族中使用的非常短的函数，<span class="in">`MQMF`</span>包括了<span class="in">`countgtone`</span>、<span class="in">`countgtzero`</span>、<span class="in">`countones`</span>、<span class="in">`countNAs`</span>和<span class="in">`countzeros`</span>，作为示例实用函数;每个帮助文件中都给出了示例。</span>
+<span id="cb56-74"><a href="#cb56-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-75"><a href="#cb56-75" aria-hidden="true" tabindex="-1"></a>函数可有输入参数，也可有默认值，它应该返回一个对象(可能是一个值，一个向量，一个矩阵，一个列表，等等)或执行一个操作。理想情况下，不应改变工作或全局环境 <span class="co">[</span><span class="ot">@chambers2017; @wickham2019</span><span class="co">]</span> ，尽管对象打印或绘图的函数是个例外:</span>
+<span id="cb56-76"><a href="#cb56-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-79"><a href="#cb56-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-80"><a href="#cb56-80" aria-hidden="true" tabindex="-1"></a> <span class="co">#A more complex function prepares to plot a single base graphic  </span></span>
+<span id="cb56-81"><a href="#cb56-81" aria-hidden="true" tabindex="-1"></a> <span class="co">#It has the syntax for opening a window outside of Rstudio and   </span></span>
+<span id="cb56-82"><a href="#cb56-82" aria-hidden="true" tabindex="-1"></a> <span class="co">#defining a base graphic  </span></span>
+<span id="cb56-83"><a href="#cb56-83" aria-hidden="true" tabindex="-1"></a>plotprep2 <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">plots=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),<span class="at">width=</span><span class="dv">6</span>, <span class="at">height=</span><span class="fl">3.75</span>,<span class="at">usefont=</span><span class="dv">7</span>,   </span>
+<span id="cb56-84"><a href="#cb56-84" aria-hidden="true" tabindex="-1"></a>                      <span class="at">newdev=</span><span class="cn">TRUE</span>) {  </span>
+<span id="cb56-85"><a href="#cb56-85" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ((<span class="fu">names</span>(<span class="fu">dev.cur</span>()) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"null device"</span>,<span class="st">"RStudioGD"</span>)) <span class="sc">&amp;</span>   </span>
+<span id="cb56-86"><a href="#cb56-86" aria-hidden="true" tabindex="-1"></a>      (newdev)) {  </span>
+<span id="cb56-87"><a href="#cb56-87" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dev.new</span>(<span class="at">width=</span>width,<span class="at">height=</span>height,<span class="at">noRStudioGD =</span> <span class="cn">TRUE</span>)  </span>
+<span id="cb56-88"><a href="#cb56-88" aria-hidden="true" tabindex="-1"></a>  }  </span>
+<span id="cb56-89"><a href="#cb56-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span>plots,<span class="at">mai=</span><span class="fu">c</span>(<span class="fl">0.45</span>,<span class="fl">0.45</span>,<span class="fl">0.1</span>,<span class="fl">0.05</span>),<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))  </span>
+<span id="cb56-90"><a href="#cb56-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">cex=</span><span class="fl">0.75</span>,<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.35</span>,<span class="fl">0.35</span>,<span class="dv">0</span>),<span class="at">font.axis=</span>usefont,<span class="at">font=</span>usefont,   </span>
+<span id="cb56-91"><a href="#cb56-91" aria-hidden="true" tabindex="-1"></a>      <span class="at">font.lab=</span>usefont)  </span>
+<span id="cb56-92"><a href="#cb56-92" aria-hidden="true" tabindex="-1"></a>}  <span class="co">#  see ?plotprep; see also parsyn() and parset()  </span></span>
+<span id="cb56-93"><a href="#cb56-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-94"><a href="#cb56-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-95"><a href="#cb56-95" aria-hidden="true" tabindex="-1"></a>但愿这个 <span class="in">`plotprep2()`</span> 示例能够强调这样一个事实：如果您看到某人编写的函数，您可以对其进行定制以更符合自己的需求，那么没有理由你不应该这么做。 当然，在文档中引用已知的原始函数是很好的做法，但是编写自己的函数的主要优势正是这种自定义工作环境的能力(请参阅后面的*编写函数*部分)。</span>
+<span id="cb56-96"><a href="#cb56-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-97"><a href="#cb56-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### 随机数生成</span></span>
+<span id="cb56-98"><a href="#cb56-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-99"><a href="#cb56-99" aria-hidden="true" tabindex="-1"></a>R提供了大量的概率密度函数(例如，正态分布、Beta 分布等等)。对建模人员有很大好处的是，R还提供了从每个分布中生成随机样本的标准方法。当然，这些样本实际上是伪随机数，因为真正的随机过程是非常难模拟的。尽管如此，R中还是有一些非常有效的伪随机数生成器。试着在控制台中输入 <span class="in">`RNGkind()`</span>，看看当前在您自己的计算机上使用的是什么。 如果在代码中键入 <span class="in">`RNGkind`</span> （不带括号），在代码中，将看到从*kind* 向量中可用的生成器列表。</span>
+<span id="cb56-100"><a href="#cb56-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-101"><a href="#cb56-101" aria-hidden="true" tabindex="-1"></a>伪随机数生成器在长循环中生成一长串数字，每个数字都依赖于前面的数字。这类生成机的早期版本臭名昭著地具有短循环，但R中默认的生成器，即众所周知的 Mersenne-Twister，据报道其周期为 $2^{19937} - 1$，这是一个相当大的数字。然而，即使是一个大的循环，它也必须从某个地方开始，而那个地方被称为种子。如果每次都使用相同的种子，那么每次尝试使用它们时就会获得相同的伪随机值系列。如果使用随机数的特定模拟具有特定的行为方式，那么这种重复性就非常有用，因为它有助于了解所使用的种子，以便能够进行重复。在 <span class="in">`?RNGkind`</span> 的帮助文件中，它指出:"最初，没有种子;当需要时，从当前时间和进程ID创建一个新的。因此，在默认情况下，不同的会话将给出不同的模拟结果。"但是该帮助也声明:"提供的大多数统一生成器返回被转换为双精度的32位整数值，因此它们最多接受 $2^{32}$ 个不同的值，非常长的运行将返回重复的值"。$2^{32} \sim 42.95$ 10亿(千百万) 所以要警告。它还警告说，如果恢复以前保存的工作区，那么以前的种子将会返回。这些隐藏的细节是值得记住的，这样人们就可以充分意识到分析实际上在做什么。</span>
+<span id="cb56-102"><a href="#cb56-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-103"><a href="#cb56-103" aria-hidden="true" tabindex="-1"></a>为了使我们自己的模拟可重复，我们希望保存使用的种子和特定试验的结果。可以使用 <span class="in">`set.seed()`</span> 函数设置种子，如 <span class="in">`set.seed(12345)`</span>。我特意用 12345 来说明，在你的头脑中创建一个种子不一定是一个好主意。我们可能都有很好的想象力(也可能没有)，但当我们要编造一系列随机的种子时，最好使用不同的方法。尽管人们的最佳意图是编造种子，但这往往会导致重复使用特定数字，从而导致模拟结果存在偏差。生成此类种子的一种方法是使用 **MQMF** 函数 <span class="in">`getseed()`</span>。它使用系统时间（ <span class="in">`Sys.time()`</span>）获得一个整数，该整数的数字随后被伪随机地重新排序。看看它的代码，看看它是如何工作的。 似乎只在真正需要能够重复使用随机数的特定分析时才使用 <span class="in">`set.seed()`</span> 是合理的。</span>
+<span id="cb56-104"><a href="#cb56-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-107"><a href="#cb56-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-108"><a href="#cb56-108" aria-hidden="true" tabindex="-1"></a> <span class="co">#Examine the use of random seeds.</span></span>
+<span id="cb56-109"><a href="#cb56-109" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MQMF)</span>
+<span id="cb56-110"><a href="#cb56-110" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="fu">getseed</span>()  <span class="co"># you will very likely get different naswers</span></span>
+<span id="cb56-111"><a href="#cb56-111" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(seed)  </span>
+<span id="cb56-112"><a href="#cb56-112" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">5</span>),<span class="dv">5</span>)  </span>
+<span id="cb56-113"><a href="#cb56-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-114"><a href="#cb56-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-117"><a href="#cb56-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-118"><a href="#cb56-118" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)  </span>
+<span id="cb56-119"><a href="#cb56-119" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">5</span>),<span class="dv">5</span>)  </span>
+<span id="cb56-120"><a href="#cb56-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-121"><a href="#cb56-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-124"><a href="#cb56-124" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-125"><a href="#cb56-125" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MQMF)</span>
+<span id="cb56-126"><a href="#cb56-126" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(seed)  </span>
+<span id="cb56-127"><a href="#cb56-127" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">5</span>),<span class="dv">5</span>)  </span>
+<span id="cb56-128"><a href="#cb56-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-129"><a href="#cb56-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-130"><a href="#cb56-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### R语言中的输出</span></span>
+<span id="cb56-131"><a href="#cb56-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-132"><a href="#cb56-132" aria-hidden="true" tabindex="-1"></a>大多数显示意味着分析的输出被写入控制台，尽管将对象的内容写入文件的选项也存在（参见<span class="in">`?save`</span> 和 <span class="in">`?load`</span>，也参见 <span class="in">`?write.table`</span> 和 <span class="in">`?read.table`</span>）。如果您想要保存发送到控制台的所有输出的记录，那么也可以使用 <span class="in">`sink()`</span> 函数来做到这一点，它将输出从R转换到一个指定的文本文件。通过使用 <span class="in">`sink(file="filename"， split=TRUE)`</span>， <span class="in">`split=TRUE`</span> 参数意味着可以将输出显示在屏幕上，也可以发送到文件中。可以通过重复 <span class="in">`sink()`</span> 调用来关闭文件的输出，但括号中不包含任何内容。如果没有显式包含"filename"的路径，那么该文件将被发送到工作目录(参见 <span class="in">`?getwd`</span>)。<span class="in">`sink()`</span> 函数对于记录会话很有用，但是如果会话在关闭接收之前崩溃，那么它仍然可以运行。与其试图记住这个问题，还不如在脚本的早期包含类似于 <span class="in">`on.exit(suppressWarnings(sink()))`</span> 的内容。<span class="in">`on.exit()`</span> 函数对于在运行可能无法完成的分析之后进行清理非常有用。</span>
+<span id="cb56-133"><a href="#cb56-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-134"><a href="#cb56-134" aria-hidden="true" tabindex="-1"></a><span class="fu">### R语言中的绘图</span></span>
+<span id="cb56-135"><a href="#cb56-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-136"><a href="#cb56-136" aria-hidden="true" tabindex="-1"></a>使用R简化了高质量图形的制作，在 www 和书籍中都有许多有用的资源描述R的图形可能性 <span class="co">[</span><span class="ot">例如 @murrell2018a</span><span class="co">]</span>。在这里，我们只关注于使用R标准安装中的基本图形。与R中实现的其他主要图形包相比，基本图形包的复杂程度或能力较低是可能的(例如，您应该探索使用 <span class="in">`lattice`</span>、<span class="in">`ggplot2`</span>、<span class="in">`graph`</span>、<span class="in">`vcd`</span>、<span class="in">`scatterplot3d`</span> 和其他可用图形包的选项;您可能会发现其中一个或多个可能比基本图形更适合您的编程风格)。然而，通过基础或传统图形，可以满足我们所需要的大多数绘图需求。如何在R中生成图形提供了一个很好的说明，在任何给定的编程语言中通常有许多方法来做同样的事情。对于特定的任务，有些方法显然比其他方法更有效，但无论如何，找到你觉得舒服的方法、方法和包是一个好主意，因为这里的目的是快速、正确地完成工作，不要学习 R 语言中所有的选项(现在所有可用的包都非常广泛）。也就是说，你对R语言和语法的了解越多，你解决特定问题或任务的选择就越多;到处都有权衡!</span>
+<span id="cb56-137"><a href="#cb56-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-138"><a href="#cb56-138" aria-hidden="true" tabindex="-1"></a>其中，**MQMF** 包含一个执行绘图函数的函数数组。关于R的一个优点是，通过调整各种图形参数，可以很容易地生成并实时优化图表和绘图，直到得到所需的形式。一旦最后定稿，还可以生成出版物质量的图形文件，以便编入报告或随手稿寄出。首先检查 <span class="in">`MQMF::plotprep`</span> 代码，以了解它如何定义绘图区域、边距以及如何格式化绘图的其他细节。<span class="in">`plotprep()`</span> 可以用作快捷设置格式为基础的图形块(外部RStudio情节窗口),如果想要变化，那么 <span class="in">`parsyn()`</span> 为 <span class="in">`par()`</span> 函数写的核心语法到控制台,可以复制到您自己的代码和用于起动器基本图形绘制。如果你满足于RStudio中的绘图窗口，那么你只需要 <span class="in">`parsyn()`</span> 。一旦熟悉了 <span class="in">`par()`</span> 函数的语法，您就可以使用 <span class="in">`MQMF::parset()`</span> 函数作为快捷方式或包装器函数。</span>
+<span id="cb56-139"><a href="#cb56-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-140"><a href="#cb56-140" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig.cap="An example series of histograms using data from the MQMF data set LatA, illustrating how one can iterate towards a final plot. See also the function uphist()."}</span></span>
+<span id="cb56-141"><a href="#cb56-141" aria-hidden="true" tabindex="-1"></a><span class="in">library(MQMF)   # The development of a simple graph  see Fig. 2.1</span></span>
+<span id="cb56-142"><a href="#cb56-142" aria-hidden="true" tabindex="-1"></a><span class="in">data("LatA")  #LatA = length at age data; try properties(LatA)  </span></span>
+<span id="cb56-143"><a href="#cb56-143" aria-hidden="true" tabindex="-1"></a><span class="in"> #The statements below open the RStudio graphics window, but opening  </span></span>
+<span id="cb56-144"><a href="#cb56-144" aria-hidden="true" tabindex="-1"></a><span class="in"> #a separate graphics window using plotprep is sometimes clearer.  </span></span>
+<span id="cb56-145"><a href="#cb56-145" aria-hidden="true" tabindex="-1"></a><span class="in"> #plotprep(width=6.0,height=5.0,newdev=FALSE)   </span></span>
+<span id="cb56-146"><a href="#cb56-146" aria-hidden="true" tabindex="-1"></a><span class="in">setpalette("R4") #a more balanced, default palette see its help  </span></span>
+<span id="cb56-147"><a href="#cb56-147" aria-hidden="true" tabindex="-1"></a><span class="in">par(mfrow=c(2,2),mai=c(0.45,0.45,0.1,0.05))  # see ?parsyn  </span></span>
+<span id="cb56-148"><a href="#cb56-148" aria-hidden="true" tabindex="-1"></a><span class="in">par(cex=0.75, mgp=c(1.35,0.35,0), font.axis=7,font=7,font.lab=7)   </span></span>
+<span id="cb56-149"><a href="#cb56-149" aria-hidden="true" tabindex="-1"></a><span class="in">hist(LatA$age) #examine effect of different input parameters  </span></span>
+<span id="cb56-150"><a href="#cb56-150" aria-hidden="true" tabindex="-1"></a><span class="in">hist(LatA$age,breaks=20,col=3,main="") # 3=green #try ?hist  </span></span>
+<span id="cb56-151"><a href="#cb56-151" aria-hidden="true" tabindex="-1"></a><span class="in">hist(LatA$age,breaks=30,main="",col=4) # 4=blue  </span></span>
+<span id="cb56-152"><a href="#cb56-152" aria-hidden="true" tabindex="-1"></a><span class="in">hist(LatA$age, breaks=30,col=2, main="", xlim=c(0,43), #2=red  </span></span>
+<span id="cb56-153"><a href="#cb56-153" aria-hidden="true" tabindex="-1"></a><span class="in">     xlab="Age (years)",ylab="Count")  </span></span>
+<span id="cb56-154"><a href="#cb56-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-155"><a href="#cb56-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-156"><a href="#cb56-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-157"><a href="#cb56-157" aria-hidden="true" tabindex="-1"></a><span class="fu">### 因素处理</span></span>
+<span id="cb56-158"><a href="#cb56-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-159"><a href="#cb56-159" aria-hidden="true" tabindex="-1"></a>R的一个可能导致挫折和困难的方面是使用因素来表示分类变量。这将分类变量转换为因子的级别(不同值)，甚至是已经有数值的因子。例如，在标准化渔业 CPUE 时，通常至少使用一些分类变量，因此，如果一个水深类别为 50 - 600 米，每个步骤为 50，那么在标准化中需要将这些类别作为固定的分类因子而不是数值处理。但是，一旦转换为一组因子，它们就不再表现为原始的数值变量，而这通常是绘制时所需要的。但是，如果它们最初是*数值*的，则可以使用函数 <span class="in">`facttonum()`</span> 进行恢复。在探索与因素有关的一些问题的示例代码中，请注意 <span class="in">`try()`</span> 函数的使用（另请参阅 <span class="in">`tryCatch()`</span>）。这用于防止 r-code 由于试图将一个因子乘以标量的错误而停止。这在开发代码和使用 bookdown 和 Rmarkdown 编写书籍时非常有用。</span>
+<span id="cb56-160"><a href="#cb56-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-161"><a href="#cb56-161" aria-hidden="true" tabindex="-1"></a><span class="in">```{r }</span></span>
+<span id="cb56-162"><a href="#cb56-162" aria-hidden="true" tabindex="-1"></a><span class="in"> #Dealing with factors/categories can be tricky  </span></span>
+<span id="cb56-163"><a href="#cb56-163" aria-hidden="true" tabindex="-1"></a><span class="in">DepCat &lt;- as.factor(rep(seq(300,600,50),2)); DepCat  </span></span>
+<span id="cb56-164"><a href="#cb56-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-165"><a href="#cb56-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-168"><a href="#cb56-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-169"><a href="#cb56-169" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="dv">5</span> <span class="sc">*</span> DepCat[<span class="dv">3</span>], <span class="at">silent=</span><span class="cn">FALSE</span>) <span class="co">#only returns NA and a warning!  </span></span>
+<span id="cb56-170"><a href="#cb56-170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-171"><a href="#cb56-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-172"><a href="#cb56-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r }</span></span>
+<span id="cb56-173"><a href="#cb56-173" aria-hidden="true" tabindex="-1"></a><span class="in">as.numeric(DepCat) # returns the levels not the original values  </span></span>
+<span id="cb56-174"><a href="#cb56-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-175"><a href="#cb56-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-178"><a href="#cb56-178" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-179"><a href="#cb56-179" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">levels</span>(DepCat)) <span class="co">#converts 7 levels not the replicates  </span></span>
+<span id="cb56-180"><a href="#cb56-180" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-181"><a href="#cb56-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-182"><a href="#cb56-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r }</span></span>
+<span id="cb56-183"><a href="#cb56-183" aria-hidden="true" tabindex="-1"></a><span class="in">DepCat &lt;- as.numeric(levels(DepCat))[DepCat] # try ?facttonum  </span></span>
+<span id="cb56-184"><a href="#cb56-184" aria-hidden="true" tabindex="-1"></a><span class="in"> #converts replicates in DepCat to numbers, not just the levels   </span></span>
+<span id="cb56-185"><a href="#cb56-185" aria-hidden="true" tabindex="-1"></a><span class="in">5 * DepCat[3]   # now treat DepCat as numeric  </span></span>
+<span id="cb56-186"><a href="#cb56-186" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-187"><a href="#cb56-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-190"><a href="#cb56-190" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-191"><a href="#cb56-191" aria-hidden="true" tabindex="-1"></a>DepCat <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">seq</span>(<span class="dv">300</span>,<span class="dv">600</span>,<span class="dv">50</span>),<span class="dv">2</span>)); DepCat  </span>
+<span id="cb56-192"><a href="#cb56-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-193"><a href="#cb56-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-194"><a href="#cb56-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r }</span></span>
+<span id="cb56-195"><a href="#cb56-195" aria-hidden="true" tabindex="-1"></a><span class="in">facttonum(DepCat)  </span></span>
+<span id="cb56-196"><a href="#cb56-196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-197"><a href="#cb56-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-198"><a href="#cb56-198" aria-hidden="true" tabindex="-1"></a>通常，获取 data.frame 的一个副本并在该副本中分解变量会更简单，因此，如果您想使用原始变量进行进一步的操作或绘图，您不需要将它们从数字转换为因子。</span>
+<span id="cb56-199"><a href="#cb56-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-200"><a href="#cb56-200" aria-hidden="true" tabindex="-1"></a>当数据被读入 R 中的 data.frame 时，默认的行为是将字符串或字符视为因子。您可以通过在控制台中输入 <span class="in">`options()`</span> 来发现很多 R 选项的默认设置。如果你搜索 \$stringsAsFactors (注意大写字母)，你会发现它默认为 TRUE。如果您希望关闭此功能，可以使用 <span class="in">`option(stringsAsFactors=FALSE)`</span> 轻松完成。从关于因素的代码块中可以明显看出，在处理分类变量时需要格外小心。</span>
+<span id="cb56-201"><a href="#cb56-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-202"><a href="#cb56-202" aria-hidden="true" tabindex="-1"></a><span class="fu">### 数据输入</span></span>
+<span id="cb56-203"><a href="#cb56-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-204"><a href="#cb56-204" aria-hidden="true" tabindex="-1"></a>与所有编程语言(和统计包)一样，一个共同的需求是输入数据以便进行分析。R 非常擅长数据操作，这类事情在 @crawley2007 等书中有很好的描述。当然，也有许多处理数据操作的 R 包。一个特别有用的是 <span class="in">`dplr`</span>，它是 <span class="in">`tidyverse`</span> 组的一部分。但是在这里，我们只会提到几种将数据输入 r 的方法。一种非常常见和低级的方法是简单地使用文本文件作为输入。我仍然经常使用逗号分隔值 (.csv) 文件，因为它易于生成，而且可以从许多不同的编辑器打开和编辑。可以轻松使用 <span class="in">`read.csv()`</span>或 <span class="in">`read.table()`</span>。一旦数据被读入 R，就可以通过 <span class="in">`save(object,file="filename.RData")`</span> 将其保存为更有效的存储格式，之后可以使用 <span class="in">`load(file="filename.RData")`</span> 将其加载到R。查看 <span class="in">`?save`</span> 和 <span class="in">`?load`</span> 的细节。</span>
+<span id="cb56-205"><a href="#cb56-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-206"><a href="#cb56-206" aria-hidden="true" tabindex="-1"></a>在本书的示例中，我们将使用属于 **MQMF** 包一部分的数据集，但是通过复制这些数据集中使用的格式，一旦将数据加载到R中，您就可以使用自己的数据了。</span>
+<span id="cb56-207"><a href="#cb56-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-208"><a href="#cb56-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## 编写函数</span></span>
+<span id="cb56-209"><a href="#cb56-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-210"><a href="#cb56-210" aria-hidden="true" tabindex="-1"></a>如果你打算使用 R 来进行任何分析，你通常会使用一个文本编辑器来输入你的 R 代码，并且至少保存这些脚本以备以后使用。在许多情况下，您可能需要重复一系列命令，这些命令可能使用的变量和或参数的输入值有所不同。尽管使用 <span class="in">`source()`</span> 作为中间步骤并非不可能，但这种情况和许多其他情况最好的解决办法是将代码转换为函数。您将在下面的文本和 **MQMF** 包中看到许多函数示例，为了充分利用文本中表达的思想，您会发现学习如何编写自己的函数很有帮助。</span>
+<span id="cb56-211"><a href="#cb56-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-212"><a href="#cb56-212" aria-hidden="true" tabindex="-1"></a>函数的结构总是相同的:</span>
+<span id="cb56-213"><a href="#cb56-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-216"><a href="#cb56-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-217"><a href="#cb56-217" aria-hidden="true" tabindex="-1"></a> <span class="co">#Outline of a function's structure  </span></span>
+<span id="cb56-218"><a href="#cb56-218" aria-hidden="true" tabindex="-1"></a>functionname <span class="ot">&lt;-</span> <span class="cf">function</span>(argument1, fun,...) {  </span>
+<span id="cb56-219"><a href="#cb56-219" aria-hidden="true" tabindex="-1"></a>  <span class="co"># body of the function   </span></span>
+<span id="cb56-220"><a href="#cb56-220" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   </span></span>
+<span id="cb56-221"><a href="#cb56-221" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the input arguments and body of a function can include other  </span></span>
+<span id="cb56-222"><a href="#cb56-222" aria-hidden="true" tabindex="-1"></a>  <span class="co"># functions, which may have their own arguments, which is what  </span></span>
+<span id="cb56-223"><a href="#cb56-223" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the ... is for. One can include other inputs that are used but  </span></span>
+<span id="cb56-224"><a href="#cb56-224" aria-hidden="true" tabindex="-1"></a>  <span class="co"># not defined early on and may depend on what function is brought  </span></span>
+<span id="cb56-225"><a href="#cb56-225" aria-hidden="true" tabindex="-1"></a>  <span class="co"># into the main function. See for example negLL(), and others   </span></span>
+<span id="cb56-226"><a href="#cb56-226" aria-hidden="true" tabindex="-1"></a>  answer <span class="ot">&lt;-</span> <span class="fu">fun</span>(argument1) <span class="sc">+</span> <span class="dv">2</span>   </span>
+<span id="cb56-227"><a href="#cb56-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(answer)  </span>
+<span id="cb56-228"><a href="#cb56-228" aria-hidden="true" tabindex="-1"></a>} <span class="co"># end of functionname  </span></span>
+<span id="cb56-229"><a href="#cb56-229" aria-hidden="true" tabindex="-1"></a><span class="fu">functionname</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>),mean)  <span class="co"># = mean(1,2,3,4,5)= 3 + 2 = 5  </span></span>
+<span id="cb56-230"><a href="#cb56-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-231"><a href="#cb56-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-232"><a href="#cb56-232" aria-hidden="true" tabindex="-1"></a>我们将开发一个示例来说明如何将这些函数组合在一起。</span>
+<span id="cb56-233"><a href="#cb56-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-234"><a href="#cb56-234" aria-hidden="true" tabindex="-1"></a><span class="fu">### 简单函数</span></span>
+<span id="cb56-235"><a href="#cb56-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-236"><a href="#cb56-236" aria-hidden="true" tabindex="-1"></a>通常我们会有一个简单的公式，比如生长函数或者描述鱼类成熟度的函数。例如，von Bertalanffy 曲线在渔业研究中使用得相当多。</span>
+<span id="cb56-237"><a href="#cb56-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-238"><a href="#cb56-238" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb56-239"><a href="#cb56-239" aria-hidden="true" tabindex="-1"></a>\hat{L_t}=L_{\infty}{\left (1-e^{-K(t-t_0)} \right )} </span>
+<span id="cb56-240"><a href="#cb56-240" aria-hidden="true" tabindex="-1"></a>$$ {#eq-2_1}</span>
+<span id="cb56-241"><a href="#cb56-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-242"><a href="#cb56-242" aria-hidden="true" tabindex="-1"></a>在R中 @eq-2_1 可以以多种方式呈现,第一个简单的代码在一个代码块中，用年龄步长进行循环运算，或者矢量化,或者更合理,使用方程转化为一个函数,可以多次调用而不是复制显式行代码。</span>
+<span id="cb56-243"><a href="#cb56-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-246"><a href="#cb56-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-247"><a href="#cb56-247" aria-hidden="true" tabindex="-1"></a> <span class="co"># Implement the von Bertalanffy curve in multiple ways  </span></span>
+<span id="cb56-248"><a href="#cb56-248" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>  </span>
+<span id="cb56-249"><a href="#cb56-249" aria-hidden="true" tabindex="-1"></a>nages <span class="ot">&lt;-</span> <span class="fu">length</span>(ages)  </span>
+<span id="cb56-250"><a href="#cb56-250" aria-hidden="true" tabindex="-1"></a>Linf <span class="ot">&lt;-</span> <span class="dv">50</span>;  K <span class="ot">&lt;-</span> <span class="fl">0.2</span>;  t0 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.75</span>  </span>
+<span id="cb56-251"><a href="#cb56-251" aria-hidden="true" tabindex="-1"></a> <span class="co"># first try a for loop to calculate length for each age  </span></span>
+<span id="cb56-252"><a href="#cb56-252" aria-hidden="true" tabindex="-1"></a>loopLt <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nages)  </span>
+<span id="cb56-253"><a href="#cb56-253" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ag <span class="cf">in</span> ages) loopLt[ag] <span class="ot">&lt;-</span> Linf <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>K <span class="sc">*</span> (ag <span class="sc">-</span> t0)))  </span>
+<span id="cb56-254"><a href="#cb56-254" aria-hidden="true" tabindex="-1"></a> <span class="co"># the equations are automatically vectorized so more efficient  </span></span>
+<span id="cb56-255"><a href="#cb56-255" aria-hidden="true" tabindex="-1"></a>vecLt <span class="ot">&lt;-</span> Linf <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>K <span class="sc">*</span> (ages <span class="sc">-</span> t0))) <span class="co"># or we can convert   </span></span>
+<span id="cb56-256"><a href="#cb56-256" aria-hidden="true" tabindex="-1"></a> <span class="co"># the equation into a function and use it again and again  </span></span>
+<span id="cb56-257"><a href="#cb56-257" aria-hidden="true" tabindex="-1"></a>vB <span class="ot">&lt;-</span> <span class="cf">function</span>(pars,inages) { <span class="co"># requires pars=c(Linf,K,t0)  </span></span>
+<span id="cb56-258"><a href="#cb56-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pars[<span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>pars[<span class="dv">2</span>] <span class="sc">*</span> (inages <span class="sc">-</span> pars[<span class="dv">3</span>]))))  </span>
+<span id="cb56-259"><a href="#cb56-259" aria-hidden="true" tabindex="-1"></a>}  </span>
+<span id="cb56-260"><a href="#cb56-260" aria-hidden="true" tabindex="-1"></a>funLt <span class="ot">&lt;-</span> <span class="fu">vB</span>(<span class="fu">c</span>(Linf,K,t0),ages)  </span>
+<span id="cb56-261"><a href="#cb56-261" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">cbind</span>(ages,funLt,vecLt,loopLt)  </span>
+<span id="cb56-262"><a href="#cb56-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-263"><a href="#cb56-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-266"><a href="#cb56-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-267"><a href="#cb56-267" aria-hidden="true" tabindex="-1"></a><span class="co">#| lable: tbl-table1</span></span>
+<span id="cb56-268"><a href="#cb56-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Three different ways of generating the same growth curve"</span></span>
+<span id="cb56-269"><a href="#cb56-269" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb56-270"><a href="#cb56-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-271"><a href="#cb56-271" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ans,<span class="at">longtable =</span> <span class="cn">TRUE</span>, <span class="at">booktabs=</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb56-272"><a href="#cb56-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-273"><a href="#cb56-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-274"><a href="#cb56-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-275"><a href="#cb56-275" aria-hidden="true" tabindex="-1"></a>使用向量化比使用循环更有效地编写代码，而且一旦人们习惯了这种想法，代码也会变得更易读。当然，可以直接复制进行计算的 R 的矢量化行，即 <span class="in">`vecLt &lt;- Linf * (1 - exp(- k * (ages - t0)))`</span>，而不是使用函数调用。但也可以在函数中包含错误检查和其他细节，使用函数调用应该有助于避免意外引入错误。此外，许多函数包含大量的代码行，因此使用函数调用也使整个程序更易于阅读和维护。</span>
+<span id="cb56-276"><a href="#cb56-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-279"><a href="#cb56-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-280"><a href="#cb56-280" aria-hidden="true" tabindex="-1"></a> <span class="co">#A vB function with some error checking  </span></span>
+<span id="cb56-281"><a href="#cb56-281" aria-hidden="true" tabindex="-1"></a>vB <span class="ot">&lt;-</span> <span class="cf">function</span>(pars,inages) { <span class="co"># requires pars=c(Linf,K,t0)  </span></span>
+<span id="cb56-282"><a href="#cb56-282" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.numeric</span>(pars) <span class="sc">&amp;</span> <span class="fu">is.numeric</span>(inages)) {  </span>
+<span id="cb56-283"><a href="#cb56-283" aria-hidden="true" tabindex="-1"></a>    Lt <span class="ot">&lt;-</span> pars[<span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>pars[<span class="dv">2</span>] <span class="sc">*</span> (inages <span class="sc">-</span> pars[<span class="dv">3</span>])))  </span>
+<span id="cb56-284"><a href="#cb56-284" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> { <span class="fu">stop</span>(<span class="fu">cat</span>(<span class="st">"Not all input values are numeric! </span><span class="sc">\n</span><span class="st">"</span>)) }  </span>
+<span id="cb56-285"><a href="#cb56-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(Lt)  </span>
+<span id="cb56-286"><a href="#cb56-286" aria-hidden="true" tabindex="-1"></a>}  </span>
+<span id="cb56-287"><a href="#cb56-287" aria-hidden="true" tabindex="-1"></a>param <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="fl">0.2</span>,<span class="st">"-0.75"</span>)  </span>
+<span id="cb56-288"><a href="#cb56-288" aria-hidden="true" tabindex="-1"></a>funLt <span class="ot">&lt;-</span> <span class="fu">vB</span>(<span class="fu">as.numeric</span>(param),ages) <span class="co">#try without the as.numeric  </span></span>
+<span id="cb56-289"><a href="#cb56-289" aria-hidden="true" tabindex="-1"></a><span class="fu">halftable</span>(<span class="fu">cbind</span>(ages,funLt))  </span>
+<span id="cb56-290"><a href="#cb56-290" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-291"><a href="#cb56-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-292"><a href="#cb56-292" aria-hidden="true" tabindex="-1"></a><span class="fu">### 函数输入值</span></span>
+<span id="cb56-293"><a href="#cb56-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-294"><a href="#cb56-294" aria-hidden="true" tabindex="-1"></a>使用函数有很多优点。每个函数都有自己的分析环境，其主要优点是每个函数的环境都与函数外部的分析隔离开来。此外，全局环境(在其中完成许多工作)与不同函数中的工作是隔离的。因此，在函数中可以声明一个变量 *popnum*，并以多种方式更改它的值，但这对函数外同名的变量没有影响。这意味着一个函数的操作范围仅限于该函数。有一些方法可以让函数内部发生的事情直接影响外部变量，但我不会教人们坏习惯，我只会给出搜索符号的提示 -\&gt;\&gt;。忘记特殊的情况，一个函数与它发现自己所在的环境(一个人可以有函数，在函数中，在函数中，...) 交互的唯一方式是通过它的参数，以及通过它完成时的返回。在上面定义的 `vB()` 函数中，参数是 *pars* 和 *inages*，它显式地返回*Lt*。函数将返回上一次活动计算的结果，但在本书中，我们总是调用 <span class="in">`return()`</span> 以确保返回的内容是显式和清晰的。有时，人们可以牺牲增加的简洁来增加清晰度。</span>
+<span id="cb56-295"><a href="#cb56-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-296"><a href="#cb56-296" aria-hidden="true" tabindex="-1"></a>在使用函数时，可以显式地使用参数名 <span class="in">`vB(pars=param, inages=1:20)`</span> 或隐式地使用 <span class="in">`vB(param,1:20)`</span>。如果隐式使用，则输入参数的顺序很重要。如果以错误的顺序输入,函数将愉快地使用 1:20 的前三个值作为参数，并将 <span class="in">`param=c(50,0.02, 0.75)`</span> 作为所需的年龄(从 *VB(ages, param)* 获得以下预测长度: 1.0000 -269.4264 -1807.0424)。如果使用了参数名，那么顺序并不重要。输入所有这些名称可能会让人觉得需要付出更多的努力，但它最终确实使编程变得更容易，并且充当了另一个自我文档的来源。当然，应该开发一种适合自己的编程风格，自然地，可以从错误中学习。</span>
+<span id="cb56-297"><a href="#cb56-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-298"><a href="#cb56-298" aria-hidden="true" tabindex="-1"></a>从本质上讲，软件是顺从的。如果我们将 <span class="in">`vB()`</span> 函数的参数前后混乱，如我们所见，它仍然会尽力返回一个答案或尝试失败。使用相对简单的软件和函数，不难确保任何这样的参数和数据输入以正确的顺序和可识别的形式呈现给函数。一旦我们开始生成更多的相互联系和复杂的软件，其中一个过程的输出形成了对其他过程的输入，那么所涉及的计划需要扩展到参数和数据使用的格式。错误检查就变得比只使用单个函数重要得多。</span>
+<span id="cb56-299"><a href="#cb56-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-300"><a href="#cb56-300" aria-hidden="true" tabindex="-1"></a><span class="fu">### R对象</span></span>
+<span id="cb56-301"><a href="#cb56-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-302"><a href="#cb56-302" aria-hidden="true" tabindex="-1"></a>我们将R语言视为一种编程语言，在编写任何软件时都应该认真对待它的设计。只关注R，有两个原则可以帮助这样的设计 <span class="co">[</span><span class="ot">@chambers2017, p4</span><span class="co">]</span> 。 1. 存在于R中的一切都是一个对象。</span>
+<span id="cb56-303"><a href="#cb56-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-304"><a href="#cb56-304" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>在R中发生的一切都是一个函数调用。</span>
+<span id="cb56-305"><a href="#cb56-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-306"><a href="#cb56-306" aria-hidden="true" tabindex="-1"></a>这意味着任何函数输入的每个参数或形参和数据集都是R对象，就像函数(如果有的话)返回的都是R对象一样。</span>
+<span id="cb56-307"><a href="#cb56-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-308"><a href="#cb56-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### 对象范围</span></span>
+<span id="cb56-309"><a href="#cb56-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-310"><a href="#cb56-310" aria-hidden="true" tabindex="-1"></a>您可能想知道为什么我在上面的 <span class="in">`vB()`</span> 函数参数中使用 *inages* 而不是 *ages*。这纯粹是为了避免混淆每个变量的范围。如上所述，在R中，所有操作都发生在环境中，全局环境是在使用控制台或简单脚本时输入的环境。重要的是要认识到，您编写的任何函数都有自己的环境，其中包含内部变量的作用域。然而，即使 R 对象没有作为参数传递给函数，该对象仍然可以在函数中看到。但是，函数内部的工作对全局或调用环境是隐藏的。如果在函数内部定义了一个变量，但在函数外部使用了相同的变量名，那么当使用变量名时，它首先会在自己的环境中搜索，并使用内部定义的版本，而不是外部定义的版本。不过，最好的做法是在函数内部使用与函数外部不同的对象名称。</span>
+<span id="cb56-311"><a href="#cb56-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-314"><a href="#cb56-314" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-315"><a href="#cb56-315" aria-hidden="true" tabindex="-1"></a> <span class="co"># demonstration that the globel environment is 'visible' inside a  </span></span>
+<span id="cb56-316"><a href="#cb56-316" aria-hidden="true" tabindex="-1"></a> <span class="co"># a function it calls, but the function's environment remains  </span></span>
+<span id="cb56-317"><a href="#cb56-317" aria-hidden="true" tabindex="-1"></a> <span class="co"># invisible to the global or calling environment  </span></span>
+<span id="cb56-318"><a href="#cb56-318" aria-hidden="true" tabindex="-1"></a>vBscope <span class="ot">&lt;-</span> <span class="cf">function</span>(pars) { <span class="co"># requires pars=c(Linf,K,t0)  </span></span>
+<span id="cb56-319"><a href="#cb56-319" aria-hidden="true" tabindex="-1"></a>  rhside <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>pars[<span class="dv">2</span>] <span class="sc">*</span> (ages <span class="sc">-</span> pars[<span class="dv">3</span>])))  </span>
+<span id="cb56-320"><a href="#cb56-320" aria-hidden="true" tabindex="-1"></a>  Lt <span class="ot">&lt;-</span> pars[<span class="dv">1</span>] <span class="sc">*</span> rhside  </span>
+<span id="cb56-321"><a href="#cb56-321" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(Lt)  </span>
+<span id="cb56-322"><a href="#cb56-322" aria-hidden="true" tabindex="-1"></a>}  </span>
+<span id="cb56-323"><a href="#cb56-323" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>; param <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="fl">0.2</span>,<span class="sc">-</span><span class="fl">0.75</span>)  </span>
+<span id="cb56-324"><a href="#cb56-324" aria-hidden="true" tabindex="-1"></a><span class="fu">vBscope</span>(param)  </span>
+<span id="cb56-325"><a href="#cb56-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-326"><a href="#cb56-326" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-327"><a href="#cb56-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-330"><a href="#cb56-330" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-331"><a href="#cb56-331" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(rhside)    <span class="co"># note the use of try() which can trap errors ?try  </span></span>
+<span id="cb56-332"><a href="#cb56-332" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-333"><a href="#cb56-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-334"><a href="#cb56-334" aria-hidden="true" tabindex="-1"></a><span class="fu">### 函数输入与输出</span></span>
+<span id="cb56-335"><a href="#cb56-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-336"><a href="#cb56-336" aria-hidden="true" tabindex="-1"></a>像大多数软件一样，R 函数总是有输入和输出(尽管两者可能都是 *NULL*；函数的括号可以为空，例如 <span class="in">`parsyn()`</span>)。当输入参数向量或数据矩阵时，采用标准格式是明智的，我的意思是设置标准格式。这样，任何处理此类数据的函数都可以对其格式进行假设。理想情况下，在使用任何输入数据之前进行数据检查仍然是一个好主意，但这可以通过遵循任何确定的标准格式来简化。</span>
+<span id="cb56-337"><a href="#cb56-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-338"><a href="#cb56-338" aria-hidden="true" tabindex="-1"></a>重要的是要知道和理解输入到每个函数中的数据的结构，因为向量繁殖需要以不同的方式引用到矩阵中，而矩阵的行为也与 data.frame 不同。通常最好通过列名显式地引用矩阵，因为不能保证所有这样的数据集都按照 *schaef* 中找到的顺序。我们可以比较 <span class="in">`schaef[，2]`</span> 和 <span class="in">`schaef[，"catch"]`</span>，和 <span class="in">`schaef$catch`</span>。</span>
+<span id="cb56-339"><a href="#cb56-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-342"><a href="#cb56-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-343"><a href="#cb56-343" aria-hidden="true" tabindex="-1"></a> <span class="co">#Bring the data-set schaef into the working of global environment  </span></span>
+<span id="cb56-344"><a href="#cb56-344" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(schaef)  </span>
+<span id="cb56-345"><a href="#cb56-345" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-346"><a href="#cb56-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-349"><a href="#cb56-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-350"><a href="#cb56-350" aria-hidden="true" tabindex="-1"></a> <span class="co">#examine the properties of the data-set schaef  </span></span>
+<span id="cb56-351"><a href="#cb56-351" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(schaef)  </span>
+<span id="cb56-352"><a href="#cb56-352" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> schaef[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">2</span>]  </span>
+<span id="cb56-353"><a href="#cb56-353" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> schaef[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">"catch"</span>]  </span>
+<span id="cb56-354"><a href="#cb56-354" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> schaef<span class="sc">$</span>catch[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]  </span>
+<span id="cb56-355"><a href="#cb56-355" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(a,b,c)  </span>
+<span id="cb56-356"><a href="#cb56-356" aria-hidden="true" tabindex="-1"></a>mschaef <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(schaef)  </span>
+<span id="cb56-357"><a href="#cb56-357" aria-hidden="true" tabindex="-1"></a>mschaef[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">"catch"</span>]  <span class="co"># ok  </span></span>
+<span id="cb56-358"><a href="#cb56-358" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">try</span>(mschaef<span class="sc">$</span>catch[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]) <span class="co">#invalid for matrices  </span></span>
+<span id="cb56-359"><a href="#cb56-359" aria-hidden="true" tabindex="-1"></a>d  <span class="co"># had we not used try()eveerything would have stopped.  </span></span>
+<span id="cb56-360"><a href="#cb56-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-361"><a href="#cb56-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-362"><a href="#cb56-362" aria-hidden="true" tabindex="-1"></a>通过测试 <span class="in">`schaef`</span> 对象的*类*，我们可以看到它是 data.frame 而不是矩阵。因此，处理这些输入可能不像乍一看那么简单。是的，列的顺序可能会改变，但名称也可能不同。因此，我们至少要做一些检查，使我们的软件至少在一定程度上是安全的。通常我们是唯一使用我们编写的软件的人，但我发现这并不意味着我不需要尝试使它万无一失(似乎有时我是愚蠢的)。</span>
+<span id="cb56-363"><a href="#cb56-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-364"><a href="#cb56-364" aria-hidden="true" tabindex="-1"></a>注意，在 <span class="in">`schaef`</span> 中，我们使用了所有小写的列标题，这并不总是常见的。正如我们所看到的，列名很重要，因为引用 data.frame 通常会更好，就像引用矩阵一样。通常，在编程时，我们可以使用不止一个选项。我们可以强制输入数据矩阵变成 data.frame，但也可以强制列名为小写。我知道列名已经是小写的了，但是这里我们讨论的是一个接收任意给定数据集的函数。</span>
+<span id="cb56-365"><a href="#cb56-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-368"><a href="#cb56-368" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-369"><a href="#cb56-369" aria-hidden="true" tabindex="-1"></a> <span class="co">#Convert column names of a data.frame or matrix to lowercase  </span></span>
+<span id="cb56-370"><a href="#cb56-370" aria-hidden="true" tabindex="-1"></a>dolittle <span class="ot">&lt;-</span> <span class="cf">function</span>(indat) {  </span>
+<span id="cb56-371"><a href="#cb56-371" aria-hidden="true" tabindex="-1"></a>   indat1 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(indat)  </span>
+<span id="cb56-372"><a href="#cb56-372" aria-hidden="true" tabindex="-1"></a>   <span class="fu">colnames</span>(indat) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(indat))  </span>
+<span id="cb56-373"><a href="#cb56-373" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">dfdata=</span>indat1,<span class="at">indat=</span><span class="fu">as.matrix</span>(indat)))  </span>
+<span id="cb56-374"><a href="#cb56-374" aria-hidden="true" tabindex="-1"></a>} <span class="co"># return the original and the new version  </span></span>
+<span id="cb56-375"><a href="#cb56-375" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(schaef) <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">colnames</span>(schaef))  </span>
+<span id="cb56-376"><a href="#cb56-376" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">dolittle</span>(schaef)  </span>
+<span id="cb56-377"><a href="#cb56-377" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(out, <span class="at">width=</span><span class="dv">63</span>, <span class="at">strict.width=</span><span class="st">"cut"</span>)  </span>
+<span id="cb56-378"><a href="#cb56-378" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-379"><a href="#cb56-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-380"><a href="#cb56-380" aria-hidden="true" tabindex="-1"></a>因此，在接下来的内容中，我们将尝试仅对与渔业相关的数据使用小写列名，我们将使用标准名称 "year"、"catch"、"cpue" 等，但我们也将在期望输入数据矩阵的函数中包含一条转换为 *tolower* 的语句。当输入包含与渔业相关的数据矩阵、年龄组成数据、与生长、成熟、补充和选择性有关的生物常数向量以及其他数据的更复杂列表对象时，这些细节就变得更加重要。在任何稍微复杂一点的软件设计中，都应该确定标准格式并检查此类输入。</span>
+<span id="cb56-381"><a href="#cb56-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-382"><a href="#cb56-382" aria-hidden="true" tabindex="-1"></a>在 <span class="in">`schaef`</span> 的情况下，这是在评估中与剩余产量模型一起使用的数据。这是合理的想法开发函数提前预支了一个先于它是否包含所有所需的数据,在数据是否有差距,和其他细节,之前用于评估一个甚至可以开发*S3*类为特定分析,这将允许将函数添加到通用函数，如 *print*、*plot*、*summary*，以及创建自己的新泛型方法函数。</span>
+<span id="cb56-383"><a href="#cb56-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-384"><a href="#cb56-384" aria-hidden="true" tabindex="-1"></a>另外，可以简单地编写函数来为特定的分析生成可定制的图，以执行可能重复多次的特定任务。可以通过函数 <span class="in">`plotspmdat()`</span> 找到一个示例，该函数将获取典型的渔业数据，并绘制渔获量和 cpue 的时间序列。</span>
+<span id="cb56-385"><a href="#cb56-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-386"><a href="#cb56-386" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig.cap="The catch and cpue data from the MQMF data-set schaef plotted automatically."}</span></span>
+<span id="cb56-387"><a href="#cb56-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-388"><a href="#cb56-388" aria-hidden="true" tabindex="-1"></a><span class="in"> #Could have used an S3 plot method had we defined a class   Fig.2.2 </span></span>
+<span id="cb56-389"><a href="#cb56-389" aria-hidden="true" tabindex="-1"></a><span class="in">plotspmdat(schaef) # examine the code as an eg of a custom plot  </span></span>
+<span id="cb56-390"><a href="#cb56-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-391"><a href="#cb56-391" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-392"><a href="#cb56-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-393"><a href="#cb56-393" aria-hidden="true" tabindex="-1"></a><span class="fu">## 附录：少有人使用的函数</span></span>
+<span id="cb56-394"><a href="#cb56-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-395"><a href="#cb56-395" aria-hidden="true" tabindex="-1"></a>下面列出的函数只是为了帮助读者记住R中一些容易被遗忘的函数，因为它们很少被使用，尽管它们在处理实际问题时非常有用。</span>
+<span id="cb56-396"><a href="#cb56-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-397"><a href="#cb56-397" aria-hidden="true" tabindex="-1"></a><span class="in">`getNamespaceExports("MQMF")`</span></span>
+<span id="cb56-398"><a href="#cb56-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-399"><a href="#cb56-399" aria-hidden="true" tabindex="-1"></a><span class="in">`getS3method("print","default")`</span> 通常 <span class="in">`print.default`</span> 也可以</span>
+<span id="cb56-400"><a href="#cb56-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-401"><a href="#cb56-401" aria-hidden="true" tabindex="-1"></a><span class="in">`ls(“package:MQMF”)`</span> 列出包中的输出函数</span>
+<span id="cb56-402"><a href="#cb56-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-403"><a href="#cb56-403" aria-hidden="true" tabindex="-1"></a><span class="in">`ls.str(“package:MQMF”)`</span>列出函数及其语法</span>
+<span id="cb56-404"><a href="#cb56-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-405"><a href="#cb56-405" aria-hidden="true" tabindex="-1"></a><span class="in">`methods(“print”)`</span>列出适用的S3方法</span>
+<span id="cb56-406"><a href="#cb56-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-407"><a href="#cb56-407" aria-hidden="true" tabindex="-1"></a><span class="in">`on.exit(suppressWarnings(sink()))`</span> 退出运行的清洗方法（即使失败）</span>
+<span id="cb56-408"><a href="#cb56-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-409"><a href="#cb56-409" aria-hidden="true" tabindex="-1"></a><span class="in">`packageDescription("MQMF")`</span></span>
+<span id="cb56-410"><a href="#cb56-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-411"><a href="#cb56-411" aria-hidden="true" tabindex="-1"></a><span class="in">`RNGkind()`</span>正在使用的随机数生成器</span>
+<span id="cb56-412"><a href="#cb56-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-413"><a href="#cb56-413" aria-hidden="true" tabindex="-1"></a><span class="in">`sessionInfo()`</span></span>
+<span id="cb56-414"><a href="#cb56-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-415"><a href="#cb56-415" aria-hidden="true" tabindex="-1"></a><span class="in">`sink("filename",split=TRUE)`</span> then after lots of screen output sink(),</span>
+<span id="cb56-416"><a href="#cb56-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-417"><a href="#cb56-417" aria-hidden="true" tabindex="-1"></a><span class="in">`suppressWarnings(sink())`</span> removes a sink quietly if a run crashes and leaves one open</span>
+<span id="cb56-418"><a href="#cb56-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-419"><a href="#cb56-419" aria-hidden="true" tabindex="-1"></a><span class="fu">## 附录：其它学习资源</span></span>
+<span id="cb56-420"><a href="#cb56-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-421"><a href="#cb56-421" aria-hidden="true" tabindex="-1"></a>Other Books: these two have a tidyverse bent.</span>
+<span id="cb56-422"><a href="#cb56-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-423"><a href="#cb56-423" aria-hidden="true" tabindex="-1"></a>Wickham and Grolemund (2017) *R for Data Science* <span class="ot">&lt;https://r4ds.had.co.nz/&gt;</span></span>
+<span id="cb56-424"><a href="#cb56-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-425"><a href="#cb56-425" aria-hidden="true" tabindex="-1"></a>Grolemund (2014) *Hands-On Programming with R* <span class="ot">&lt;https://rstudio-education.github.io/hopr/&gt;</span></span>
+<span id="cb56-426"><a href="#cb56-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-427"><a href="#cb56-427" aria-hidden="true" tabindex="-1"></a>There are blogs devoted to R. I rather like <span class="ot">&lt;https://www.r-bloggers.com/&gt;</span> but I get that delivered to my email. This blog lists many others.</span>
+<span id="cb56-428"><a href="#cb56-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-429"><a href="#cb56-429" aria-hidden="true" tabindex="-1"></a>There is even an open-source journal concerning R</span>
+<span id="cb56-430"><a href="#cb56-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-431"><a href="#cb56-431" aria-hidden="true" tabindex="-1"></a><span class="ot">&lt;https://journal.r-project.org/&gt;</span></span>
+</code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
