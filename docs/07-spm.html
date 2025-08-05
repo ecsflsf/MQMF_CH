@@ -17,6 +17,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+q { quotes: "“" "”" "‘" "’"; }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
@@ -187,6 +188,12 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">中文版本说明</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -322,23 +329,23 @@ window.Quarto = {
 
 </header><section id="引言" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="引言">
 <span class="header-section-number">7.1</span> 引言</h2>
-<p>在前面的章节中，我们已经使用并拟合了所谓的静态模型，这些模型在一段时间内是稳定的（<em>例如</em>，使用<code><a href="https://rdrr.io/pkg/MQMF/man/vB.html">vB()</a></code> 、<code><a href="https://rdrr.io/pkg/MQMF/man/Gz.html">Gz()</a></code>或<code><a href="https://rdrr.io/pkg/MQMF/man/mm.html">mm()</a></code> 的生长模型 ）。此外，在第 <a href="04-application.html" class="quarto-xref"><span>4</span></a> 章 <a href="./04-application.html">模型参数估计</a> 和第 <a href="06-uncertainty.html" class="quarto-xref"><span>6</span></a> 章<a href="./06-uncertainty.html">不确定性</a>两章中，我们已经介绍了剩余生产模型（surplus production model, spm），这些模型可用于进行资源评估（例如 Schaefer 模型），并提供了一个时间序列数据的动态模型的示例。然而，当我们专注于特定的建模方法时，此类模型的细节开发受到限制。我们将在本章深入研究剩余生产模型。</p>
-<p>剩余生产模型（或者生物量动态模型）<span class="citation" data-cites="hilborn1992">(<a href="08-references.html#ref-hilborn1992" role="doc-biblioref">Hilborn 和 Walters 1992</a>)</span> 将补充、生长和死亡率（生产的所有方面）的总体效应汇集到一个单一的生产方程中，处理无差异的生物量（或数量）。“无差异的（undifferentiated）”一词意味着忽略了年龄和长度组成以及性别和其他差异的所有方面，实际上都被忽略了。</p>
+<p>在前面的章节中，我们已经使用并拟合了所谓的静态模型，这些模型在一段时间内是稳定的（<em>例如</em>，使用<code><a href="https://rdrr.io/pkg/MQMF/man/vB.html">vB()</a></code> 、<code><a href="https://rdrr.io/pkg/MQMF/man/Gz.html">Gz()</a></code>或<code><a href="https://rdrr.io/pkg/MQMF/man/mm.html">mm()</a></code> 的生长模型 ）。此外，在第 <a href="#sec-paraestimat" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-paraestimat</span></a> 章 <a href="./04-application.html">模型参数估计</a> 和第 <a href="#sec-uncertainty" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-uncertainty</span></a> 章<a href="./06-uncertainty.html">不确定性</a>两章中，我们已经介绍了剩余生产模型（surplus production model, spm），这些模型可用于进行资源评估（例如 Schaefer 模型），并提供了一个时间序列数据的动态模型的示例。然而，当我们专注于特定的建模方法时，此类模型的细节开发受到限制。我们将在本章深入研究剩余生产模型。</p>
+<p>剩余生产模型（或者生物量动态模型）<span class="citation" data-cites="hilborn1992">(<a href="#ref-hilborn1992" role="doc-biblioref">Hilborn 和 Walters 1992</a>)</span> 将补充、生长和死亡率（生产的所有方面）的总体效应汇集到一个单一的生产方程中，处理无差异的生物量（或数量）。<q>无差异的（undifferentiated）</q>一词意味着忽略了年龄和长度组成以及性别和其他差异的所有方面，实际上都被忽略了。</p>
 <p>为了进行正式的种群评估，就必须以某种方式对已开发资源的动态行为和生产力进行建模。这些动态的主要组分是种群对不同捕捞压力随时间推移的反应方式，即其资源量增加或减少的程度。通过研究不同捕捞强度水平的影响，一般可以评估种群的生产力。剩余生产模型提供了最简单的种群评估，尝试在模型与渔业数据拟合的基础上对种群动态进行描述。</p>
-<p>在20世纪50年代，<span class="citation" data-cites="schaefer1957">M. B. Schaefer (<a href="08-references.html#ref-schaefer1957" role="doc-biblioref">1957</a>)</span>; <span class="citation" data-cites="schaefer1991">M. Schaefer (<a href="08-references.html#ref-schaefer1991" role="doc-biblioref">1991</a>)</span> 描述了如何使用剩余生产模型来生成渔业种群评估。此后，这些模型得到很多发展 <span class="citation" data-cites="hilborn1992 prager1994 haddon2011 winker2018">(<a href="08-references.html#ref-hilborn1992" role="doc-biblioref">Hilborn 和 Walters 1992</a>; <a href="08-references.html#ref-prager1994" role="doc-biblioref">Prager 1994</a>; <a href="08-references.html#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>; <a href="08-references.html#ref-winker2018" role="doc-biblioref">Winker, Carvalho, 和 Kapur 2018</a>)</span>，我们将在本章简要介绍这些较近期的动态模型。</p>
+<p>在20世纪50年代，<span class="citation" data-cites="schaefer1957">M. B. Schaefer (<a href="#ref-schaefer1957" role="doc-biblioref">1957</a>)</span>; <span class="citation" data-cites="schaefer1991">M. Schaefer (<a href="#ref-schaefer1991" role="doc-biblioref">1991</a>)</span> 描述了如何使用剩余生产模型来生成渔业种群评估。此后，这些模型得到很多发展 <span class="citation" data-cites="hilborn1992 prager1994 haddon2011 winker2018">(<a href="#ref-hilborn1992" role="doc-biblioref">Hilborn 和 Walters 1992</a>; <a href="#ref-prager1994" role="doc-biblioref">Prager 1994</a>; <a href="#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>; <a href="#ref-winker2018" role="doc-biblioref">Winker, Carvalho, 和 Kapur 2018</a>)</span>，我们将在本章简要介绍这些较近期的动态模型。</p>
 <section id="数据需求" class="level3" data-number="7.1.1"><h3 data-number="7.1.1" class="anchored" data-anchor-id="数据需求">
 <span class="header-section-number">7.1.1</span> 数据需求</h3>
 <p>估算这种模型的现代离散模型参数所需的最基本数据至少是一个相对丰度指数的时间序列和一个相关的渔获量数据时间序列。渔获量数据可以涵盖比相对丰度指数数据的年份更长。简单模型中使用的相对种群丰度指数一般是单位努力渔获量（cpue），但也可以是一些与渔业无关的丰度指数（例如，来自拖网调查、声学调查），或者两者皆具。</p>
 </section><section id="对比的需求" class="level3" data-number="7.1.2"><h3 data-number="7.1.2" class="anchored" data-anchor-id="对比的需求">
 <span class="header-section-number">7.1.2</span> 对比的需求</h3>
-<p>尽管最近偶尔使用 <span class="citation" data-cites="elder1979 saila1979 punt1997">(<a href="08-references.html#ref-elder1979" role="doc-biblioref">Elder 1979</a>; <a href="08-references.html#ref-saila1979" role="doc-biblioref">Saila 等 1979</a>; <a href="08-references.html#ref-punt1997" role="doc-biblioref">Punt 和 Hilborn 1997</a>)</span>，但剩余产量模型在 20 世纪 80 年代似乎不再流行。可能是因为在开发这些模型的早期，须假设被评估的种群处于平衡状态 <span class="citation" data-cites="elder1979 saila1979">(<a href="08-references.html#ref-elder1979" role="doc-biblioref">Elder 1979</a>; <a href="08-references.html#ref-saila1979" role="doc-biblioref">Saila 等 1979</a>)</span>，而这往往导致过于乐观的结论，从长远来看是站不住脚的。<span class="citation" data-cites="hilborn1979">Hilborn (<a href="08-references.html#ref-hilborn1979" role="doc-biblioref">1979</a>)</span> 分析了许多此类情况，并证明使用的数据往往过于单一；他们的努力量水平上缺乏对比，因此对相关种群的动态缺乏信息。数据缺乏对比度意味着渔获量和努力量信息只能用于有限范围的种群丰度水平和有限的捕捞强度水平。有限的努力强度范围意味着对不同捕捞强度水平的反应范围也将有限。当种群动态更多地受环境因素而非渔获量的驱动时，也会出现这种对比的缺乏，因此种群似乎以意想不到的方式对渔业做出反应（例如，尽管渔获量或努力量没有变化，但种群发生了巨大变化）。</p>
+<p>尽管最近偶尔使用 <span class="citation" data-cites="elder1979 saila1979 punt1997">(<a href="#ref-elder1979" role="doc-biblioref">Elder 1979</a>; <a href="#ref-saila1979" role="doc-biblioref">Saila 等 1979</a>; <a href="#ref-punt1997" role="doc-biblioref">Punt 和 Hilborn 1997</a>)</span>，但剩余产量模型在 20 世纪 80 年代似乎不再流行。可能是因为在开发这些模型的早期，须假设被评估的种群处于平衡状态 <span class="citation" data-cites="elder1979 saila1979">(<a href="#ref-elder1979" role="doc-biblioref">Elder 1979</a>; <a href="#ref-saila1979" role="doc-biblioref">Saila 等 1979</a>)</span>，而这往往导致过于乐观的结论，从长远来看是站不住脚的。<span class="citation" data-cites="hilborn1979">Hilborn (<a href="#ref-hilborn1979" role="doc-biblioref">1979</a>)</span> 分析了许多此类情况，并证明使用的数据往往过于单一；他们的努力量水平上缺乏对比，因此对相关种群的动态缺乏信息。数据缺乏对比度意味着渔获量和努力量信息只能用于有限范围的种群丰度水平和有限的捕捞强度水平。有限的努力强度范围意味着对不同捕捞强度水平的反应范围也将有限。当种群动态更多地受环境因素而非渔获量的驱动时，也会出现这种对比的缺乏，因此种群似乎以意想不到的方式对渔业做出反应（例如，尽管渔获量或努力量没有变化，但种群发生了巨大变化）。</p>
 <p>剩余产量模型的一个重要假设是，所使用的相对丰度度量能够提供了种群相对丰度随时间的信息指标。一般来说，假设种群丰度与 CPUE 或其他指数之间存在线性关系（尽管这不一定是 1：1 的关系）。显而易见的风险是，这个假设要么是错误的，要么可以根据情况发生变化。例如，cpue 可能会变得非常稳定，这意味着即使种群数量减少或增加，它也不会发生变化。或者，由于外部因素影响，指数的变化可能会非常大，以至于无法检测到丰度趋势。例如，可能会观察到不同年份间 CPUE 的巨大变化，但考虑到种群的生产力，这种变化在生物学上是不可能的 （Haddon，2018）。</p>
 <p>一个不同但相关的假设是，努力量的质量和随后的渔获率在一段时间内保持不变。不幸的是，由于捕捞网具的技术变化、捕捞行为或方法的改变，或捕捞效率的其他变化，从而形成“努力量爬升”的概念，对于依赖 CPUE 作为相对丰度指数的评估来说，总是一个挑战或问题。努力量递增变的概念意味着努力量的有效性增加，因此任何基于名义努力量观测到的名义 cpue都会高估相对种群丰度（偏高）。cpue 的统计标准化 （Kimura，1981；Haddon，2018）可以解决其中一些问题，但显然只能考虑可获得数据的因素。例如，如果在渔业中引入 GPS 绘图仪或彩色回声测深仪，这往往会提高捕捞效率，但却没有记录哪些船只以及何时引入这些设备，那么这些设备对渔获率的正面影响将无法通过标准化来解释。</p>
 </section><section id="渔获率何时具有参考价值" class="level3" data-number="7.1.3"><h3 data-number="7.1.3" class="anchored" data-anchor-id="渔获率何时具有参考价值">
 <span class="header-section-number">7.1.3</span> 渔获率何时具有参考价值</h3>
-<p>检验丰度与任何相对丰度指数之间的假定关系是否真实和有信息的一个可能方法是，在发达渔业中，如果允许渔获量增加，预计 cpue 会在一段时间后开始下降。同样，如果渔获量减少到小于剩余产量（可能是通过管理或营销变化），那么随着种群规模的增加，预计cpue会在一段时间后很快增加。其原理是，如果渔获量低于种群当前的产量，那么最终种群规模和 cpue 都会增加，反之亦然。如果渔获量因供应不足而下降，但仍保持或高于当前生产力，则 cpue 当然不会增加，甚至可能进一步下降，尽管渔获量可能略有减少。重点放在发达渔业上，因为当渔业开始时，生物量的任何初始枯竭都会导致 “意外”渔 获量 <span class="citation" data-cites="maccall2009">(<a href="08-references.html#ref-maccall2009" role="doc-biblioref">MacCall 2009</a>)</span>，因为种群被捕捞减少，这反过来又会导致 cpue 水平，一旦种群从未捕获水平减少，cpue 水平将无法维持。</p>
+<p>检验丰度与任何相对丰度指数之间的假定关系是否真实和有信息的一个可能方法是，在发达渔业中，如果允许渔获量增加，预计 cpue 会在一段时间后开始下降。同样，如果渔获量减少到小于剩余产量（可能是通过管理或营销变化），那么随着种群规模的增加，预计cpue会在一段时间后很快增加。其原理是，如果渔获量低于种群当前的产量，那么最终种群规模和 cpue 都会增加，反之亦然。如果渔获量因供应不足而下降，但仍保持或高于当前生产力，则 cpue 当然不会增加，甚至可能进一步下降，尽管渔获量可能略有减少。重点放在发达渔业上，因为当渔业开始时，生物量的任何初始枯竭都会导致 <q>意外</q>渔 获量 <span class="citation" data-cites="maccall2009">(<a href="#ref-maccall2009" role="doc-biblioref">MacCall 2009</a>)</span>，因为种群被捕捞减少，这反过来又会导致 cpue 水平，一旦种群从未捕获水平减少，cpue 水平将无法维持。</p>
 <p>因此，预计在发达渔业中，cpue 在许多情况下与渔获量呈负相关，可能在 cpue 随渔获量变化而变化之间存在时滞。如果我们能发现这种关系，通常意味着数据中存在一定程度的反差；如果我们找不到这种负相关关系，通常意味着数据中有关种群如何对渔业做出反应的信息含量太低，无法仅根据渔获量和相对丰度指数进行评估。也就是说，在渔获量的基础上，相对丰度指数几乎没有增加更多的信息。</p>
-<p>我们将使用 <strong>MQMF</strong> 数据集 <em>schaef</em> 来说明这些观点。<em>Schaefer</em> 包含 <span class="citation" data-cites="schaefer1957">M. B. Schaefer (<a href="08-references.html#ref-schaefer1957" role="doc-biblioref">1957</a>)</span> 原始黄鳍金枪鱼数据的渔获量和 CPUE，这是使用剩余产量模型进行种群评估的早期范例。</p>
+<p>我们将使用 <strong>MQMF</strong> 数据集 <em>schaef</em> 来说明这些观点。<em>Schaefer</em> 包含 <span class="citation" data-cites="schaefer1957">M. B. Schaefer (<a href="#ref-schaefer1957" role="doc-biblioref">1957</a>)</span> 原始黄鳍金枪鱼数据的渔获量和 CPUE，这是使用剩余产量模型进行种群评估的早期范例。</p>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Yellowfin-tuna data from Schaefer 12957</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/haddonm/MQMF/">MQMF</a></span><span class="op">)</span></span>
@@ -516,7 +523,7 @@ window.Quarto = {
 </div>
 </figure>
 </div>
-<p>渔获量、cpue 及其关系图（<a href="#fig-spm1" class="quarto-xref">图&nbsp;<span>7.1</span></a>）仅显示 cpue 和渔获量之间微弱的负相关关系。如果我们用 <code>summary(model)</code> 检验 <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> 回归结果，我们发现回归仅有 <span class="math inline">\(P = 0.04575\)</span> 的显著性。但是，这反映了没有时滞的相关性，即 <span class="math inline">\(lag = 0\)</span> 。我们不知道需要经过多少年才能发现渔获量变化对 cpue 的潜在影响，因此，需要对 cpue 和渔获量之间进行时滞相关分析；为此，我们可以使用基本 R 语言的交互相关函数 <code><a href="https://rdrr.io/r/stats/acf.html">ccf()</a></code> 。</p>
+<p>渔获量、cpue 及其关系图（<a href="#fig-spm1" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm1</span></a>）仅显示 cpue 和渔获量之间微弱的负相关关系。如果我们用 <code>summary(model)</code> 检验 <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> 回归结果，我们发现回归仅有 <span class="math inline">\(P = 0.04575\)</span> 的显著性。但是，这反映了没有时滞的相关性，即 <span class="math inline">\(lag = 0\)</span> 。我们不知道需要经过多少年才能发现渔获量变化对 cpue 的潜在影响，因此，需要对 cpue 和渔获量之间进行时滞相关分析；为此，我们可以使用基本 R 语言的交互相关函数 <code><a href="https://rdrr.io/r/stats/acf.html">ccf()</a></code> 。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># schaef fishery data and regress cpue and catch    Fig 7.1</span></span>
 <span><span class="co"># parset(plots=c(3,1),margin=c(0.35,0.4,0.05,0.05))</span></span>
@@ -558,7 +565,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>如前所述，有迹象表明 <span class="math inline">\(\text{time-lag} = 0\)</span> 只是刚刚显著。然而，在时滞2年时，CPUE与渔获量呈显著负相关（<a href="#fig-spm2" class="quarto-xref">图&nbsp;<span>7.2</span></a>），表明黄鳍金枪鱼数据中有足够的对比度来为剩余生产模型提供信息（在 1 年、3 年和 4 年也有显著影响）。如果我们将 CPUE 数据物理滞后两年，这种相关性应该会变得更加明显（ <a href="#fig-spm3" class="quarto-xref">图&nbsp;<span>7.3</span></a>）。</p>
+<p>如前所述，有迹象表明 <span class="math inline">\(\text{time-lag} = 0\)</span> 只是刚刚显著。然而，在时滞2年时，CPUE与渔获量呈显著负相关（<a href="#fig-spm2" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm2</span></a>），表明黄鳍金枪鱼数据中有足够的对比度来为剩余生产模型提供信息（在 1 年、3 年和 4 年也有显著影响）。如果我们将 CPUE 数据物理滞后两年，这种相关性应该会变得更加明显（ <a href="#fig-spm3" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm3</span></a>）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># cross correlation between cpue and catch in schaef Fig 7.2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/parset.html">parset</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span> <span class="co"># sets par parameters for a tidy base graphic</span></span>
@@ -625,7 +632,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><span class="citation" data-cites="schaefer1957">M. B. Schaefer (<a href="08-references.html#ref-schaefer1957" role="doc-biblioref">1957</a>)</span> 的黄鳍金枪鱼渔业数据中 cpue 与渔获量之间的关系，对 cpue 时间序列施加了2年的负时滞后（第3：22行与第1：20行）。极小的梯度反映了以千磅为单位报告的渔获量。</p>
+<p><span class="citation" data-cites="schaefer1957">M. B. Schaefer (<a href="#ref-schaefer1957" role="doc-biblioref">1957</a>)</span> 的黄鳍金枪鱼渔业数据中 cpue 与渔获量之间的关系，对 cpue 时间序列施加了2年的负时滞后（第3：22行与第1：20行）。极小的梯度反映了以千磅为单位报告的渔获量。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># write out a summary of he regression model2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -678,11 +685,11 @@ f\left( {B}_{t}\right)=r{B}_{t}\left( 1-\frac{{B}_{t}}{K} \right)
 f\left( {B_t}\right)=\log({K})r{B}_{t}\left( 1-\frac{\log({B_t})}{\log({K})}\right)  
 \qquad(7.4)\]</span></span></p>
 <p>该修改版本将 <span class="math inline">\(\log(K)\)</span> 作为第一项，其作用仅仅是将最大生产率保持在 Schaefer 模型中类似参数大致相当的水平。</p>
-<p>Pella和Tomlinson（1969）提出了一个广义产量方程，其中包括了 Schaefer 和 Fox 模型作为特例的情况。在此，我们将使用 <span class="citation" data-cites="polacheck1993">Polacheck, Hilborn, 和 Punt (<a href="08-references.html#ref-polacheck1993" role="doc-biblioref">1993</a>)</span> 提出的替代公式，它提供了种群动态的一般方程，可用于 Schaefer 和 Fox 模型，以及两者之间的渐变，具体取决于单个参数 <span class="math inline">\(p\)</span> 的值。</p>
+<p>Pella和Tomlinson（1969）提出了一个广义产量方程，其中包括了 Schaefer 和 Fox 模型作为特例的情况。在此，我们将使用 <span class="citation" data-cites="polacheck1993">Polacheck, Hilborn, 和 Punt (<a href="#ref-polacheck1993" role="doc-biblioref">1993</a>)</span> 提出的替代公式，它提供了种群动态的一般方程，可用于 Schaefer 和 Fox 模型，以及两者之间的渐变，具体取决于单个参数 <span class="math inline">\(p\)</span> 的值。</p>
 <p><span id="eq-spm5"><span class="math display">\[
 B_{t+1}=B_t + rB_t \frac{1}{p}\left(1-\left(\dfrac{B_t}{K} \right)^p \right)-C_t
 \qquad(7.5)\]</span></span></p>
-<p>其中第一项，<span class="math inline">\(B_t\)</span>，是时间 <span class="math inline">\(t\)</span> 的种群生物量，最后一项 <span class="math inline">\(C_t\)</span>，是时间 <span class="math inline">\(t\)</span> 的渔获量。中间项是比较复杂的部分，定义了产量曲线。它由种群的瞬时增长率 <span class="math inline">\(r\)</span> 、时间 <span class="math inline">\(t\)</span> 的现存生物量 <span class="math inline">\(B_t\)</span>、环境容纳量或最大种群数量 <span class="math inline">\(K\)</span>，以及控制产量曲线任何不对称性的项 <span class="math inline">\(p\)</span> 组成。如果将 <span class="math inline">\(p\)</span> 设置为 1.0（<strong>MQMF</strong> 中 <code><a href="https://rdrr.io/pkg/MQMF/man/discretelogistic.html">discretelogistic()</a></code> 函数的默认值），该公式简化为经典的 Schaefer 模型 （Schaefer， 1954， 1957）。<span class="citation" data-cites="polacheck1993">Polacheck, Hilborn, 和 Punt (<a href="08-references.html#ref-polacheck1993" role="doc-biblioref">1993</a>)</span> 引入了上述公式，但往往称之为 Pella-Tomlinson（1969）剩余产量模型（尽管他们的公式不同，但具有非常相似的性质）。</p>
+<p>其中第一项，<span class="math inline">\(B_t\)</span>，是时间 <span class="math inline">\(t\)</span> 的种群生物量，最后一项 <span class="math inline">\(C_t\)</span>，是时间 <span class="math inline">\(t\)</span> 的渔获量。中间项是比较复杂的部分，定义了产量曲线。它由种群的瞬时增长率 <span class="math inline">\(r\)</span> 、时间 <span class="math inline">\(t\)</span> 的现存生物量 <span class="math inline">\(B_t\)</span>、环境容纳量或最大种群数量 <span class="math inline">\(K\)</span>，以及控制产量曲线任何不对称性的项 <span class="math inline">\(p\)</span> 组成。如果将 <span class="math inline">\(p\)</span> 设置为 1.0（<strong>MQMF</strong> 中 <code><a href="https://rdrr.io/pkg/MQMF/man/discretelogistic.html">discretelogistic()</a></code> 函数的默认值），该公式简化为经典的 Schaefer 模型 （Schaefer， 1954， 1957）。<span class="citation" data-cites="polacheck1993">Polacheck, Hilborn, 和 Punt (<a href="#ref-polacheck1993" role="doc-biblioref">1993</a>)</span> 引入了上述公式，但往往称之为 Pella-Tomlinson（1969）剩余产量模型（尽管他们的公式不同，但具有非常相似的性质）。</p>
 <p>子项 <span class="math inline">\(rB_t\)</span> 表示不受约束的指数种群增长（因为在该差分方程中，将其加到 <span class="math inline">\(B_t\)</span> 中），只要 <span class="math inline">\(r&gt;0.0\)</span> ，将导致在没有渔获物的情况下种群持续正增长（尽管 14 世纪的瘟疫曾在一段短暂但特别不愉快的时期内扭转了这一趋势，但世界人口的正指数增长仍然是这一趋势的例证）。子项 <span class="math inline">\((1/p)(1-B_t/K)^p\)</span> 为指数增长项提供了约束条件，因为随着种群数量的增加，指数增长项的值趋于零。这被称为密度依赖（density-dependent）效应。</p>
 <p>当将 <span class="math inline">\(p\)</span> 设置为 <span class="math inline">\(1.0\)</span> 时，该公式将与 Schaefer 模型相同（线性密度依赖性）。但是当 <span class="math inline">\(p\)</span> 设置为一个很小的数值时，比如 <span class="math inline">\(1e-08\)</span>，那么公式就等价于 Fox 模型的动力学公式。<span class="math inline">\(p&gt;1.0\)</span> 的值会导致生产曲线向左倾斜，而模位于中心偏右。当 <span class="math inline">\(p&gt;1\)</span> 或 <span class="math inline">\(&lt;1\)</span> 时，密度依赖性将不再是线性的。一般我们会固定 <span class="math inline">\(p\)</span> 值，而不会尝试使用数据来拟合。仅凭渔获量和相对丰度指数通常不足以估算相对种群数量对产量的详细影响。</p>
 <div class="cell">
@@ -727,7 +734,7 @@ B_{t+1}=B_t + rB_t \frac{1}{p}\left(1-\left(\dfrac{B_t}{K} \right)^p \right)-C_t
 </div>
 </div>
 </div>
-<p>Schaefer 模型假设生产曲线对称，在 <span class="math inline">\(0.5K\)</span> 处具有最大剩余生产或最大持续产量（MSY），密度依赖项的线性变化趋势是，当种群数量非常小时密度依赖项为1.0，当 <span class="math inline">\(B_t\)</span> 趋于<span class="math inline">\(K\)</span> 时密度依赖项为0 。当 <span class="math inline">\(p\)</span> 的值很小时，比如说 <span class="math inline">\(p=1e-08\)</span> ，该模型近似为Fox 模型，这会产生一条不对称的生产曲线，在某个较低的消耗水平下（本例中使用 <code>bt[which.max(sp0)]</code> 发现为 <span class="math inline">\(0.368K\)</span>,），会形成最大产量。密度相关项是非线性的，最大持续产量（MSY）出现在密度相关项 = 1.0 的地方。如果不对<a href="#fig-spm4" class="quarto-xref">图&nbsp;<span>7.4</span></a> 中进行重新缩放，Fox模型通常比 Schaefer 模型更有效率，因为当种群数量低于最大持续产量生物量 <span class="math inline">\(B_{MSY}\)</span> 时，密度相关项在大于1.0。<span class="math inline">\(p&gt;1.0\)</span> 时，最大产量出现在较高的种群数量处，当种群数量较低时，种群增长率几乎呈线性增长，而只有在种群数量相当大时，才会出现密度依赖下降的情况。只发生在相当高的种群水平上。与鱼类相比，这种动态在海洋哺乳动物中更为典型。</p>
+<p>Schaefer 模型假设生产曲线对称，在 <span class="math inline">\(0.5K\)</span> 处具有最大剩余生产或最大持续产量（MSY），密度依赖项的线性变化趋势是，当种群数量非常小时密度依赖项为1.0，当 <span class="math inline">\(B_t\)</span> 趋于<span class="math inline">\(K\)</span> 时密度依赖项为0 。当 <span class="math inline">\(p\)</span> 的值很小时，比如说 <span class="math inline">\(p=1e-08\)</span> ，该模型近似为Fox 模型，这会产生一条不对称的生产曲线，在某个较低的消耗水平下（本例中使用 <code>bt[which.max(sp0)]</code> 发现为 <span class="math inline">\(0.368K\)</span>,），会形成最大产量。密度相关项是非线性的，最大持续产量（MSY）出现在密度相关项 = 1.0 的地方。如果不对<a href="#fig-spm4" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm4</span></a> 中进行重新缩放，Fox模型通常比 Schaefer 模型更有效率，因为当种群数量低于最大持续产量生物量 <span class="math inline">\(B_{MSY}\)</span> 时，密度相关项在大于1.0。<span class="math inline">\(p&gt;1.0\)</span> 时，最大产量出现在较高的种群数量处，当种群数量较低时，种群增长率几乎呈线性增长，而只有在种群数量相当大时，才会出现密度依赖下降的情况。只发生在相当高的种群水平上。与鱼类相比，这种动态在海洋哺乳动物中更为典型。</p>
 <p>可以认为 Schaefer 模型比 Fox 模型更保守，因为它需要更高的种群数量才能达到最大产量，并且通常会导致较低水平的渔获量，由于 Fox 类型模型的产量通常较高，可能会出现例外情况。</p>
 </section><section id="schaefer-模型" class="level3" data-number="7.2.2"><h3 data-number="7.2.2" class="anchored" data-anchor-id="schaefer-模型">
 <span class="header-section-number">7.2.2</span> Schaefer 模型</h3>
@@ -740,7 +747,7 @@ B_{t+1} = B_t + rB_t \left(1-\dfrac{B_t}{K} \right) -C_t
 <p><span id="eq-spm7"><span class="math display">\[
 \hat q =\exp \left(\frac{1}{n}\sum \log\left(\frac{I_t}{\hat B_t} \right) \right)
 \qquad(7.7)\]</span></span></p>
-<p>即观测到的渔获量除以预测的可开发生物量的反演几何平均数 <span class="citation" data-cites="polacheck1993">(<a href="08-references.html#ref-polacheck1993" role="doc-biblioref">Polacheck, Hilborn, 和 Punt 1993</a>)</span>。这样就得到了时间序列的平均可捕量。如果渔业发生了重大变化，CPUE 的质量也发生了变化，则有可能对时间序列的不同部分产生不同的可捕量估计值。然而，需要注意为这种建议的模型规格进行有力的辩护，特别是用于估算的时间序列越 短，就越需要注意。 <span class="math inline">\(q\)</span> 的不确定性就越大。</p>
+<p>即观测到的渔获量除以预测的可开发生物量的反演几何平均数 <span class="citation" data-cites="polacheck1993">(<a href="#ref-polacheck1993" role="doc-biblioref">Polacheck, Hilborn, 和 Punt 1993</a>)</span>。这样就得到了时间序列的平均可捕量。如果渔业发生了重大变化，CPUE 的质量也发生了变化，则有可能对时间序列的不同部分产生不同的可捕量估计值。然而，需要注意为这种建议的模型规格进行有力的辩护，特别是用于估算的时间序列越 短，就越需要注意。 <span class="math inline">\(q\)</span> 的不确定性就越大。</p>
 </section><section id="残差平方和" class="level3" data-number="7.2.3"><h3 data-number="7.2.3" class="anchored" data-anchor-id="残差平方和">
 <span class="header-section-number">7.2.3</span> 残差平方和</h3>
 <p>该模型可以使用最小二乘法进行拟合，或者更准确地说，可以使用残差误差的平方和进行拟合：</p>
@@ -751,7 +758,7 @@ ssq = \sum \left(\log(I_t)-\log(\hat I_t) \right)^2
 <p><span id="eq-spm9"><span class="math display">\[
 L(data|B_{init},r,K,q)=\prod_t\dfrac{1}{I_t\sqrt{2\pi \hat \sigma}}e^{\frac{-(\log I_t-\log \hat I_t)^2}{2\hat \sigma^2}}
 \qquad(7.9)\]</span></span></p>
-<p>除了对数变换之外，这与插在 <span class="math inline">\(\sqrt{2\pi\hat \sigma}\)</span> 项之前相关变量（此处为 <span class="math inline">\(I_t\)</span> ）的正态 PDF 似然不同。幸运的是，如第 <a href="04-application.html" class="quarto-xref"><span>4</span></a> 章”模型参数估算“ 所示，可以对负对数似然简化 <span class="citation" data-cites="haddon2011">(<a href="08-references.html#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>)</span>，变为：</p>
+<p>除了对数变换之外，这与插在 <span class="math inline">\(\sqrt{2\pi\hat \sigma}\)</span> 项之前相关变量（此处为 <span class="math inline">\(I_t\)</span> ）的正态 PDF 似然不同。幸运的是，如第 <a href="#sec-paraestimat" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-paraestimat</span></a> 章”模型参数估算“ 所示，可以对负对数似然简化 <span class="citation" data-cites="haddon2011">(<a href="#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>)</span>，变为：</p>
 <p><span id="eq-spm10"><span class="math display">\[
 -veLL = \frac{n}{2}(\log(2\pi)+2\log(\hat\sigma)+1)
 \qquad(7.10)\]</span></span></p>
@@ -759,7 +766,7 @@ L(data|B_{init},r,K,q)=\prod_t\dfrac{1}{I_t\sqrt{2\pi \hat \sigma}}e^{\frac{-(\l
 <p><span id="eq-spm11"><span class="math display">\[
 \hat \sigma=\sqrt{\dfrac{\sum \left(\log(I_t)-\log(\hat I_t)\right)^2}{n}}
 \qquad(7.11)\]</span></span></p>
-<p>注意除以 <span class="math inline">\(n\)</span> 而不是<em>除以</em> <span class="math inline">\(n-1\)</span> 。严格来讲，对于对数正态（<a href="#eq-spm10" class="quarto-xref">公式&nbsp;<span>7.10</span></a> 中），<span class="math inline">\(-veLL\)</span> 后面应该跟着一个附加项：</p>
+<p>注意除以 <span class="math inline">\(n\)</span> 而不是<em>除以</em> <span class="math inline">\(n-1\)</span> 。严格来讲，对于对数正态（<a href="#eq-spm10" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-spm10</span></a> 中），<span class="math inline">\(-veLL\)</span> 后面应该跟着一个附加项：</p>
 <p><span id="eq-spm12"><span class="math display">\[
 -\sum \log(I_t)
 \qquad(7.12)\]</span></span></p>
@@ -770,11 +777,11 @@ L(data|B_{init},r,K,q)=\prod_t\dfrac{1}{I_t\sqrt{2\pi \hat \sigma}}e^{\frac{-(\l
 <p><span id="eq-spm13"><span class="math display">\[
 MSY =\dfrac{rK}{4}
 \qquad(7.13)\]</span></span></p>
-<p>然而，对于使用 <span class="citation" data-cites="polacheck1993">(<a href="08-references.html#ref-polacheck1993" role="doc-biblioref">Polacheck, Hilborn, 和 Punt 1993</a>)</span> 的 <em>p</em> 参数的更一般方程，需要使用：</p>
+<p>然而，对于使用 <span class="citation" data-cites="polacheck1993">(<a href="#ref-polacheck1993" role="doc-biblioref">Polacheck, Hilborn, 和 Punt 1993</a>)</span> 的 <em>p</em> 参数的更一般方程，需要使用：</p>
 <p><span id="eq-spm14"><span class="math display">\[
 MSY = \dfrac{rK}{(p+1)^{\frac{(p+1)}{p}}}
 \qquad(7.14)\]</span></span></p>
-<p>当<span class="math inline">\(p=1.0\)</span> 时，上式可以简化为<a href="#eq-spm13" class="quarto-xref">公式&nbsp;<span>7.13</span></a>。我们可以使用 <strong>MQMF</strong> 函数<code><a href="https://rdrr.io/pkg/MQMF/man/getMSY.html">getMSY()</a></code> 来计算 <a href="#eq-spm14" class="quarto-xref">公式&nbsp;<span>7.14</span></a> ，这也说明了Fox 模型比 Schaefer 模型具有更高的生产力。</p>
+<p>当<span class="math inline">\(p=1.0\)</span> 时，上式可以简化为<a href="#eq-spm13" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-spm13</span></a>。我们可以使用 <strong>MQMF</strong> 函数<code><a href="https://rdrr.io/pkg/MQMF/man/getMSY.html">getMSY()</a></code> 来计算 <a href="#eq-spm14" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-spm14</span></a> ，这也说明了Fox 模型比 Schaefer 模型具有更高的生产力。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># compare Schaefer and Fox MSY estimates for same parameters</span></span>
 <span><span class="va">param</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">1.1</span>, K <span class="op">=</span> <span class="fl">1000.0</span>, Binit <span class="op">=</span> <span class="fl">800.0</span>, sigma <span class="op">=</span> <span class="fl">0.075</span><span class="op">)</span></span>
@@ -796,7 +803,7 @@ E_{MSY} =\dfrac{r}{q(1+p)}
 <p><span id="eq-spm16"><span class="math display">\[
 H_{MSY}=qE_{MSY}=q\dfrac{r}{q+qp}= \dfrac{r}{1+p}
 \qquad(7.16)\]</span></span></p>
-<p>可以经常看到将<a href="#eq-spm16" class="quarto-xref">公式&nbsp;<span>7.16</span></a> 写为 <span class="math inline">\(F_{MSY}=qE_{MSY}\)</span> ，但这可能会产生误导，因为通常将 <span class="math inline">\(F_{MSY}\)</span> 解释为瞬时捕捞死亡率，而在这种情况下，实际上是成比例的捕捞率。出于这个原因，我明确使用了<span class="math inline">\(H_{MSY}\)</span> 。</p>
+<p>可以经常看到将<a href="#eq-spm16" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-spm16</span></a> 写为 <span class="math inline">\(F_{MSY}=qE_{MSY}\)</span> ，但这可能会产生误导，因为通常将 <span class="math inline">\(F_{MSY}\)</span> 解释为瞬时捕捞死亡率，而在这种情况下，实际上是成比例的捕捞率。出于这个原因，我明确使用了<span class="math inline">\(H_{MSY}\)</span> 。</p>
 </section><section id="均衡的麻烦" class="level3" data-number="7.2.5"><h3 data-number="7.2.5" class="anchored" data-anchor-id="均衡的麻烦">
 <span class="header-section-number">7.2.5</span> 均衡的麻烦</h3>
 <p>现实世界中对管理目标的解释并不总是直截了当的。现在，人们认为大多数捕捞种群不可能达到平衡，因此，如果种群以最佳方式捕捞，MSY 的解释更像是平均的、长期的预期潜在产量；动态平衡可能是更好的描述。如果一直应用，<span class="math inline">\(E_{MSY}\)</span> 是到得MSY的努力量，但前提是种群生物量达到 <span class="math inline">\(B_{MSY}\)</span>，即产生最大剩余产量的生物量。每种管理统计都源自均衡思想。显然，应当通过将努力量限制在 <span class="math inline">\(E_{MSY}\)</span> 处来管理渔业，但如果种群生物量开始严重枯竭，那么将不会产生平均长期产量。事实上，<span class="math inline">\(E_{MSY}\)</span> 努力量程度可能太高，无法在这个非平衡的世界中重建种群。同样地，但仅当种群生物量为 <span class="math inline">\(B_{MSY}\)</span> 的情况下， <span class="math inline">\(H_{MSY}\)</span> 将按预期运行。可以估计导致种群恢复到 <span class="math inline">\(B_{MSY}\)</span> 的渔获量或努力量水平，可以称之为 <span class="math inline">\(F_{MSY}\)</span> ，但这需要进行种群预测并寻找最终达到预期结果的渔获量水平。我们将在后面的章节中研究如何预测种群。</p>
@@ -819,7 +826,7 @@ H_{MSY}=qE_{MSY}=q\dfrac{r}{q+qp}= \dfrac{r}{1+p}
 <li><p>使用<code><a href="https://rdrr.io/pkg/MQMF/man/plotspmmod.html">plotspmmod()</a></code> 用最佳参数来说明最佳模型及其相对拟合的影响（尤其是使用残差图）。</p></li>
 <li><p>理想情况下，应通过使用多个不同的初始参数集作为模型拟合过程的起点来检查模型拟合的鲁棒性，见 <code><a href="https://rdrr.io/pkg/MQMF/man/robustSPM.html">robustSPM()</a></code></p></li>
 <li><p>一旦对模型拟合的鲁棒性感到满意，就可以使用<code><a href="https://rdrr.io/pkg/MQMF/man/spmphaseplot.html">spmphaseplot()</a></code> 绘制出生物量与渔获率的相图，以便直观地确定和说明种群状况。</p></li>
-<li><p>使用 <code><a href="https://rdrr.io/pkg/MQMF/man/spmboot.html">spmboot()</a></code>，用渐近标准误差或 <em>On Uncertainty</em> （第 <a href="06-uncertainty.html" class="quarto-xref"><span>6</span></a> 章）中的贝叶斯方法来描述模型拟合和输出中的不确定性。将此类输出制成表格并绘制成图表。请参阅稍后内容。</p></li>
+<li><p>使用 <code><a href="https://rdrr.io/pkg/MQMF/man/spmboot.html">spmboot()</a></code>，用渐近标准误差或 <em>On Uncertainty</em> （第 <a href="#sec-uncertainty" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-uncertainty</span></a> 章）中的贝叶斯方法来描述模型拟合和输出中的不确定性。将此类输出制成表格并绘制成图表。请参阅稍后内容。</p></li>
 <li><p>记录并捍卫得出的任何结论。</p></li>
 </ol>
 <p>目前 <strong>MQMF</strong> 有两种常见的动力模型：经典的 Schaefer 模型（Schaefer，1954）和近似的 Fox 模型（Fox，1970；Polacheck等，1993），Haddon（2011）对两种模型都有描述。Prager（1994）提供了许多其他形式的分析，这些分析可以使用剩余产量模型进行，Haddon（2011）也提供了实际应用。</p>
@@ -956,7 +963,7 @@ Dcurr     8       0.5284</code></pre>
 <p>最后，为了简化此双模型拟合过程的未来使用，有一个 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/fitSPM.html">fitSPM()</a></code> 来实现该过程。您可以使用该函数（查看其代码等），也可以重复原始代码的内容，以方便使用。</p>
 </section><section id="分析是否稳健" class="level3" data-number="7.3.2"><h3 data-number="7.3.2" class="anchored" data-anchor-id="分析是否稳健">
 <span class="header-section-number">7.3.2</span> 分析是否稳健？</h3>
-<p>尽管我多次警告，但您可能想知道为什么我们要费力地对模型进行两次拟合，而第二次拟合的起点就是第一次拟合的最优估计值。我们应该始终记住，在拟合这些模型时，我们使用的是数值方法。这种方法并非万无一失，可能会发现错误的最小值。如果模型参数之间存在相互作用或相关性，那么稍有不同的组合就会导致非常相似的负对数似然值。最佳模型拟合在 cpue 时间序列的末尾仍显示出三个相对较大的残差，如 <a href="#fig-spm6" class="quarto-xref">图&nbsp;<span>7.6</span></a> 。这些残差没有表现出任何特定的模式，因此我们认为它们只代表不确定性，这应该让人怀疑模型拟合的好坏以及分析输出统计量的可靠性。我们可以通过检查初始模型参数对模型拟合的影响来检查模型拟合的稳健性。</p>
+<p>尽管我多次警告，但您可能想知道为什么我们要费力地对模型进行两次拟合，而第二次拟合的起点就是第一次拟合的最优估计值。我们应该始终记住，在拟合这些模型时，我们使用的是数值方法。这种方法并非万无一失，可能会发现错误的最小值。如果模型参数之间存在相互作用或相关性，那么稍有不同的组合就会导致非常相似的负对数似然值。最佳模型拟合在 cpue 时间序列的末尾仍显示出三个相对较大的残差，如 <a href="#fig-spm6" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm6</span></a> 。这些残差没有表现出任何特定的模式，因此我们认为它们只代表不确定性，这应该让人怀疑模型拟合的好坏以及分析输出统计量的可靠性。我们可以通过检查初始模型参数对模型拟合的影响来检查模型拟合的稳健性。</p>
 <p>稳健性测试的一种实现使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/robustSPM.html">robustSPM()</a></code>。 该函数将生成 𝑁 个随机初始值，是通过将最佳对数刻度参数值作为某些正态随机变量的相应平均值，其各自的标准差值通过将这些均值除以<em>缩放器</em>参数值获得（有关完整详细信息，请参阅 <code><a href="https://rdrr.io/pkg/MQMF/man/robustSPM.html">robustSPM()</a></code>代码和帮助）。<code><a href="https://rdrr.io/pkg/MQMF/man/robustSPM.html">robustSPM()</a></code> 输出的对象包括 <em>N</em> 随机变化的初始参数值的向量，这允许说明和表征它们的变化。当然，作为除数，<em>标度值</em>越小，初始参数向量的可变性就越大，也就越容易导致模型拟合无法找到最小值。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># conduct a robustness test on the Schaefer model fit</span></span>
@@ -1237,7 +1244,7 @@ Dcurr     8       0.5284</code></pre>
 </figure>
 </div>
 </div>
-<p>通过使用 <em>set.seed</em> 函数，用于生成分散初始参数向量的伪随机数的结果是可重复的。在 <a href="#tbl-spm2" class="quarto-xref">表&nbsp;<span>7.2</span></a> 中，我们可以看到，在 12 次试验中，我们得到了 12 个相同的最终负对数似然（精确到小数点后 5 位），尽管与实际的 <span class="math inline">\(r\)</span> 、<span class="math inline">\(K\)</span> 和 <span class="math inline">\(B_{init}\)</span> 略有不同，这导致估计的 MSY 值的微小变化。如果我们增加试验的次数，最终会发现一些试验结果与最佳结果略有不同。</p>
+<p>通过使用 <em>set.seed</em> 函数，用于生成分散初始参数向量的伪随机数的结果是可重复的。在 <a href="#tbl-spm2" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-spm2</span></a> 中，我们可以看到，在 12 次试验中，我们得到了 12 个相同的最终负对数似然（精确到小数点后 5 位），尽管与实际的 <span class="math inline">\(r\)</span> 、<span class="math inline">\(K\)</span> 和 <span class="math inline">\(B_{init}\)</span> 略有不同，这导致估计的 MSY 值的微小变化。如果我们增加试验的次数，最终会发现一些试验结果与最佳结果略有不同。</p>
 <p>通常情况下，我们会尝试 12 次以上的试验，并检查标度参数的效果。因此，我们现在将使用相同的最佳拟合和随机种子重复该分析100次。<code><a href="https://rdrr.io/pkg/MQMF/man/robustSPM.html">robustSPM()</a></code>输出<em>结果</em>表按最终的 -ve 对数似然排序，但即使是相同的小数点后五位，也会发现参数估计值略有不同。这只是使用数值方法的反映。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Repeat robustness test on fit to schaef data 100 times</span></span>
@@ -1711,7 +1718,7 @@ Dcurr     8       0.5284</code></pre>
 <th id="K" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">K</th>
 <th id="Binit" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Binit</th>
 <th id="sigma" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">sigma</th>
-<th id="-veLL" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">-veLL</th>
+<th id="a-veLL" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">-veLL</th>
 <th id="MSY" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">MSY</th>
 </tr></thead>
 <tbody class="gt_table_body">
@@ -1803,7 +1810,7 @@ Dcurr     8       0.5284</code></pre>
 </figure>
 </div>
 </div>
-<p><a href="#tbl-spm3" class="quarto-xref">表&nbsp;<span>7.3</span></a> 只列出了排序后 100 个重复样本中的后 10 条记录，这表明所有重复样本的负对数似然值相同（精确到小数点后 5 位）。同样，如果仔细观察 <span class="math inline">\(r\)</span>、 <span class="math inline">\(K\)</span>、 <span class="math inline">\(Binit\)</span> 和 MSY 的值，就会发现它们之间的差异。如果我们将最终拟合的参数值用图显示，变化的标度就会很明显，如<a href="#fig-spm7" class="quarto-xref">图&nbsp;<span>7.7</span></a>。</p>
+<p><a href="#tbl-spm3" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-spm3</span></a> 只列出了排序后 100 个重复样本中的后 10 条记录，这表明所有重复样本的负对数似然值相同（精确到小数点后 5 位）。同样，如果仔细观察 <span class="math inline">\(r\)</span>、 <span class="math inline">\(K\)</span>、 <span class="math inline">\(Binit\)</span> 和 MSY 的值，就会发现它们之间的差异。如果我们将最终拟合的参数值用图显示，变化的标度就会很明显，如<a href="#fig-spm7" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm7</span></a>。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># replicates from the robustness test        Fig 7.7</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="va">robout2</span><span class="op">$</span><span class="va">results</span></span>
@@ -1823,8 +1830,8 @@ Dcurr     8       0.5284</code></pre>
 </div>
 </div>
 </div>
-<p>即使负对数似然值非常接近（精确到小数点后五位）（<a href="#fig-spm7" class="quarto-xref">图&nbsp;<span>7.7</span></a>），也可能与最常出现的最佳值略有偏差。这强调了仔细检查分析中的不确定性的必要性。鉴于大多数试验得出相同的最佳值，所有试验的中值可以确定最佳值。</p>
-<p>另一种可视化稳健性检验参数估计值最终变化的方法是使用 R 函数 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 绘制各参数与模型输出值的对比图，如 <a href="#fig-spm8" class="quarto-xref">图&nbsp;<span>7.8</span></a> 所示，该图说明了参数之间的强相关性。</p>
+<p>即使负对数似然值非常接近（精确到小数点后五位）（<a href="#fig-spm7" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm7</span></a>），也可能与最常出现的最佳值略有偏差。这强调了仔细检查分析中的不确定性的必要性。鉴于大多数试验得出相同的最佳值，所有试验的中值可以确定最佳值。</p>
+<p>另一种可视化稳健性检验参数估计值最终变化的方法是使用 R 函数 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 绘制各参数与模型输出值的对比图，如 <a href="#fig-spm8" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm8</span></a> 所示，该图说明了参数之间的强相关性。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># robustSPM parameters against each other  Fig 7.8</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">result</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"r"</span>, <span class="st">"K"</span>, <span class="st">"Binit"</span>, <span class="st">"MSY"</span><span class="op">)</span><span class="op">]</span>, upper.panel <span class="op">=</span> <span class="cn">NULL</span>, pch <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2320,7 +2327,7 @@ Dcurr     8       0.5284</code></pre>
 <th id="K" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">K</th>
 <th id="Binit" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Binit</th>
 <th id="sigma" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">sigma</th>
-<th id="-veLL" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">-veLL</th>
+<th id="a-veLL" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">-veLL</th>
 <th id="MSY" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">MSY</th>
 </tr></thead>
 <tbody class="gt_table_body">
@@ -2438,11 +2445,11 @@ Dcurr     8       0.5284</code></pre>
 </div>
 </div>
 </div>
-<p>在 <em>“不确定性”</em> 一章中，我们研究了围绕单个参数的似然剖面，在这里我们将更深入地探讨与似然剖面的使用相关的一些问题。我们已经有了对 <em>abdat</em> 数据集的最佳拟合，可以以此为起点。反过来，如果我们考虑 𝑟 和 𝐾 参数时，编写一个简单的函数拟合每种情形下的剖面会更有效，以避免代码重复。和以前一样，我们使用 <code><a href="https://rdrr.io/pkg/MQMF/man/negLLP.html">negLLP()</a></code> 函数固定某些参数，同时改变其他参数。如 “<em>不确定性”</em> 一章所述，对于一个参数，95% 的置信边界的近似值为一个自由度的最小对数似然加上一个自由度 （=1.92） 的卡方值一半的参数范围。</p>
+<p>在 <em><q>不确定性</q></em> 一章中，我们研究了围绕单个参数的似然剖面，在这里我们将更深入地探讨与似然剖面的使用相关的一些问题。我们已经有了对 <em>abdat</em> 数据集的最佳拟合，可以以此为起点。反过来，如果我们考虑 𝑟 和 𝐾 参数时，编写一个简单的函数拟合每种情形下的剖面会更有效，以避免代码重复。和以前一样，我们使用 <code><a href="https://rdrr.io/pkg/MQMF/man/negLLP.html">negLLP()</a></code> 函数固定某些参数，同时改变其他参数。如 “<em>不确定性”</em> 一章所述，对于一个参数，95% 的置信边界的近似值为一个自由度的最小对数似然加上一个自由度 （=1.92） 的卡方值一半的参数范围。</p>
 <p><span id="eq-spm17"><span class="math display">\[
 min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 \qquad(7.17)\]</span></span></p>
-<p>在绘制每个剖面时，我们可以包括这个阈值，以查看它与似然剖面相交的位置，<a href="#fig-spm10" class="quarto-xref">图&nbsp;<span>7.10</span></a>。</p>
+<p>在绘制每个剖面时，我们可以包括这个阈值，以查看它与似然剖面相交的位置，<a href="#fig-spm10" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm10</span></a>。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># likelihood profiles for r and K for fit to abdat  Fig 7.10</span></span>
 <span><span class="co"># doprofile input terms are vector of values, fixed parameter</span></span>
@@ -2531,7 +2538,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
   ..- attr(*, "dimnames")=List of 2</code></pre>
 </div>
 </div>
-<p>输出结果包含每个运行的动态预测模型生物量、每个自举样本的 cpue、每个自举样本的预测 cpue、耗竭时间序列和年收获率时间序列（存储 5 个变量的 31 年运行 <span class="math inline">\(reps=1000\)</span> 次）。每项分析都可用于说明和总结分析结果和不确定性。鉴于 <a href="#fig-spm11" class="quarto-xref">图&nbsp;<span>7.11</span></a> 中的残差相对较大，可以预计不确定性相对较高，见 <a href="#tbl-spm5" class="quarto-xref">表&nbsp;<span>7.5</span></a> 。</p>
+<p>输出结果包含每个运行的动态预测模型生物量、每个自举样本的 cpue、每个自举样本的预测 cpue、耗竭时间序列和年收获率时间序列（存储 5 个变量的 31 年运行 <span class="math inline">\(reps=1000\)</span> 次）。每项分析都可用于说明和总结分析结果和不确定性。鉴于 <a href="#fig-spm11" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm11</span></a> 中的残差相对较大，可以预计不确定性相对较高，见 <a href="#tbl-spm5" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-spm5</span></a> 。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span>  <span class="co">#Summarize bootstrapped parameter estimates as quantiles  Table 7.6 </span></span>
 <span><span class="va">bootpar</span> <span class="op">&lt;-</span> <span class="va">boots</span><span class="op">$</span><span class="va">bootpar</span>  </span>
@@ -2554,7 +2561,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <div class="cell-output-display">
 <table class="do-not-create-environment cell table table-sm table-striped small">
 <thead><tr class="header">
-<th></th>
+<th style="text-align: left;"></th>
 <th style="text-align: right;">0.025</th>
 <th style="text-align: right;">0.05</th>
 <th style="text-align: right;">0.5</th>
@@ -2564,7 +2571,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>r</td>
+<td style="text-align: left;">r</td>
 <td style="text-align: right;">0.132</td>
 <td style="text-align: right;">0.149</td>
 <td style="text-align: right;">0.246</td>
@@ -2573,7 +2580,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <td style="text-align: right;">0.248</td>
 </tr>
 <tr class="even">
-<td>K</td>
+<td style="text-align: left;">K</td>
 <td style="text-align: right;">3676.357</td>
 <td style="text-align: right;">3840.696</td>
 <td style="text-align: right;">5184.224</td>
@@ -2582,7 +2589,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <td style="text-align: right;">5481.514</td>
 </tr>
 <tr class="odd">
-<td>Binit</td>
+<td style="text-align: left;">Binit</td>
 <td style="text-align: right;">1727.198</td>
 <td style="text-align: right;">1845.846</td>
 <td style="text-align: right;">2829.008</td>
@@ -2591,7 +2598,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <td style="text-align: right;">3041.688</td>
 </tr>
 <tr class="even">
-<td>sigma</td>
+<td style="text-align: left;">sigma</td>
 <td style="text-align: right;">0.139</td>
 <td style="text-align: right;">0.142</td>
 <td style="text-align: right;">0.157</td>
@@ -2600,7 +2607,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <td style="text-align: right;">0.155</td>
 </tr>
 <tr class="odd">
-<td>-veLL</td>
+<td style="text-align: left;">-veLL</td>
 <td style="text-align: right;">-17.232</td>
 <td style="text-align: right;">-16.465</td>
 <td style="text-align: right;">-13.479</td>
@@ -2609,7 +2616,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <td style="text-align: right;">-13.815</td>
 </tr>
 <tr class="even">
-<td>MSY</td>
+<td style="text-align: left;">MSY</td>
 <td style="text-align: right;">280.370</td>
 <td style="text-align: right;">289.467</td>
 <td style="text-align: right;">318.420</td>
@@ -2618,7 +2625,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <td style="text-align: right;">319.546</td>
 </tr>
 <tr class="odd">
-<td>Depl</td>
+<td style="text-align: left;">Depl</td>
 <td style="text-align: right;">0.338</td>
 <td style="text-align: right;">0.367</td>
 <td style="text-align: right;">0.529</td>
@@ -2627,7 +2634,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <td style="text-align: right;">0.524</td>
 </tr>
 <tr class="even">
-<td>Harv</td>
+<td style="text-align: left;">Harv</td>
 <td style="text-align: right;">0.051</td>
 <td style="text-align: right;">0.058</td>
 <td style="text-align: right;">0.088</td>
@@ -2643,7 +2650,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 </div>
 </div>
 <p>可以使用直方图可视化此类百分位置信区间，并包括相应的选定百分位置信区间。</p>
-<p>人们期望 1000 次重复将提供平滑的响应和具有代表性的置信范围，但有时，尤其是在嘈杂的数据中，需要更多的重复才能获得不确定性的平滑表示。2000 次重复需要 20 秒可能看起来很长，但考虑到这样的事情过去需要数小时甚至数天，大约 20 秒是了不起的。请注意，置信边界在均值或中位数估计值附近不一定是对称的。另请注意，在最后一年的消耗估计中，第 5 个百分位的置信区间远高于 <span class="math inline">\(0.2B_0\)</span>，这意味着即使这种分析是不确定的，目前的消耗水平也高于大多数地方使用的生物量消耗的默认极限参考点，可能性超过 95%。我们需要中央第 80 个百分位数才能找到下限 10%，但它必然高于第 5 个百分位数。<span class="math inline">\(K\)</span> 和 <span class="math inline">\(Binit\)</span> 值所显示的中位数和均值比其他参数和模型输出的差异更大，这表明存在一些偏差证据（<a href="#fig-spm12" class="quarto-xref">图&nbsp;<span>7.12</span></a>） 。由于某些图仍然存在粗糙度，因此可以通过增加重复次数来改善粗糙度。</p>
+<p>人们期望 1000 次重复将提供平滑的响应和具有代表性的置信范围，但有时，尤其是在嘈杂的数据中，需要更多的重复才能获得不确定性的平滑表示。2000 次重复需要 20 秒可能看起来很长，但考虑到这样的事情过去需要数小时甚至数天，大约 20 秒是了不起的。请注意，置信边界在均值或中位数估计值附近不一定是对称的。另请注意，在最后一年的消耗估计中，第 5 个百分位的置信区间远高于 <span class="math inline">\(0.2B_0\)</span>，这意味着即使这种分析是不确定的，目前的消耗水平也高于大多数地方使用的生物量消耗的默认极限参考点，可能性超过 95%。我们需要中央第 80 个百分位数才能找到下限 10%，但它必然高于第 5 个百分位数。<span class="math inline">\(K\)</span> 和 <span class="math inline">\(Binit\)</span> 值所显示的中位数和均值比其他参数和模型输出的差异更大，这表明存在一些偏差证据（<a href="#fig-spm12" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm12</span></a>） 。由于某些图仍然存在粗糙度，因此可以通过增加重复次数来改善粗糙度。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#boostrap CI. Note use of uphist to expand scale  Fig 7.12 </span></span>
 <span><span class="op">{</span><span class="va">colf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">4</span><span class="op">)</span>; <span class="va">lwdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>; <span class="va">ltyf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>  </span>
@@ -2699,7 +2706,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 </div>
 </div>
 </div>
-<p>预测 CPUE 值与观测 CPUE 值之间存在明显偏差（<a href="#fig-spm13" class="quarto-xref">图&nbsp;<span>7.13</span></a>）,但估计值的中位数及其周围的置信区间仍然十分明确。</p>
+<p>预测 CPUE 值与观测 CPUE 值之间存在明显偏差（<a href="#fig-spm13" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm13</span></a>）,但估计值的中位数及其周围的置信区间仍然十分明确。</p>
 <p>请记住，无论何时在时间序列数据上使用自举法，其中时刻 <span class="math inline">\(t + 1\)</span> 的值与时刻 <span class="math inline">\(t\)</span> 的值相关，都有必要自举任何拟合模型的残差值，并将它们与最优拟合值联系起来。对于CPUE 数据，我们通常使用对数正态残差误差，因此一旦找到最优解，这些残差定义为:</p>
 <p><span id="eq-spm18"><span class="math display">\[
 \hat{I}_{t,resid} = \frac{I_t}{\hat{I_t}}  
@@ -2743,7 +2750,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 </div>
 </div>
 </div>
-<p>可以说，Fox 模型在捕捉这些数据的变异性方面更成功，因为黑线的扩散范围略大于灰色线（<a href="#fig-spm14" class="quarto-xref">图&nbsp;<span>7.14</span></a>）。或者，可以说 Fox 模型不太确定。总体而言，Schaefer 和 Fox 模型的输出之间没有太大差异，甚至像他们预测的那样 <span class="math inline">\(MSY\)</span> 值非常相似（313.512 吨与 311.661 吨）。然而，最终，Fox 模型中密度依赖性的非线性似乎赋予了它更大的灵活性，因此它能够比更严格的 Schaefer 模型更好地捕获原始数据的变异性（因此它的 -ve 对数似然性更小，参见 <code>outfit(ansF)</code>）。但这两个模型都无法捕获残差中表现出的循环特性，意味着建模动力学中未包含某些过程，即模型错误规范。这两种模型都不完全充分，尽管它们都可以提供足够的近似动态，可以用来产生管理建议（关于周期过程随时间保持不变的警告，等等）。</p>
+<p>可以说，Fox 模型在捕捉这些数据的变异性方面更成功，因为黑线的扩散范围略大于灰色线（<a href="#fig-spm14" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm14</span></a>）。或者，可以说 Fox 模型不太确定。总体而言，Schaefer 和 Fox 模型的输出之间没有太大差异，甚至像他们预测的那样 <span class="math inline">\(MSY\)</span> 值非常相似（313.512 吨与 311.661 吨）。然而，最终，Fox 模型中密度依赖性的非线性似乎赋予了它更大的灵活性，因此它能够比更严格的 Schaefer 模型更好地捕获原始数据的变异性（因此它的 -ve 对数似然性更小，参见 <code>outfit(ansF)</code>）。但这两个模型都无法捕获残差中表现出的循环特性，意味着建模动力学中未包含某些过程，即模型错误规范。这两种模型都不完全充分，尽管它们都可以提供足够的近似动态，可以用来产生管理建议（关于周期过程随时间保持不变的警告，等等）。</p>
 </section><section id="参数相关性" class="level3" data-number="7.4.3"><h3 data-number="7.4.3" class="anchored" data-anchor-id="参数相关性">
 <span class="header-section-number">7.4.3</span> 参数相关性</h3>
 <p>组合的 bootstrap 样本和相关估计值提供了反映数据和拟合模型的参数之间变异性的表征。如果我们将各种参数相互绘制，任何参数相关性都会变得明显。之间强烈的负曲线-线性关系 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 非常明显，而与其他参数之间的关系也既不是随机的，也不是平滑正态的。在极端值下有一些点，但它们仍然很少见，但是，这些图确实说明了该分析中的变化形式。</p>
@@ -2764,7 +2771,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 </div>
 </section><section id="渐近误差" class="level3" data-number="7.4.4"><h3 data-number="7.4.4" class="anchored" data-anchor-id="渐近误差">
 <span class="header-section-number">7.4.4</span> 渐近误差</h3>
-<p>如<em>“不确定性”</em>一章所述，在模型拟合过程中，描述与参数估计相关的不确定性的经典方法是使用所谓的渐近误差。渐近误差源自方差-协方差矩阵，可用于描述模型参数之间的变异性和交互作用。在自举法的章节中，可以 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 函数直观显示参数之间的关系， 而这些关系显然不是很好的多变量正态关系。尽管如此，仍然可以使用从方差-协方差矩阵 （<em>vcov</em>） 得出的多变量正态来描述模型的不确定性。在使用<code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> 或 <code><a href="https://rdrr.io/r/stats/nlm.html">nlm()</a></code> 拟合模型时，我们可以将 <em>vcov</em> 估计为一个选项来估计。</p>
+<p>如<em><q>不确定性</q></em>一章所述，在模型拟合过程中，描述与参数估计相关的不确定性的经典方法是使用所谓的渐近误差。渐近误差源自方差-协方差矩阵，可用于描述模型参数之间的变异性和交互作用。在自举法的章节中，可以 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 函数直观显示参数之间的关系， 而这些关系显然不是很好的多变量正态关系。尽管如此，仍然可以使用从方差-协方差矩阵 （<em>vcov</em>） 得出的多变量正态来描述模型的不确定性。在使用<code><a href="https://rdrr.io/r/stats/optim.html">optim()</a></code> 或 <code><a href="https://rdrr.io/r/stats/nlm.html">nlm()</a></code> 拟合模型时，我们可以将 <em>vcov</em> 估计为一个选项来估计。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span>  <span class="co">#Start the SPM analysis using asymptotic errors.  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dataspm</span><span class="op">)</span>    <span class="co"># Note the use of hess=TRUE in call to fitSPM   </span></span>
@@ -2774,7 +2781,7 @@ min(-LL) + \dfrac{\chi_{1,1-\alpha}^2}{2}
 <span><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/fitSPM.html">fitSPM</a></span><span class="op">(</span><span class="va">pars</span>,<span class="va">fish</span>,schaefer<span class="op">=</span><span class="cn">TRUE</span>,maxiter<span class="op">=</span><span class="fl">1000</span>,hess<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>    </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>通过使用 <code><a href="https://rdrr.io/pkg/MQMF/man/outfit.html">outfit()</a></code> 函数，我们可以看到在 <em>hess</em> 参数设置为 “TRUE”的情况下，Schaefer 剩余产量模型与 <em>dataspm</em> 数据集的拟合结果。</p>
+<p>通过使用 <code><a href="https://rdrr.io/pkg/MQMF/man/outfit.html">outfit()</a></code> 函数，我们可以看到在 <em>hess</em> 参数设置为 <q>TRUE</q>的情况下，Schaefer 剩余产量模型与 <em>dataspm</em> 数据集的拟合结果。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#The hessian matrix from the Schaefer fit to the dataspm data   </span></span>
 <span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/outfit.html">outfit</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2796,7 +2803,7 @@ hessian     :
 [4,]   -0.1403928   -1.800633   -0.01822396 61.99195077</code></pre>
 </div>
 </div>
-<p><code><a href="https://rdrr.io/pkg/MQMF/man/fitSPM.html">fitSPM()</a></code> 中的最终最小化使用的是最大似然法（实际上是最小负对数似然），因此我们需要反演赫斯方差以获得方差-协方差矩阵。对角线的平方根也给出了每个参数的标准误差估计值（参见 “不确定性”一章）。</p>
+<p><code><a href="https://rdrr.io/pkg/MQMF/man/fitSPM.html">fitSPM()</a></code> 中的最终最小化使用的是最大似然法（实际上是最小负对数似然），因此我们需要反演赫斯方差以获得方差-协方差矩阵。对角线的平方根也给出了每个参数的标准误差估计值（参见 <q>不确定性</q>一章）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#calculate the var-covar matrix and the st errors  </span></span>
 <span><span class="va">vcov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">ans</span><span class="op">$</span><span class="va">hessian</span><span class="op">)</span> <span class="co"># calculate variance-covariance matrix  </span></span>
@@ -2814,7 +2821,7 @@ hessian     :
 <div class="cell-output-display">
 <table class="do-not-create-environment cell table table-sm table-striped small">
 <thead><tr class="header">
-<th></th>
+<th style="text-align: left;"></th>
 <th style="text-align: right;">r</th>
 <th style="text-align: right;">K</th>
 <th style="text-align: right;">Binit</th>
@@ -2822,35 +2829,35 @@ hessian     :
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>r</td>
+<td style="text-align: left;">r</td>
 <td style="text-align: right;">0.0668</td>
 <td style="text-align: right;">-0.0563</td>
 <td style="text-align: right;">-0.0599</td>
 <td style="text-align: right;">-0.0015</td>
 </tr>
 <tr class="even">
-<td>K</td>
+<td style="text-align: left;">K</td>
 <td style="text-align: right;">-0.0563</td>
 <td style="text-align: right;">0.0481</td>
 <td style="text-align: right;">0.0534</td>
 <td style="text-align: right;">0.0013</td>
 </tr>
 <tr class="odd">
-<td>Binit</td>
+<td style="text-align: left;">Binit</td>
 <td style="text-align: right;">-0.0599</td>
 <td style="text-align: right;">0.0534</td>
 <td style="text-align: right;">0.1062</td>
 <td style="text-align: right;">0.0014</td>
 </tr>
 <tr class="even">
-<td>sigma</td>
+<td style="text-align: left;">sigma</td>
 <td style="text-align: right;">-0.0015</td>
 <td style="text-align: right;">0.0013</td>
 <td style="text-align: right;">0.0014</td>
 <td style="text-align: right;">0.0162</td>
 </tr>
 <tr class="odd">
-<td>StErr</td>
+<td style="text-align: left;">StErr</td>
 <td style="text-align: right;">0.2584</td>
 <td style="text-align: right;">0.2194</td>
 <td style="text-align: right;">0.3258</td>
@@ -2885,7 +2892,7 @@ hessian     :
 <span><span class="va">mvnpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">mvnpar</span>,<span class="va">msy</span>,<span class="va">depletion</span><span class="op">)</span> <span class="co"># try head(mvnpar,10)  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><a href="#fig-spm13" class="quarto-xref">图&nbsp;<span>7.13</span></a> 和 <a href="#fig-spm14" class="quarto-xref">图&nbsp;<span>7.14</span></a> 通过自举法绘制出隐含的 CPUE 轨迹，结果似乎是可信的。另一方面，利用渐近误差，当我们绘制隐含的动态图时，如 <a href="#fig-spm16" class="quarto-xref">图&nbsp;<span>7.16</span></a> ，有一定比例的鱼类在第 90 个百分位数置信区间之外，而置信区间本身是极不对称的，会产生剧烈波动的动态，甚至可能意味着鱼类灭绝。</p>
+<p><a href="#fig-spm13" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm13</span></a> 和 <a href="#fig-spm14" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm14</span></a> 通过自举法绘制出隐含的 CPUE 轨迹，结果似乎是可信的。另一方面，利用渐近误差，当我们绘制隐含的动态图时，如 <a href="#fig-spm16" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm16</span></a> ，有一定比例的鱼类在第 90 个百分位数置信区间之外，而置信区间本身是极不对称的，会产生剧烈波动的动态，甚至可能意味着鱼类灭绝。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span>  <span class="co">#data and trajectories from 1000 MVN parameter vectors   Fig 7.16  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/plot1.html">plot1</a></span><span class="op">(</span><span class="va">fish</span><span class="op">[</span>,<span class="st">"year"</span><span class="op">]</span>,<span class="va">fish</span><span class="op">[</span>,<span class="st">"cpue"</span><span class="op">]</span>,type<span class="op">=</span><span class="st">"p"</span>,xlab<span class="op">=</span><span class="st">"Year"</span>,ylab<span class="op">=</span><span class="st">"CPUE"</span>,  </span>
@@ -2909,7 +2916,7 @@ hessian     :
 </div>
 </div>
 </div>
-<p>使用渐近误差估计的平均 <span class="math inline">\(MSY\)</span> 与自举估计值非常相似（319.546，<a href="#tbl-spm5" class="quarto-xref">表&nbsp;<span>7.5</span></a>），第90 分位置信区间看起来也很有意义，尽管比自举分析更加偏斜。然而，使用多变量正态分布显然会导致一些难以置信的参数组合，进而导致难以置信的 cpue 轨迹，与观测 cpue 相差甚远。这并不意味着不应该使用渐近误差，而是说如果确实使用了渐近误差，就应该对其影响的合理性进行研究。</p>
+<p>使用渐近误差估计的平均 <span class="math inline">\(MSY\)</span> 与自举估计值非常相似（319.546，<a href="#tbl-spm5" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-spm5</span></a>），第90 分位置信区间看起来也很有意义，尽管比自举分析更加偏斜。然而，使用多变量正态分布显然会导致一些难以置信的参数组合，进而导致难以置信的 cpue 轨迹，与观测 cpue 相差甚远。这并不意味着不应该使用渐近误差，而是说如果确实使用了渐近误差，就应该对其影响的合理性进行研究。</p>
 <p>在这种情况下，我们可以通过查找最终 cpue 值小于 0.4 的记录来搜索导致极端结果的参数组合。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Isolate errant cpue trajectories Fig 7.17  </span></span>
@@ -2931,7 +2938,7 @@ hessian     :
 </div>
 </div>
 </div>
-<p>现在，我们已经确定了大多数错误轨迹及其各自的参数矢量，我们可以通过绘图来比较我们认为的非错误轨迹，这样我们就可以确定谁是谁了（<a href="#fig-spm18" class="quarto-xref">图&nbsp;<span>7.18</span></a>）。</p>
+<p>现在，我们已经确定了大多数错误轨迹及其各自的参数矢量，我们可以通过绘图来比较我们认为的非错误轨迹，这样我们就可以确定谁是谁了（<a href="#fig-spm18" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm18</span></a>）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Use adhoc function to plot errant parameters Fig 7.18  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/parset.html">parset</a></span><span class="op">(</span>plots<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>,cex<span class="op">=</span><span class="fl">0.85</span><span class="op">)</span>  </span>
@@ -2955,7 +2962,7 @@ hessian     :
 </div>
 </div>
 </div>
-<p>当我们绘制模型变量之间的相互关系时（<a href="#fig-spm19" class="quarto-xref">图&nbsp;<span>7.19</span></a>），对于正态分布或多变量正态分布变量，预期 <em>simga</em> 和其他参数之间缺乏关系。然而，这与从自举法样本中获得的关系明显不同（<a href="#fig-spm15" class="quarto-xref">图&nbsp;<span>7.15</span></a>）。此外，三个主要参数 <span class="math inline">\(r\)</span>、<span class="math inline">\(K\)</span> 和<span class="math inline">\(B_{init}\)</span> 之间的关系远比在自举抽样中看到的平滑得多。在我们看来，这种对称性和界限的清晰度似乎比自举样本中的关系更容易接受（<a href="#fig-spm19" class="quarto-xref">图&nbsp;<span>7.19</span></a>）。尽管如此，损耗图显示一些轨迹似乎已经消失。</p>
+<p>当我们绘制模型变量之间的相互关系时（<a href="#fig-spm19" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm19</span></a>），对于正态分布或多变量正态分布变量，预期 <em>simga</em> 和其他参数之间缺乏关系。然而，这与从自举法样本中获得的关系明显不同（<a href="#fig-spm15" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm15</span></a>）。此外，三个主要参数 <span class="math inline">\(r\)</span>、<span class="math inline">\(K\)</span> 和<span class="math inline">\(B_{init}\)</span> 之间的关系远比在自举抽样中看到的平滑得多。在我们看来，这种对称性和界限的清晰度似乎比自举样本中的关系更容易接受（<a href="#fig-spm19" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm19</span></a>）。尽管如此，损耗图显示一些轨迹似乎已经消失。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#asymptotically sampled parameter vectors  Fig 7.19 </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">mvnpar</span>,lower.panel<span class="op">=</span><span class="va">panel.smooth</span>, upper.panel<span class="op">=</span><span class="va">panel.cor</span>,       </span>
@@ -2988,7 +2995,7 @@ hessian     :
 <div class="cell-output-display">
 <table class="do-not-create-environment cell table table-sm table-striped small">
 <thead><tr class="header">
-<th></th>
+<th style="text-align: left;"></th>
 <th style="text-align: right;">r</th>
 <th style="text-align: right;">K</th>
 <th style="text-align: right;">Binit</th>
@@ -2998,7 +3005,7 @@ hessian     :
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>MinBoot</td>
+<td style="text-align: left;">MinBoot</td>
 <td style="text-align: right;">0.0653</td>
 <td style="text-align: right;">3139.827</td>
 <td style="text-align: right;">1357.264</td>
@@ -3007,7 +3014,7 @@ hessian     :
 <td style="text-align: right;">0.0953</td>
 </tr>
 <tr class="even">
-<td>MaxBoot</td>
+<td style="text-align: left;">MaxBoot</td>
 <td style="text-align: right;">0.4958</td>
 <td style="text-align: right;">25666.568</td>
 <td style="text-align: right;">8000.087</td>
@@ -3016,7 +3023,7 @@ hessian     :
 <td style="text-align: right;">0.7699</td>
 </tr>
 <tr class="odd">
-<td>MinAsym</td>
+<td style="text-align: left;">MinAsym</td>
 <td style="text-align: right;">0.1185</td>
 <td style="text-align: right;">2055.714</td>
 <td style="text-align: right;">1003.558</td>
@@ -3025,7 +3032,7 @@ hessian     :
 <td style="text-align: right;">0.0054</td>
 </tr>
 <tr class="even">
-<td>MaxAsym</td>
+<td style="text-align: left;">MaxAsym</td>
 <td style="text-align: right;">0.7287</td>
 <td style="text-align: right;">9581.273</td>
 <td style="text-align: right;">9917.274</td>
@@ -3042,7 +3049,7 @@ hessian     :
 </div>
 </section><section id="有时渐近误差起作用" class="level3" data-number="7.4.5"><h3 data-number="7.4.5" class="anchored" data-anchor-id="有时渐近误差起作用">
 <span class="header-section-number">7.4.5</span> 有时渐近误差起作用</h3>
-<p>在某些情况下，渐近误差法得到的结果与自举法的结果非常相似。如果我们使用的是 <em>abdat</em> 数据而不是 <em>dataspm</em> 数据，我们得到的结果与使用自举法得到的结果似乎没有什么区别（比较见 “不确定 性”一章中的自举法部分）。生成的轨迹看起来非常相似（<a href="#fig-spm20" class="quarto-xref">图&nbsp;<span>7.20</span></a>），而且成对图几乎没有区别。与 “关于不确定性”的自举示例一样，我们使用了 <code><a href="https://rdrr.io/r/grDevices/rgb.html">rgb()</a></code> 着色以方便比较（<a href="#fig-spm21" class="quarto-xref">图&nbsp;<span>7.21</span></a>）。</p>
+<p>在某些情况下，渐近误差法得到的结果与自举法的结果非常相似。如果我们使用的是 <em>abdat</em> 数据而不是 <em>dataspm</em> 数据，我们得到的结果与使用自举法得到的结果似乎没有什么区别（比较见 <q>不确定 性</q>一章中的自举法部分）。生成的轨迹看起来非常相似（<a href="#fig-spm20" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm20</span></a>），而且成对图几乎没有区别。与 <q>关于不确定性</q>的自举示例一样，我们使用了 <code><a href="https://rdrr.io/r/grDevices/rgb.html">rgb()</a></code> 着色以方便比较（<a href="#fig-spm21" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm21</span></a>）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#repeat asymptotice errors using abdat data-set Figure 7.20  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">)</span>  </span>
@@ -3086,14 +3093,14 @@ hessian     :
 <img src="07-spm_files/figure-html/fig-spm21-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spm21-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-图&nbsp;7.21: 将 Schaefer 模型拟合到 abdat 数据并使用多变量正态分布生成后续参数组合时的模型参数关系。这与 “不确定性”一章中的自举法非常相似。Model parameter relationships when fitting the Schaefer model to the abdat data and using the multi-variate normal distribution to generate subsequent parameter combinations. These are very similar to the bootstrap equivalent in the On Uncertainty chapter.
+图&nbsp;7.21: 将 Schaefer 模型拟合到 abdat 数据并使用多变量正态分布生成后续参数组合时的模型参数关系。这与 <q>不确定性</q>一章中的自举法非常相似。Model parameter relationships when fitting the Schaefer model to the abdat data and using the multi-variate normal distribution to generate subsequent parameter combinations. These are very similar to the bootstrap equivalent in the On Uncertainty chapter.
 </figcaption></figure>
 </div>
 </div>
 </div>
 </section><section id="贝叶斯后验" class="level3" data-number="7.4.6"><h3 data-number="7.4.6" class="anchored" data-anchor-id="贝叶斯后验">
 <span class="header-section-number">7.4.6</span> 贝叶斯后验</h3>
-<p>在 <em>“不确定性”</em> 一章中，我们已经看到可以使用马尔可夫链蒙特卡罗（MCMC）分析来描述给定分析中固有的不确定性。在这里，我们将再次使用 <em>abdat</em> 数据集，因为它提供了一个表现良好的数据实例，该数据集导致了一个相对紧密拟合的模型和一个表现良好的 MCMC 分析。关于<em>“不确定性”</em>一章中给出了吉布斯-内大都会-哈斯丁（Gibbs-within-Metropolis-Hastings）（或单分量大都会-哈斯丁Metropolis-Hastings）策略背后的方程式。这些都在 <code><a href="https://rdrr.io/pkg/MQMF/man/do_MCMC.html">do_MCMC()</a></code> 函数中实现。要使用该函数，首先要有一个基于最大似然法的最优拟合模型。这次我们将使用 Fox 模型选项。</p>
+<p>在 <em><q>不确定性</q></em> 一章中，我们已经看到可以使用马尔可夫链蒙特卡罗（MCMC）分析来描述给定分析中固有的不确定性。在这里，我们将再次使用 <em>abdat</em> 数据集，因为它提供了一个表现良好的数据实例，该数据集导致了一个相对紧密拟合的模型和一个表现良好的 MCMC 分析。关于<em><q>不确定性</q></em>一章中给出了吉布斯-内大都会-哈斯丁（Gibbs-within-Metropolis-Hastings）（或单分量大都会-哈斯丁Metropolis-Hastings）策略背后的方程式。这些都在 <code><a href="https://rdrr.io/pkg/MQMF/man/do_MCMC.html">do_MCMC()</a></code> 函数中实现。要使用该函数，首先要有一个基于最大似然法的最优拟合模型。这次我们将使用 Fox 模型选项。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span>  <span class="co">#Fit the Fox Model to the abdat data Figure 7.22  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">)</span>; <span class="va">fish</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">)</span>  </span>
@@ -3114,7 +3121,7 @@ hessian     :
 </div>
 </div>
 </div>
-<p>由于最优解将接近后验模式，我们不再需要说明预演期的概念，但理想情况下，我们并不希望完全从最大似然解出发。因此，我们可以舍弃最优解，对马尔可夫链进行预烧，使参数集序列进入可信组合的范围。我们知道 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 参数之间有很强的相关性，因此我们可以使用 128（<span class="math inline">\(4 \times 128 = 512\)</span>）的初始步长来减少任何连续接受值之间的自相关性，但这也会受到参数迭代之间跳跃的相对比例的影响。在这里，我们从 1% 到 2%之间的值开始，并尝试使用这些值，直到接受率介于 0.2 和 0.4 之间。最好使用较小的 N 值（使用 512 的稀疏度，即使 1000 也是 50 万次迭代）。只有当刻度设置得当时，才能将重复次数 N 扩大到更大的数目，以获得更清晰的结果。我们将继续使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/calcprior.html">calcprior()</a></code>，对每组可信参数设置同等权重，为了获得可重复的结果，需要在每条链上调用 <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code>，但一般情况下我们不会这样做。在 R 中，所有操作系统都使用相同的随机数生成器，因此这应该可以在不同的计算机上运行，但我还没有在所有版本上都试过。为了提高计算速度，最好能有类似于 <em>“不确定性”</em>一章中描述的使用 <strong>Rcpp</strong> 的 <code>simpspmC()</code> 函数。在运行下面的 MCMC 之前，你需要编译本章的附录，或者在使用 <code><a href="https://rdrr.io/pkg/MQMF/man/do_MCMC.html">do_MCMC()</a></code> 时调用 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code>，注意为了使用 Fox 模型，需要加入 <em>schaefer=FALSE</em> 参数。</p>
+<p>由于最优解将接近后验模式，我们不再需要说明预演期的概念，但理想情况下，我们并不希望完全从最大似然解出发。因此，我们可以舍弃最优解，对马尔可夫链进行预烧，使参数集序列进入可信组合的范围。我们知道 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 参数之间有很强的相关性，因此我们可以使用 128（<span class="math inline">\(4 \times 128 = 512\)</span>）的初始步长来减少任何连续接受值之间的自相关性，但这也会受到参数迭代之间跳跃的相对比例的影响。在这里，我们从 1% 到 2%之间的值开始，并尝试使用这些值，直到接受率介于 0.2 和 0.4 之间。最好使用较小的 N 值（使用 512 的稀疏度，即使 1000 也是 50 万次迭代）。只有当刻度设置得当时，才能将重复次数 N 扩大到更大的数目，以获得更清晰的结果。我们将继续使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/calcprior.html">calcprior()</a></code>，对每组可信参数设置同等权重，为了获得可重复的结果，需要在每条链上调用 <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code>，但一般情况下我们不会这样做。在 R 中，所有操作系统都使用相同的随机数生成器，因此这应该可以在不同的计算机上运行，但我还没有在所有版本上都试过。为了提高计算速度，最好能有类似于 <em><q>不确定性</q></em>一章中描述的使用 <strong>Rcpp</strong> 的 <code>simpspmC()</code> 函数。在运行下面的 MCMC 之前，你需要编译本章的附录，或者在使用 <code><a href="https://rdrr.io/pkg/MQMF/man/do_MCMC.html">do_MCMC()</a></code> 时调用 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code>，注意为了使用 Fox 模型，需要加入 <em>schaefer=FALSE</em> 参数。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#|echo: false</span></span>
 <span></span>
@@ -3167,7 +3174,7 @@ hessian     :
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time = "</span>,<span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>,<span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time =  88.48782 </code></pre>
+<pre><code>time =  63.81564 </code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">post1</span> <span class="op">&lt;-</span> <span class="va">result</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  </span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">1e-08</span>  </span>
@@ -3175,7 +3182,7 @@ hessian     :
 </details>
 </div>
 <p>Fox 模型 MCMC 目前设置为 512 的稀释率、2000 次重复和 50 次老化，这意味着将有 <span class="math inline">\(512 \times 2050 = 1049600\)</span> 次迭代用于生成所需的参数跟踪。在用于编写此内容的计算机上，即使使用 ，这大约需要 15 秒;使用 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code> 可能预计大约需要 75 秒。一旦知道了自己的系统的情况，显然可以计划分析，并对稀释速率和重复做出明确的选择（不要忘记使用最新版本的 R 以获得最快的时间）。</p>
-<p>分析完成后，我们可以使用 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 函数绘制每个变量与其他变量的对比图（<a href="#fig-spm23" class="quarto-xref">图&nbsp;<span>7.23</span></a>）。此外，我们还可以绘制每个主要参数的边际后验分布图和推导出的模型输出（MSY）。由于我们使用了 2000 个重复样本，并采用了 512 的样本链稀疏率（<a href="#fig-spm24" class="quarto-xref">图&nbsp;<span>7.24</span></a>），因此后验分布相对平滑。</p>
+<p>分析完成后，我们可以使用 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 函数绘制每个变量与其他变量的对比图（<a href="#fig-spm23" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm23</span></a>）。此外，我们还可以绘制每个主要参数的边际后验分布图和推导出的模型输出（MSY）。由于我们使用了 2000 个重复样本，并采用了 512 的样本链稀疏率（<a href="#fig-spm24" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm24</span></a>），因此后验分布相对平滑。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#pairwise comparison for MCMC of Fox model on abdat  Fig 7.23   </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">post1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,<span class="va">msy</span><span class="op">)</span>,upper.panel <span class="op">=</span> <span class="va">panel.cor</span>,lwd<span class="op">=</span><span class="fl">2</span>,cex<span class="op">=</span><span class="fl">0.2</span>,    </span>
@@ -3210,7 +3217,7 @@ hessian     :
 </div>
 </div>
 <p>需要注意的是，要将 <em>sigma</em> 的接受率降到 0.4 以下，需要施加一个相对较大的比例因子。其他参数要求的值在 5% 到 9% 之间。如果使用 500 次重复来寻找合适的比例因子，然后将重复次数重设为 2000 次，那么整个过程所需的时间将是原来的四倍。如果再将步长增加到 1024 倍，那么所需的时间又会增加一倍。需要寻找适当的比例因子，以确保马尔可夫链在合理的时间内充分探索后验空间。如果比例因子太小，接受率就会增加，因为每次试验实际上都会非常接近原始试验，因此只能采取小步试验。静态分布最终仍会被发现，但可能需要大量的重复。在稀疏率为 512 的情况下，如果使用 <code><a href="https://rdrr.io/r/stats/acf.html">acf()</a></code> 函数绘制任何迹线的自相关图，如 <code>acf(post1[, “r”])</code>，就会发现在步长为 1 和 2 时仍然存在显著的相关性。要减少这种相关性，至少需要将步长增加到 1024 步。</p>
-<p>随着重复次数的增加，观测到的潜在参数组合的分布范围也在扩大。但是，如果我们检查第 90 分位数等值线的边界，这些边界会保持相对稳定。我们可以使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/addcontours.html">addcontours()</a></code> 在二维范围内进行检查，该函数可以为任意 x-y 数据点云生成等值线（任意但理想的平滑分布）。 2000 个观测点的第 50 和第 90 分位数等值线并不特别平滑，但即使是这样，<span class="math inline">\(K\)</span> 的边界也大约在 9500 - 14000 之间，<span class="math inline">\(r\)</span> 的边界大约在 0.17 - 0.24 之间（<a href="#fig-spm25" class="quarto-xref">图&nbsp;<span>7.25</span></a>）。随着数值的增加，等值线变得更加平滑，但其边界大致保持不变，即使在两种情况下 x 轴和 y 轴都有所延长。</p>
+<p>随着重复次数的增加，观测到的潜在参数组合的分布范围也在扩大。但是，如果我们检查第 90 分位数等值线的边界，这些边界会保持相对稳定。我们可以使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/addcontours.html">addcontours()</a></code> 在二维范围内进行检查，该函数可以为任意 x-y 数据点云生成等值线（任意但理想的平滑分布）。 2000 个观测点的第 50 和第 90 分位数等值线并不特别平滑，但即使是这样，<span class="math inline">\(K\)</span> 的边界也大约在 9500 - 14000 之间，<span class="math inline">\(r\)</span> 的边界大约在 0.17 - 0.24 之间（<a href="#fig-spm25" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm25</span></a>）。随着数值的增加，等值线变得更加平滑，但其边界大致保持不变，即使在两种情况下 x 轴和 y 轴都有所延长。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span>  <span class="co">#MCMC r and K parameters, approx 50 + 90% contours. Fig7.25  </span></span>
 <span><span class="va">puttxt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">xs</span>,<span class="va">xvar</span>,<span class="va">ys</span>,<span class="va">yvar</span>,<span class="va">lvar</span>,<span class="va">lab</span><span class="op">=</span><span class="st">""</span>,<span class="va">sigd</span><span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">{</span>  </span>
@@ -3310,7 +3317,7 @@ hessian     :
 </div>
 </div>
 </div>
-<p>然而，尽管五条链在视觉上存在差异（<a href="#fig-spm27" class="quarto-xref">图&nbsp;<span>7.26</span></a>），如果我们检查 <span class="math inline">\(K\)</span> 在不同的分位数上，我们发现差异很小（<a href="#tbl-spm8" class="quarto-xref">表&nbsp;<span>7.8</span></a>）。事实上，中值 <span class="math inline">\(K\)</span> 对于每条链，彼此之间的距离在1.1%左右是令人鼓舞的，最大百分比变化为 2.7%。作为实验，使用相同的 random.seed，但每条链运行 4000 步（总共 <span class="math inline">\(5 \times 512 \times 4050 = 10,368\)</span> 万次迭代，但仍然不到 5 分钟），最大变异下降到 1.48%，同样是 0.975 分位数，其他分位数都低于 1%。在这种情况下，由于模型非常简单，而且每个链只需要很短的时间，因此增加步数是值得的。对于参数更多，更复杂的似然计算，在评估小组的最后期限内，这些分析的时间安排可能变得至关重要。</p>
+<p>然而，尽管五条链在视觉上存在差异（<a href="#fig-spm27" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm27</span></a>），如果我们检查 <span class="math inline">\(K\)</span> 在不同的分位数上，我们发现差异很小（<a href="#tbl-spm8" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-spm8</span></a>）。事实上，中值 <span class="math inline">\(K\)</span> 对于每条链，彼此之间的距离在1.1%左右是令人鼓舞的，最大百分比变化为 2.7%。作为实验，使用相同的 random.seed，但每条链运行 4000 步（总共 <span class="math inline">\(5 \times 512 \times 4050 = 10,368\)</span> 万次迭代，但仍然不到 5 分钟），最大变异下降到 1.48%，同样是 0.975 分位数，其他分位数都低于 1%。在这种情况下，由于模型非常简单，而且每个链只需要很短的时间，因此增加步数是值得的。对于参数更多，更复杂的似然计算，在评估小组的最后期限内，这些分析的时间安排可能变得至关重要。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get qunatiles of each chain  </span></span>
 <span><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.05</span>,<span class="fl">0.5</span>,<span class="fl">0.95</span>,<span class="fl">0.975</span><span class="op">)</span>  </span>
@@ -3399,7 +3406,7 @@ hessian     :
 <p>2.评估每种渔业的明确方式，通常相对于预先选择的生物（或其他）参考点，例如捕捞死亡率、生物量水平或其替代物。</p>
 <p>3.预先确定的捕捞控制规则或决策规则，用于将种群评估或种群状况转化为与未来努力量或捕捞水平相关的管理建议。</p>
 <p>理想情况下，这种捕捞策略将经过模拟测试，以确定它们有效的条件，并摒弃无法实现预期目标的方案（Smith，1993；Punt 等，2016）</p>
-<p>有许多众所周知的例子明确说明了辖区内渔业的管理目标（DAFF，2007；Deroba 和 Bence，2008；Magnuson-Stevens，2007）。例如，在澳大利亚联邦海洋管辖区，选定的目标是管理主要经济鱼类种群，使其生物量达到最大经济产量（<span class="math inline">\(B_{MEY}\)</span>）（DAFF, 2007; DAWR, 2018）；事实上，由于可用的信息不足，无法可靠地估算 <span class="math inline">\(B_{mEY}\)</span>，大多数物种使用 <span class="math inline">\(0.48 B_0\)</span> 的代用值。同样，将 <span class="math inline">\(0.2B_0\)</span> 定义为大多数物种的极限参考点，“其中没有支持选择特定种群的极限参考点[<span class="math inline">\(B_{MSY} / 2\)</span>]的信息……”(DAWR, 2018，第10页)。如果估计种群数量低于极限参考点，则停止有针对性的捕捞，尽管在混合渔业中仍可能出现副渔获物。如果鱼量高于极限参考点，则进行预测，以确定未来的渔获量应能促使鱼量顺利增加到目标生物量水平。</p>
+<p>有许多众所周知的例子明确说明了辖区内渔业的管理目标（DAFF，2007；Deroba 和 Bence，2008；Magnuson-Stevens，2007）。例如，在澳大利亚联邦海洋管辖区，选定的目标是管理主要经济鱼类种群，使其生物量达到最大经济产量（<span class="math inline">\(B_{MEY}\)</span>）（DAFF, 2007; DAWR, 2018）；事实上，由于可用的信息不足，无法可靠地估算 <span class="math inline">\(B_{mEY}\)</span>，大多数物种使用 <span class="math inline">\(0.48 B_0\)</span> 的代用值。同样，将 <span class="math inline">\(0.2B_0\)</span> 定义为大多数物种的极限参考点，<q>其中没有支持选择特定种群的极限参考点[<span class="math inline">\(B_{MSY} / 2\)</span>]的信息……</q>(DAWR, 2018，第10页)。如果估计种群数量低于极限参考点，则停止有针对性的捕捞，尽管在混合渔业中仍可能出现副渔获物。如果鱼量高于极限参考点，则进行预测，以确定未来的渔获量应能促使鱼量顺利增加到目标生物量水平。</p>
 </section></section><section id="风险评估预测" class="level2" data-number="7.6"><h2 data-number="7.6" class="anchored" data-anchor-id="风险评估预测">
 <span class="header-section-number">7.6</span> 风险评估预测</h2>
 <p>当然，对资源评估模型进行前瞻性预测的想法背后有许多重要的假设。首先，模型能成功捕捉到控制种群生物量的重要动态部分。在剩余产量模型中，这相当于假设对种群生产力的估计在未来将保持不变。请记住，在使用数据集 <em>dataspm</em> 时，残差保留了相对较大的振荡模式，这表明该模型在动态变化中遗漏了一些重要内容。尽管有这样的遗漏，模型仍可能保留对近似平均动态的充分估计，以进行有用的预测，但这就假定影响模型拟合的其他因素将继续以过去的方式运行。如果评估具有高度不确定性，那么未来的预测也将具有高度不确定性，这就降低了其在提供建议时的价值。</p>
@@ -3413,7 +3420,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 \qquad(7.21)\]</span></span></p>
 <section id="确定性预测" class="level3" data-number="7.6.1"><h3 data-number="7.6.1" class="anchored" data-anchor-id="确定性预测">
 <span class="header-section-number">7.6.1</span> 确定性预测</h3>
-<p>如果我们使用最优的模型参数，那么对于一系列不同的前向预测渔获量，我们会得到不同的生物量和 cpue 轨迹。为了说明这一点，我们可以再次使用 <em>abdat</em> 数据集（注意，我们已将 <em>hessian</em> 选项设置为 “true”，因为我们将在后面使用）。</p>
+<p>如果我们使用最优的模型参数，那么对于一系列不同的前向预测渔获量，我们会得到不同的生物量和 cpue 轨迹。为了说明这一点，我们可以再次使用 <em>abdat</em> 数据集（注意，我们已将 <em>hessian</em> 选项设置为 <q>true</q>，因为我们将在后面使用）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Prepare Fox model on abdat data for future projections Fig7.28  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">)</span>; <span class="va">fish</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">)</span>  </span>
@@ -3454,7 +3461,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
  $ schaefer  : logi FALSE</code></pre>
 </div>
 </div>
-<p><em>outmat</em> 中的动态包括年份、生物量、cpue、预测的 cpue 和其他变量的详细信息（<a href="#tbl-spm9" class="quarto-xref">表&nbsp;<span>7.9</span></a>）。</p>
+<p><em>outmat</em> 中的动态包括年份、生物量、cpue、预测的 cpue 和其他变量的详细信息（<a href="#tbl-spm9" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-spm9</span></a>）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">outmat</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,<span class="op">]</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div id="tbl-spm9" class="cell quarto-float anchored">
@@ -3464,7 +3471,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <div class="cell-output-display">
 <table class="do-not-create-environment cell table table-sm table-striped small">
 <thead><tr class="header">
-<th></th>
+<th style="text-align: left;"></th>
 <th style="text-align: right;">Year</th>
 <th style="text-align: right;">ModelB</th>
 <th style="text-align: right;">Catch</th>
@@ -3475,9 +3482,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1985</td>
+<td style="text-align: left;">1985</td>
 <td style="text-align: right;">1985</td>
-<td style="text-align: right;">3230.783</td>
+<td style="text-align: right;">3231.056</td>
 <td style="text-align: right;">1020</td>
 <td style="text-align: right;">0.286</td>
 <td style="text-align: right;">0.316</td>
@@ -3485,9 +3492,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.126</td>
 </tr>
 <tr class="even">
-<td>1986</td>
+<td style="text-align: left;">1986</td>
 <td style="text-align: right;">1986</td>
-<td style="text-align: right;">3043.535</td>
+<td style="text-align: right;">3043.801</td>
 <td style="text-align: right;">743</td>
 <td style="text-align: right;">0.269</td>
 <td style="text-align: right;">0.244</td>
@@ -3495,9 +3502,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.061</td>
 </tr>
 <tr class="odd">
-<td>1987</td>
+<td style="text-align: left;">1987</td>
 <td style="text-align: right;">1987</td>
-<td style="text-align: right;">3122.404</td>
+<td style="text-align: right;">3122.663</td>
 <td style="text-align: right;">867</td>
 <td style="text-align: right;">0.276</td>
 <td style="text-align: right;">0.278</td>
@@ -3505,19 +3512,19 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.088</td>
 </tr>
 <tr class="even">
-<td>1988</td>
+<td style="text-align: left;">1988</td>
 <td style="text-align: right;">1988</td>
-<td style="text-align: right;">3082.137</td>
+<td style="text-align: right;">3082.389</td>
 <td style="text-align: right;">724</td>
-<td style="text-align: right;">0.273</td>
+<td style="text-align: right;">0.272</td>
 <td style="text-align: right;">0.235</td>
 <td style="text-align: right;">1.147</td>
 <td style="text-align: right;">1.074</td>
 </tr>
 <tr class="odd">
-<td>1989</td>
+<td style="text-align: left;">1989</td>
 <td style="text-align: right;">1989</td>
-<td style="text-align: right;">3182.439</td>
+<td style="text-align: right;">3182.683</td>
 <td style="text-align: right;">586</td>
 <td style="text-align: right;">0.281</td>
 <td style="text-align: right;">0.184</td>
@@ -3525,9 +3532,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.109</td>
 </tr>
 <tr class="even">
-<td>1990</td>
+<td style="text-align: left;">1990</td>
 <td style="text-align: right;">1990</td>
-<td style="text-align: right;">3426.600</td>
+<td style="text-align: right;">3426.836</td>
 <td style="text-align: right;">532</td>
 <td style="text-align: right;">0.303</td>
 <td style="text-align: right;">0.155</td>
@@ -3535,9 +3542,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.194</td>
 </tr>
 <tr class="odd">
-<td>1991</td>
+<td style="text-align: left;">1991</td>
 <td style="text-align: right;">1991</td>
-<td style="text-align: right;">3736.347</td>
+<td style="text-align: right;">3736.575</td>
 <td style="text-align: right;">567</td>
 <td style="text-align: right;">0.330</td>
 <td style="text-align: right;">0.152</td>
@@ -3545,9 +3552,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.302</td>
 </tr>
 <tr class="even">
-<td>1992</td>
+<td style="text-align: left;">1992</td>
 <td style="text-align: right;">1992</td>
-<td style="text-align: right;">4020.669</td>
+<td style="text-align: right;">4020.891</td>
 <td style="text-align: right;">609</td>
 <td style="text-align: right;">0.355</td>
 <td style="text-align: right;">0.151</td>
@@ -3555,9 +3562,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.401</td>
 </tr>
 <tr class="odd">
-<td>1993</td>
+<td style="text-align: left;">1993</td>
 <td style="text-align: right;">1993</td>
-<td style="text-align: right;">4267.113</td>
+<td style="text-align: right;">4267.332</td>
 <td style="text-align: right;">548</td>
 <td style="text-align: right;">0.377</td>
 <td style="text-align: right;">0.128</td>
@@ -3565,9 +3572,9 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <td style="text-align: right;">1.487</td>
 </tr>
 <tr class="even">
-<td>1994</td>
+<td style="text-align: left;">1994</td>
 <td style="text-align: right;">1994</td>
-<td style="text-align: right;">4574.773</td>
+<td style="text-align: right;">4574.992</td>
 <td style="text-align: right;">498</td>
 <td style="text-align: right;">0.404</td>
 <td style="text-align: right;">0.109</td>
@@ -3581,7 +3588,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 </figure>
 </div>
 </div>
-<p>预测是将建模结果的时间序列（<a href="#tbl-spm9" class="quarto-xref">表&nbsp;<span>7.9</span></a> ）按顺序加入任何新的固定渔获量，并进行计算以填入所需列，从而继续进行动态计算。我们可以使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/spmprojDet.html">spmprojDet()</a></code>，它接收来自 <code><a href="https://rdrr.io/pkg/MQMF/man/spm.html">spm()</a></code> 函数的列表输出以及与确定性预测相关的一些细节，并为我们生成预测动态。您应该查看 <code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 代码，了解年份是如何设置的，代码之简短令人惊讶。</p>
+<p>预测是将建模结果的时间序列（<a href="#tbl-spm9" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-spm9</span></a> ）按顺序加入任何新的固定渔获量，并进行计算以填入所需列，从而继续进行动态计算。我们可以使用 <strong>MQMF</strong> 函数 <code><a href="https://rdrr.io/pkg/MQMF/man/spmprojDet.html">spmprojDet()</a></code>，它接收来自 <code><a href="https://rdrr.io/pkg/MQMF/man/spm.html">spm()</a></code> 函数的列表输出以及与确定性预测相关的一些细节，并为我们生成预测动态。您应该查看 <code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 代码，了解年份是如何设置的，代码之简短令人惊讶。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#  Fig 7.29  </span></span>
 <span><span class="va">catches</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">700</span>,<span class="fl">1000</span>,<span class="fl">50</span><span class="op">)</span>   <span class="co"># projyr=10 is the default  </span></span>
@@ -3597,7 +3604,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 </div>
 </div>
 </div>
-<p>利用确定性恒定渔获量预测（<a href="#fig-spm29" class="quarto-xref">图&nbsp;<span>7.28</span></a>），可以看出 850 吨的恒定渔获量（接近 <span class="math inline">\(MSY\)</span> 估计值）是预测未来种群状况相对稳定的最接近的渔获量。</p>
+<p>利用确定性恒定渔获量预测（<a href="#fig-spm29" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm29</span></a>），可以看出 850 吨的恒定渔获量（接近 <span class="math inline">\(MSY\)</span> 估计值）是预测未来种群状况相对稳定的最接近的渔获量。</p>
 </section><section id="考虑不确定性" class="level3" data-number="7.6.2"><h3 data-number="7.6.2" class="anchored" data-anchor-id="考虑不确定性">
 <span class="header-section-number">7.6.2</span> 考虑不确定性</h3>
 <p>确定性预测的一个明显问题就在于它们是确定性的。它们没有考虑到即使在最佳模型拟合中仍然存在的不确定性。理想情况下，我们在进行模型预测时应考虑到估计的不确定性。我们可以采用渐近误差法、自举法模型拟合或贝叶斯法等三种方法来预测不确定性。在每种情况下，不同分析的输出结果都是可信参数组合列表。这些参数可用于描述模型拟合中包含的可信动态范围，并以与确定性预测相同的方式对每个单独的生物量轨迹进行预测。</p>
@@ -3605,7 +3612,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 </section><section id="使用渐近误差" class="level3" data-number="7.6.3"><h3 data-number="7.6.3" class="anchored" data-anchor-id="使用渐近误差">
 <span class="header-section-number">7.6.3</span> 使用渐近误差</h3>
 <p>一旦我们有了一个最佳拟合模型，如果我们还计算了 Hessian 矩阵（如前所述），我们就可以利用估计的渐近误差生成一个充满可信参数向量的矩阵。然后就可以利用这些参数来生成复制的生物量轨迹，并绘制和总结这些轨迹。</p>
-<p>在避免极限参考点方面，渔业管理成功的概率标准并不少见。根据不同的可信参数向量，通过大量重复的生物量轨迹，可以估算出有多大比例的预测会达到预期结果。通过将这些预测结果列表，管理者可以选择他们认为合适的风险水平。例如，澳大利亚联邦渔业政策中对可接受风险的明确定义是：“捕捞策略至少在 90% 的时间内将所有商业种群的生物量维持在极限参考点之上”。对这一点的解释是：“种群应在至少 90% 的时间内保持在极限生物量水平之上（即种群在 10 年中有 1 年的时间会低于极限生物量水平 <span class="math inline">\(B_{LIM}\)</span> 的风险）”（DAWR, 2018a, p10）。</p>
+<p>在避免极限参考点方面，渔业管理成功的概率标准并不少见。根据不同的可信参数向量，通过大量重复的生物量轨迹，可以估算出有多大比例的预测会达到预期结果。通过将这些预测结果列表，管理者可以选择他们认为合适的风险水平。例如，澳大利亚联邦渔业政策中对可接受风险的明确定义是：<q>捕捞策略至少在 90% 的时间内将所有商业种群的生物量维持在极限参考点之上</q>。对这一点的解释是：<q>种群应在至少 90% 的时间内保持在极限生物量水平之上（即种群在 10 年中有 1 年的时间会低于极限生物量水平 <span class="math inline">\(B_{LIM}\)</span> 的风险）</q>（DAWR, 2018a, p10）。</p>
 <p>在上一节中，我们已经利用 Fox 剩余产量模型（Polacheck 等，1993）对 <em>abdat</em> 数据集进行了最佳模型拟合。正如我们在利用渐近误差描述不确定性时能够生成生物量轨迹一样，我们可以在给定恒定渔获量的条件下，将这些轨迹逐一向前推算，并寻找能产生理想结果的渔获量水平。首先要做的是从最优模型拟合生成多个可信参数向量。我们可以使用函数 <code><a href="https://rdrr.io/pkg/MQMF/man/parasympt.html">parasympt()</a></code> 来做到这一点。一旦生成了可信参数向量矩阵，我们就可以使用 <code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 函数对给定年份数和给定渔获量常数进行动态预测（通过检查代码再次确认其工作原理）。<code><a href="https://rdrr.io/pkg/MQMF/man/parasympt.html">parasympt()</a></code> 函数只是一个方便的包装，用于调用 <code><a href="https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html">rmvnorm()</a></code> 函数（<strong>mvtnorm</strong> 软件包的一部分）并将结果返回为一个带标记的矩阵，而 <code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 函数则稍微复杂一些。为了简化预测，该函数首先扩展了输入鱼类矩阵，以包括预测年份及其恒定渔获量（用 NA 填充未来 cpue）。<code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 使用 <code><a href="https://rdrr.io/pkg/MQMF/man/spm.html">spm()</a></code> 函数计算动态变化，而仅以矩阵形式返回模拟生物量。使用 <code><a href="https://rdrr.io/pkg/MQMF/man/spm.html">spm()</a></code> 可能看起来效率不高，但这意味着可以很容易地修改 <code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 函数，以返回动力学估算的任何变量。这些变量包括模型生物量、耗竭水平、捕获率和预测的 cpue（当然也可以只从生物量、预测 cpue 和原始数据中得出其他变量）。运行以下代码并检查两个输出对象：<em>matpar</em> 包含参数向量，<em>projs</em> 包含生物量轨迹行。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co"># generate parameter vectors from a multivariate normal     </span></span>
@@ -3642,7 +3649,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <span><span class="va">matparb</span> <span class="op">&lt;-</span> <span class="va">boots</span><span class="op">$</span><span class="va">bootpar</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="co">#examine using head(matparb,20)  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>就象以前一样，我们可以使用这些参数向量来预测渔业的未来，并确定不同恒定捕捞水平对可持续性的任何风险（<a href="#fig-spm31" class="quarto-xref">图&nbsp;<span>7.30</span></a>）。</p>
+<p>就象以前一样，我们可以使用这些参数向量来预测渔业的未来，并确定不同恒定捕捞水平对可持续性的任何风险（<a href="#fig-spm31" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm31</span></a>）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb81"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#bootstrap projections. Lower case b for boostrap  Fig7.31   </span></span>
 <span><span class="va">projb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj</a></span><span class="op">(</span><span class="va">matparb</span>,<span class="va">fish</span>,projyr<span class="op">=</span><span class="fl">10</span>,constC<span class="op">=</span><span class="fl">900</span><span class="op">)</span>   </span>
@@ -3678,7 +3685,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 <pre><code>Acceptance Rate =  0.3341834 0.3087928 0.3504304 0.3506508 </code></pre>
 </div>
 </div>
-<p>为了证明生成的 1000 个重复已经失去了它们的序列相关性，并代表了对稳态分布的合理近似，我们可以绘制自相关图和 <span class="math inline">\(K\)</span> 参数 1000 个重复估计值的轨迹（<a href="#fig-spm32" class="quarto-xref">图&nbsp;<span>7.31</span></a>）。</p>
+<p>为了证明生成的 1000 个重复已经失去了它们的序列相关性，并代表了对稳态分布的合理近似，我们可以绘制自相关图和 <span class="math inline">\(K\)</span> 参数 1000 个重复估计值的轨迹（<a href="#fig-spm32" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm32</span></a>）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co"># auto-correlation, or lack of, and the K trace Fig 7.32   </span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/parset.html">parset</a></span><span class="op">(</span>plots<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>,cex<span class="op">=</span><span class="fl">0.85</span><span class="op">)</span>    </span>
@@ -3695,7 +3702,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 </div>
 </div>
 </div>
-<p>可以从 MCMC 输出中提取这 1000 个可信参数向量，并通过与之前相同的 <code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 和 <code><a href="https://rdrr.io/pkg/MQMF/man/plotproj.html">plotproj()</a></code> 函数进行处理（<a href="#fig-spm33" class="quarto-xref">图&nbsp;<span>7.32</span></a>）。</p>
+<p>可以从 MCMC 输出中提取这 1000 个可信参数向量，并通过与之前相同的 <code><a href="https://rdrr.io/pkg/MQMF/man/spmproj.html">spmproj()</a></code> 和 <code><a href="https://rdrr.io/pkg/MQMF/man/plotproj.html">plotproj()</a></code> 函数进行处理（<a href="#fig-spm33" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm33</span></a>）。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb85"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#  Fig 7.33   </span></span>
 <span><span class="va">matparB</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">parB</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span> <span class="co"># B for Bayesian   </span></span>
@@ -3712,7 +3719,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 </div>
 </div>
 </div>
-<p>请注意，<a href="#fig-spm33" class="quarto-xref">图&nbsp;<span>7.32</span></a> 中的中值细红线（第 50 分位数）略微偏离最大似然最佳模型拟合线（黑色）。但是，第 10 分位数相对于 LRP 保持在大致相同的位置，就像在使用渐近误差和自举的分析中观察到的那样。在这里，生物量轨迹的分布范围更广，但管理结果与前两种方法非常相似。</p>
+<p>请注意，<a href="#fig-spm33" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-spm33</span></a> 中的中值细红线（第 50 分位数）略微偏离最大似然最佳模型拟合线（黑色）。但是，第 10 分位数相对于 LRP 保持在大致相同的位置，就像在使用渐近误差和自举的分析中观察到的那样。在这里，生物量轨迹的分布范围更广，但管理结果与前两种方法非常相似。</p>
 </section></section><section id="结束语" class="level2" data-number="7.7"><h2 data-number="7.7" class="anchored" data-anchor-id="结束语">
 <span class="header-section-number">7.7</span> 结束语</h2>
 <p>我们已经比较详细研究了如何使用剩余产量模型为渔业提供管理建议。输出结果可能是未来三至五年不同渔获量或努力量制度下的预期种群结果列表。假设相关管辖区存在某种管理目标，管理者可以做出决定，渔业评估科学家也可以为其结果辩护。当然，鉴于任何渔业数据固有的不确定性和补充量动态的变幻莫测，不可能有确切的保证，但假设种群动态至少与以前的经验相似，那么对结果进行辩护是可能的。</p>
@@ -3756,7 +3763,7 @@ B_{t+1}=B_t+\frac{r}{p}B_t \left(1-\left(\frac{B_t}{K}\right)^p \right)-C_t
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-elder1979" class="csl-entry" role="listitem">
 Elder, R. D. 1979. <span>《Equilibrium Yield for the Hauraki Gulf Snapper Fishery Estimated from Catch and Effort Figures, 1960<span></span>74》</span>. <em>New Zealand Journal of Marine and Freshwater Research</em> 13 (1): 31–38. <a href="https://doi.org/10.1080/00288330.1979.9515778">https://doi.org/10.1080/00288330.1979.9515778</a>.
 </div>
