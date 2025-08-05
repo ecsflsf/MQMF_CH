@@ -255,7 +255,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-spm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">剩余生产模型</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">剩余产量模型</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -322,7 +322,7 @@ window.Quarto = {
 <section id="简介" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="简介"><span class="header-section-number">1.1.1</span> 简介</h3>
 <p>常规的渔业种群评估通常基于种群生产过程和捕捞群体种群动态的数学模型。正面的生产过程包括补充动态（增加数量）和个体生长（增加生物量），而负面的生产过程包括自然死亡率和捕捞死亡率（包括选择性），这既减少了数量，也减少了生物量。种群动态包括一些细节，例如建模动态中使用的时间步长、是否对生物量或数量建模（年龄或大小，或两者兼有）、空间结构的细节以及手头案例的其他细节。如此多的潜在细节意味着生物种群和过程的数学模型种类繁多。然而，仍有可能就这些模式发表一些常规性声明。</p>
-<p>由建模人员对现在已知过程或现象进行建模得到的所有模型都是抽象和模拟的。数学模型只是所有模型类别的一个子集，模型可能有多种形式，涵盖了构建的物理表示（想想由Watson 和 Crick，1953年制作的DNA球和棒模型），图表模型（如地理地图），以及这里讨论的更抽象的数学表达。我们可以通过关注模型的不同属性和建模人员做出的决定所施加的一些限制，对这种多样性施加某种概念顺序。</p>
+<p>由建模人员对现在已知过程或现象进行建模得到的所有模型都是抽象和模拟的。数学模型只是所有模型类别的一个子集，模型可能有多种形式，涵盖了构建的物理表示（想想由 Watson 和 Crick，1953年制作的 DNA 球和棒模型），图表模型（如地理地图），以及这里讨论的更抽象的数学表达。我们可以通过关注模型的不同属性和建模人员做出的决定所施加的一些限制，对这种多样性施加某种概念顺序。</p>
 </section>
 <section id="模型设计或选择" class="level3" data-number="1.1.2">
 <h3 data-number="1.1.2" class="anchored" data-anchor-id="模型设计或选择"><span class="header-section-number">1.1.2</span> 模型设计或选择</h3>
@@ -342,7 +342,7 @@ window.Quarto = {
 <p><span id="eq-1_1"><span class="math display">\[
 B_{t+1} = B_t + r{B_t} \left(1 - \frac{B_t}{K} \right) - C_t  
 \qquad(1.1)\]</span></span></p>
-<p>其中变量<span class="math inline">\(C_t\)</span> 是时间<span class="math inline">\(t\)</span> 段捕获的渔获量，<span class="math inline">\(B_t\)</span> 是时间 <span class="math inline">\(t\)</span> 开始时的群体生物量（<span class="math inline">\(B_t\)</span> 也是模型的输出变量）。模型参数是 <span class="math inline">\(r\)</span>，表示生物量（或数量，具体取决于对<span class="math inline">\(B_t\)</span>的解释， 或许 <span class="math inline">\(=N_t\)</span> ）的种群增长率， <span class="math inline">\(K\)</span> 为系统所能达到的最大生物量（或数量）（这些参数来自早期数学生态学的 logistic 模型；参见第 <a href="03-simpopmodel.html" class="quarto-xref"><span>3</span></a> 章”简单种群模型<em>“</em>）。通过检查这个相对简单的模型，人们可以看到，在时间 <span class="math inline">\((t+1)\)</span> 的期望生物量水平 与渔获量和前期生物量直接相关 （时间 <span class="math inline">\(= t\)</span>; 该值是连续相关的） 。前期生物量对种群增长的影响由 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 这两个参数的共同调控。通过计算不同时间段的变量之间的序列相关性，这种动态状态模型与传统的统计分析有显著差异。序列相关性意味着，如果我们每年对一个种群进行抽样，那么严格地说，样本将不独立，这是更经典的统计分析的要求。例如，在封闭的种群中，一年内两龄鱼的数量不能超过上一年的一龄鱼的数量：他们不独立。</p>
+<p>其中变量<span class="math inline">\(C_t\)</span> 是时间<span class="math inline">\(t\)</span> 段捕获的渔获量，<span class="math inline">\(B_t\)</span> 是时间 <span class="math inline">\(t\)</span> 开始时的群体生物量（<span class="math inline">\(B_t\)</span> 也是模型的输出变量）。模型参数是 <span class="math inline">\(r\)</span>，表示生物量（或数量，具体取决于对<span class="math inline">\(B_t\)</span>的解释， 或许 <span class="math inline">\(=N_t\)</span> ）的种群增长率， <span class="math inline">\(K\)</span> 为系统所能达到的最大生物量（或数量）（这些参数来自早期数学生态学的 logistic 模型；参见第 <a href="03-simpopmodel.html" class="quarto-xref"><span>3</span></a> 章”<a href="./03-simpopmodel.html">简单种群模型</a><em>“</em>）。通过检查这个相对简单的模型，人们可以看到，在时间 <span class="math inline">\((t+1)\)</span> 的期望生物量水平 与渔获量和前期生物量直接相关 （时间 <span class="math inline">\(= t\)</span>; 该值是连续相关的） 。前期生物量对种群增长的影响由 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 这两个参数的共同调控。通过计算不同时间段的变量之间的序列相关性，这种动态状态模型与传统的统计分析有显著差异。序列相关性意味着，如果我们每年对一个种群进行抽样，那么严格地说，样本将不独立，这是更经典的统计分析的要求。例如，在封闭的种群中，一年内两龄鱼的数量不能超过上一年的一龄鱼的数量：他们不独立。</p>
 </section>
 <section id="参数和变量" class="level3" data-number="1.1.5">
 <h3 data-number="1.1.5" class="anchored" data-anchor-id="参数和变量"><span class="header-section-number">1.1.5</span> 参数和变量</h3>
@@ -363,7 +363,7 @@ R_{y} = \bar{R} e^{N(0,\sigma^{2}_{R})-\sigma^{2}_{R}/2}
 <p>其中<span class="math inline">\(R_y\)</span> 是年<span class="math inline">\(y\)</span> 的补充量，<span class="math inline">\(\bar R\)</span> 是年间的平均补充量（这本身可能是资源规模的函数），<span class="math inline">\(N(0, \sigma_R^2)\)</span> 是用于随机变量的符号，其值在本示例中是均值为0 和方差为<span class="math inline">\(\sigma^2_R\)</span> 的正态分布（即具有正值和负值）。通过将正态分布以指数项表示，这将指定为对数正态变异，<span class="math inline">\(-\sigma_R^2/2\)</span> 为补充量时间系列中 Log-Normal 变异的偏差更正项（Haltuch等，2008）。</p>
 <p>模拟模型与具有估计参数的模型不同。这两种模型的目标也不同，前者可能被用来探讨不同管理方案的影响，而后者可能被用来估计资源的当前衰竭状态。</p>
 <p>鉴于一组输入数据（假定是完整和准确的;注意这些假设），一个确定性模型表示其所有可能的反应。然而，随机模型构成了所谓的蒙特卡洛模拟的基础，其中模型是反复运行相同的输入数据，但每次运行新的随机值产生为随机参数，如 <a href="#eq-1_2" class="quarto-xref">公式&nbsp;<span>1.2</span></a> 。 对于每个运行，都会产生不同的输出，并绘制这些输出表或图表，以查看从此类系统中可以预期到哪些结果范围。即使模型固有的变化通常是分布的，但这并不意味着可以预期特定输出通常分布在某些平均值上。如果模型中有非线性方面，可能会出现偏斜和其他更改。</p>
-<p>未来的种群预测、风险评估和确定数据中不确定性的影响都需要使用蒙特卡洛建模。模型结构的模拟测试是一个非常强大的工具。在 第 <a href="06-uncertainty.html" class="quarto-xref"><span>6</span></a> 章 “<a href="./06-uncertainty.html">不确定性</a>（<em>On Uncertainty</em>）和第 <a href="07-spm.html" class="quarto-xref"><span>7</span></a> 章“<a href="./07-spm.html">剩余产量模型</a>”（<em>Surplus Production Models</em>）中，详细介绍了这些预测的运行情况。</p>
+<p>未来的种群预测、风险评估和确定数据中不确定性的影响都需要使用蒙特卡洛建模。模型结构的模拟测试是一个非常强大的工具。在 第 <a href="06-uncertainty.html" class="quarto-xref"><span>6</span></a> 章 “<a href="./06-uncertainty.html">不确定性</a>”（<em>On Uncertainty</em>）和第 <a href="07-spm.html" class="quarto-xref"><span>7</span></a> 章“<a href="./07-spm.html">剩余产量模型</a>”（<em>Surplus Production Models</em>）中，详细介绍了这些预测的运行情况。</p>
 </section>
 <section id="连续与离散模型" class="level3" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="连续与离散模型"><span class="header-section-number">1.2.2</span> 连续与离散模型</h3>
@@ -395,7 +395,7 @@ y = a +bx +cx^2 + dx^3 + \cdots + mx^n
 </section>
 <section id="模型是理论" class="level3" data-number="1.2.6">
 <h3 data-number="1.2.6" class="anchored" data-anchor-id="模型是理论"><span class="header-section-number">1.2.6</span> 模型是理论</h3>
-<p>所有模型都可能被认为具有理论成分，甚至被认为是经验模型。它成为一个感知问题，而不是模型结构。例如，通过简单的模型，基本假设可以开始承担假设断言的重担。因此，如果使用 logistic 方程来描述种群的增长，它就导入了种群增长率的密度依赖补偿与种群密度线性相关的假设。换言之，种群规模增长对种群增长的负面影响与种群规模呈线性关系（见第 <a href="03-simpopmodel.html" class="quarto-xref"><span>3</span></a> 章“简单种群模型<em>”</em>（<em>Simple Population Models</em>））。这可以被视为一个领域假设（即模型只能有效地应用于密度依赖效应与种群密度线性相关的情况）或理论（非线性密度依赖效应在建模的系统中不重要）。这显然是一个感知或建模目标的问题，即这两种可能性中哪一种是获得的。这是一个很好的理由，人们应该明确解释一个人的模型的假设。</p>
+<p>所有模型都可能被认为具有理论成分，甚至被认为是经验模型。它成为一个感知问题，而不是模型结构。例如，通过简单的模型，基本假设可以开始承担假设断言的重担。因此，如果使用 logistic 方程来描述种群的增长，它就导入了种群增长率的密度依赖补偿与种群密度线性相关的假设。换言之，种群规模增长对种群增长的负面影响与种群规模呈线性关系（见第 <a href="03-simpopmodel.html" class="quarto-xref"><span>3</span></a> 章“<a href="./03-simpopmodel.html">简单种群模型</a><em>”</em>（<em>Simple Population Models</em>））。这可以被视为一个领域假设（即模型只能有效地应用于密度依赖效应与种群密度线性相关的情况）或理论（非线性密度依赖效应在建模的系统中不重要）。这显然是一个感知或建模目标的问题，即这两种可能性中哪一种是获得的。这是一个很好的理由，人们应该明确解释一个人的模型的假设。</p>
 <p>如果将自己局限于纯粹的经验关系，那么他的模型唯一可以改进的方法就是增加模型所解释的观测结果的方差。没有有效的期望，经验模型将提供洞察一个系统的未来行为。解释/理论模型的一个优点是，它应该能够检验假设、变量之间的关系和误差结构，独立于与观测结果的拟合质量。</p>
 <p>因此，应该有可能提出证据来支持一个模型，这超出了拟合的质量。那些建议的结构没有以这种方式得到支持的模型，也可能是经验性的。</p>
 </section>
@@ -1018,7 +1018,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>常规的渔业种群评估通常基于种群生产过程和捕捞群体种群动态的数学模型。正面的生产过程包括补充动态（增加数量）和个体生长（增加生物量），而负面的生产过程包括自然死亡率和捕捞死亡率（包括选择性），这既减少了数量，也减少了生物量。种群动态包括一些细节，例如建模动态中使用的时间步长、是否对生物量或数量建模（年龄或大小，或两者兼有）、空间结构的细节以及手头案例的其他细节。如此多的潜在细节意味着生物种群和过程的数学模型种类繁多。然而，仍有可能就这些模式发表一些常规性声明。</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>由建模人员对现在已知过程或现象进行建模得到的所有模型都是抽象和模拟的。数学模型只是所有模型类别的一个子集，模型可能有多种形式，涵盖了构建的物理表示（想想由Watson 和 Crick，1953年制作的DNA球和棒模型），图表模型（如地理地图），以及这里讨论的更抽象的数学表达。我们可以通过关注模型的不同属性和建模人员做出的决定所施加的一些限制，对这种多样性施加某种概念顺序。</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>由建模人员对现在已知过程或现象进行建模得到的所有模型都是抽象和模拟的。数学模型只是所有模型类别的一个子集，模型可能有多种形式，涵盖了构建的物理表示（想想由 Watson 和 Crick，1953年制作的 DNA 球和棒模型），图表模型（如地理地图），以及这里讨论的更抽象的数学表达。我们可以通过关注模型的不同属性和建模人员做出的决定所施加的一些限制，对这种多样性施加某种概念顺序。</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### 模型设计或选择</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
@@ -1044,7 +1044,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>B_{t+1} = B_t + r{B_t} \left(1 - \frac{B_t}{K} \right) - C_t  </span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>$$ {#eq-1_1}</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>其中变量$C_t$ 是时间$t$ 段捕获的渔获量，$B_t$ 是时间 $t$ 开始时的群体生物量（$B_t$ 也是模型的输出变量）。模型参数是 $r$，表示生物量（或数量，具体取决于对$B_t$的解释， 或许 $=N_t$ ）的种群增长率， $K$ 为系统所能达到的最大生物量（或数量）（这些参数来自早期数学生态学的 logistic 模型；参见第 <span class="co">[</span><span class="ot">-@sec-simplemodel</span><span class="co">]</span> 章”简单种群模型*“*）。通过检查这个相对简单的模型，人们可以看到，在时间 $(t+1)$ 的期望生物量水平 与渔获量和前期生物量直接相关 （时间 $= t$; 该值是连续相关的） 。前期生物量对种群增长的影响由 $r$ 和 $K$ 这两个参数的共同调控。通过计算不同时间段的变量之间的序列相关性，这种动态状态模型与传统的统计分析有显著差异。序列相关性意味着，如果我们每年对一个种群进行抽样，那么严格地说，样本将不独立，这是更经典的统计分析的要求。例如，在封闭的种群中，一年内两龄鱼的数量不能超过上一年的一龄鱼的数量：他们不独立。</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>其中变量$C_t$ 是时间$t$ 段捕获的渔获量，$B_t$ 是时间 $t$ 开始时的群体生物量（$B_t$ 也是模型的输出变量）。模型参数是 $r$，表示生物量（或数量，具体取决于对$B_t$的解释， 或许 $=N_t$ ）的种群增长率， $K$ 为系统所能达到的最大生物量（或数量）（这些参数来自早期数学生态学的 logistic 模型；参见第 <span class="co">[</span><span class="ot">-@sec-simplemodel</span><span class="co">]</span> 章”<span class="co">[</span><span class="ot">简单种群模型</span><span class="co">](03-simpopmodel.qmd)</span>*“*）。通过检查这个相对简单的模型，人们可以看到，在时间 $(t+1)$ 的期望生物量水平 与渔获量和前期生物量直接相关 （时间 $= t$; 该值是连续相关的） 。前期生物量对种群增长的影响由 $r$ 和 $K$ 这两个参数的共同调控。通过计算不同时间段的变量之间的序列相关性，这种动态状态模型与传统的统计分析有显著差异。序列相关性意味着，如果我们每年对一个种群进行抽样，那么严格地说，样本将不独立，这是更经典的统计分析的要求。例如，在封闭的种群中，一年内两龄鱼的数量不能超过上一年的一龄鱼的数量：他们不独立。</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### 参数和变量</span></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
@@ -1072,7 +1072,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>鉴于一组输入数据（假定是完整和准确的;注意这些假设），一个确定性模型表示其所有可能的反应。然而，随机模型构成了所谓的蒙特卡洛模拟的基础，其中模型是反复运行相同的输入数据，但每次运行新的随机值产生为随机参数，如 @eq-1_2 。 对于每个运行，都会产生不同的输出，并绘制这些输出表或图表，以查看从此类系统中可以预期到哪些结果范围。即使模型固有的变化通常是分布的，但这并不意味着可以预期特定输出通常分布在某些平均值上。如果模型中有非线性方面，可能会出现偏斜和其他更改。</span>
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>未来的种群预测、风险评估和确定数据中不确定性的影响都需要使用蒙特卡洛建模。模型结构的模拟测试是一个非常强大的工具。在 第 <span class="co">[</span><span class="ot">-@sec-uncertainty</span><span class="co">]</span> 章 "<span class="co">[</span><span class="ot">不确定性</span><span class="co">](06-uncertainty.qmd)</span>（*On Uncertainty*）和第 [-@sec-surplusproduction] 章“[剩余产量模型](07-spm.qmd)”（*Surplus Production Models*）中，详细介绍了这些预测的运行情况。</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>未来的种群预测、风险评估和确定数据中不确定性的影响都需要使用蒙特卡洛建模。模型结构的模拟测试是一个非常强大的工具。在 第 <span class="co">[</span><span class="ot">-@sec-uncertainty</span><span class="co">]</span> 章 "<span class="co">[</span><span class="ot">不确定性</span><span class="co">](06-uncertainty.qmd)</span>"（*On Uncertainty*）和第 [-@sec-surplusproduction] 章“[剩余产量模型](07-spm.qmd)”（*Surplus Production Models*）中，详细介绍了这些预测的运行情况。</span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### 连续与离散模型</span></span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
@@ -1114,7 +1114,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### 模型是理论</span></span>
 <span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>所有模型都可能被认为具有理论成分，甚至被认为是经验模型。它成为一个感知问题，而不是模型结构。例如，通过简单的模型，基本假设可以开始承担假设断言的重担。因此，如果使用 logistic 方程来描述种群的增长，它就导入了种群增长率的密度依赖补偿与种群密度线性相关的假设。换言之，种群规模增长对种群增长的负面影响与种群规模呈线性关系（见第 <span class="co">[</span><span class="ot">-@sec-simplemodel</span><span class="co">]</span> 章“简单种群模型*”*（*Simple Population Models*））。这可以被视为一个领域假设（即模型只能有效地应用于密度依赖效应与种群密度线性相关的情况）或理论（非线性密度依赖效应在建模的系统中不重要）。这显然是一个感知或建模目标的问题，即这两种可能性中哪一种是获得的。这是一个很好的理由，人们应该明确解释一个人的模型的假设。</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>所有模型都可能被认为具有理论成分，甚至被认为是经验模型。它成为一个感知问题，而不是模型结构。例如，通过简单的模型，基本假设可以开始承担假设断言的重担。因此，如果使用 logistic 方程来描述种群的增长，它就导入了种群增长率的密度依赖补偿与种群密度线性相关的假设。换言之，种群规模增长对种群增长的负面影响与种群规模呈线性关系（见第 <span class="co">[</span><span class="ot">-@sec-simplemodel</span><span class="co">]</span> 章“<span class="co">[</span><span class="ot">简单种群模型</span><span class="co">](03-simpopmodel.qmd)</span>*”*（*Simple Population Models*））。这可以被视为一个领域假设（即模型只能有效地应用于密度依赖效应与种群密度线性相关的情况）或理论（非线性密度依赖效应在建模的系统中不重要）。这显然是一个感知或建模目标的问题，即这两种可能性中哪一种是获得的。这是一个很好的理由，人们应该明确解释一个人的模型的假设。</span>
 <span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>如果将自己局限于纯粹的经验关系，那么他的模型唯一可以改进的方法就是增加模型所解释的观测结果的方差。没有有效的期望，经验模型将提供洞察一个系统的未来行为。解释/理论模型的一个优点是，它应该能够检验假设、变量之间的关系和误差结构，独立于与观测结果的拟合质量。</span>
 <span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>

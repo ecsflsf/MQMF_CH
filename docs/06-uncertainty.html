@@ -17,7 +17,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
@@ -52,7 +51,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -216,7 +235,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-spm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">剩余生产模型</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">剩余产量模型</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -316,8 +335,8 @@ window.Quarto = {
 <p>在本章中，我们将探讨其他可用的方法，以描述任何建模情况中至少一部分固有的不确定性。虽然可能有许多潜在的不确定性来源会阻碍我们管理自然资源的能力，但这里只能对其中的一部分进行有用的研究。一些不确定性来源会影响所收集数据的可变性，其他来源则会影响可用数据的类型。</p>
 <section id="不确定性类型" class="level3" data-number="6.1.1"><h3 data-number="6.1.1" class="anchored" data-anchor-id="不确定性类型">
 <span class="header-section-number">6.1.1</span> 不确定性类型</h3>
-<p>有多种方式来描述不同类型的不确定性，这些不确定性影响渔业模型参数估计以及如何使用这些估计算。这些一般被称为误差来源，通常是指残差误差而不是指已经犯下的错误。不幸的是，<q>误差</q>这一术语，如残差误差，有导致混淆的潜力，因此最好使用“不确定性”这一术语。虽然只要你知道这个问题，它对你来说不应该是个问题。</p>
-<p>Francis &amp; Shotton (1997) 列出了与自然资源评估和管理相关的六种不同类型的不确定性，而 Kell 等 (2005) 在遵循 Rosenberg 和 Restrepo (1994) 的基础上，将这些缩减为五种。或者，它们都可以归纳为四个标题下（Haddon, 2011），其中一些有子标题，如下所示：</p>
+<p>有多种方式来描述不同类型的不确定性，这些不确定性影响渔业模型参数估计以及如何使用这些估计算。这些一般被称为误差来源，通常是指残差误差而不是指已经犯下的错误。不幸的是，“误差”这一术语，如残差误差，有导致混淆的潜力，因此最好使用“不确定性”这一术语。虽然只要你知道这个问题，它对你来说不应该是个问题。</p>
+<p>Francis &amp; Shotton (1997) 列出了与自然资源评估和管理相关的六种不同类型的不确定性，而 Kell 等 (2005) 在遵循 Rosenberg 和 Restrepo (1994) 的基础上，将这些缩减为五种。或者，它们都可以归纳为四个标题下 <span class="citation" data-cites="haddon2011">(<a href="08-references.html#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>)</span>，其中一些有子标题，如下所示：</p>
 <ul>
 <li><p>过程不确定性：种群动态率（如生长、年际平均补充量、年际自然死亡率）和其他生物学特性及过程中的潜在自然随机变化。</p></li>
 <li><p>观测不确定性：抽样误差和测量误差反映了样本旨在代表总体但仅是样本这一事实。数据收集不充分或非代表性会加剧观测不确定性，任何错误、数据的故意误报或未报告都会导致观测不确定性，这在渔业统计领域并不罕见。</p></li>
@@ -351,7 +370,7 @@ window.Quarto = {
 <p>我们将使用一个简单的剩余生产模型来说明所有这些方法，尽管它们应该具有更广泛的适用性。</p>
 </section><section id="示例模型" class="level3" data-number="6.1.2"><h3 data-number="6.1.2" class="anchored" data-anchor-id="示例模型">
 <span class="header-section-number">6.1.2</span> 示例模型</h3>
-<p>这是在 <q>模型参数估计</q>（ <a href="#sec-paraestimat" class="quarto-xref"><span class="quarto-unresolved-ref">sec-paraestimat</span></a> ）一章中关于使用对数正态似然拟合动态模型部分所描述的相同模型。我们将在本章的许多示例中使用该模型，其种群动态相对简单，如 <a href="#eq-6_1" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_1</span></a> 所示。</p>
+<p>该示例与第 <a href="04-application.html" class="quarto-xref"><span>4</span></a> 章”<a href="./04-application.html">模型参数估计</a>“中关于使用对数正态似然拟合动态模型部分所描述的模型相同。我们将在本章的许多示例中使用该模型，其种群动态相对简单，如 <a href="#eq-6_1" class="quarto-xref">公式&nbsp;<span>6.1</span></a> 所示。</p>
 <p><span id="eq-6_1"><span class="math display">\[
 \begin{split}
 B_{t=0} &amp;= B_{init} \\
@@ -366,7 +385,7 @@ I_t = \dfrac{C_t}{E_t}=qB_t \quad \text{or} \quad C_t = qE_tB_t
 <p><span id="eq-6_3"><span class="math display">\[
 q=e^{\frac{1}{n}\sum\log \left(\frac{I_t}{\hat B_t}\right)} =\exp\left(\frac{1}{n}\sum \left(\frac{I_t}{\hat B_t} \right) \right)
 \qquad(6.3)\]</span></span></p>
-<p>我们将使用 <strong>MQMF</strong> <em>abdat</em> 数据集拟合这个模型，然后在接下来的章节中检查该模型拟合的不确定性。我们将通过最小化基于对数正态分布的残差来拟合模型。简化后如下：</p>
+<p>我们将使用 <strong>MQMF</strong> <em>abdat</em> 数据集拟合这个模型，然后在接下来的章节中检验该模型拟合的不确定性。我们将通过最小化基于对数正态分布的残差来拟合模型。简化后如下：</p>
 <p><span id="eq-6_4"><span class="math display">\[
 -LL(y|\theta,\hat \sigma, I)= \frac{n}{2}(\log(2\pi)+2\log(\hat \sigma)+1) + \sum_{i =1}^n \log(I_t)
 \qquad(6.4)\]</span></span></p>
@@ -398,8 +417,8 @@ Binit  8.1271026  1.059182e-04 3384.97779
 sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 </div>
 </div>
-<p>模型拟合情况如 <a href="#fig-6-1" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-1</span></a> 所示。Schaefer 模型的简单动力学似乎为这些观察到的鲍鱼捕捞率数据提供了一个合理的描述。实际上，在时间序列中，法律最小尺寸有所变化，渔业内部引入了区域划分，以及其他重要变化，因此这一结果最多只能被视为一种近似，并且只能被视为提供了一种方法论的示例。观察到/预测到的对数正态残差，如果乘以预测值，显然会得到观察值（灰线）。这里展示这一点，因为我们即将在自助法（bootstrap）数据时使用这种简单关系。</p>
-<p>最大持续产量（MSY）可以从 Schaefer 模型中简单地估计为 <span class="math inline">\(\text{MSY} = rK/4\)</span>，这意味着这种最佳拟合表明存在 <span class="math inline">\(\text{MSY} = 888.842t\)</span>。在接下来的各节中，我们将尝试回答的两个问题是：预测 cpue 在 <a href="#eq-6_1" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_1</span></a> 中观察数据周围的合理分布范围是多少？以及，平均 MSY 估计值周围的 90%置信区间是多少？</p>
+<p>模型拟合情况如 <a href="#fig-6-1" class="quarto-xref">图&nbsp;<span>6.1</span></a> 所示。Schaefer 模型的简单动力学似乎为这些观察到的鲍鱼捕捞率数据提供了一个合理的描述。实际上，在时间序列中，法律最小尺寸有所变化，渔业内部引入了区域划分，以及其他重要变化，因此这一结果最多只能被视为一种近似，并且只能被视为提供了一种方法论的示例。观察到/预测到的对数正态残差，如果乘以预测值，显然会得到观察值（灰线）。这里展示这一点，因为我们即将在自助法（bootstrap）数据时使用这种简单关系。</p>
+<p>最大持续产量（MSY）可以从 Schaefer 模型中简单地估计为 <span class="math inline">\(\text{MSY} = rK/4\)</span>，这意味着这种最佳拟合表明存在 <span class="math inline">\(\text{MSY} = 888.842t\)</span>。在接下来的各节中，我们将尝试回答的两个问题是：预测 cpue 在 <a href="#eq-6_1" class="quarto-xref">公式&nbsp;<span>6.1</span></a> 中观察数据周围的合理分布范围是多少？以及，平均 MSY 估计值周围的 90%置信区间是多少？</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#plot the abdat data and the optimum sp-model fit  Fig 6.1  </span></span>
 <span><span class="va">predce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm</a></span><span class="op">(</span><span class="va">bestmod</span><span class="op">$</span><span class="va">estimate</span>,<span class="va">abdat</span><span class="op">)</span><span class="op">)</span>   </span>
@@ -422,7 +441,8 @@ sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 </div>
 </section></section><section id="自助法bootstrapping" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="自助法bootstrapping">
 <span class="header-section-number">6.2</span> 自助法（Bootstrapping）</h2>
-<p>从总体中采集的数据被视为（假定）能够代表该总体以及预期样本值的潜在概率密度分布。这是一个非常重要的假设，最早由 Efron（1979）提出。他提出了这样一个问题：当样本包含或就是关于总体所有可用信息时，为什么不能假设样本真的就是总体，以估计检验统计量的抽样分布？因此，给定一个包含 <span class="math inline">\(n\)</span> 个观测值的原始样本，自助样本将是从原始样本中<strong>有放回地</strong>抽取的 <span class="math inline">\(n\)</span> 个观测值的随机样本。自助样本（即对样本数据值进行有放回的随机重抽样）被假定为近似那些通过反复抽样原始抽样总体所可能产生的值的分布。这些自助样本中的每一个都被视为来自原始总体的独立随机样本。这种有放回的重抽样对某些人来说似乎有违直觉，但可以用来拟合标准误差、百分位数置信区间以及进行假设检验。 据报道，<q>bootstrap</q>这个名字来源于故事《莫丘森男爵的冒险记》，在这个故事中，男爵通过自己拉自己的靴带而逃脱溺水，从而从一口井中脱身（Efron and Tibshirani, 1993）。</p>
+<p>从总体中采集的数据被视为（假定）能够代表该总体以及预期样本值的潜在概率密度分布。这是一个非常重要的假设，最早由 Efron（1979）提出。他提出了这样一个问题：当样本包含或就是关于总体所有可用信息时，为什么不能假设样本真的就是总体，以估计检验统计量的抽样分布？因此，给定一个包含 <span class="math inline">\(n\)</span> 个观测值的原始样本，自助样本将是从原始样本中<strong>有放回地</strong>抽取的 <span class="math inline">\(n\)</span> 个观测值的随机样本。自助样本（即对样本数据值进行有放回的随机重抽样）被假定为近似那些通过反复抽样原始抽样总体所可能产生的值的分布。这些自助样本中的每一个都被视为来自原始总体的独立随机样本。这种有放回的重抽样对某些人来说似乎有违直觉，但可以用来拟合标准误差、百分位数置信区间以及进行假设检验。 据报道，“bootstrap”这个名字来源于故事《莫丘森男爵的冒险记》（<em>The Adventures of Baron Munchausen</em>），在这个故事中，男爵通过自己拉自己的靴带而逃脱溺水，从而从一口井中脱身（Efron and Tibshirani, 1993）。</p>
+<p>Efron（1979）首次提出自助法作为一种实用方法，Bickel 和 Freedman （1981）则展示了自助法的渐近一致性（随着自助样本数量增加时的收敛行为）。基于这一展示，自助法已被应用于许多标准应用，例如多元回归（Freedman，1981；ter Braak，1992）和分层抽样（ Bickel 和 Freedman，1984，他们发现了一个局限性）。Efron 最终将他曾在斯坦福大学为高年级学生讲授的材料整理成一份关于进展的综述（Efron 和 Tibshirani，1993）。</p>
 <section id="经验概率密度分布" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="经验概率密度分布">
 <span class="header-section-number">6.2.1</span> 经验概率密度分布</h3>
 <p>假设给定一个来自总体的样本，非参数的最大似然估计值就是该样本本身。也就是说，如果样本包含 <span class="math inline">\(n\)</span> 个观测值 <span class="math inline">\((x_1, x_2, x_3, \dots, x_n)\)</span>，那么对于 <span class="math inline">\(n\)</span> 个观测值中的每个观测值 <span class="math inline">\(x_i\)</span>，其概率密度分布的最大似然非参数估计值就是将概率质量的 <span class="math inline">\(1/n\)</span> 。必须强调的是，这并不意味着所有值都有相等的似然，而是意味着每个观测值出现的似然性相等，尽管可能有多个观测值具有相同的值（在进行下一步之前，请确保你清楚这个区别！）。如果被抽样的总体变量有一个众数值，那么我们期望，有时会得到与该众数附近相同或相似值的出现频率高于样本分布两端的值。</p>
@@ -430,7 +450,7 @@ sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 <p>总之，自助法用于估计参数值或模型输出的不确定性。这是通过汇总来自重复样本的自助法参数估计值来实现的，这些重复样本是通过用从原始样本中估计的样本替换真实总体样本而得到的。</p>
 </section></section><section id="简单自助法示例" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="简单自助法示例">
 <span class="header-section-number">6.3</span> 简单自助法示例</h2>
-<p>为了了解如何在 R 中实现自助法，从简单的例子开始是明智的。澳大利亚北部对虾渔业，在卡奔塔里亚湾和约瑟夫·波拿巴湾之间，沿着大陆右上侧，是一个混合渔业，捕获多种对虾（Dichmont 等，2006；Robins 和 Somers，1994）。我们将使用 1970 年至 1992 年间捕获的虎虾（<em>Penaeus semisulcatus</em> 和 <em>P. esculentus</em>）和基围虾（<em>Metapenaeus endeavouri</em> 和 <em>M. ensis</em>）的例子。这些捕获量之间似乎存在相关性， <a href="#fig-6-2" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-2</span></a> ，但数据大量分散。刀额新对虾在价值更高的虎虾渔业中总是作为副产品捕获，这反映在其相对捕获量上。</p>
+<p>为了了解如何在 R 中实现自助法，从简单的例子开始是明智的。澳大利亚北部对虾渔业，在卡奔塔里亚湾和约瑟夫·波拿巴湾之间，沿着大陆右上侧，是一个混合渔业，捕获多种对虾（Dichmont 等，2006；Robins 和 Somers，1994）。我们将使用 1970 年至 1992 年间捕获的虎虾（<em>Penaeus semisulcatus</em> 和 <em>P. esculentus</em>）和基围虾（<em>Metapenaeus endeavouri</em> 和 <em>M. ensis</em>）的例子。这些捕获量之间似乎存在相关性， <a href="#fig-6-2" class="quarto-xref">图&nbsp;<span>6.2</span></a> ，但数据大量分散。刀额新对虾在价值更高的虎虾渔业中总是作为副产品捕获，这反映在其相对捕获量上。</p>
 <p>虾捕捞数据相对较为嘈杂，这在虾捕捞中并不意外。捕捞基围虾与虎虾捕捞的相关性也不应令人惊讶。基围虾通常被视为更有价值的虎虾渔业中的兼捕物，因此可以预期虎虾总捕捞量与捕捞努力虾总捕捞量之间存在某种关系。另一方面，如果你将香蕉虾捕捞量与虎虾捕捞量作图，则不应期望存在这种关系，因为这两个渔业几乎相互独立（大多在同一区域），一个在白天捕捞，另一个在夜间捕捞。在混合渔业中探索这种关系，往往能提出关于物种间或不同渔业间相互作用可能性的假设。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#regression between catches of NPF prawn species Fig 6.2  </span></span>
@@ -460,7 +480,7 @@ sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 </div>
 </div>
 </div>
-<p>尽管回归高度显著（ <span class="math inline">\(P&lt; 1e^{-06}\)</span>），但虾捕捞量的变异性意味着我们难以确定可以有多大信心相信相关性。通常情况下，在相关系数周围估计置信区间并不直接，幸运的是，使用自助法（bootstrapping），这可以轻松完成。我们可以从原始数据集中取出 23 对数据，进行 5000 次自助法抽样，每次计算相关系数。完成后，我们可以计算平均值和不同的分位数。在这种情况下，我们不是对单个值进行自助法，而是对值对进行自助法；我们必须取值对以保持任何内在的相关性。在 R 中，可以通过首先对每个数据向量的位置进行有放回抽样，以确定每个自助法样本要取哪些对进行重新抽样。</p>
+<p>尽管回归高度显著（ <span class="math inline">\(P&lt; 1e^{-06}\)</span>），但虾类捕捞量的变异性意味着我们难以确定可以有多大信心相信相关性。通常情况下，在相关系数周围估计置信区间并不直接，幸运的是，使用自助法（bootstrapping），这可以轻松完成。我们可以从原始数据集中取出 23 对数据，进行 5000 次自助法抽样，每次计算相关系数。完成后，我们可以计算平均值和不同的分位数。在这种情况下，我们不是对单个值进行自助法，而是对值对进行自助法；我们必须取值对以保持任何内在的相关性。在 R 中，可以通过首先对每个数据向量的位置进行有放回抽样，以确定每个自助法样本要取哪些对进行重新抽样。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co"># 5000 bootstrap estimates of correlation coefficient Fig 6.3  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12321</span><span class="op">)</span>     <span class="co"># better to use a less obvious seed, if at all  </span></span>
@@ -495,7 +515,7 @@ sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 <p>虽然相关性值的分布显然向左偏斜，但我们有信心原始数据中的高相关性是现有关系数据的合理表示。</p>
 </section><section id="自助法时间序列数据" class="level2" data-number="6.4"><h2 data-number="6.4" class="anchored" data-anchor-id="自助法时间序列数据">
 <span class="header-section-number">6.4</span> 自助法时间序列数据</h2>
-<p>尽管前一个例子中的对虾捕捞量跨越了数年，但数据到达的具体年份与其之间的相关性无关。因此，我们可以对数据对进行自助法处理，并继续分析。然而，在自助法处理物种种群动态信息时，必须保持数据的时间序列特性，其中某年的数值（数量或生物量）以某种方式依赖于前一年的数值。例如，在剩余产量模型中，观测数据进入分析的顺序是种群动态的一个关键方面，因此盲目地自助法处理数据对既不合适也不明智。我们采用的解决方案是：我们首先获得最佳模型拟合及其预测的 cpue 时间序列，然后对每个点的个别残差进行自助法处理。在每个循环中，自助法抽样的残差应用于最佳预测值，以生成一个新的自助法“观测”数据序列，然后重新拟合。 你会记得观测值可以从最优预测 cpue 值乘以对数正态残差得到， <a href="#fig-6-1" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-1</span></a> 。基于原始数据的最优解，特定年份 <span class="math inline">\(t\)</span> 的对数正态残差为：</p>
+<p>尽管前一个例子中的对虾捕捞量跨越了数年，但数据到达的具体年份与其之间的相关性无关。因此，我们可以对数据对进行自助法处理，并继续分析。然而，在自助法处理物种种群动态信息时，必须保持数据的时间序列特性，其中某年的数值（数量或生物量）以某种方式依赖于前一年的数值。例如，在剩余产量模型中，观测数据进入分析的顺序是种群动态的一个关键方面，因此盲目地自助法处理数据对既不合适也不明智。我们采用的解决方案是：我们首先获得最佳模型拟合及其预测的 cpue 时间序列，然后对每个点的个别残差进行自助法处理。在每个循环中，自助法抽样的残差应用于最佳预测值，以生成一个新的自助法“观测”数据序列，然后重新拟合。 你会记得观测值可以从最优预测 cpue 值乘以对数正态残差得到， <a href="#fig-6-1" class="quarto-xref">图&nbsp;<span>6.1</span></a> 。基于原始数据的最优解，特定年份 <span class="math inline">\(t\)</span> 的对数正态残差为：</p>
 <p><span id="eq-6_6"><span class="math display">\[
 \text{resid}_i = \dfrac{I_t}{\hat I_t} = \exp\left(\log(I_t)-\log(\hat I_t) \right)
 \qquad(6.6)\]</span></span></p>
@@ -729,11 +749,11 @@ I_t^* = \hat I_t \times\left(\dfrac{I_t}{\hat I_t} \right)^* = \exp\left(\log(\h
 <span><span class="op">}</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"total time = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="va">start</span>, <span class="st">"seconds   \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>total time =  3.586833 seconds   </code></pre>
+<pre><code>total time =  5.60634 seconds   </code></pre>
 </div>
 </div>
 <p>在我写这本书时使用的电脑上，bootstrap 运行大约需要 4 秒。这包括从样本中抽取 24 年的 bootstrap 样本，并将过剩生产模型拟合到样本上，每次迭代大约需要 0.004 秒。对于任何需要多次拟合模型或计算似然值的计算密集型方法，这都是值得了解的。了解分析运行所需的时间有助于设计这些分析的规模。过剩生产模型的拟合时间非常短，但如果一个复杂的年龄结构模型拟合需要大约 1 分钟，那么 1000 个复制（按现代标准来说，这是最低要求，而且更多的复制无疑会提供更精确的结果）将需要超过 16 个小时！在可能的情况下，优化代码速度仍然非常重要；当我们在本章后面讨论使用 Rcpp 包近似贝叶斯后验分布时，我们将讨论优化速度的方法。</p>
-<p>引导样本通常可以绘制出来，以提供模型拟合质量的直观印象， <a href="#fig-6-4" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-4</span></a> 。可以将<code><a href="https://rdrr.io/pkg/MQMF/man/quants.html">quants()</a></code> 函数应用于包含最优预测 cpue 引导估计的结果矩阵，从而在图的灰色边界内绘制百分位数置信区间，但在这里结果非常紧密，这样做大多只会使图形显得杂乱。</p>
+<p>引导样本通常可以绘制出来，以提供模型拟合质量的直观印象， <a href="#fig-6-4" class="quarto-xref">图&nbsp;<span>6.4</span></a> 。可以将<code><a href="https://rdrr.io/pkg/MQMF/man/quants.html">quants()</a></code> 函数应用于包含最优预测 cpue 引导估计的结果矩阵，从而在图的灰色边界内绘制百分位数置信区间，但在这里结果非常紧密，这样做大多只会使图形显得杂乱。</p>
 <p>1988 年和 1989 年的数值具有最大的残差，因此永远不会被超过。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co"># bootstrap replicates in grey behind main plot Fig 6.4  </span></span>
@@ -749,7 +769,7 @@ I_t^* = \hat I_t \times\left(\dfrac{I_t}{\hat I_t} \right)^* = \exp\left(\log(\h
 <img src="06-uncertainty_files/figure-html/fig-6-4-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-图&nbsp;6.4: 鲍鱼渔业 abdat 数据集最佳预测 cpue 的 1000 个自助估计值。黑点为原始数据，黑线为原始模型拟合的最佳预测 cpue，灰色轨迹为预测 cpue 的 1000 个自举估计值。1000 bootstrap estimates of the optimum predicted cpue from the abdat data set for an abalone fishery. Black points are the original data, the black line is the optimum predicted cpue from the original model fit, and the grey trajectories are the 1000 bootstrap estimates of the predicted cpue.
+图&nbsp;6.4: 鲍鱼渔业 abdat 数据集最佳预测 cpue 的 1000 个自助估计值。黑点为原始数据，黑线为原始模型拟合的最佳预测 cpue，灰色轨迹为预测 cpue 的 1000 个自助估计值。1000 bootstrap estimates of the optimum predicted cpue from the abdat data set for an abalone fishery. Black points are the original data, the black line is the optimum predicted cpue from the original model fit, and the grey trajectories are the 1000 bootstrap estimates of the predicted cpue.
 </figcaption></figure>
 </div>
 </div>
@@ -777,15 +797,15 @@ I_t^* = \hat I_t \times\left(\dfrac{I_t}{\hat I_t} \right)^* = \exp\left(\log(\h
 <img src="06-uncertainty_files/figure-html/fig-6-5-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-图&nbsp;6.5: 前三个模型参数的 1000 个自举估计值和 MSY 的柱状图。在每幅图中，两条细外线定义了中位数周围的 90%置信区间，中间的垂直线表示最佳估计值，但这些估计值通常紧靠中位数下方，Binit 模型除外。The 1000 bootstrap estimates of each of the first three model parameters and MSY as histograms. In each plot the two fine outer lines define the inner 90% confidence bounds around the median, the central vertical line denotes the optimum estimates, but these are generally immediately below the medians, except for the Binit.
+图&nbsp;6.5: 前三个模型参数的 1000 个自助估计值和 MSY 的柱状图。在每幅图中，两条细外线定义了中位数周围的 90%置信区间，中间的垂直线表示最佳估计值，但这些估计值通常紧靠中位数下方，Binit 模型除外。The 1000 bootstrap estimates of each of the first three model parameters and MSY as histograms. In each plot the two fine outer lines define the inner 90% confidence bounds around the median, the central vertical line denotes the optimum estimates, but these are generally immediately below the medians, except for the Binit.
 </figcaption></figure>
 </div>
 </div>
 </div>
-<p>再次使用仅 1000 个自助法估计，直方图并不能很好地表示所讨论的所有参数和输出值的经验分布。更多的重复将使输出平滑，并稳定分位数或百分位数的置信界限。即便如此，也可以对这类参数和输出值的生成精度有一个概念。</p>
+<p>再次仅用 1000 个自助法估计，直方图并不能很好地表示所讨论的所有参数和输出值的经验分布。更多的重复将使输出平滑，并稳定分位数或百分位数的置信界限。即便如此，也可以对这类参数和输出值的生成精度有一个概念。</p>
 <section id="参数相关性" class="level3" data-number="6.4.1"><h3 data-number="6.4.1" class="anchored" data-anchor-id="参数相关性">
 <span class="header-section-number">6.4.1</span> 参数相关性</h3>
-<p>我们也可以通过使用 R 函数 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 将每个参数和模型输出绘制在一起，来检查它们之间的任何相关性。 <span class="math inline">\(r\)</span>、 <span class="math inline">\(K\)</span> 和 <span class="math inline">\(B_{init}\)</span> 之间的强相关性立即显现出来。与 sigma 值缺乏相关性是残差内部变化应如何表现的一种典型情况。更有趣的是， <span class="math inline">\(msy\)</span>（它是 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 的函数）与其他参数的相关性有所降低。这种降低反映了 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 之间的负相关性，这种负相关性会抵消彼此变化的影响。因此，对于相当不同的 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 值，我们可以有相似的 <span class="math inline">\(msy\)</span> 值。在 <a href="#fig-6-6" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-6</span></a> 中使用&nbsp;<code><a href="https://rdrr.io/r/grDevices/rgb.html">rgb()</a></code>&nbsp;函数来根据点的密度变化颜色强度，也可以在绘制 1000 条轨迹时使用，以识别图(6.4)中最常见的轨迹。</p>
+<p>我们也可以通过使用 R 函数 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 将每个参数和模型输出绘制在一起，来检查它们之间的任何相关性。 <span class="math inline">\(r\)</span>、 <span class="math inline">\(K\)</span> 和 <span class="math inline">\(B_{init}\)</span> 之间的强相关性立即显现出来。与 sigma 值缺乏相关性是残差内部变化应如何表现的一种典型情况。更有趣的是， <span class="math inline">\(msy\)</span>（它是 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 的函数）与其他参数的相关性有所降低。这种降低反映了 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 之间的负相关性，这种负相关性会抵消彼此变化的影响。因此，对于相当不同的 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 值，我们可以有相似的 <span class="math inline">\(msy\)</span> 值。在 <a href="#fig-6-6" class="quarto-xref">图&nbsp;<span>6.6</span></a> 中使用 <code><a href="https://rdrr.io/r/grDevices/rgb.html">rgb()</a></code> 函数来根据点的密度变化颜色强度，也可以在绘制 1000 条轨迹时使用，以识别图(6.4)中最常见的轨迹。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#relationships between parameters and MSY  Fig 6.6  </span></span>
 <span><span class="va">parboot1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">parboot</span>,<span class="va">msy</span><span class="op">)</span>  </span>
@@ -797,7 +817,7 @@ I_t^* = \hat I_t \times\left(\dfrac{I_t}{\hat I_t} \right)^* = \exp\left(\log(\h
 <img src="06-uncertainty_files/figure-html/fig-6-6-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-图&nbsp;6.6: 用 Schaefer 模型拟合 abdat 数据集时，1000 个自助法估算的最佳参数估算值与得出的 MSY 值之间的关系。全色强度由至少 20 个点得出。更多的自举重复将使这些强度图更加完整。The relationships between the 1000 bootstrap estimates of the optimum parameter estimates and the derived MSY values for the Schaefer model fitted to the abdat data-set. Full colour intensity derived from a minimum of 20 points. More bootstrap replicates would fill out these intensity plots.
+图&nbsp;6.6: 用 Schaefer 模型拟合 abdat 数据集时，1000 个自助法估算的最佳参数估算值与得出的 MSY 值之间的关系。全色强度由至少 20 个点得出。更多的自助重复将使这些强度图更加完整。The relationships between the 1000 bootstrap estimates of the optimum parameter estimates and the derived MSY values for the Schaefer model fitted to the abdat data-set. Full colour intensity derived from a minimum of 20 points. More bootstrap replicates would fill out these intensity plots.
 </figcaption></figure>
 </div>
 </div>
@@ -808,9 +828,9 @@ I_t^* = \hat I_t \times\left(\dfrac{I_t}{\hat I_t} \right)^* = \exp\left(\log(\h
 <p><span id="eq-6_8"><span class="math display">\[
 \bar x \pm t_{\nu} \dfrac{\sigma}{\sqrt{n}}
 \qquad(6.8)\]</span></span></p>
-<p>其中 <span class="math inline">\(\bar x\)</span> 是 <span class="math inline">\(n\)</span> 个观测样本（实际上，任何参数估计）的平均值，&nbsp;σσ&nbsp;是样本标准差，是样本变异性的度量，&nbsp;tνtν&nbsp;是具有&nbsp;ν=(n−1)ν=(n−1)&nbsp;个自由度的 t 分布（另见&nbsp;<code><a href="https://rdrr.io/r/stats/TDist.html">rt()</a></code>&nbsp;、&nbsp;<code><a href="https://rdrr.io/r/stats/TDist.html">dt()</a></code>&nbsp;、&nbsp;<code><a href="https://rdrr.io/r/stats/TDist.html">pt()</a></code>&nbsp;和&nbsp;<code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code>&nbsp;）。如果我们有多个独立样本，则可以估计样本均值组的标准差。&nbsp;σ/√nσ/n&nbsp;被称为变量&nbsp;xx&nbsp;的标准误差，并且是当只有一个样本时估计样本均值集预期标准差的一种分析方法（生成多个样本的引导法是另一种方法，尽管在这种情况下，直接使用百分位数置信区间会更好）。由于我们处理的是正态分布数据，这种经典置信区间在均值或期望值周围对称分布。这在处理单个样本时是可行的，但我们要解决的问题是如何确定在将多参数模型拟合到数据时，我们可以以多大信心信任参数估计和模型输出。</p>
-<p>在这种情况下，可以通过在最优参数集附近估计模型参数的协方差矩阵来产生渐近标准误差，如 <a href="#eq-6_8" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_8</span></a> 所示。在实践中，假设多参数模型在最优点的最大似然或平方和表面的梯度近似于多元正态分布，并可用于表征不同参数之间的关系。这些关系是生成所需协方差矩阵的基础。该矩阵用于生成每个参数的标准误差，如 <a href="#eq-6_8" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_8</span></a> 所示，然后这些标准误差可用于估计参数的近似置信区间。它们是近似的，因为这种方法假设在最优点附近的拟合表面是规则的和平滑的，并且表面在最优点附近近似于多元正态（=对称）分布。这意味着所得标准误差将在最优解周围对称，这可能适当也可能不适当。 然而，作为初步近似，渐近标准误差可以提供关于参数估计值周围固有变异的指示。</p>
-<p>Hessian 矩阵描述了最大似然表面在最优值附近的局部曲率或梯度。更正式地说，它由描述不同参数集似然函数的二阶偏导数组成。也就是说，每个参数相对于自身和其他所有参数的变化率的变化率。所有 Hessian 矩阵都是方阵。如果我们只考虑 Schaefer 模型的四个参数中的 <span class="math inline">\(r\)</span>、 <span class="math inline">\(k\)</span> 和 <span class="math inline">\(B_{init}\)</span>，即 <a href="#eq-6_1" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_1</span></a> 中的三个参数，那么描述这三个参数的 Hessian 矩阵将是：</p>
+<p>其中 <span class="math inline">\(\bar x\)</span> 是 <span class="math inline">\(n\)</span> 个观测样本（实际上，任何参数估计）的平均值， <span class="math inline">\(\sigma\)</span> 是样本标准差，是样本变异性的度量， <span class="math inline">\(t_{\nu}\)</span> 是具有 <span class="math inline">\(\nu = (n−1)\)</span> 个自由度的 <span class="math inline">\(t\)</span> 分布（另见<code><a href="https://rdrr.io/r/stats/TDist.html">rt()</a></code> 、<code><a href="https://rdrr.io/r/stats/TDist.html">dt()</a></code> 、<code><a href="https://rdrr.io/r/stats/TDist.html">pt()</a></code> 和 <code><a href="https://rdrr.io/r/stats/TDist.html">qt()</a></code>）。如果我们有多个独立样本，则可以估计样本均值组的标准差。 <span class="math inline">\(\sigma/\sqrt{n}\)</span> 为变量 <span class="math inline">\(x\)</span> 的标准误差，并且是当只有一个样本时估计样本均值集预期标准差的一种分析方法（生成多个样本的引导法是另一种方法，尽管在这种情况下，直接使用百分位数置信区间会更好）。由于我们处理的是正态分布数据，这种经典置信区间在均值或期望值周围对称分布。这在处理单个样本时是可行的，但我们要解决的问题是如何确定在将多参数模型拟合到数据时，我们可以以多大信心信任参数估计和模型输出。</p>
+<p>在这种情况下，可以通过在最优参数集附近估计模型参数的协方差矩阵来产生渐近标准误差，如 <a href="#eq-6_8" class="quarto-xref">公式&nbsp;<span>6.8</span></a> 所示。在实践中，假设多参数模型在最优点的最大似然或平方和表面的梯度近似于多元正态分布，并可用于表征不同参数之间的关系。这些关系是生成所需协方差矩阵的基础。该矩阵用于生成每个参数的标准误差，如 <a href="#eq-6_8" class="quarto-xref">公式&nbsp;<span>6.8</span></a> 所示，然后这些标准误差可用于估计参数的近似置信区间。它们是近似的，因为这种方法假设在最优点附近的拟合表面是规则的和平滑的，并且表面在最优点附近近似于多元正态（=对称）分布。这意味着所得标准误差将在最优解周围对称，这可能适当也可能不适当。 然而，作为初步近似，渐近标准误差可以提供关于参数估计值周围固有变异的指示。</p>
+<p>Hessian 矩阵描述了最大似然表面在最优值附近的局部曲率或梯度。更正式地说，它由描述不同参数集似然函数的二阶偏导数组成。也就是说，每个参数相对于自身和其他所有参数的变化率的变化率。所有 Hessian 矩阵都是方阵。如果我们只考虑 Schaefer 模型的四个参数中的 <span class="math inline">\(r\)</span>、 <span class="math inline">\(k\)</span> 和 <span class="math inline">\(B_{init}\)</span>，即 <a href="#eq-6_1" class="quarto-xref">公式&nbsp;<span>6.1</span></a> 中的三个参数，那么描述这三个参数的 Hessian 矩阵将是：</p>
 <p><span id="eq-6_9"><span class="math display">\[
 H(f) = \left\{ \begin{matrix}
 \frac{\partial^2f}{\partial r^2} &amp;  \frac{\partial^2 f}{\partial r \partial K} &amp; \frac{\partial^2 f}{\partial r \partial B_{init}}\\
@@ -833,7 +853,7 @@ Sx^2 = \dfrac{\sum(x-\hat x)^2}{n-p}
 <p><span id="eq-6_12"><span class="math display">\[
 \text{StErr}(\theta) = \sqrt{\text{diag}(\mathbf{A})}
 \qquad(6.12)\]</span></span></p>
-<p>在 Excel 中，我们使用有限差分法来估计 Hessian 矩阵（Haddon，2011），但这种方法在参数强相关时并不总是表现良好。幸运的是，在 R 中，许多可用的非线性求解器在拟合模型时提供了自动生成 Hessian 矩阵估计值的选项。</p>
+<p>在 Excel 中，我们使用有限差分法来估计 Hessian 矩阵 <span class="citation" data-cites="haddon2011">(<a href="08-references.html#ref-haddon2011" role="doc-biblioref">Haddon 2011</a>)</span>，但这种方法在参数强相关时并不总是表现良好。幸运的是，在 R 中，许多可用的非线性求解器在拟合模型时提供了自动生成 Hessian 矩阵估计值的选项。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Fit Schaefer model and generate the Hessian  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">)</span>  </span>
@@ -924,8 +944,8 @@ hessian     :
 </div>
 </div>
 </div>
-<p>和引导法示例一样，即使是 1000 个轨迹的样本也不足以完全填充轨迹空间，导致某些区域比其他区域稀疏。更多的重复实验可能会填补这些空白， <a href="#fig-6-7" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-7</span></a> 。在引导法 cpue 线中使用 <code><a href="https://rdrr.io/r/grDevices/rgb.html">rgb()</a></code> 也有助于识别稀疏区域。</p>
-<p>我们也可以使用 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 绘制隐含参数相关性（如果有），就像我们对自助样本所做的那样， <a href="#fig-6-8" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-8</span></a> 。然而，在这里，相对于自助过程的结果， <a href="#fig-6-6" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-6</span></a> ，结果似乎相对均匀且清晰分布。更平滑的分布反映了这些值都是从一个明确定义的概率密度函数中抽取的，而不是经验分布。有理由认为，自助过程将预期提供对数据特性的更准确表示。然而，哪个结果集更好地代表原始样本来源的总体却不太容易有信心地回答。真正重要的是它们的汇总统计数据是否不同，考虑到 <a href="#tbl-6-2" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-6-2</span></a> ，我们可以看到，虽然每个参数和模型输出的分布细节略有不同，但似乎没有一个单一的规律表明其中一个比另一个更宽或更窄，且这种模式是一致的。</p>
+<p>和引导法示例一样，即使是 1000 个轨迹的样本也不足以完全填充轨迹空间，导致某些区域比其他区域稀疏。更多的重复实验可能会填补这些空白， <a href="#fig-6-7" class="quarto-xref">图&nbsp;<span>6.7</span></a> 。在引导法 cpue 线中使用 <code><a href="https://rdrr.io/r/grDevices/rgb.html">rgb()</a></code> 也有助于识别稀疏区域。</p>
+<p>我们也可以使用 <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> 绘制隐含参数相关性（如果有），就像我们对自助样本所做的那样， <a href="#fig-6-8" class="quarto-xref">图&nbsp;<span>6.8</span></a> 。然而，在这里，相对于自助过程的结果， <a href="#fig-6-6" class="quarto-xref">图&nbsp;<span>6.6</span></a> ，结果似乎相对均匀且清晰分布。更平滑的分布反映了这些值都是从一个明确定义的概率密度函数中抽取的，而不是经验分布。有理由认为，自助过程将预期提供对数据特性的更准确表示。然而，哪个结果集更好地代表原始样本来源的总体却不太容易有信心地回答。真正重要的是它们的汇总统计数据是否不同，考虑到 <a href="#tbl-6-2" class="quarto-xref">表&nbsp;<span>6.2</span></a> ，我们可以看到，虽然每个参数和模型输出的分布细节略有不同，但似乎没有一个单一的规律表明其中一个比另一个更宽或更窄，且这种模式是一致的。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#correlations between parameters when using mvtnorm Fig 6.8  </span></span>
 <span></span>
@@ -941,7 +961,7 @@ hessian     :
 </div>
 </div>
 </div>
-<p>最后，我们可以通过绘制参数和 MSY 的直方图数组及其预测的置信界限来展示渐近置信区间，如 <a href="#fig-6-9" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-9</span></a> 所示。在这种情况下，我们使用内部 90%界限。均值和中位数比自助法示例更加接近，这进一步反映了使用多元正态分布的对称性。</p>
+<p>最后，我们可以通过绘制参数和 MSY 的直方图数组及其预测的置信界限来展示渐近置信区间，如 <a href="#fig-6-9" class="quarto-xref">图&nbsp;<span>6.9</span></a> 所示。在这种情况下，我们使用内部 90%界限。均值和中位数比自助法示例更加接近，这进一步反映了使用多元正态分布的对称性。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#N parameter vectors from the multivariate normal Fig 6.9  </span></span>
 <span><span class="va">mvnres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">mvnpar</span>,<span class="fl">2</span>,<span class="va">quants</span><span class="op">)</span>  <span class="co"># table of quantiles  </span></span>
@@ -975,7 +995,7 @@ hessian     :
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mvnres</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div id="tbl-6-2" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;6.2: 自助百分位数参数置信区间与方差-协方差矩阵渐近估计值参数置信区间的比较。上表是自举法结果，下表是多元正态分布结果。A comparison of the bootstrap percentile confidence bounds on parameters with those derived from the Asymptotic estimate of the variance-covariance matrix. The top table relates to the bootstrapping and the bottom to the values from the multi-variate normal.
+表&nbsp;6.2: 自助百分位数参数置信区间与方差-协方差矩阵渐近估计值参数置信区间的比较。上表是自助法结果，下表是多元正态分布结果。A comparison of the bootstrap percentile confidence bounds on parameters with those derived from the Asymptotic estimate of the variance-covariance matrix. The top table relates to the bootstrapping and the bottom to the values from the multi-variate normal.
 </figcaption><div aria-describedby="tbl-6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="do-not-create-environment cell table table-sm table-striped small">
@@ -1079,9 +1099,9 @@ hessian     :
 </div>
 </section></section><section id="似然剖面" class="level2" data-number="6.6"><h2 data-number="6.6" class="anchored" data-anchor-id="似然剖面">
 <span class="header-section-number">6.6</span> 似然剖面</h2>
-<p><q>似然剖面</q>（Likelihood profile）这个名字暗示了生成这些分析所使用的过程。在本章中，我们已经最优地拟合了一个四参数模型，并探讨了如何表征这些参数估计值周围的不确定性。可以想象从这四个参数中选择一个，并将其值固定在远离其最优值的位置。如果随后将所选参数固定，而允许其他参数变化，重新拟合模型，我们可以想象剩余参数会找到一个新的最优解，但负对数似然值会大于当所有四个参数都自由变化时获得的最优值。这个过程是生成似然曲线的基本思想。</p>
+<p>“似然剖面”（Likelihood profile）这个名字暗示了生成这些分析所使用的过程。在本章中，我们已经最优地拟合了一个四参数模型，并探讨了如何表征这些参数估计值周围的不确定性。可以想象从这四个参数中选择一个，并将其值固定在远离其最优值的位置。如果随后将所选参数固定，而允许其他参数变化，重新拟合模型，我们可以想象剩余参数会找到一个新的最优解，但负对数似然值会大于当所有四个参数都自由变化时获得的最优值。这个过程是生成似然曲线的基本思想。</p>
 <p>目的是使用最大似然方法（最小化负对数似然）来拟合模型，但仅拟合特定参数，同时将其他参数保持在最优值周围的常数值。通过这种方式，可以在给定参数具有一系列固定值的情况下获得新的“最优”拟合。因此，我们可以确定固定参数对模型拟合总似然的影响。一个例子可以帮助使这个过程更加清晰。</p>
-<p>再次使用 Schaefer 剩余生产模型对 abdat 渔业数据进行分析，我们得到最优参数 r = 0.3895，K = 9128.5，Binit = 3384.978，以及 sigma = 0.04316，这意味着 MSY = 888.842 吨。</p>
+<p>再次使用 Schaefer 剩余生产模型对 abdat 渔业数据进行分析，我们得到最优参数 <span class="math inline">\(r = 0.3895\)</span>， <span class="math inline">\(K = 9128.5\)</span>， <span class="math inline">\(Binit = 3384.978\)</span>，以及 <span class="math inline">\(sigma = 0.04316\)</span>，这意味着 <span class="math inline">\(MSY = 888.842\)</span> 吨。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Fit the Schaefer surplus production model to abdat  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">)</span>; <span class="va">logce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">abdat</span><span class="op">$</span><span class="va">cpue</span><span class="op">)</span>    <span class="co"># using negLL  </span></span>
@@ -1139,7 +1159,7 @@ Binit  8.1271026  1.059182e-04 3384.97779
 sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 </div>
 </div>
-<p>令人高兴的是，正如预期的那样，我们得到了相同的解，因此现在我们可以继续研究固定 <span class="math inline">\(r\)</span> 的值并重新拟合模型的影响。通过后见之明（这比现实情况要好得多），我们选择了介于 0.325 和 0.45 之间的 <span class="math inline">\(r\)</span> 值。我们可以设置一个循环来依次应用这些值并拟合相应的模型，将解保存在循环进行的过程中。下面我们列出了前几个结果， <a href="#tbl-6-3" class="quarto-xref">表&nbsp;<span class="quarto-unresolved-ref">tbl-6-3</span></a> ，以说明随着固定值 <span class="math inline">\(r\)</span> 越来越远离其最优值，负对数似然如何增加。</p>
+<p>令人高兴的是，正如预期的那样，我们得到了相同的解，因此现在我们可以继续研究固定 <span class="math inline">\(r\)</span> 的值并重新拟合模型的影响。通过后见之明（这比现实情况要好得多），我们选择了介于 0.325 和 0.45 之间的 <span class="math inline">\(r\)</span> 值。我们可以设置一个循环来依次应用这些值并拟合相应的模型，将解保存在循环进行的过程中。下面我们列出了前几个结果， <a href="#tbl-6-3" class="quarto-xref">表&nbsp;<span>6.3</span></a> ，以说明随着固定值 <span class="math inline">\(r\)</span> 越来越远离其最优值，负对数似然如何增加。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Likelihood profile for r values 0.325 to 0.45  </span></span>
 <span><span class="va">rval</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.325</span>,<span class="fl">0.45</span>,<span class="fl">0.001</span><span class="op">)</span>  <span class="co"># set up the test sequence  </span></span>
@@ -1294,7 +1314,7 @@ sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 \end{split}
 \qquad(6.15)\]</span></span></p>
 <p>其中 <span class="math inline">\(\chi^2_{1, 1-\alpha}\)</span> 是 <span class="math inline">\(\chi^2\)</span> 分布的第 <span class="math inline">\(1-\alpha\)</span> 分位数，自由度为1（例如，对于 95% 置信区间， <span class="math inline">\(\alpha= 0.95\)</span> 和 <span class="math inline">\(1-\alpha = 0.05\)</span>，以及 <span class="math inline">\(\chi^2_{1, 1-\alpha}= 3.84\)</span> 。</p>
-<p>对于单个参数 <span class="math inline">\(\theta_i\)</span>，其95%的近似置信区间的求解可表述为：找到所有满足以下条件的 <span class="math inline">\(\theta_i\)</span> 值，该参数对应的对数似然与全局最优对数似然之差的 2 倍小于或等于 3.84（ <span class="math inline">\(\chi^2_{1, 1-\alpha}= 3.84\)</span>），或者（ <a href="#eq-6_15" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_15</span></a> 的最后一行），也可以通过搜索满足对数似然值等于最大对数似然减去所需 <span class="math inline">\(\chi^2\)</span> 值一半的 <span class="math inline">\(\theta_i\)</span>（即，当自由度为 1 时，计算 <span class="math inline">\(LL(\theta)_{max} -1.92\)</span>）。若构建双参数似然曲面时，则需在 <span class="math inline">\(\chi^2\)</span> 值设定为 5.99（自由度为2）的条件下搜索 <span class="math inline">\(\theta_i\)</span> ，此时应从最大似然值中减去 2.995（对于更高的自由度以此类推）。</p>
+<p>对于单个参数 <span class="math inline">\(\theta_i\)</span>，其95%的近似置信区间的求解可表述为：找到所有满足以下条件的 <span class="math inline">\(\theta_i\)</span> 值，该参数对应的对数似然与全局最优对数似然之差的 2 倍小于或等于 3.84（ <span class="math inline">\(\chi^2_{1, 1-\alpha}= 3.84\)</span>），或者（ <a href="#eq-6_15" class="quarto-xref">公式&nbsp;<span>6.15</span></a> 的最后一行），也可以通过搜索满足对数似然值等于最大对数似然减去所需 <span class="math inline">\(\chi^2\)</span> 值一半的 <span class="math inline">\(\theta_i\)</span>（即，当自由度为 1 时，计算 <span class="math inline">\(LL(\theta)_{max} -1.92\)</span>）。若构建双参数似然曲面时，则需在 <span class="math inline">\(\chi^2\)</span> 值设定为 5.99（自由度为2）的条件下搜索 <span class="math inline">\(\theta_i\)</span> ，此时应从最大似然值中减去 2.995（对于更高的自由度以此类推）。</p>
 <p>我们可以绘制 <span class="math inline">\(r\)</span> 参数的似然剖面，并包含这些近似 95% 置信区间。检查函数 <code><a href="https://rdrr.io/pkg/MQMF/man/plotprofile.html">plotprofile()</a></code> 中的代码，以了解从分析结果计算置信区间的步骤。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#likelihood profile on r from the Schaefer model Fig 6.10  </span></span>
@@ -1348,7 +1368,7 @@ sigma -3.1429030 -8.116218e-07    0.04316</code></pre>
 </div>
 </section><section id="负对数似然或似然" class="level3" data-number="6.6.2"><h3 data-number="6.6.2" class="anchored" data-anchor-id="负对数似然或似然">
 <span class="header-section-number">6.6.2</span> 负对数似然或似然</h3>
-<p>我们已经绘制了负对数似然图，例如 <a href="#fig-6-11" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-11</span></a> ，在以对数空间操作时这些图是合适的，但很少有人对对数空间有清晰的理解。另一种方法，可能更容易理解百分位数置信区间背后的原理，是将负对数似然转换回简单的似然值。当然，在对数值 -41 转换回原始值时表示一个非常小的数，但我们可以在确保所有似然值之和为 1.0 的过程中重新调整这些值。为了将负对数似然转换回原始值，我们需要先取其相反数，然后进行指数运算。</p>
+<p>我们已经绘制了负对数似然图，例如 <a href="#fig-6-11" class="quarto-xref">图&nbsp;<span>6.11</span></a> ，在以对数空间操作时这些图是合适的，但很少有人对对数空间有清晰的理解。另一种方法，可能更容易理解百分位数置信区间背后的原理，是将负对数似然转换回简单的似然值。当然，在对数值 -41 转换回原始值时表示一个非常小的数，但我们可以在确保所有似然值之和为 1.0 的过程中重新调整这些值。为了将负对数似然转换回原始值，我们需要先取其相反数，然后进行指数运算。</p>
 <p><span id="eq-6_16"><span class="math display">\[
 L= \exp(-(-veLL)
 \qquad(6.16)\]</span></span></p>
@@ -1491,11 +1511,11 @@ L= \exp(-(-veLL)
 </div>
 </section><section id="模型输出中的分位数似然剖面" class="level3" data-number="6.6.3"><h3 data-number="6.6.3" class="anchored" data-anchor-id="模型输出中的分位数似然剖面">
 <span class="header-section-number">6.6.3</span> 模型输出中的分位数似然剖面</h3>
-<p>通常，对种群评估模型兴趣的关联在于那些并非直接作为参数估计的模型输出。如我们所见，在参数估计周围生成置信区间相对直接，但如何为模型输出（如 MSY（对于 Schaefer 模型 <span class="math inline">\(MSY = rK/4\)</span>））提供类似的关于不确定性的估计呢？例如，一个评估模型可能估计种群生物量，或最大持续产量，或某种其他可视为模型间接输出的性能指标。通过在负对数似然中添加一个惩罚项来产生此类模型输出的似然曲线，该惩罚项试图将似然约束到最优目标（参见 <a href="#eq-6_17" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_17</span></a> ）。通过这种方式，偏离最优值的对数似然的影响可以被表征。</p>
+<p>通常，对种群评估模型兴趣的关联在于那些并非直接作为参数估计的模型输出。如我们所见，在参数估计周围生成置信区间相对直接，但如何为模型输出（如 MSY（对于 Schaefer 模型 <span class="math inline">\(MSY = rK/4\)</span>））提供类似的关于不确定性的估计呢？例如，一个评估模型可能估计种群生物量，或最大持续产量，或某种其他可视为模型间接输出的性能指标。通过在负对数似然中添加一个惩罚项来产生此类模型输出的似然曲线，该惩罚项试图将似然约束到最优目标（参见 <a href="#eq-6_17" class="quarto-xref">公式&nbsp;<span>6.17</span></a> ）。通过这种方式，偏离最优值的对数似然的影响可以被表征。</p>
 <p><span id="eq-6_17"><span class="math display">\[
 -veLL = -veLL-w\left(\dfrac{\text{output}- \text{target}}{\text{target}} \right)^2
 \qquad(6.17)\]</span></span></p>
-<p>其中 <span class="math inline">\(-veLL\)</span> 是负对数似然，output 是目标变量（在接下来的示例中，这是 MSY），target 是该变量的最优值（来自整体最优解的 MSY），而&nbsp;ww&nbsp;是一个权重因子。权重因子应尽可能大，以生成最窄的似然曲线，同时仍能收敛到解。下面，我们描述一个专门用于处理模型输出周围似然曲线的函数 <code>negLLO()</code> （这不在 <strong>MQMF</strong> 中）。它只是一个修改版的 <code><a href="https://rdrr.io/pkg/MQMF/man/negLL.html">negLL()</a></code> 函数，允许引入 <a href="#eq-6_17" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_17</span></a> 中描述的权重因子。我们可以通过检查 887.729 吨最优 MSY 值周围的似然曲线来举例</p>
+<p>其中 <span class="math inline">\(-veLL\)</span> 是负对数似然，<em>output</em> 是目标变量（在接下来的示例中，这是 MSY），<em>target</em> 是该变量的最优值（来自整体最优解的 MSY），而 <span class="math inline">\(w\)</span> 是一个权重因子。权重因子应尽可能大，以生成最窄的似然曲线，同时仍能收敛到解。下面，我们描述一个专门用于处理模型输出周围似然曲线的函数 <code>negLLO()</code> （这不在 <strong>MQMF</strong> 中）。它只是一个修改版的 <code><a href="https://rdrr.io/pkg/MQMF/man/negLL.html">negLL()</a></code> 函数，允许引入 <a href="#eq-6_17" class="quarto-xref">公式&nbsp;<span>6.17</span></a> 中描述的权重因子。我们可以通过检查 887.729 吨最优 MSY 值周围的似然曲线来举例</p>
 <p>说明这一点，检查范围可以是 740 至 1050 吨，权重为 900。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#examine effect on -veLL of MSY values from 740 - 1050t  </span></span>
@@ -1675,8 +1695,8 @@ L= \exp(-(-veLL)
 </section></section><section id="贝叶斯后验分布" class="level2" data-number="6.7"><h2 data-number="6.7" class="anchored" data-anchor-id="贝叶斯后验分布">
 <span class="header-section-number">6.7</span> 贝叶斯后验分布</h2>
 <p>用模型参数拟合观测数据可以类比为在模型和给定数据集所隐含的多维似然表面上寻找最大似然的位置。如果似然表面在最优附近非常陡峭，那么与这些参数相关的不确定性就会相对较小。相反，如果似然表面在最优附近相对平坦，这意味着可以从相当不同的参数值中获得相似的似然，因此这些参数及其相关模型输出的不确定性预计会相对较高。如果存在强参数相关性，也可以提出类似的论点。我们忽略了在更复杂的模型中处理高度多维参数空间的复杂性，因为陡峭性和表面的几何概念仍然适用于多维似然。</p>
-<p>如我们所见，如果我们假设在最优值附近似然面是多元正态分布的，那么我们可以使用渐近标准误差来定义参数估计值的置信区间。然而，对于渔业中的许多变量和模型输出，这可能是一个非常强的假设。例如，Schaefer <span class="math inline">\(K\)</span> 参数的估计似然面相对偏斜，如 <a href="#fig-6-12" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-12</span></a> 所示。理想情况下，我们应该使用能够独立于任何预先设定的概率密度函数来表征最优解附近似然面的方法。如果我们能够做到这一点，我们就可以使用百分位数方法的等效方法来提供参数和模型输出置信区间的估计。</p>
-<p>通过形式化的似然剖面分析，我们可以在参数空间中进行搜索，以构建二维似然曲面。然而，对于超过两个参数的形式似然剖面分析，或许使用这样的网格搜索会非常笨拙，并且随着参数数量的进一步增加，会越来越不切实际。我们需要的是一种能够同时整合多个维度以生成类似多维似然剖面的方法。事实上，有几种方法可以实现这一点，包括抽样重要性采样（SIR；参见 McAllister 和 Ianelli，1997；以及 McAllister 等，1994），以及马尔可夫链蒙特卡罗（MCMC；参见 Gelman 等，2013）。在接下来的示例中，我们将实现 MCMC 方法。有许多替代算法可以用于执行 MCMC，但我们将专注于一种相对灵活的方法，称为 Gibbs-within-Metropolis 采样器（有时也称为 Metropolis-Hastings-within-Gibbs）。Metropolis 算法（Metropolis 等，1953 ）最初是从二维积分开始的，后来由 Hastings（1970 年）推广，因此称为 Metropolis-Hastings。 在文献中，你会找到关于马尔可夫链蒙特卡洛和蒙特卡洛马尔可夫链的提及。前者是渔业标准参考（Gelman 等，2013）中使用的，尽管我个人认为用蒙特卡洛方法生成马尔可夫链的想法更直观明显。尽管存在这种潜在的混淆，我建议在写作时坚持使用 MCMC，如果必要的话，可以忽略我的直觉，使用马尔可夫链蒙特卡洛。这些事情并不重要到需要花时间担心，除了有时这些差异确实有意义（这种混淆仍然是一个问题，但只要你知道这些陷阱，就可以避免它们！）。</p>
+<p>如我们所见，如果我们假设在最优值附近似然面是多元正态分布的，那么我们可以使用渐近标准误差来定义参数估计值的置信区间。然而，对于渔业中的许多变量和模型输出，这可能是一个非常强的假设。例如，Schaefer <span class="math inline">\(K\)</span> 参数的估计似然面相对偏斜，如 <a href="#fig-6-12" class="quarto-xref">图&nbsp;<span>6.12</span></a> 所示。理想情况下，我们应该使用能够独立于任何预先设定的概率密度函数来表征最优解附近似然面的方法。如果我们能够做到这一点，我们就可以使用百分位数方法的等效方法来提供参数和模型输出置信区间的估计。</p>
+<p>通过形式化的似然剖面分析，我们可以在参数空间中进行搜索，以构建二维似然曲面。然而，对于超过两个参数的形式似然剖面分析，或许使用这样的网格搜索会非常笨拙，并且随着参数数量的进一步增加，会越来越不切实际。我们需要的是一种能够同时整合多个维度以生成类似多维似然剖面的方法。事实上，有几种方法可以实现这一点，包括抽样重要性采样（SIR；参见 McAllister 和 Ianelli，1997；以及 McAllister 等，1994），以及马尔可夫链蒙特卡罗（MCMC；参见 Gelman 等，2013）。在接下来的示例中，我们将实现 MCMC 方法。有许多替代算法可以用于执行 MCMC，但我们将专注于一种相对灵活的方法，称为 Gibbs-within-Metropolis 采样器（有时也称为 Metropolis-Hastings-within-Gibbs）。Metropolis 算法（Metropolis 等，1953 ）最初是从二维积分开始的，后来由 Hastings（1970）推广，因此称为 Metropolis-Hastings。 在文献中，你会找到关于马尔可夫链蒙特卡洛和蒙特卡洛马尔可夫链的提及。前者是渔业标准参考（Gelman 等，2013）中使用的，尽管我个人认为用蒙特卡洛方法生成马尔可夫链的想法更直观明显。尽管存在这种潜在的混淆，我建议在写作时坚持使用 MCMC，如果必要的话，可以忽略我的直觉，使用马尔可夫链蒙特卡洛。这些事情并不重要到需要花时间担心，除了有时这些差异确实有意义（这种混淆仍然是一个问题，但只要你知道这些陷阱，就可以避免它们！）。</p>
 <p>显然，MCMC（马尔可夫链蒙特卡洛方法）使用马尔可夫链来遍历多维似然曲面。马尔可夫链描述了一个过程，其中每个状态都是根据前一个状态以概率方式确定的。随机游走可以构成马尔可夫链的一种形式，其最终状态将是对随机分布的描述。然而，这里的目的是生成一个马尔可夫链，其最终平衡状态，即所谓的平稳分布，能够提供贝叶斯统计中目标或后验分布的描述。</p>
 <p>马尔可夫链以某些参数值组合、可用的观测数据和所使用的模型为起点，这些共同定义了似然空间中的一个位置。根据参数值的不同，似然显然可以是小也可以是大（以模型的最大似然为上限）。MCMC 过程涉及根据每个新候选参数集相对于前一集的似然，遵循一套规则在参数空间中迭代地逐步前进，以确定哪些步骤将成为马尔可夫链的一部分。每次迭代中做出的决策是哪些参数向量将被接受，哪些被拒绝？该过程每一步都涉及生成一个新的候选参数值集，这是通过随机方式完成的（因此称为马尔可夫链蒙特卡罗），在 Gibbs-within-Metropolis 中，一次一个参数（Casella 和 George，1992；Millar 和 Meyer，2000）。这些新的候选参数集，结合可用的数据和模型，定义了新的似然。 这个新的参数组合是否被接受为马尔可夫链的下一步，取决于似然值的变化程度。在所有似然值增加的情况下，这一步会被接受，这似乎是合理的。现在来到关键部分，当似然值减少时，如果新似然值与旧似然值的比率大于某个均匀随机数（介于 0 和 1 之间；见下方方程式），这一步仍然可以被接受。</p>
 <p>存在另一个与参数相关性和蒙特卡洛过程可能导致连续参数集自相关相关约束的问题。如果参数集之间存在显著的序列相关性，这可能会对参数空间中变化的全面程度产生有偏见的结论。所采用的解决方案是对结果链进行稀疏化处理，以便最终马尔可夫链中只包含每个 <span class="math inline">\(n^{th}\)</span> 点。关键在于选择这种稀疏化率，使得 <span class="math inline">\(n^{th}\)</span> 参数向量之间的序列相关性足够小，以至于不再影响总体方差。在实践示例中，我们将探讨这种稀疏化率。</p>
@@ -1702,10 +1722,10 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 \end{matrix}
 \right.
 \qquad(6.21)\]</span></span></p>
-<p>事实上，因为 0 和 1 之间的最大均匀随机数是 1，所以 <a href="#eq-6_20" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_20</span></a> 并非严格必要。我们可以直接估计比率并使用 <a href="#eq-6_21" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_21</span></a> （这就是函数 <code><a href="https://rdrr.io/pkg/MQMF/man/do_MCMC.html">do_MCMC()</a></code> 的实现方式）。如果候选参数向量被拒绝，它会恢复为原始值，并使用新的候选参数集重新开始周期。随着马尔可夫链的发展，它应该在参数空间中描绘出一个多维体积。经过足够多的迭代后，它应该收敛到平稳分布。在对这些理论细节进行一些扩展后，我们将通过一些实例来阐述所有这些概念。</p>
+<p>事实上，因为 0 和 1 之间的最大均匀随机数是 1，所以 <a href="#eq-6_20" class="quarto-xref">公式&nbsp;<span>6.20</span></a> 并非严格必要。我们可以直接估计比率并使用 <a href="#eq-6_21" class="quarto-xref">公式&nbsp;<span>6.21</span></a> （这就是函数 <code><a href="https://rdrr.io/pkg/MQMF/man/do_MCMC.html">do_MCMC()</a></code> 的实现方式）。如果候选参数向量被拒绝，它会恢复为原始值，并使用新的候选参数集重新开始周期。随着马尔可夫链的发展，它应该在参数空间中描绘出一个多维体积。经过足够多的迭代后，它应该收敛到平稳分布。在对这些理论细节进行一些扩展后，我们将通过一些实例来阐述所有这些概念。</p>
 </section><section id="起始点" class="level3" data-number="6.7.2"><h3 data-number="6.7.2" class="anchored" data-anchor-id="起始点">
 <span class="header-section-number">6.7.2</span> 起始点</h3>
-<p>开始马尔可夫链只需选择一个参数向量。一个解决方案是选择一个接近但并不完全等同于最大似然最优解的向量。Gelman 和 Rubin（1992）建议从一个类似于预期分布的超分散分布中抽取样本，但这假设你已经有了一个关于应该从哪个超分散分布开始的概念，而选择这一点仍然有点像是一种艺术形式（Racine-Poon，1992）。正如 Racine-Poon（1992）进一步指出的：<q>然而，目标分布通常是多峰的，特别是在高维问题中，我对自动化这个过程不太自信。</q>但是，所使用的起始点可能会对结果产生影响，因此 Gelman 和 Rubin（1992）建议从非常不同的起始点开始多个链（而不是仅仅一个很长的链；Geyer，1992），然后确保它们都收敛到相同的最终分布。 所有这些建议都源于 20 世纪 90 年代初，当时计算机的速度远慢于现在，因此，在多条链或多条非常长的链上进行的讨论（例如，参见《统计科学》第 7 卷第 4 期的大部分内容）已不再是问题，也没有真正理由不运行多条非常长的链（尽管使用最高效的软件仍然是有道理的，因为 MCMCs 通常需要大量时间投入）。</p>
+<p>开始马尔可夫链只需选择一个参数向量。一个解决方案是选择一个接近但并不完全等同于最大似然最优解的向量。Gelman 和 Rubin（1992）建议从一个类似于预期分布的超分散分布中抽取样本，但这假设你已经有了一个关于应该从哪个超分散分布开始的概念，而选择这一点仍然有点像是一种艺术形式（Racine-Poon，1992）。正如 Racine-Poon（1992）进一步指出的：“然而，目标分布通常是多峰的，特别是在高维问题中，我对自动化这个过程不太自信。”但是，所使用的起始点可能会对结果产生影响，因此 Gelman 和 Rubin（1992）建议从非常不同的起始点开始多个链（而不是仅仅一个很长的链；Geyer，1992），然后确保它们都收敛到相同的最终分布。 所有这些建议都源于 20 世纪 90 年代初，当时计算机的速度远慢于现在，因此，在多条链或多条非常长的链上进行的讨论（例如，参见《统计科学》第 7 卷第 4 期的大部分内容）已不再是问题，也没有真正理由不运行多条非常长的链（尽管使用最高效的软件仍然是有道理的，因为 MCMCs 通常需要大量时间投入）。</p>
 </section><section id="预烧期" class="level3" data-number="6.7.3"><h3 data-number="6.7.3" class="anchored" data-anchor-id="预烧期">
 <span class="header-section-number">6.7.3</span> 预烧期</h3>
 <p>与从后验分布的多维模式可能相距较远的点开始马尔可夫链的一个重要点是，生成的第一个点序列预计会以随机方式向更高似然区域移动。然而，这些早期点可能会给本应是最终可接受参数向量云添加笨拙和不适当的尾部。因此，标准做法是简单地删除前 <span class="math inline">\(m\)</span> 个点，其中 <span class="math inline">\(m\)</span> 被称为燃烧期。Gelman 等（2013 ）建议将每个链的前半部分（50%）作为燃烧期删除，但在他们讨论的是只有几百步长的链，所以在渔业中处理更高维的问题时，我们不必如此激进。几百个早期点甚至更少通常就足够了，特别是如果起始点离最大似然估计不远的话。但初步探索可能生成的链类型应该能够为每个问题找到一个合理的燃烧期。</p>
@@ -1714,7 +1734,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <p>20 世纪 90 年代关于应该有多少条链以及它们应该有多长的讨论，是由需要证明生成的马尔可夫链已经收敛到一个稳定解（在处理贝叶斯统计时，是指平稳分布或后验分布）的需求驱动的。Gelman 和 Rubin（1992）以及 Geyer（1992）都提出了用于确定收敛证据的经验方法。这些方法通常围绕比较链内的方差与链间的方差，或者马尔可夫链的一个部分的方差与同一链的另一个部分的方差。一种直观的方法是将多个链或链的部分的重要参数的边缘分布叠在一起绘制。如果它们匹配得足够好，就可以假设已经达到了收敛，尽管似乎没有人能确切定义什么程度可以被视为足够。由于这些方法都是经验性的，因此它们不能保证收敛是完整的，但迄今为止，还没有发现更多的分析方法。 在这里，我们将重点关注多个链的简单比较统计量（均值、中位数、分位数和方差）以及边缘分布图，但存在多种此类诊断方法（Geweke, 1989; Gelman and Rubin, 1992; Geyer, 1992）。R 包 <strong>coda</strong> 也实现了许多诊断工具，并可以使用简单的语句（如 <code>post = coda::mcmc(posterior)</code> ）导入我们即将生成的简单矩阵输出。然而，在这里，我们将继续使用显式的 R 进行制表和绘图，以便读者能够轻松地了解其机制。是否使用像 <strong>coda</strong> 这样已经非常出色的包，还是自己编写定制的绘图和制表函数，是一个需要你自己决定的问题，但前提是你必须知道如何编写自己的函数。</p>
 </section><section id="跳跃分布" class="level3" data-number="6.7.5"><h3 data-number="6.7.5" class="anchored" data-anchor-id="跳跃分布">
 <span class="header-section-number">6.7.5</span> 跳跃分布</h3>
-<p>每个新的候选参数向量是如何生成的取决于所谓的跳跃分布。有许多选项可用作跳跃分布，但通常情况下，对于集合 <span class="math inline">\(\theta\)</span> 中的每个参数依次生成一个标准正态随机偏差 <span class="math inline">\(N(0,1)\)</span>，并将其缩放 <span class="math inline">\(\alpha_i\)</span> 以适应参数 <span class="math inline">\(i\)</span> 的尺度，然后进行增量，即 <a href="#eq-6_22" class="quarto-xref">公式&nbsp;<span class="quarto-unresolved-ref">eq-6_22</span></a> 。如果有关参数相关性的信息，则有可能在每一步使用多元正态分布来生成一个完整的新候选参数向量；使用标准多元正态分布仍然是一种可能，这样就会忽略参数相关性。然而，在应用 Metropolis-Hastings 方法（Gibbs-内部-Metropolis）之前依次增量每个参数，在直观上似乎更容易理解（尽管并不总是最高效的）。</p>
+<p>每个新的候选参数向量是如何生成的取决于所谓的跳跃分布。有许多选项可用作跳跃分布，但通常情况下，对于集合 <span class="math inline">\(\theta\)</span> 中的每个参数依次生成一个标准正态随机偏差 <span class="math inline">\(N(0,1)\)</span>，并将其缩放 <span class="math inline">\(\alpha_i\)</span> 以适应参数 <span class="math inline">\(i\)</span> 的尺度，然后进行增量，即 <a href="#eq-6_22" class="quarto-xref">公式&nbsp;<span>6.22</span></a> 。如果有关参数相关性的信息，则有可能在每一步使用多元正态分布来生成一个完整的新候选参数向量；使用标准多元正态分布仍然是一种可能，这样就会忽略参数相关性。然而，在应用 Metropolis-Hastings 方法（Gibbs-内部-Metropolis）之前依次增量每个参数，在直观上似乎更容易理解（尽管并不总是最高效的）。</p>
 <p><span id="eq-6_22"><span class="math display">\[
 \theta^C_i = \theta_{t,i} +N(0,1) \times \alpha_i
 \qquad(6.22)\]</span></span></p>
@@ -1753,7 +1773,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <p>通常的做法是设置一个所谓的”燃烧期”，即从 MCMC 过程的起始点运行若干次迭代而不存储结果。这种舍弃早期结果的做法是为了确保马尔可夫链开始探索模型的似然曲面，而不是在极低似然空间中游荡。当然，这取决于你用来开始马尔可夫链的起始值。你可以用最大似然解来启动 MCMC，但这通常被认为可能使结果产生偏差。然而，如果你包含几百步的燃烧期，那么被接受的起始点就会偏离最优解。尽管如此，开始马尔可夫链候选参数向量时，最好使其与最优解有一定距离，并且对于多个链，每个链从不同的点开始。</p>
 <p>观察 Gibbs-within-Metropolis 的方程式，可能会让人产生这样的印象：每一步通过选择候选参数向量并对其进行检验的过程，都可以导致马尔可夫链的增量。如果不存在参数相关性或连续抽样的自相关性，这种情况可能成立。然而，为了避免马尔可夫链中连续步骤之间的自相关性，通常在经过一定数量的迭代后，才考虑将某一步纳入链中。这种链抽稀设计旨在消除任何自相关性水平。我们已经知道 Schaefer 参数高度相关，并将以此知识为基础，探索需要多少程度的链抽稀才能消除马尔可夫链中的自相关性。一个潜在的混淆是，在使用 Gibbs-within-Metropolis 时，我们需要为每个参数进行抽稀步骤。因此，如果希望抽稀步长为 4，那么 <code><a href="https://rdrr.io/pkg/MQMF/man/do_MCMC.html">do_MCMC()</a></code> 需要将 <span class="math inline">\(4 \times 4 = 16\)</span> 作为 <em>thinstep</em> 参数。</p>
 <p>生成马尔可夫链的目标是使其收敛于平稳分布（后验分布），这将全面表征模型及其数据的不确定性。但如何确定这种收敛是否已经实现。一种方法是生成多个马尔可夫链，从不同的起点开始。如果它们都收敛，使得每个参数的边缘分布在重复链中非常相似，这将证明已经收敛。这可以通过图形可视化。然而，除了使用图形指标外，还应使用诊断统计量来指示是否已收敛到平稳分布。有许多此类统计量可用，但在这里我们仅提及一些简单的策略。与任何非线性求解器一样，从广泛的初始值开始 MCMC 过程是个好主意。任何用于识别 MCMC 是否已达到目标平稳分布的诊断测试，实际上都会考虑不同马尔可夫序列的收敛性。</p>
-<p>当然，在进行任何比较之前，有必要丢弃所谓的燃烧阶段。燃烧阶段是指马尔可夫链在开始表征后验分布之前可能仅遍历稀疏似然空间。Gelman 等（2013 ）建议丢弃每个序列的前半部分，但实际选择的分数应由检查确定。最简单的诊断统计包括比较不同序列或同一序列不同部分的中位数和方差。如果来自不同序列（或序列的子集）的中值没有显著差异，那么可以认为序列已经收敛。同样，如果序列内（或序列子集）的方差与序列间没有显著差异，那么可以识别出收敛。使用单个序列可能看起来很方便，但如果收敛速度相对较慢且未知，那么依赖单个序列可能会提供错误的结果。 Gelman 和 Rubin（1992a）的标题清晰地指出了问题：<q>来自 Gibbs 采样的单个序列会带来虚假的安全感。</q>只需说，使用多个起始点来生成多个序列，并配合一系列诊断统计和图形，可以确保从任何 MCMC 模拟中得出的结论不是虚假的（Gelman 等，2013）。这些方法之所以被称为计算密集型，是有充分理由的。确定每个链生成序列的长度也是一个只有经验答案的问题。需要运行链直到收敛发生。这可能很快发生，也可能需要很长时间。模型中的参数越多，通常需要的时间就越长。高度不确定或不平衡的模型甚至可能无法收敛，这会是一种低效识别此类问题的方法。</p>
+<p>当然，在进行任何比较之前，有必要丢弃所谓的燃烧阶段。燃烧阶段是指马尔可夫链在开始表征后验分布之前可能仅遍历稀疏似然空间。Gelman 等（2013 ）建议丢弃每个序列的前半部分，但实际选择的分数应由检查确定。最简单的诊断统计包括比较不同序列或同一序列不同部分的中位数和方差。如果来自不同序列（或序列的子集）的中值没有显著差异，那么可以认为序列已经收敛。同样，如果序列内（或序列子集）的方差与序列间没有显著差异，那么可以识别出收敛。使用单个序列可能看起来很方便，但如果收敛速度相对较慢且未知，那么依赖单个序列可能会提供错误的结果。 Gelman 和 Rubin（1992a）的标题清晰地指出了问题：“来自 Gibbs 采样的单个序列会带来虚假的安全感。”只需说，使用多个起始点来生成多个序列，并配合一系列诊断统计和图形，可以确保从任何 MCMC 模拟中得出的结论不是虚假的（Gelman 等，2013）。这些方法之所以被称为计算密集型，是有充分理由的。确定每个链生成序列的长度也是一个只有经验答案的问题。需要运行链直到收敛发生。这可能很快发生，也可能需要很长时间。模型中的参数越多，通常需要的时间就越长。高度不确定或不平衡的模型甚至可能无法收敛，这会是一种低效识别此类问题的方法。</p>
 <p>为每个参数生成的增量所赋予的权重是另一个只能真正通过经验确定的事情。通过制定标准，这个过程可以自动化，并且通常在漫长的预热阶段开发，但在这里我们将采用试错法，并力求接受率在 20-40%之间。</p>
 </section><section id="mcmc的第一个示例" class="level3" data-number="6.7.8"><h3 data-number="6.7.8" class="anchored" data-anchor-id="mcmc的第一个示例">
 <span class="header-section-number">6.7.8</span> MCMC的第一个示例</h3>
@@ -1792,7 +1812,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span><span class="va">postY</span> <span class="op">&lt;-</span> <span class="va">result4</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time   = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>,<span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time   =  10.06591 </code></pre>
+<pre><code>time   =  15.16913 </code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Accept = "</span>,<span class="va">result4</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,<span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -1818,7 +1838,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <img src="06-uncertainty_files/figure-html/fig-6-15-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6-15-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-图&nbsp;6.15: 从不同的起点（三角形、正方形、圆形）出发的三个独立 MCMC 链中的前 75 个点。这些短链没有设置预烧，因此记录从起点开始。灰色圆点是第四条链中的 10000 个点，其中有 50 个点的 <q>预烧</q>和 4 个点的 <q>稀疏率</q>，这给出了所有链都应趋近的静态分布的大致概念。
+图&nbsp;6.15: 从不同的起点（三角形、正方形、圆形）出发的三个独立 MCMC 链中的前 75 个点。这些短链没有设置预烧，因此记录从起点开始。灰色圆点是第四条链中的 10000 个点，其中有 50 个点的 “预烧”和 4 个点的 “稀疏率”，这给出了所有链都应趋近的静态分布的大致概念。
 </figcaption></figure>
 </div>
 </div>
@@ -1840,7 +1860,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 </div>
 </div>
 </div>
-<p>构成后验分布的接受参数向量可以单独绘制，以参数编号为横轴，提供每个参数的轨迹。理想情况下，应获得通常所说的“毛毛虫”形状，这在 <a href="#fig-6-17" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-17</span></a> 中 <span class="math inline">\(\sigma\)</span> 参数的轨迹中尤为明显。其他轨迹上下波动，暗示每个轨迹中存在一定程度的自相关。 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 参数轨迹中明显的互补变化模式也支持这一观点。边缘分布提供了对每个参数经验分布形状的初步检验。根据数据情况，可能存在多个峰值或较平的顶部。然而，不规则的形状则表明缺乏收敛。</p>
+<p>构成后验分布的接受参数向量可以单独绘制，以参数编号为横轴，提供每个参数的轨迹。理想情况下，应获得通常所说的“毛毛虫”形状，这在 <a href="#fig-6-17" class="quarto-xref">图&nbsp;<span>6.17</span></a> 中 <span class="math inline">\(\sigma\)</span> 参数的轨迹中尤为明显。其他轨迹上下波动，暗示每个轨迹中存在一定程度的自相关。 <span class="math inline">\(r\)</span> 和 <span class="math inline">\(K\)</span> 参数轨迹中明显的互补变化模式也支持这一观点。边缘分布提供了对每个参数经验分布形状的初步检验。根据数据情况，可能存在多个峰值或较平的顶部。然而，不规则的形状则表明缺乏收敛。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#plot the traces from the first MCMC example Fig 6.17  </span></span>
 <span><span class="va">posterior</span> <span class="op">&lt;-</span> <span class="va">result4</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  </span>
@@ -1912,10 +1932,10 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>34.78338</code></pre>
+<pre><code>52.11787</code></pre>
 </div>
 </div>
-<p>当抽稀步长从 4 增加到 128（4 * 128 = 512）时，四个参数轨迹中显示的自相关明显减少（ <a href="#fig-6-19" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-19</span></a> ）。但即便 32 倍的增幅也不足以将滞后 2、3 和 4 内的相关性降至无意义。尽管如此，使用该抽稀步长生成的轨迹明显显示出差异（改进），相对于图 6.17 中的轨迹。然而，我们注意到，在当前使用的台式计算机上，563200 步（1100 长度链）大约耗时 40 秒，这台计算机开始对交互式工作有些慢。如果我们使用 512 的抽稀率进行 10000 次迭代，那将耗时近 7 分钟，这开始变得有些繁琐漫长。更复杂的模型可能需要更长的时间，有时甚至需要数天！因此，在我们探索更大抽稀步长的有效性之前，我们将首先找到显著加快每个循环的方法。 通过持续试验发现，将 i 增加到 1024（4 x 256）仍然存在显著的滞后 1 和有时滞后 2 的自相关，而将 <em>thinstep</em> 增加四倍到 2048（4 * 3 * 128）才能消除所有变量的自相关。</p>
+<p>当抽稀步长从 4 增加到 128（4 * 128 = 512）时，四个参数轨迹中显示的自相关明显减少（ <a href="#fig-6-19" class="quarto-xref">图&nbsp;<span>6.19</span></a> ）。但即便 32 倍的增幅也不足以将滞后 2、3 和 4 内的相关性降至无意义。尽管如此，使用该抽稀步长生成的轨迹明显显示出差异（改进），相对于图 6.17 中的轨迹。然而，我们注意到，在当前使用的台式计算机上，563200 步（1100 长度链）大约耗时 40 秒，这台计算机开始对交互式工作有些慢。如果我们使用 512 的抽稀率进行 10000 次迭代，那将耗时近 7 分钟，这开始变得有些繁琐漫长。更复杂的模型可能需要更长的时间，有时甚至需要数天！因此，在我们探索更大抽稀步长的有效性之前，我们将首先找到显著加快每个循环的方法。 通过持续试验发现，将 i 增加到 1024（ <span class="math inline">\(4 \times 256\)</span>）仍然存在显著的滞后 1 和有时滞后 2 的自相关，而将 <em>thinstep</em> 增加四倍到 2048（4 * 3 * 128）才能消除所有变量的自相关。</p>
 <p>在寻找更快捷的方法之前，我们将完成对标准说明性图的分析，这些图可能在执行模型框架内不确定性或变异的 MCMC 检查时使用。</p>
 </section><section id="边际分布" class="level3" data-number="6.7.9"><h3 data-number="6.7.9" class="anchored" data-anchor-id="边际分布">
 <span class="header-section-number">6.7.9</span> 边际分布</h3>
@@ -1994,88 +2014,88 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><q>funk</q></td>
-<td style="text-align: right;">110.04</td>
-<td style="text-align: right;">59.66</td>
-<td style="text-align: right;">149.50</td>
-<td style="text-align: right;">81.06</td>
+<td style="text-align: left;">“funk”</td>
+<td style="text-align: right;">77.50</td>
+<td style="text-align: right;">60.41</td>
+<td style="text-align: right;">103.94</td>
+<td style="text-align: right;">81.01</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><q>mean</q></td>
-<td style="text-align: right;">13.52</td>
-<td style="text-align: right;">7.33</td>
-<td style="text-align: right;">17.12</td>
-<td style="text-align: right;">9.28</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><q>max</q></td>
-<td style="text-align: right;">12.66</td>
-<td style="text-align: right;">6.86</td>
-<td style="text-align: right;">12.66</td>
-<td style="text-align: right;">6.86</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><q>do_MCMC</q></td>
+<td style="text-align: left;">“mean”</td>
 <td style="text-align: right;">9.82</td>
-<td style="text-align: right;">5.32</td>
-<td style="text-align: right;">184.20</td>
-<td style="text-align: right;">99.87</td>
+<td style="text-align: right;">7.65</td>
+<td style="text-align: right;">12.70</td>
+<td style="text-align: right;">9.90</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><q>which</q></td>
-<td style="text-align: right;">8.34</td>
-<td style="text-align: right;">4.52</td>
-<td style="text-align: right;">11.52</td>
-<td style="text-align: right;">6.25</td>
+<td style="text-align: left;">“max”</td>
+<td style="text-align: right;">8.26</td>
+<td style="text-align: right;">6.44</td>
+<td style="text-align: right;">8.26</td>
+<td style="text-align: right;">6.44</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><q>infunk</q></td>
-<td style="text-align: right;">7.50</td>
-<td style="text-align: right;">4.07</td>
-<td style="text-align: right;">169.24</td>
-<td style="text-align: right;">91.76</td>
+<td style="text-align: left;">“do_MCMC”</td>
+<td style="text-align: right;">6.20</td>
+<td style="text-align: right;">4.83</td>
+<td style="text-align: right;">128.18</td>
+<td style="text-align: right;">99.91</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><q>dnorm</q></td>
-<td style="text-align: right;">5.70</td>
-<td style="text-align: right;">3.09</td>
-<td style="text-align: right;">5.70</td>
-<td style="text-align: right;">3.09</td>
+<td style="text-align: left;">“infunk”</td>
+<td style="text-align: right;">5.56</td>
+<td style="text-align: right;">4.33</td>
+<td style="text-align: right;">118.38</td>
+<td style="text-align: right;">92.27</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><q>priorcalc</q></td>
-<td style="text-align: right;">2.78</td>
-<td style="text-align: right;">1.51</td>
-<td style="text-align: right;">3.36</td>
-<td style="text-align: right;">1.82</td>
+<td style="text-align: left;">“which”</td>
+<td style="text-align: right;">5.12</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">6.94</td>
+<td style="text-align: right;">5.41</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><q>isTRUE</q></td>
-<td style="text-align: right;">2.68</td>
-<td style="text-align: right;">1.45</td>
-<td style="text-align: right;">3.64</td>
-<td style="text-align: right;">1.97</td>
+<td style="text-align: left;">“dnorm”</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">3.04</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">3.04</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><q>mean.default</q></td>
-<td style="text-align: right;">2.48</td>
-<td style="text-align: right;">1.34</td>
-<td style="text-align: right;">3.60</td>
-<td style="text-align: right;">1.95</td>
+<td style="text-align: left;">“isTRUE”</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">1.65</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">2.00</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><q>penalty0</q></td>
-<td style="text-align: right;">2.30</td>
-<td style="text-align: right;">1.25</td>
-<td style="text-align: right;">2.30</td>
-<td style="text-align: right;">1.25</td>
+<td style="text-align: left;">“priorcalc”</td>
+<td style="text-align: right;">2.02</td>
+<td style="text-align: right;">1.57</td>
+<td style="text-align: right;">2.74</td>
+<td style="text-align: right;">2.14</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><q>numeric</q></td>
-<td style="text-align: right;">1.38</td>
-<td style="text-align: right;">0.75</td>
-<td style="text-align: right;">1.38</td>
-<td style="text-align: right;">0.75</td>
+<td style="text-align: left;">“penalty0”</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">1.56</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">“mean.default”</td>
+<td style="text-align: right;">1.70</td>
+<td style="text-align: right;">1.33</td>
+<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">2.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">“numeric”</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.67</td>
 </tr>
 </tbody>
 </table>
@@ -2131,7 +2151,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span><span class="st">}'</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>一旦运行了 <code><a href="https://rdrr.io/pkg/Rcpp/man/cppFunction.html">cppFunction()</a></code> 代码，我们就可以在任何使用过 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code> 函数的地方使用 <code>simpspmC()</code> 函数。一个小麻烦是，<code>simpspmC()</code> 希望输入数据 <em>abdat</em> 是矩阵，而 <em>abdat</em> 以 data.frame 开始（实际上是列表，试试 <code>class(abdat)</code>）。输入 data.frame 而不是矩阵会导致 C++ 函数失效，因此，为了解决这个问题，在下面的代码中，你会看到我们使用了 <code><a href="https://rdrr.io/r/base/matrix.html">as.matrix()</a></code> 函数，以确保向 <code>simpspmC()</code> 发送正确的对象类别，幸运的是，使用矩阵比使用 <code>data.frame</code> 更快，因此我们也将其发送给了 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code>。我们还加入了 <strong>microbenchmark</strong> 软件包，以便准确比较两个不同函数的运行速度。显然，要使用该软件包，必须安装该软件包（如果不想安装，也可以省略）。在我的 Windows 10 2018 XPS 13 上进行的比较中，根据时间中位数，<code>simpspmC()</code> 所花的时间通常只有 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code> 的 20%，如表（6.8）所示。第一次使用 <code>simpspmC()</code> 函数时，有时启动速度非常慢，这会影响平均值，但中位数受到的干扰较小。</p>
+<p>一旦运行了 <code><a href="https://rdrr.io/pkg/Rcpp/man/cppFunction.html">cppFunction()</a></code> 代码，我们就可以在任何使用过 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code> 函数的地方使用 <code>simpspmC()</code> 函数。一个小麻烦是，<code>simpspmC()</code> 希望输入数据 <em>abdat</em> 是矩阵，而 <em>abdat</em> 以 data.frame 开始（实际上是列表，试试 <code>class(abdat)</code>）。输入 data.frame 而不是矩阵会导致 C++ 函数失效，因此，为了解决这个问题，在下面的代码中，你会看到我们使用了 <code><a href="https://rdrr.io/r/base/matrix.html">as.matrix()</a></code> 函数，以确保向 <code>simpspmC()</code> 发送正确的对象类别，幸运的是，使用矩阵比使用 <code>data.frame</code> 更快，因此我们也将其发送给了 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code>。我们还加入了 <strong>microbenchmark</strong> 软件包，以便准确比较两个不同函数的运行速度。显然，要使用该软件包，必须安装该软件包（如果不想安装，也可以省略）。在我的 Windows 10 2018 XPS 13 上进行的比较中，根据时间中位数，<code>simpspmC()</code> 所花的时间通常只有 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code> 的 20%，如 <a href="#tbl-6-8" class="quarto-xref">表&nbsp;<span>6.8</span></a> 所示。第一次使用 <code>simpspmC()</code> 函数时，有时启动速度非常慢，这会影响平均值，但中位数受到的干扰较小。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#Ensure results obtained from simpspm and simpspmC are same  </span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/">microbenchmark</a></span><span class="op">)</span>  </span>
@@ -2280,32 +2300,32 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">simpspm</td>
-<td style="text-align: right;">45.801</td>
-<td style="text-align: right;">48.501</td>
-<td style="text-align: right;">57.384</td>
-<td style="text-align: right;">51.401</td>
-<td style="text-align: right;">60.052</td>
-<td style="text-align: right;">2389.902</td>
+<td style="text-align: right;">66.700</td>
+<td style="text-align: right;">69.000</td>
+<td style="text-align: right;">82.092</td>
+<td style="text-align: right;">74.40</td>
+<td style="text-align: right;">89.050</td>
+<td style="text-align: right;">2536.300</td>
 <td style="text-align: right;">1000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">simpspmC</td>
-<td style="text-align: right;">2.600</td>
-<td style="text-align: right;">2.801</td>
-<td style="text-align: right;">4.024</td>
-<td style="text-align: right;">3.200</td>
-<td style="text-align: right;">3.401</td>
-<td style="text-align: right;">752.001</td>
+<td style="text-align: right;">3.300</td>
+<td style="text-align: right;">3.600</td>
+<td style="text-align: right;">5.711</td>
+<td style="text-align: right;">4.50</td>
+<td style="text-align: right;">4.900</td>
+<td style="text-align: right;">1077.900</td>
 <td style="text-align: right;">1000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TimeRatio</td>
-<td style="text-align: right;">0.057</td>
-<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.052</td>
 <td style="text-align: right;">0.070</td>
-<td style="text-align: right;">0.062</td>
-<td style="text-align: right;">0.057</td>
-<td style="text-align: right;">0.315</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.425</td>
 <td style="text-align: right;">1</td>
 </tr>
 </tbody>
@@ -2331,7 +2351,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span><span class="va">timeR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">beginR</span>   </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time = "</span>,<span class="va">timeR</span>,<span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time =  16.52269 </code></pre>
+<pre><code>time =  23.81886 </code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"acceptance rate = "</span>,<span class="va">resultR</span><span class="op">$</span><span class="va">arate</span>,<span class="st">" \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -2348,7 +2368,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span><span class="va">timeC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">beginC</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time = "</span>,<span class="va">timeC</span>,<span class="st">"\n"</span><span class="op">)</span>  <span class="co"># note the same acceptance rates  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time =  3.153043 </code></pre>
+<pre><code>time =  4.609289 </code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"acceptance rate = "</span>,<span class="va">resultC</span><span class="op">$</span><span class="va">arate</span>,<span class="st">" \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -2357,7 +2377,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">postC</span> <span class="op">&lt;-</span> <span class="va">resultC</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Time Ratio = "</span>,<span class="va">timeC</span><span class="op">/</span><span class="va">timeR</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>Time Ratio =  0.190831</code></pre>
+<pre><code>Time Ratio =  0.1935143</code></pre>
 </div>
 </div>
 <p>尽管每次运行所需的确切时间会有所不同，因为你的电脑会同时运行其他进程，但通常使用 <code>simpspmC()</code> 所需的时间仅是使用 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code> 所需时间的 1/5 或 20%。在处理分钟时，这可能看起来并不重要，但一旦 MCMC 运行需要 20-40 小时，那么节省 16-32 小时可能会被认为更有价值。当然，还有其他潜在的方法可以加速这个过程，对于真正计算密集型的分析，这通常是值得的。</p>
@@ -2396,7 +2416,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span>                   priorcalc<span class="op">=</span><span class="va">calcprior</span>,scales<span class="op">=</span><span class="va">setscale</span>,schaefer<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time = "</span>,<span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">beginC</span>,<span class="st">" secs  \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time =  92.29434  secs  </code></pre>
+<pre><code>time =  132.9696  secs  </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -2525,7 +2545,7 @@ Variance per chain </code></pre>
 </section><section id="所需重复实验以避免序列相关" class="level3" data-number="6.8.4"><h3 data-number="6.8.4" class="anchored" data-anchor-id="所需重复实验以避免序列相关">
 <span class="header-section-number">6.8.4</span> 所需重复实验以避免序列相关</h3>
 <p>我们在前面已经看到，如果稀疏率过低，每个参数的迹线或序列内的自相关性就会很高。显然，增加稀疏化步数会降低自相关性。但不太清楚的是，需要多大的稀疏率才能使这种相关性变得不明显。</p>
-<p>现在我们有了一种更快的方法来探讨这个问题，我们可以寻找所需的稀疏率规模。我们从之前的试验中得知，每个参数的稀疏率为 128 时，滞后 2 到 4 步之间仍然存在显著的相关性，因此，我们应该研究稀疏率为 1024（<span class="math inline">\(4 \times 256\)</span>）和 2048（<span class="math inline">\(4 \times 512\)</span>）时的效果。为了更严格地进行比较，我们平衡了稀疏率和迭代次数，因此我们使用 <span class="math inline">\(2000 \times 1024\)</span> 和 <span class="math inline">\(1000 \times 2048\)</span>，两者都 <span class="math inline">\(= 2048000\)</span>。问题在于消除自相关是否能更好地掌握不同参数的全部变化。但是，为了使试验具有可比性，未稀疏链的长度必须相同，这样才能对似然曲面进行相同程度的探索。因此，在较小的稀疏率下，我们需要更多的迭代次数，同时还需要考虑烧入期（一个烧入 100 次，另一个烧入 50 次）。<a href="#fig-6-23" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-23</span></a> 中，稀疏率为 1024 时，滞后期为 1 时仍有显著相关性，而稀疏率为 2028 时，相关性消失。即使使用 <code>simpspmC()</code>，该例程也需要 60 秒左右。</p>
+<p>现在我们有了一种更快的方法来探讨这个问题，我们可以寻找所需的稀疏率规模。我们从之前的试验中得知，每个参数的稀疏率为 128 时，滞后 2 到 4 步之间仍然存在显著的相关性，因此，我们应该研究稀疏率为 1024（<span class="math inline">\(4 \times 256\)</span>）和 2048（<span class="math inline">\(4 \times 512\)</span>）时的效果。为了更严格地进行比较，我们平衡了稀疏率和迭代次数，因此我们使用 <span class="math inline">\(2000 \times 1024\)</span> 和 <span class="math inline">\(1000 \times 2048\)</span>，两者都 <span class="math inline">\(= 2048000\)</span>。问题在于消除自相关是否能更好地掌握不同参数的全部变化。但是，为了使试验具有可比性，未稀疏链的长度必须相同，这样才能对似然曲面进行相同程度的探索。因此，在较小的稀疏率下，我们需要更多的迭代次数，同时还需要考虑烧入期（一个烧入 100 次，另一个烧入 50 次）。<a href="#fig-6-23" class="quarto-xref">图&nbsp;<span>6.23</span></a> 中，稀疏率为 1024 时，滞后期为 1 时仍有显著相关性，而稀疏率为 2028 时，相关性消失。即使使用 <code>simpspmC()</code>，该例程也需要 60 秒左右。</p>
 <p>消除序列内相关性的重要性在于，如果序列内相关性很高，就会干扰向静态分布的收敛（因为序列点是相关的，而不是跟踪似然曲面的全部范围），结果可能无法捕捉到模型和所研究的可用数据固有的全部变化范围。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb105"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#compare two higher thinning rates per parameter in MCMC  </span></span>
@@ -2568,7 +2588,7 @@ Variance per chain </code></pre>
 </div>
 </div>
 </div>
-<p>我们可以用比较上述三个复制链的相同方法来比较具有不同稀疏率的两个链。也就是说，我们可以绘制它们的边际分布图，并比较它们的量值分布。由于稀疏化后的最终复制数量有限，它们的边际分布惊人地相似（<a href="#fig-6-23" class="quarto-xref">图&nbsp;<span class="quarto-unresolved-ref">fig-6-23</span></a>）。然而，在比较它们的量值分布时，观察到的分布中心 95% 之间的差异往往比上文 <q>多重独立链</q>一节中比较的三条链要大。这些差异似乎并没有遵循任何特定的方向，不过，随着下限和上限向同一方向移动，似乎存在一些偏差，但需要更多的重复才能澄清这一点。</p>
+<p>我们可以用比较上述三个复制链的相同方法来比较具有不同稀疏率的两个链。也就是说，我们可以绘制它们的边际分布图，并比较它们的量值分布。由于稀疏化后的最终复制数量有限，它们的边际分布惊人地相似（<a href="#fig-6-23" class="quarto-xref">图&nbsp;<span>6.23</span></a>）。然而，在比较它们的量值分布时，观察到的分布中心 95% 之间的差异往往比上文 “多重独立链”一节中比较的三条链要大。这些差异似乎并没有遵循任何特定的方向，不过，随着下限和上限向同一方向移动，似乎存在一些偏差，但需要更多的重复才能澄清这一点。</p>
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb107"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co">#visual comparison of 2 chains marginal densities  Fig 6.24  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/parset.html">parset</a></span><span class="op">(</span>plots<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>,cex<span class="op">=</span><span class="fl">0.85</span><span class="op">)</span>   </span>
@@ -2651,13 +2671,18 @@ Range 0.2189  8156.444 3161.232 0.0546 257.1803</code></pre>
 </div>
 </section></section><section id="结束语" class="level2" data-number="6.9"><h2 data-number="6.9" class="anchored" data-anchor-id="结束语">
 <span class="header-section-number">6.9</span> 结束语</h2>
-<p>本章的目的不是鼓励人们编写自己的自举、渐近误差、似然分布或 MCMC 函数，而是让他们探索这些方法，获得直觉，以便在使用这些方法时能够清楚地认识到它们的优势，同样重要的是，认识到它们的局限性。在实施 MCMC 分析时尤其如此，人们最好使用 Stan 或 Template Model Builder（Kristensen 等，2016）或 AD Model Builder（Fournier 等，1998；Fournier 等，2012）等工具。尽管如此，我们还是通过使用 MCMC 详细介绍了贝叶斯统计的应用，因为这确实是捕捉任何特定建模分析中固有的所有不确定性的最佳方法。尽管如此，在许多渔业模型中，许多参数，如自然死亡率、繁殖陡度和一些选择性参数，都被设定为常数，在贝叶斯背景下，这意味着信息量极大的先验。这种说法有点矫揉造作，因为如果不对这些参数进行估计，我们就不需要考虑任何先验概率，但原则上这就是它的含义。解决此类问题的通常方法是研究此类参数的似然曲线，或进行敏感性分析，研究使用不同常数的影响。甚至可以使用标准化的似然曲线作为先验概率。</p>
-<p>诚然，使用 MCMC 可以更全面地描述建模情景中的变化，但这种分析无法捕捉模型的不确定性，在这种情况下，结构不同的模型可能会对所评估的种群动态提供不同的看法。这就是通常讨论的模型平均概念。不过，这也提出了一个问题，即哪个模型被认为是最现实的，以及在它们可能完全不相称的情况下，每个模型的权重是多少。不过，在研究任何建模结果时，都需要考虑模型的不确定性。正如 Punt 和 Hilborn（1997）所说：<q>最常见的方法是选择一个单一的结构模型，并只考虑其参数的不确定性。另一种更站得住脚的方法是考虑一系列真正不同的结构模型。然而，除了计算量更大之外，还很难’约束’所考虑的模型范围。与此相关的一个问题是，如何确定有多少模型参数应被视为不确定参数</q>。</p>
+<p>本章的目的不是鼓励人们编写自己的自助、渐近误差、似然分布或 MCMC 函数，而是让他们探索这些方法，获得直觉，以便在使用这些方法时能够清楚地认识到它们的优势，同样重要的是，认识到它们的局限性。在实施 MCMC 分析时尤其如此，人们最好使用 Stan 或 Template Model Builder（Kristensen 等，2016）或 AD Model Builder（Fournier 等，1998；Fournier 等，2012）等工具。尽管如此，我们还是通过使用 MCMC 详细介绍了贝叶斯统计的应用，因为这确实是捕捉任何特定建模分析中固有的所有不确定性的最佳方法。尽管如此，在许多渔业模型中，许多参数，如自然死亡率、繁殖陡度和一些选择性参数，都被设定为常数，在贝叶斯背景下，这意味着信息量极大的先验。这种说法有点矫揉造作，因为如果不对这些参数进行估计，我们就不需要考虑任何先验概率，但原则上这就是它的含义。解决此类问题的通常方法是研究此类参数的似然曲线，或进行敏感性分析，研究使用不同常数的影响。甚至可以使用标准化的似然曲线作为先验概率。</p>
+<p>诚然，使用 MCMC 可以更全面地描述建模情景中的变化，但这种分析无法捕捉模型的不确定性，在这种情况下，结构不同的模型可能会对所评估的种群动态提供不同的看法。这就是通常讨论的模型平均概念。不过，这也提出了一个问题，即哪个模型被认为是最现实的，以及在它们可能完全不相称的情况下，每个模型的权重是多少。不过，在研究任何建模结果时，都需要考虑模型的不确定性。正如 Punt 和 Hilborn（1997）所说：“最常见的方法是选择一个单一的结构模型，并只考虑其参数的不确定性。另一种更站得住脚的方法是考虑一系列真正不同的结构模型。然而，除了计算量更大之外，还很难’约束’所考虑的模型范围。与此相关的一个问题是，如何确定有多少模型参数应被视为不确定参数”。</p>
 <p>不确定性的特征描述非常重要，因为它提供了在提供管理建议时可以有多大信心的一些概念。人们可能会迷失在计算细节中，而忘记了主要目标是为某种自然资源提供站得住脚的管理建议。要做到这一点，并没有单一的方法，因此，如果情况导致 MCMC 始终无法收敛，仍有可能采用其他方法，并对评估结果和种群的状况进行长期描述。如果了解这些方法，并知道如何使用和解释这些方法所能发现的模型及其数据，显然会有所帮助。但最终，了解渔业历史以及除渔获量外的其他影响因素也会有所帮助。</p>
 
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-haddon2011" class="csl-entry" role="listitem">
+Haddon, Malcolm. 2011. <em>Modelling and Quantitative Methods in Fisheries</em>. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/9781439894170">https://doi.org/10.1201/9781439894170</a>.
+</div>
+</div>
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -3245,8 +3270,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./07-spm.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>剩余生产模型</span>">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">剩余生产模型</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./07-spm.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>剩余产量模型</span>">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">剩余产量模型</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">源代码</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -3262,7 +3287,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-10"><a href="#cb124-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-11"><a href="#cb124-11" aria-hidden="true" tabindex="-1"></a>有多种方式来描述不同类型的不确定性，这些不确定性影响渔业模型参数估计以及如何使用这些估计算。这些一般被称为误差来源，通常是指残差误差而不是指已经犯下的错误。不幸的是，“误差”这一术语，如残差误差，有导致混淆的潜力，因此最好使用“不确定性”这一术语。虽然只要你知道这个问题，它对你来说不应该是个问题。</span>
 <span id="cb124-12"><a href="#cb124-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-13"><a href="#cb124-13" aria-hidden="true" tabindex="-1"></a>Francis &amp; Shotton (1997) 列出了与自然资源评估和管理相关的六种不同类型的不确定性，而 Kell 等 (2005) 在遵循 Rosenberg 和 Restrepo (1994) 的基础上，将这些缩减为五种。或者，它们都可以归纳为四个标题下（Haddon, 2011），其中一些有子标题，如下所示：</span>
+<span id="cb124-13"><a href="#cb124-13" aria-hidden="true" tabindex="-1"></a>Francis &amp; Shotton (1997) 列出了与自然资源评估和管理相关的六种不同类型的不确定性，而 Kell 等 (2005) 在遵循 Rosenberg 和 Restrepo (1994) 的基础上，将这些缩减为五种。或者，它们都可以归纳为四个标题下 <span class="co">[</span><span class="ot">@haddon2011</span><span class="co">]</span>，其中一些有子标题，如下所示：</span>
 <span id="cb124-14"><a href="#cb124-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-15"><a href="#cb124-15" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>过程不确定性：种群动态率（如生长、年际平均补充量、年际自然死亡率）和其他生物学特性及过程中的潜在自然随机变化。</span>
 <span id="cb124-16"><a href="#cb124-16" aria-hidden="true" tabindex="-1"></a></span>
@@ -3301,7 +3326,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-49"><a href="#cb124-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-50"><a href="#cb124-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### 示例模型</span></span>
 <span id="cb124-51"><a href="#cb124-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-52"><a href="#cb124-52" aria-hidden="true" tabindex="-1"></a>这是在 "模型参数估计"（ @sec-paraestimat ）一章中关于使用对数正态似然拟合动态模型部分所描述的相同模型。我们将在本章的许多示例中使用该模型，其种群动态相对简单，如 @eq-6_1 所示。</span>
+<span id="cb124-52"><a href="#cb124-52" aria-hidden="true" tabindex="-1"></a>该示例与第 <span class="co">[</span><span class="ot">-@sec-paraestimat</span><span class="co">]</span> 章"<span class="co">[</span><span class="ot">模型参数估计</span><span class="co">](04-application.qmd)</span>"中关于使用对数正态似然拟合动态模型部分所描述的模型相同。我们将在本章的许多示例中使用该模型，其种群动态相对简单，如 @eq-6_1 所示。</span>
 <span id="cb124-53"><a href="#cb124-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-54"><a href="#cb124-54" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb124-55"><a href="#cb124-55" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
@@ -3322,7 +3347,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-70"><a href="#cb124-70" aria-hidden="true" tabindex="-1"></a>q=e^{\frac{1}{n}\sum\log \left(\frac{I_t}{\hat B_t}\right)} =\exp\left(\frac{1}{n}\sum \left(\frac{I_t}{\hat B_t} \right) \right)</span>
 <span id="cb124-71"><a href="#cb124-71" aria-hidden="true" tabindex="-1"></a>$$ {#eq-6_3}</span>
 <span id="cb124-72"><a href="#cb124-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-73"><a href="#cb124-73" aria-hidden="true" tabindex="-1"></a>我们将使用 **MQMF** *abdat* 数据集拟合这个模型，然后在接下来的章节中检查该模型拟合的不确定性。我们将通过最小化基于对数正态分布的残差来拟合模型。简化后如下：</span>
+<span id="cb124-73"><a href="#cb124-73" aria-hidden="true" tabindex="-1"></a>我们将使用 **MQMF** *abdat* 数据集拟合这个模型，然后在接下来的章节中检验该模型拟合的不确定性。我们将通过最小化基于对数正态分布的残差来拟合模型。简化后如下：</span>
 <span id="cb124-74"><a href="#cb124-74" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-75"><a href="#cb124-75" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb124-76"><a href="#cb124-76" aria-hidden="true" tabindex="-1"></a>-LL(y|\theta,\hat \sigma, I)= \frac{n}{2}(\log(2\pi)+2\log(\hat \sigma)+1) + \sum_{i =1}^n \log(I_t)</span>
@@ -3336,43 +3361,43 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-84"><a href="#cb124-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-85"><a href="#cb124-85" aria-hidden="true" tabindex="-1"></a>注意除以 $n$ 而不是 $n-1$。由于唯一的非恒定值是 $\log(\hat I_t)$ ，使用最大似然法得到的结果与使用最小二乘残差法得到的结果相同（只要观察到的和预测的 cpue 都经过对数转换）。然而，在分析不确定性时，使用最大似然法比使用平方和法具有优势。严格来说， $\hat \sigma$ 值也是一个模型参数，但在这里我们特别处理它，只是为了说明与最小二乘方法的等价性。</span>
 <span id="cb124-86"><a href="#cb124-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-87"><a href="#cb124-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-88"><a href="#cb124-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-91"><a href="#cb124-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb124-92"><a href="#cb124-92" aria-hidden="true" tabindex="-1"></a> <span class="co">#Fit a surplus production model to abdat fisheries data  </span></span>
-<span id="cb124-93"><a href="#cb124-93" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MQMF)</span>
-<span id="cb124-94"><a href="#cb124-94" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb124-95"><a href="#cb124-95" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb124-96"><a href="#cb124-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-97"><a href="#cb124-97" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(abdat); logce <span class="ot">&lt;-</span> <span class="fu">log</span>(abdat<span class="sc">$</span>cpue)    </span>
-<span id="cb124-98"><a href="#cb124-98" aria-hidden="true" tabindex="-1"></a>param <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">0.42</span>,<span class="dv">9400</span>,<span class="dv">3400</span>,<span class="fl">0.05</span>))   </span>
-<span id="cb124-99"><a href="#cb124-99" aria-hidden="true" tabindex="-1"></a>label<span class="ot">=</span><span class="fu">c</span>(<span class="st">"r"</span>,<span class="st">"K"</span>,<span class="st">"Binit"</span>,<span class="st">"sigma"</span>) <span class="co"># simpspm returns   </span></span>
-<span id="cb124-100"><a href="#cb124-100" aria-hidden="true" tabindex="-1"></a>bestmod <span class="ot">&lt;-</span> <span class="fu">nlm</span>(<span class="at">f=</span>negLL,<span class="at">p=</span>param,<span class="at">funk=</span>simpspm,<span class="at">indat=</span>abdat,<span class="at">logobs=</span>logce)  </span>
-<span id="cb124-101"><a href="#cb124-101" aria-hidden="true" tabindex="-1"></a><span class="fu">outfit</span>(bestmod,<span class="at">title=</span><span class="st">"SP-Model"</span>,<span class="at">parnames=</span>label) <span class="co">#backtransforms  </span></span>
-<span id="cb124-102"><a href="#cb124-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb124-89"><a href="#cb124-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb124-90"><a href="#cb124-90" aria-hidden="true" tabindex="-1"></a> <span class="co">#Fit a surplus production model to abdat fisheries data  </span></span>
+<span id="cb124-91"><a href="#cb124-91" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MQMF)</span>
+<span id="cb124-92"><a href="#cb124-92" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb124-93"><a href="#cb124-93" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb124-94"><a href="#cb124-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-95"><a href="#cb124-95" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(abdat); logce <span class="ot">&lt;-</span> <span class="fu">log</span>(abdat<span class="sc">$</span>cpue)    </span>
+<span id="cb124-96"><a href="#cb124-96" aria-hidden="true" tabindex="-1"></a>param <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">0.42</span>,<span class="dv">9400</span>,<span class="dv">3400</span>,<span class="fl">0.05</span>))   </span>
+<span id="cb124-97"><a href="#cb124-97" aria-hidden="true" tabindex="-1"></a>label<span class="ot">=</span><span class="fu">c</span>(<span class="st">"r"</span>,<span class="st">"K"</span>,<span class="st">"Binit"</span>,<span class="st">"sigma"</span>) <span class="co"># simpspm returns   </span></span>
+<span id="cb124-98"><a href="#cb124-98" aria-hidden="true" tabindex="-1"></a>bestmod <span class="ot">&lt;-</span> <span class="fu">nlm</span>(<span class="at">f=</span>negLL,<span class="at">p=</span>param,<span class="at">funk=</span>simpspm,<span class="at">indat=</span>abdat,<span class="at">logobs=</span>logce)  </span>
+<span id="cb124-99"><a href="#cb124-99" aria-hidden="true" tabindex="-1"></a><span class="fu">outfit</span>(bestmod,<span class="at">title=</span><span class="st">"SP-Model"</span>,<span class="at">parnames=</span>label) <span class="co">#backtransforms  </span></span>
+<span id="cb124-100"><a href="#cb124-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb124-101"><a href="#cb124-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-102"><a href="#cb124-102" aria-hidden="true" tabindex="-1"></a>模型拟合情况如 @fig-6-1 所示。Schaefer 模型的简单动力学似乎为这些观察到的鲍鱼捕捞率数据提供了一个合理的描述。实际上，在时间序列中，法律最小尺寸有所变化，渔业内部引入了区域划分，以及其他重要变化，因此这一结果最多只能被视为一种近似，并且只能被视为提供了一种方法论的示例。观察到/预测到的对数正态残差，如果乘以预测值，显然会得到观察值（灰线）。这里展示这一点，因为我们即将在自助法（bootstrap）数据时使用这种简单关系。</span>
 <span id="cb124-103"><a href="#cb124-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-104"><a href="#cb124-104" aria-hidden="true" tabindex="-1"></a>模型拟合情况如 @fig-6-1 所示。Schaefer 模型的简单动力学似乎为这些观察到的鲍鱼捕捞率数据提供了一个合理的描述。实际上，在时间序列中，法律最小尺寸有所变化，渔业内部引入了区域划分，以及其他重要变化，因此这一结果最多只能被视为一种近似，并且只能被视为提供了一种方法论的示例。观察到/预测到的对数正态残差，如果乘以预测值，显然会得到观察值（灰线）。这里展示这一点，因为我们即将在自助法（bootstrap）数据时使用这种简单关系。</span>
+<span id="cb124-104"><a href="#cb124-104" aria-hidden="true" tabindex="-1"></a>最大持续产量（MSY）可以从 Schaefer 模型中简单地估计为 $\text{MSY} = rK/4$，这意味着这种最佳拟合表明存在 $\text{MSY} = 888.842t$。在接下来的各节中，我们将尝试回答的两个问题是：预测 cpue 在 @eq-6_1 中观察数据周围的合理分布范围是多少？以及，平均 MSY 估计值周围的 90%置信区间是多少？</span>
 <span id="cb124-105"><a href="#cb124-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-106"><a href="#cb124-106" aria-hidden="true" tabindex="-1"></a>最大持续产量（MSY）可以从 Schaefer 模型中简单地估计为 $\text{MSY} = rK/4$，这意味着这种最佳拟合表明存在 $\text{MSY} = 888.842t$。在接下来的各节中，我们将尝试回答的两个问题是：预测 cpue 在 @eq-6_1 中观察数据周围的合理分布范围是多少？以及，平均 MSY 估计值周围的 90%置信区间是多少？</span>
-<span id="cb124-107"><a href="#cb124-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-110"><a href="#cb124-110" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb124-111"><a href="#cb124-111" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-6-1</span></span>
-<span id="cb124-112"><a href="#cb124-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "*abdat* 数据集的 Schaefer 剩余产量模型 的最佳拟合用在线性空间表示（红色实线）。灰线穿过数据点，以说明与预测线的差异。The optimum fit of the Schaefer surplus production model to the abdat data set plotted in linear-space (solid red-line). The grey line passes through the data points to clarify the difference with the predicted line."</span></span>
-<span id="cb124-113"><a href="#cb124-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-114"><a href="#cb124-114" aria-hidden="true" tabindex="-1"></a> <span class="co">#plot the abdat data and the optimum sp-model fit  Fig 6.1  </span></span>
-<span id="cb124-115"><a href="#cb124-115" aria-hidden="true" tabindex="-1"></a>predce <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">simpspm</span>(bestmod<span class="sc">$</span>estimate,abdat))   </span>
-<span id="cb124-116"><a href="#cb124-116" aria-hidden="true" tabindex="-1"></a>optresid <span class="ot">&lt;-</span> abdat[,<span class="st">"cpue"</span>]<span class="sc">/</span>predce <span class="co">#multiply by predce for obsce  </span></span>
-<span id="cb124-117"><a href="#cb124-117" aria-hidden="true" tabindex="-1"></a>ymax <span class="ot">&lt;-</span> <span class="fu">getmax</span>(<span class="fu">c</span>(predce,abdat<span class="sc">$</span>cpue))  </span>
-<span id="cb124-118"><a href="#cb124-118" aria-hidden="true" tabindex="-1"></a><span class="fu">plot1</span>(abdat<span class="sc">$</span>year,(predce<span class="sc">*</span>optresid),<span class="at">type=</span><span class="st">"l"</span>,<span class="at">maxy=</span>ymax,<span class="at">cex=</span><span class="fl">0.9</span>,  </span>
-<span id="cb124-119"><a href="#cb124-119" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab=</span><span class="st">"CPUE"</span>,<span class="at">xlab=</span><span class="st">"Year"</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">col=</span><span class="st">"grey"</span>,<span class="at">lty=</span><span class="dv">1</span>)  </span>
-<span id="cb124-120"><a href="#cb124-120" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(abdat<span class="sc">$</span>year,abdat<span class="sc">$</span>cpue,<span class="at">pch=</span><span class="dv">1</span>,<span class="at">col=</span><span class="dv">1</span>,<span class="at">cex=</span><span class="fl">1.1</span>)  </span>
-<span id="cb124-121"><a href="#cb124-121" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(abdat<span class="sc">$</span>year,predce,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">1</span>)  <span class="co"># best fit line  </span></span>
+<span id="cb124-108"><a href="#cb124-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb124-109"><a href="#cb124-109" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-6-1</span></span>
+<span id="cb124-110"><a href="#cb124-110" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "*abdat* 数据集的 Schaefer 剩余产量模型 的最佳拟合用在线性空间表示（红色实线）。灰线穿过数据点，以说明与预测线的差异。The optimum fit of the Schaefer surplus production model to the abdat data set plotted in linear-space (solid red-line). The grey line passes through the data points to clarify the difference with the predicted line."</span></span>
+<span id="cb124-111"><a href="#cb124-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-112"><a href="#cb124-112" aria-hidden="true" tabindex="-1"></a> <span class="co">#plot the abdat data and the optimum sp-model fit  Fig 6.1  </span></span>
+<span id="cb124-113"><a href="#cb124-113" aria-hidden="true" tabindex="-1"></a>predce <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">simpspm</span>(bestmod<span class="sc">$</span>estimate,abdat))   </span>
+<span id="cb124-114"><a href="#cb124-114" aria-hidden="true" tabindex="-1"></a>optresid <span class="ot">&lt;-</span> abdat[,<span class="st">"cpue"</span>]<span class="sc">/</span>predce <span class="co">#multiply by predce for obsce  </span></span>
+<span id="cb124-115"><a href="#cb124-115" aria-hidden="true" tabindex="-1"></a>ymax <span class="ot">&lt;-</span> <span class="fu">getmax</span>(<span class="fu">c</span>(predce,abdat<span class="sc">$</span>cpue))  </span>
+<span id="cb124-116"><a href="#cb124-116" aria-hidden="true" tabindex="-1"></a><span class="fu">plot1</span>(abdat<span class="sc">$</span>year,(predce<span class="sc">*</span>optresid),<span class="at">type=</span><span class="st">"l"</span>,<span class="at">maxy=</span>ymax,<span class="at">cex=</span><span class="fl">0.9</span>,  </span>
+<span id="cb124-117"><a href="#cb124-117" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab=</span><span class="st">"CPUE"</span>,<span class="at">xlab=</span><span class="st">"Year"</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">col=</span><span class="st">"grey"</span>,<span class="at">lty=</span><span class="dv">1</span>)  </span>
+<span id="cb124-118"><a href="#cb124-118" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(abdat<span class="sc">$</span>year,abdat<span class="sc">$</span>cpue,<span class="at">pch=</span><span class="dv">1</span>,<span class="at">col=</span><span class="dv">1</span>,<span class="at">cex=</span><span class="fl">1.1</span>)  </span>
+<span id="cb124-119"><a href="#cb124-119" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(abdat<span class="sc">$</span>year,predce,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">1</span>)  <span class="co"># best fit line  </span></span>
+<span id="cb124-120"><a href="#cb124-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-121"><a href="#cb124-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb124-122"><a href="#cb124-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-123"><a href="#cb124-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb124-123"><a href="#cb124-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## 自助法（Bootstrapping）</span></span>
 <span id="cb124-124"><a href="#cb124-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-125"><a href="#cb124-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## 自助法（Bootstrapping）</span></span>
+<span id="cb124-125"><a href="#cb124-125" aria-hidden="true" tabindex="-1"></a>从总体中采集的数据被视为（假定）能够代表该总体以及预期样本值的潜在概率密度分布。这是一个非常重要的假设，最早由 Efron（1979）提出。他提出了这样一个问题：当样本包含或就是关于总体所有可用信息时，为什么不能假设样本真的就是总体，以估计检验统计量的抽样分布？因此，给定一个包含 $n$ 个观测值的原始样本，自助样本将是从原始样本中**有放回地**抽取的 $n$ 个观测值的随机样本。自助样本（即对样本数据值进行有放回的随机重抽样）被假定为近似那些通过反复抽样原始抽样总体所可能产生的值的分布。这些自助样本中的每一个都被视为来自原始总体的独立随机样本。这种有放回的重抽样对某些人来说似乎有违直觉，但可以用来拟合标准误差、百分位数置信区间以及进行假设检验。 据报道，"bootstrap"这个名字来源于故事《莫丘森男爵的冒险记》（*The Adventures of Baron Munchausen*），在这个故事中，男爵通过自己拉自己的靴带而逃脱溺水，从而从一口井中脱身（Efron and Tibshirani, 1993）。</span>
 <span id="cb124-126"><a href="#cb124-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-127"><a href="#cb124-127" aria-hidden="true" tabindex="-1"></a>从总体中采集的数据被视为（假定）能够代表该总体以及预期样本值的潜在概率密度分布。这是一个非常重要的假设，最早由 Efron（1979）提出。他提出了这样一个问题：当样本包含或就是关于总体所有可用信息时，为什么不能假设样本真的就是总体，以估计检验统计量的抽样分布？因此，给定一个包含 $n$ 个观测值的原始样本，自助样本将是从原始样本中**有放回地**抽取的 $n$ 个观测值的随机样本。自助样本（即对样本数据值进行有放回的随机重抽样）被假定为近似那些通过反复抽样原始抽样总体所可能产生的值的分布。这些自助样本中的每一个都被视为来自原始总体的独立随机样本。这种有放回的重抽样对某些人来说似乎有违直觉，但可以用来拟合标准误差、百分位数置信区间以及进行假设检验。 据报道，"bootstrap"这个名字来源于故事《莫丘森男爵的冒险记》，在这个故事中，男爵通过自己拉自己的靴带而逃脱溺水，从而从一口井中脱身（Efron and Tibshirani, 1993）。</span>
+<span id="cb124-127"><a href="#cb124-127" aria-hidden="true" tabindex="-1"></a>Efron（1979）首次提出自助法作为一种实用方法，Bickel 和 Freedman （1981）则展示了自助法的渐近一致性（随着自助样本数量增加时的收敛行为）。基于这一展示，自助法已被应用于许多标准应用，例如多元回归（Freedman，1981；ter Braak，1992）和分层抽样（ Bickel 和 Freedman，1984，他们发现了一个局限性）。Efron 最终将他曾在斯坦福大学为高年级学生讲授的材料整理成一份关于进展的综述（Efron 和 Tibshirani，1993）。</span>
 <span id="cb124-128"><a href="#cb124-128" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-129"><a href="#cb124-129" aria-hidden="true" tabindex="-1"></a><span class="fu">### 经验概率密度分布</span></span>
 <span id="cb124-130"><a href="#cb124-130" aria-hidden="true" tabindex="-1"></a></span>
@@ -3410,7 +3435,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-164"><a href="#cb124-164" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Tiger Prawn (t)", y = "Endeavour Prawn (t)")</span></span>
 <span id="cb124-165"><a href="#cb124-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb124-166"><a href="#cb124-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-167"><a href="#cb124-167" aria-hidden="true" tabindex="-1"></a>尽管回归高度显著（ $P&lt; 1e^{-06}$），但虾捕捞量的变异性意味着我们难以确定可以有多大信心相信相关性。通常情况下，在相关系数周围估计置信区间并不直接，幸运的是，使用自助法（bootstrapping），这可以轻松完成。我们可以从原始数据集中取出 23 对数据，进行 5000 次自助法抽样，每次计算相关系数。完成后，我们可以计算平均值和不同的分位数。在这种情况下，我们不是对单个值进行自助法，而是对值对进行自助法；我们必须取值对以保持任何内在的相关性。在 R 中，可以通过首先对每个数据向量的位置进行有放回抽样，以确定每个自助法样本要取哪些对进行重新抽样。</span>
+<span id="cb124-167"><a href="#cb124-167" aria-hidden="true" tabindex="-1"></a>尽管回归高度显著（ $P&lt; 1e^{-06}$），但虾类捕捞量的变异性意味着我们难以确定可以有多大信心相信相关性。通常情况下，在相关系数周围估计置信区间并不直接，幸运的是，使用自助法（bootstrapping），这可以轻松完成。我们可以从原始数据集中取出 23 对数据，进行 5000 次自助法抽样，每次计算相关系数。完成后，我们可以计算平均值和不同的分位数。在这种情况下，我们不是对单个值进行自助法，而是对值对进行自助法；我们必须取值对以保持任何内在的相关性。在 R 中，可以通过首先对每个数据向量的位置进行有放回抽样，以确定每个自助法样本要取哪些对进行重新抽样。</span>
 <span id="cb124-168"><a href="#cb124-168" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-171"><a href="#cb124-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-172"><a href="#cb124-172" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-6-3</span></span>
@@ -3508,7 +3533,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-270"><a href="#cb124-270" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-273"><a href="#cb124-273" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-274"><a href="#cb124-274" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-6-4</span></span>
-<span id="cb124-275"><a href="#cb124-275" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "鲍鱼渔业 abdat 数据集最佳预测 cpue 的 1000 个自助估计值。黑点为原始数据，黑线为原始模型拟合的最佳预测 cpue，灰色轨迹为预测 cpue 的 1000 个自举估计值。1000 bootstrap estimates of the optimum predicted cpue from the abdat data set for an abalone fishery. Black points are the original data, the black line is the optimum predicted cpue from the original model fit, and the grey trajectories are the 1000 bootstrap estimates of the predicted cpue."</span></span>
+<span id="cb124-275"><a href="#cb124-275" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "鲍鱼渔业 abdat 数据集最佳预测 cpue 的 1000 个自助估计值。黑点为原始数据，黑线为原始模型拟合的最佳预测 cpue，灰色轨迹为预测 cpue 的 1000 个自助估计值。1000 bootstrap estimates of the optimum predicted cpue from the abdat data set for an abalone fishery. Black points are the original data, the black line is the optimum predicted cpue from the original model fit, and the grey trajectories are the 1000 bootstrap estimates of the predicted cpue."</span></span>
 <span id="cb124-276"><a href="#cb124-276" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-277"><a href="#cb124-277" aria-hidden="true" tabindex="-1"></a> <span class="co"># bootstrap replicates in grey behind main plot Fig 6.4  </span></span>
 <span id="cb124-278"><a href="#cb124-278" aria-hidden="true" tabindex="-1"></a><span class="fu">plot1</span>(abdat[,<span class="st">"year"</span>],abdat[,<span class="st">"cpue"</span>],<span class="at">type=</span><span class="st">"n"</span>,<span class="at">xlab=</span><span class="st">"Year"</span>,  </span>
@@ -3523,7 +3548,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-287"><a href="#cb124-287" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-290"><a href="#cb124-290" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-291"><a href="#cb124-291" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-6-5</span></span>
-<span id="cb124-292"><a href="#cb124-292" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "前三个模型参数的 1000 个自举估计值和 MSY 的柱状图。在每幅图中，两条细外线定义了中位数周围的 90%置信区间，中间的垂直线表示最佳估计值，但这些估计值通常紧靠中位数下方，Binit 模型除外。The 1000 bootstrap estimates of each of the first three model parameters and MSY as histograms. In each plot the two fine outer lines define the inner 90% confidence bounds around the median, the central vertical line denotes the optimum estimates, but these are generally immediately below the medians, except for the Binit."</span></span>
+<span id="cb124-292"><a href="#cb124-292" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "前三个模型参数的 1000 个自助估计值和 MSY 的柱状图。在每幅图中，两条细外线定义了中位数周围的 90%置信区间，中间的垂直线表示最佳估计值，但这些估计值通常紧靠中位数下方，Binit 模型除外。The 1000 bootstrap estimates of each of the first three model parameters and MSY as histograms. In each plot the two fine outer lines define the inner 90% confidence bounds around the median, the central vertical line denotes the optimum estimates, but these are generally immediately below the medians, except for the Binit."</span></span>
 <span id="cb124-293"><a href="#cb124-293" aria-hidden="true" tabindex="-1"></a> <span class="co">#histograms of bootstrap parameters and model outputs Fig 6.5  </span></span>
 <span id="cb124-294"><a href="#cb124-294" aria-hidden="true" tabindex="-1"></a>dohist <span class="ot">&lt;-</span> <span class="cf">function</span>(invect,nmvar,<span class="at">bins=</span><span class="dv">30</span>,bootres,avpar) { <span class="co">#adhoc  </span></span>
 <span id="cb124-295"><a href="#cb124-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(invect[,nmvar],<span class="at">breaks=</span>bins,<span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span>nmvar,<span class="at">col=</span><span class="dv">0</span>)  </span>
@@ -3541,15 +3566,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-307"><a href="#cb124-307" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(optmsy,msyB[pick]),<span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>))  </span>
 <span id="cb124-308"><a href="#cb124-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb124-309"><a href="#cb124-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-310"><a href="#cb124-310" aria-hidden="true" tabindex="-1"></a>再次使用仅 1000 个自助法估计，直方图并不能很好地表示所讨论的所有参数和输出值的经验分布。更多的重复将使输出平滑，并稳定分位数或百分位数的置信界限。即便如此，也可以对这类参数和输出值的生成精度有一个概念。</span>
+<span id="cb124-310"><a href="#cb124-310" aria-hidden="true" tabindex="-1"></a>再次仅用 1000 个自助法估计，直方图并不能很好地表示所讨论的所有参数和输出值的经验分布。更多的重复将使输出平滑，并稳定分位数或百分位数的置信界限。即便如此，也可以对这类参数和输出值的生成精度有一个概念。</span>
 <span id="cb124-311"><a href="#cb124-311" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-312"><a href="#cb124-312" aria-hidden="true" tabindex="-1"></a><span class="fu">### 参数相关性</span></span>
 <span id="cb124-313"><a href="#cb124-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-314"><a href="#cb124-314" aria-hidden="true" tabindex="-1"></a>我们也可以通过使用 R 函数 <span class="in">`pairs()`</span> 将每个参数和模型输出绘制在一起，来检查它们之间的任何相关性。 $r$、 $K$ 和 $B_{init}$ 之间的强相关性立即显现出来。与 sigma 值缺乏相关性是残差内部变化应如何表现的一种典型情况。更有趣的是， $msy$（它是 $r$ 和 $K$ 的函数）与其他参数的相关性有所降低。这种降低反映了 $r$ 和 $K$ 之间的负相关性，这种负相关性会抵消彼此变化的影响。因此，对于相当不同的 $r$ 和 $K$ 值，我们可以有相似的 $msy$ 值。在 @fig-6-6 中使用&nbsp;<span class="in">`rgb()`</span>&nbsp;函数来根据点的密度变化颜色强度，也可以在绘制 1000 条轨迹时使用，以识别图(6.4)中最常见的轨迹。</span>
+<span id="cb124-314"><a href="#cb124-314" aria-hidden="true" tabindex="-1"></a>我们也可以通过使用 R 函数 <span class="in">`pairs()`</span> 将每个参数和模型输出绘制在一起，来检查它们之间的任何相关性。 $r$、 $K$ 和 $B_{init}$ 之间的强相关性立即显现出来。与 sigma 值缺乏相关性是残差内部变化应如何表现的一种典型情况。更有趣的是， $msy$（它是 $r$ 和 $K$ 的函数）与其他参数的相关性有所降低。这种降低反映了 $r$ 和 $K$ 之间的负相关性，这种负相关性会抵消彼此变化的影响。因此，对于相当不同的 $r$ 和 $K$ 值，我们可以有相似的 $msy$ 值。在 @fig-6-6 中使用 <span class="in">`rgb()`</span> 函数来根据点的密度变化颜色强度，也可以在绘制 1000 条轨迹时使用，以识别图(6.4)中最常见的轨迹。</span>
 <span id="cb124-315"><a href="#cb124-315" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-318"><a href="#cb124-318" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-319"><a href="#cb124-319" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-6-6</span></span>
-<span id="cb124-320"><a href="#cb124-320" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "用 Schaefer 模型拟合 abdat 数据集时，1000 个自助法估算的最佳参数估算值与得出的 MSY 值之间的关系。全色强度由至少 20 个点得出。更多的自举重复将使这些强度图更加完整。The relationships between the 1000 bootstrap estimates of the optimum parameter estimates and the derived MSY values for the Schaefer model fitted to the abdat data-set. Full colour intensity derived from a minimum of 20 points. More bootstrap replicates would fill out these intensity plots."</span></span>
+<span id="cb124-320"><a href="#cb124-320" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "用 Schaefer 模型拟合 abdat 数据集时，1000 个自助法估算的最佳参数估算值与得出的 MSY 值之间的关系。全色强度由至少 20 个点得出。更多的自助重复将使这些强度图更加完整。The relationships between the 1000 bootstrap estimates of the optimum parameter estimates and the derived MSY values for the Schaefer model fitted to the abdat data-set. Full colour intensity derived from a minimum of 20 points. More bootstrap replicates would fill out these intensity plots."</span></span>
 <span id="cb124-321"><a href="#cb124-321" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-322"><a href="#cb124-322" aria-hidden="true" tabindex="-1"></a> <span class="co">#relationships between parameters and MSY  Fig 6.6  </span></span>
 <span id="cb124-323"><a href="#cb124-323" aria-hidden="true" tabindex="-1"></a>parboot1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(parboot,msy)  </span>
@@ -3566,7 +3591,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-334"><a href="#cb124-334" aria-hidden="true" tabindex="-1"></a>\bar x \pm t_{\nu} \dfrac{\sigma}{\sqrt{n}}</span>
 <span id="cb124-335"><a href="#cb124-335" aria-hidden="true" tabindex="-1"></a>$$ {#eq-6_8}</span>
 <span id="cb124-336"><a href="#cb124-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-337"><a href="#cb124-337" aria-hidden="true" tabindex="-1"></a>其中 $\bar x$ 是 $n$ 个观测样本（实际上，任何参数估计）的平均值，&nbsp;σσ&nbsp;是样本标准差，是样本变异性的度量，&nbsp;tνtν&nbsp;是具有&nbsp;ν=(n−1)ν=(n−1)&nbsp;个自由度的 t 分布（另见&nbsp;<span class="in">`rt()`</span>&nbsp;、&nbsp;<span class="in">`dt()`</span>&nbsp;、&nbsp;<span class="in">`pt()`</span>&nbsp;和&nbsp;<span class="in">`qt()`</span>&nbsp;）。如果我们有多个独立样本，则可以估计样本均值组的标准差。&nbsp;σ/√nσ/n&nbsp;被称为变量&nbsp;xx&nbsp;的标准误差，并且是当只有一个样本时估计样本均值集预期标准差的一种分析方法（生成多个样本的引导法是另一种方法，尽管在这种情况下，直接使用百分位数置信区间会更好）。由于我们处理的是正态分布数据，这种经典置信区间在均值或期望值周围对称分布。这在处理单个样本时是可行的，但我们要解决的问题是如何确定在将多参数模型拟合到数据时，我们可以以多大信心信任参数估计和模型输出。</span>
+<span id="cb124-337"><a href="#cb124-337" aria-hidden="true" tabindex="-1"></a>其中 $\bar x$ 是 $n$ 个观测样本（实际上，任何参数估计）的平均值， $\sigma$ 是样本标准差，是样本变异性的度量， $t_{\nu}$ 是具有 $\nu = (n−1)$ 个自由度的 $t$ 分布（另见<span class="in">`rt()`</span> 、<span class="in">`dt()`</span> 、<span class="in">`pt()`</span> 和 <span class="in">`qt()`</span>）。如果我们有多个独立样本，则可以估计样本均值组的标准差。 $\sigma/\sqrt{n}$ 为变量 $x$ 的标准误差，并且是当只有一个样本时估计样本均值集预期标准差的一种分析方法（生成多个样本的引导法是另一种方法，尽管在这种情况下，直接使用百分位数置信区间会更好）。由于我们处理的是正态分布数据，这种经典置信区间在均值或期望值周围对称分布。这在处理单个样本时是可行的，但我们要解决的问题是如何确定在将多参数模型拟合到数据时，我们可以以多大信心信任参数估计和模型输出。</span>
 <span id="cb124-338"><a href="#cb124-338" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-339"><a href="#cb124-339" aria-hidden="true" tabindex="-1"></a>在这种情况下，可以通过在最优参数集附近估计模型参数的协方差矩阵来产生渐近标准误差，如 @eq-6_8 所示。在实践中，假设多参数模型在最优点的最大似然或平方和表面的梯度近似于多元正态分布，并可用于表征不同参数之间的关系。这些关系是生成所需协方差矩阵的基础。该矩阵用于生成每个参数的标准误差，如 @eq-6_8 所示，然后这些标准误差可用于估计参数的近似置信区间。它们是近似的，因为这种方法假设在最优点附近的拟合表面是规则的和平滑的，并且表面在最优点附近近似于多元正态（=对称）分布。这意味着所得标准误差将在最优解周围对称，这可能适当也可能不适当。 然而，作为初步近似，渐近标准误差可以提供关于参数估计值周围固有变异的指示。</span>
 <span id="cb124-340"><a href="#cb124-340" aria-hidden="true" tabindex="-1"></a></span>
@@ -3603,7 +3628,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-371"><a href="#cb124-371" aria-hidden="true" tabindex="-1"></a>\text{StErr}(\theta) = \sqrt{\text{diag}(\mathbf{A})}</span>
 <span id="cb124-372"><a href="#cb124-372" aria-hidden="true" tabindex="-1"></a>$$ {#eq-6_12}</span>
 <span id="cb124-373"><a href="#cb124-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-374"><a href="#cb124-374" aria-hidden="true" tabindex="-1"></a>在 Excel 中，我们使用有限差分法来估计 Hessian 矩阵（Haddon，2011），但这种方法在参数强相关时并不总是表现良好。幸运的是，在 R 中，许多可用的非线性求解器在拟合模型时提供了自动生成 Hessian 矩阵估计值的选项。</span>
+<span id="cb124-374"><a href="#cb124-374" aria-hidden="true" tabindex="-1"></a>在 Excel 中，我们使用有限差分法来估计 Hessian 矩阵 <span class="co">[</span><span class="ot">@haddon2011</span><span class="co">]</span>，但这种方法在参数强相关时并不总是表现良好。幸运的是，在 R 中，许多可用的非线性求解器在拟合模型时提供了自动生成 Hessian 矩阵估计值的选项。</span>
 <span id="cb124-375"><a href="#cb124-375" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-378"><a href="#cb124-378" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-379"><a href="#cb124-379" aria-hidden="true" tabindex="-1"></a> <span class="co">#Fit Schaefer model and generate the Hessian  </span></span>
@@ -3703,7 +3728,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-479"><a href="#cb124-479" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-482"><a href="#cb124-482" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-483"><a href="#cb124-483" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-6-2</span></span>
-<span id="cb124-484"><a href="#cb124-484" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "自助百分位数参数置信区间与方差-协方差矩阵渐近估计值参数置信区间的比较。上表是自举法结果，下表是多元正态分布结果。A comparison of the bootstrap percentile confidence bounds on parameters with those derived from the Asymptotic estimate of the variance-covariance matrix. The top table relates to the bootstrapping and the bottom to the values from the multi-variate normal."</span></span>
+<span id="cb124-484"><a href="#cb124-484" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "自助百分位数参数置信区间与方差-协方差矩阵渐近估计值参数置信区间的比较。上表是自助法结果，下表是多元正态分布结果。A comparison of the bootstrap percentile confidence bounds on parameters with those derived from the Asymptotic estimate of the variance-covariance matrix. The top table relates to the bootstrapping and the bottom to the values from the multi-variate normal."</span></span>
 <span id="cb124-485"><a href="#cb124-485" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-486"><a href="#cb124-486" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(bootres, <span class="at">digits =</span> <span class="dv">3</span>)</span>
 <span id="cb124-487"><a href="#cb124-487" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(mvnres, <span class="at">digits =</span> <span class="dv">3</span>)</span>
@@ -3715,7 +3740,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-493"><a href="#cb124-493" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-494"><a href="#cb124-494" aria-hidden="true" tabindex="-1"></a>目的是使用最大似然方法（最小化负对数似然）来拟合模型，但仅拟合特定参数，同时将其他参数保持在最优值周围的常数值。通过这种方式，可以在给定参数具有一系列固定值的情况下获得新的“最优”拟合。因此，我们可以确定固定参数对模型拟合总似然的影响。一个例子可以帮助使这个过程更加清晰。</span>
 <span id="cb124-495"><a href="#cb124-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-496"><a href="#cb124-496" aria-hidden="true" tabindex="-1"></a>再次使用 Schaefer 剩余生产模型对 abdat 渔业数据进行分析，我们得到最优参数 r = 0.3895，K = 9128.5，Binit = 3384.978，以及 sigma = 0.04316，这意味着 MSY = 888.842 吨。</span>
+<span id="cb124-496"><a href="#cb124-496" aria-hidden="true" tabindex="-1"></a>再次使用 Schaefer 剩余生产模型对 abdat 渔业数据进行分析，我们得到最优参数 $r = 0.3895$， $K = 9128.5$， $Binit = 3384.978$，以及 $sigma = 0.04316$，这意味着 $MSY = 888.842$ 吨。</span>
 <span id="cb124-497"><a href="#cb124-497" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-500"><a href="#cb124-500" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-501"><a href="#cb124-501" aria-hidden="true" tabindex="-1"></a> <span class="co">#Fit the Schaefer surplus production model to abdat  </span></span>
@@ -3901,7 +3926,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-701"><a href="#cb124-701" aria-hidden="true" tabindex="-1"></a>-veLL = -veLL-w\left(\dfrac{\text{output}- \text{target}}{\text{target}} \right)^2</span>
 <span id="cb124-702"><a href="#cb124-702" aria-hidden="true" tabindex="-1"></a>$$ {#eq-6_17}</span>
 <span id="cb124-703"><a href="#cb124-703" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-704"><a href="#cb124-704" aria-hidden="true" tabindex="-1"></a>其中 $-veLL$ 是负对数似然，output 是目标变量（在接下来的示例中，这是 MSY），target 是该变量的最优值（来自整体最优解的 MSY），而&nbsp;ww&nbsp;是一个权重因子。权重因子应尽可能大，以生成最窄的似然曲线，同时仍能收敛到解。下面，我们描述一个专门用于处理模型输出周围似然曲线的函数 <span class="in">`negLLO()`</span> （这不在 **MQMF** 中）。它只是一个修改版的 <span class="in">`negLL()`</span> 函数，允许引入 @eq-6_17 中描述的权重因子。我们可以通过检查 887.729 吨最优 MSY 值周围的似然曲线来举例</span>
+<span id="cb124-704"><a href="#cb124-704" aria-hidden="true" tabindex="-1"></a>其中 $-veLL$ 是负对数似然，*output* 是目标变量（在接下来的示例中，这是 MSY），*target* 是该变量的最优值（来自整体最优解的 MSY），而 $w$ 是一个权重因子。权重因子应尽可能大，以生成最窄的似然曲线，同时仍能收敛到解。下面，我们描述一个专门用于处理模型输出周围似然曲线的函数 `negLLO()` （这不在 **MQMF** 中）。它只是一个修改版的 <span class="in">`negLL()`</span> 函数，允许引入 @eq-6_17 中描述的权重因子。我们可以通过检查 887.729 吨最优 MSY 值周围的似然曲线来举例</span>
 <span id="cb124-705"><a href="#cb124-705" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-706"><a href="#cb124-706" aria-hidden="true" tabindex="-1"></a>说明这一点，检查范围可以是 740 至 1050 吨，权重为 900。</span>
 <span id="cb124-707"><a href="#cb124-707" aria-hidden="true" tabindex="-1"></a></span>
@@ -3969,7 +3994,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-775"><a href="#cb124-775" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-776"><a href="#cb124-776" aria-hidden="true" tabindex="-1"></a>如我们所见，如果我们假设在最优值附近似然面是多元正态分布的，那么我们可以使用渐近标准误差来定义参数估计值的置信区间。然而，对于渔业中的许多变量和模型输出，这可能是一个非常强的假设。例如，Schaefer $K$ 参数的估计似然面相对偏斜，如 @fig-6-12 所示。理想情况下，我们应该使用能够独立于任何预先设定的概率密度函数来表征最优解附近似然面的方法。如果我们能够做到这一点，我们就可以使用百分位数方法的等效方法来提供参数和模型输出置信区间的估计。</span>
 <span id="cb124-777"><a href="#cb124-777" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-778"><a href="#cb124-778" aria-hidden="true" tabindex="-1"></a>通过形式化的似然剖面分析，我们可以在参数空间中进行搜索，以构建二维似然曲面。然而，对于超过两个参数的形式似然剖面分析，或许使用这样的网格搜索会非常笨拙，并且随着参数数量的进一步增加，会越来越不切实际。我们需要的是一种能够同时整合多个维度以生成类似多维似然剖面的方法。事实上，有几种方法可以实现这一点，包括抽样重要性采样（SIR；参见 McAllister 和 Ianelli，1997；以及 McAllister 等，1994），以及马尔可夫链蒙特卡罗（MCMC；参见 Gelman 等，2013）。在接下来的示例中，我们将实现 MCMC 方法。有许多替代算法可以用于执行 MCMC，但我们将专注于一种相对灵活的方法，称为 Gibbs-within-Metropolis 采样器（有时也称为 Metropolis-Hastings-within-Gibbs）。Metropolis 算法（Metropolis 等，1953 ）最初是从二维积分开始的，后来由 Hastings（1970 年）推广，因此称为 Metropolis-Hastings。 在文献中，你会找到关于马尔可夫链蒙特卡洛和蒙特卡洛马尔可夫链的提及。前者是渔业标准参考（Gelman 等，2013）中使用的，尽管我个人认为用蒙特卡洛方法生成马尔可夫链的想法更直观明显。尽管存在这种潜在的混淆，我建议在写作时坚持使用 MCMC，如果必要的话，可以忽略我的直觉，使用马尔可夫链蒙特卡洛。这些事情并不重要到需要花时间担心，除了有时这些差异确实有意义（这种混淆仍然是一个问题，但只要你知道这些陷阱，就可以避免它们！）。</span>
+<span id="cb124-778"><a href="#cb124-778" aria-hidden="true" tabindex="-1"></a>通过形式化的似然剖面分析，我们可以在参数空间中进行搜索，以构建二维似然曲面。然而，对于超过两个参数的形式似然剖面分析，或许使用这样的网格搜索会非常笨拙，并且随着参数数量的进一步增加，会越来越不切实际。我们需要的是一种能够同时整合多个维度以生成类似多维似然剖面的方法。事实上，有几种方法可以实现这一点，包括抽样重要性采样（SIR；参见 McAllister 和 Ianelli，1997；以及 McAllister 等，1994），以及马尔可夫链蒙特卡罗（MCMC；参见 Gelman 等，2013）。在接下来的示例中，我们将实现 MCMC 方法。有许多替代算法可以用于执行 MCMC，但我们将专注于一种相对灵活的方法，称为 Gibbs-within-Metropolis 采样器（有时也称为 Metropolis-Hastings-within-Gibbs）。Metropolis 算法（Metropolis 等，1953 ）最初是从二维积分开始的，后来由 Hastings（1970）推广，因此称为 Metropolis-Hastings。 在文献中，你会找到关于马尔可夫链蒙特卡洛和蒙特卡洛马尔可夫链的提及。前者是渔业标准参考（Gelman 等，2013）中使用的，尽管我个人认为用蒙特卡洛方法生成马尔可夫链的想法更直观明显。尽管存在这种潜在的混淆，我建议在写作时坚持使用 MCMC，如果必要的话，可以忽略我的直觉，使用马尔可夫链蒙特卡洛。这些事情并不重要到需要花时间担心，除了有时这些差异确实有意义（这种混淆仍然是一个问题，但只要你知道这些陷阱，就可以避免它们！）。</span>
 <span id="cb124-779"><a href="#cb124-779" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-780"><a href="#cb124-780" aria-hidden="true" tabindex="-1"></a>显然，MCMC（马尔可夫链蒙特卡洛方法）使用马尔可夫链来遍历多维似然曲面。马尔可夫链描述了一个过程，其中每个状态都是根据前一个状态以概率方式确定的。随机游走可以构成马尔可夫链的一种形式，其最终状态将是对随机分布的描述。然而，这里的目的是生成一个马尔可夫链，其最终平衡状态，即所谓的平稳分布，能够提供贝叶斯统计中目标或后验分布的描述。</span>
 <span id="cb124-781"><a href="#cb124-781" aria-hidden="true" tabindex="-1"></a></span>
@@ -4210,7 +4235,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-1032"><a href="#cb124-1032" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">gettime</span>() <span class="sc">-</span> begin)  </span>
 <span id="cb124-1033"><a href="#cb124-1033" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb124-1034"><a href="#cb124-1034" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-1035"><a href="#cb124-1035" aria-hidden="true" tabindex="-1"></a>当抽稀步长从 4 增加到 128（4 <span class="sc">\*</span> 128 = 512）时，四个参数轨迹中显示的自相关明显减少（ @fig-6-19 ）。但即便 32 倍的增幅也不足以将滞后 2、3 和 4 内的相关性降至无意义。尽管如此，使用该抽稀步长生成的轨迹明显显示出差异（改进），相对于图 6.17 中的轨迹。然而，我们注意到，在当前使用的台式计算机上，563200 步（1100 长度链）大约耗时 40 秒，这台计算机开始对交互式工作有些慢。如果我们使用 512 的抽稀率进行 10000 次迭代，那将耗时近 7 分钟，这开始变得有些繁琐漫长。更复杂的模型可能需要更长的时间，有时甚至需要数天！因此，在我们探索更大抽稀步长的有效性之前，我们将首先找到显著加快每个循环的方法。 通过持续试验发现，将 i 增加到 1024（4 x 256）仍然存在显著的滞后 1 和有时滞后 2 的自相关，而将 *thinstep* 增加四倍到 2048（4 <span class="sc">\*</span> 3 <span class="sc">\*</span> 128）才能消除所有变量的自相关。</span>
+<span id="cb124-1035"><a href="#cb124-1035" aria-hidden="true" tabindex="-1"></a>当抽稀步长从 4 增加到 128（4 <span class="sc">\*</span> 128 = 512）时，四个参数轨迹中显示的自相关明显减少（ @fig-6-19 ）。但即便 32 倍的增幅也不足以将滞后 2、3 和 4 内的相关性降至无意义。尽管如此，使用该抽稀步长生成的轨迹明显显示出差异（改进），相对于图 6.17 中的轨迹。然而，我们注意到，在当前使用的台式计算机上，563200 步（1100 长度链）大约耗时 40 秒，这台计算机开始对交互式工作有些慢。如果我们使用 512 的抽稀率进行 10000 次迭代，那将耗时近 7 分钟，这开始变得有些繁琐漫长。更复杂的模型可能需要更长的时间，有时甚至需要数天！因此，在我们探索更大抽稀步长的有效性之前，我们将首先找到显著加快每个循环的方法。 通过持续试验发现，将 i 增加到 1024（ $4 \times 256$）仍然存在显著的滞后 1 和有时滞后 2 的自相关，而将 *thinstep* 增加四倍到 2048（4 <span class="sc">\*</span> 3 <span class="sc">\*</span> 128）才能消除所有变量的自相关。</span>
 <span id="cb124-1036"><a href="#cb124-1036" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-1037"><a href="#cb124-1037" aria-hidden="true" tabindex="-1"></a>在寻找更快捷的方法之前，我们将完成对标准说明性图的分析，这些图可能在执行模型框架内不确定性或变异的 MCMC 检查时使用。</span>
 <span id="cb124-1038"><a href="#cb124-1038" aria-hidden="true" tabindex="-1"></a></span>
@@ -4331,7 +4356,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-1161"><a href="#cb124-1161" aria-hidden="true" tabindex="-1"></a><span class="st">}'</span>)  </span>
 <span id="cb124-1162"><a href="#cb124-1162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb124-1163"><a href="#cb124-1163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-1164"><a href="#cb124-1164" aria-hidden="true" tabindex="-1"></a>一旦运行了 <span class="in">`cppFunction()`</span> 代码，我们就可以在任何使用过 <span class="in">`simpspm()`</span> 函数的地方使用 <span class="in">`simpspmC()`</span> 函数。一个小麻烦是，<span class="in">`simpspmC()`</span> 希望输入数据 *abdat* 是矩阵，而 *abdat* 以 data.frame 开始（实际上是列表，试试 `class(abdat)`）。输入 data.frame 而不是矩阵会导致 C++ 函数失效，因此，为了解决这个问题，在下面的代码中，你会看到我们使用了 `as.matrix()` 函数，以确保向 `simpspmC()` 发送正确的对象类别，幸运的是，使用矩阵比使用 `data.frame` 更快，因此我们也将其发送给了 `simpspm()`。我们还加入了 **microbenchmark** 软件包，以便准确比较两个不同函数的运行速度。显然，要使用该软件包，必须安装该软件包（如果不想安装，也可以省略）。在我的 Windows 10 2018 XPS 13 上进行的比较中，根据时间中位数，<span class="in">`simpspmC()`</span> 所花的时间通常只有 <span class="in">`simpspm()`</span> 的 20%，如表（6.8）所示。第一次使用 <span class="in">`simpspmC()`</span> 函数时，有时启动速度非常慢，这会影响平均值，但中位数受到的干扰较小。</span>
+<span id="cb124-1164"><a href="#cb124-1164" aria-hidden="true" tabindex="-1"></a>一旦运行了 <span class="in">`cppFunction()`</span> 代码，我们就可以在任何使用过 <span class="in">`simpspm()`</span> 函数的地方使用 <span class="in">`simpspmC()`</span> 函数。一个小麻烦是，<span class="in">`simpspmC()`</span> 希望输入数据 *abdat* 是矩阵，而 *abdat* 以 data.frame 开始（实际上是列表，试试 `class(abdat)`）。输入 data.frame 而不是矩阵会导致 C++ 函数失效，因此，为了解决这个问题，在下面的代码中，你会看到我们使用了 `as.matrix()` 函数，以确保向 `simpspmC()` 发送正确的对象类别，幸运的是，使用矩阵比使用 `data.frame` 更快，因此我们也将其发送给了 `simpspm()`。我们还加入了 **microbenchmark** 软件包，以便准确比较两个不同函数的运行速度。显然，要使用该软件包，必须安装该软件包（如果不想安装，也可以省略）。在我的 Windows 10 2018 XPS 13 上进行的比较中，根据时间中位数，<span class="in">`simpspmC()`</span> 所花的时间通常只有 <span class="in">`simpspm()`</span> 的 20%，如 @tbl-6-8 所示。第一次使用 <span class="in">`simpspmC()`</span> 函数时，有时启动速度非常慢，这会影响平均值，但中位数受到的干扰较小。</span>
 <span id="cb124-1165"><a href="#cb124-1165" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-1168"><a href="#cb124-1168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb124-1169"><a href="#cb124-1169" aria-hidden="true" tabindex="-1"></a> <span class="co">#Ensure results obtained from simpspm and simpspmC are same  </span></span>
@@ -4582,7 +4607,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb124-1438"><a href="#cb124-1438" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-1439"><a href="#cb124-1439" aria-hidden="true" tabindex="-1"></a><span class="fu">## 结束语</span></span>
 <span id="cb124-1440"><a href="#cb124-1440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-1441"><a href="#cb124-1441" aria-hidden="true" tabindex="-1"></a>本章的目的不是鼓励人们编写自己的自举、渐近误差、似然分布或 MCMC 函数，而是让他们探索这些方法，获得直觉，以便在使用这些方法时能够清楚地认识到它们的优势，同样重要的是，认识到它们的局限性。在实施 MCMC 分析时尤其如此，人们最好使用 Stan 或 Template Model Builder（Kristensen 等，2016）或 AD Model Builder（Fournier 等，1998；Fournier 等，2012）等工具。尽管如此，我们还是通过使用 MCMC 详细介绍了贝叶斯统计的应用，因为这确实是捕捉任何特定建模分析中固有的所有不确定性的最佳方法。尽管如此，在许多渔业模型中，许多参数，如自然死亡率、繁殖陡度和一些选择性参数，都被设定为常数，在贝叶斯背景下，这意味着信息量极大的先验。这种说法有点矫揉造作，因为如果不对这些参数进行估计，我们就不需要考虑任何先验概率，但原则上这就是它的含义。解决此类问题的通常方法是研究此类参数的似然曲线，或进行敏感性分析，研究使用不同常数的影响。甚至可以使用标准化的似然曲线作为先验概率。</span>
+<span id="cb124-1441"><a href="#cb124-1441" aria-hidden="true" tabindex="-1"></a>本章的目的不是鼓励人们编写自己的自助、渐近误差、似然分布或 MCMC 函数，而是让他们探索这些方法，获得直觉，以便在使用这些方法时能够清楚地认识到它们的优势，同样重要的是，认识到它们的局限性。在实施 MCMC 分析时尤其如此，人们最好使用 Stan 或 Template Model Builder（Kristensen 等，2016）或 AD Model Builder（Fournier 等，1998；Fournier 等，2012）等工具。尽管如此，我们还是通过使用 MCMC 详细介绍了贝叶斯统计的应用，因为这确实是捕捉任何特定建模分析中固有的所有不确定性的最佳方法。尽管如此，在许多渔业模型中，许多参数，如自然死亡率、繁殖陡度和一些选择性参数，都被设定为常数，在贝叶斯背景下，这意味着信息量极大的先验。这种说法有点矫揉造作，因为如果不对这些参数进行估计，我们就不需要考虑任何先验概率，但原则上这就是它的含义。解决此类问题的通常方法是研究此类参数的似然曲线，或进行敏感性分析，研究使用不同常数的影响。甚至可以使用标准化的似然曲线作为先验概率。</span>
 <span id="cb124-1442"><a href="#cb124-1442" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb124-1443"><a href="#cb124-1443" aria-hidden="true" tabindex="-1"></a>诚然，使用 MCMC 可以更全面地描述建模情景中的变化，但这种分析无法捕捉模型的不确定性，在这种情况下，结构不同的模型可能会对所评估的种群动态提供不同的看法。这就是通常讨论的模型平均概念。不过，这也提出了一个问题，即哪个模型被认为是最现实的，以及在它们可能完全不相称的情况下，每个模型的权重是多少。不过，在研究任何建模结果时，都需要考虑模型的不确定性。正如 Punt 和 Hilborn（1997）所说："最常见的方法是选择一个单一的结构模型，并只考虑其参数的不确定性。另一种更站得住脚的方法是考虑一系列真正不同的结构模型。然而，除了计算量更大之外，还很难'约束'所考虑的模型范围。与此相关的一个问题是，如何确定有多少模型参数应被视为不确定参数"。</span>
 <span id="cb124-1444"><a href="#cb124-1444" aria-hidden="true" tabindex="-1"></a></span>
