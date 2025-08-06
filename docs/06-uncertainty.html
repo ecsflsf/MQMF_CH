@@ -749,7 +749,7 @@ I_t^* = \hat I_t \times\left(\dfrac{I_t}{\hat I_t} \right)^* = \exp\left(\log(\h
 <span><span class="op">}</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"total time = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="va">start</span>, <span class="st">"seconds   \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>total time =  5.60634 seconds   </code></pre>
+<pre><code>total time =  3.766865 seconds   </code></pre>
 </div>
 </div>
 <p>在我写这本书时使用的电脑上，bootstrap 运行大约需要 4 秒。这包括从样本中抽取 24 年的 bootstrap 样本，并将过剩生产模型拟合到样本上，每次迭代大约需要 0.004 秒。对于任何需要多次拟合模型或计算似然值的计算密集型方法，这都是值得了解的。了解分析运行所需的时间有助于设计这些分析的规模。过剩生产模型的拟合时间非常短，但如果一个复杂的年龄结构模型拟合需要大约 1 分钟，那么 1000 个复制（按现代标准来说，这是最低要求，而且更多的复制无疑会提供更精确的结果）将需要超过 16 个小时！在可能的情况下，优化代码速度仍然非常重要；当我们在本章后面讨论使用 Rcpp 包近似贝叶斯后验分布时，我们将讨论优化速度的方法。</p>
@@ -1812,7 +1812,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span><span class="va">postY</span> <span class="op">&lt;-</span> <span class="va">result4</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time   = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>,<span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time   =  15.16913 </code></pre>
+<pre><code>time   =  10.10596 </code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Accept = "</span>,<span class="va">result4</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,<span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -1932,7 +1932,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <div class="cell">
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>52.11787</code></pre>
+<pre><code>35.0029</code></pre>
 </div>
 </div>
 <p>当抽稀步长从 4 增加到 128（4 * 128 = 512）时，四个参数轨迹中显示的自相关明显减少（ <a href="#fig-6-19" class="quarto-xref">图&nbsp;<span>6.19</span></a> ）。但即便 32 倍的增幅也不足以将滞后 2、3 和 4 内的相关性降至无意义。尽管如此，使用该抽稀步长生成的轨迹明显显示出差异（改进），相对于图 6.17 中的轨迹。然而，我们注意到，在当前使用的台式计算机上，563200 步（1100 长度链）大约耗时 40 秒，这台计算机开始对交互式工作有些慢。如果我们使用 512 的抽稀率进行 10000 次迭代，那将耗时近 7 分钟，这开始变得有些繁琐漫长。更复杂的模型可能需要更长的时间，有时甚至需要数天！因此，在我们探索更大抽稀步长的有效性之前，我们将首先找到显著加快每个循环的方法。 通过持续试验发现，将 i 增加到 1024（ <span class="math inline">\(4 \times 256\)</span>）仍然存在显著的滞后 1 和有时滞后 2 的自相关，而将 <em>thinstep</em> 增加四倍到 2048（4 * 3 * 128）才能消除所有变量的自相关。</p>
@@ -2015,87 +2015,87 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">“funk”</td>
-<td style="text-align: right;">77.50</td>
-<td style="text-align: right;">60.41</td>
-<td style="text-align: right;">103.94</td>
-<td style="text-align: right;">81.01</td>
+<td style="text-align: right;">85.78</td>
+<td style="text-align: right;">60.47</td>
+<td style="text-align: right;">114.70</td>
+<td style="text-align: right;">80.85</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“mean”</td>
-<td style="text-align: right;">9.82</td>
-<td style="text-align: right;">7.65</td>
-<td style="text-align: right;">12.70</td>
-<td style="text-align: right;">9.90</td>
+<td style="text-align: right;">10.52</td>
+<td style="text-align: right;">7.42</td>
+<td style="text-align: right;">13.68</td>
+<td style="text-align: right;">9.64</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">“max”</td>
-<td style="text-align: right;">8.26</td>
-<td style="text-align: right;">6.44</td>
-<td style="text-align: right;">8.26</td>
-<td style="text-align: right;">6.44</td>
+<td style="text-align: right;">9.06</td>
+<td style="text-align: right;">6.39</td>
+<td style="text-align: right;">9.06</td>
+<td style="text-align: right;">6.39</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“do_MCMC”</td>
-<td style="text-align: right;">6.20</td>
-<td style="text-align: right;">4.83</td>
-<td style="text-align: right;">128.18</td>
-<td style="text-align: right;">99.91</td>
+<td style="text-align: right;">7.00</td>
+<td style="text-align: right;">4.93</td>
+<td style="text-align: right;">141.72</td>
+<td style="text-align: right;">99.90</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">“infunk”</td>
-<td style="text-align: right;">5.56</td>
-<td style="text-align: right;">4.33</td>
-<td style="text-align: right;">118.38</td>
-<td style="text-align: right;">92.27</td>
+<td style="text-align: right;">6.12</td>
+<td style="text-align: right;">4.31</td>
+<td style="text-align: right;">130.66</td>
+<td style="text-align: right;">92.10</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“which”</td>
-<td style="text-align: right;">5.12</td>
+<td style="text-align: right;">5.66</td>
 <td style="text-align: right;">3.99</td>
-<td style="text-align: right;">6.94</td>
-<td style="text-align: right;">5.41</td>
+<td style="text-align: right;">7.76</td>
+<td style="text-align: right;">5.47</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">“dnorm”</td>
-<td style="text-align: right;">3.90</td>
-<td style="text-align: right;">3.04</td>
-<td style="text-align: right;">3.90</td>
-<td style="text-align: right;">3.04</td>
+<td style="text-align: right;">4.34</td>
+<td style="text-align: right;">3.06</td>
+<td style="text-align: right;">4.34</td>
+<td style="text-align: right;">3.06</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“isTRUE”</td>
-<td style="text-align: right;">2.12</td>
-<td style="text-align: right;">1.65</td>
-<td style="text-align: right;">2.56</td>
-<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.42</td>
+<td style="text-align: right;">1.71</td>
+<td style="text-align: right;">2.90</td>
+<td style="text-align: right;">2.04</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">“priorcalc”</td>
-<td style="text-align: right;">2.02</td>
-<td style="text-align: right;">1.57</td>
-<td style="text-align: right;">2.74</td>
-<td style="text-align: right;">2.14</td>
+<td style="text-align: right;">2.28</td>
+<td style="text-align: right;">1.61</td>
+<td style="text-align: right;">3.10</td>
+<td style="text-align: right;">2.19</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“penalty0”</td>
-<td style="text-align: right;">2.00</td>
-<td style="text-align: right;">1.56</td>
-<td style="text-align: right;">2.00</td>
-<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">2.14</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">2.14</td>
+<td style="text-align: right;">1.51</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">“mean.default”</td>
-<td style="text-align: right;">1.70</td>
+<td style="text-align: right;">1.88</td>
 <td style="text-align: right;">1.33</td>
-<td style="text-align: right;">2.88</td>
-<td style="text-align: right;">2.24</td>
+<td style="text-align: right;">3.16</td>
+<td style="text-align: right;">2.23</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">“numeric”</td>
-<td style="text-align: right;">0.86</td>
-<td style="text-align: right;">0.67</td>
-<td style="text-align: right;">0.86</td>
-<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">0.75</td>
 </tr>
 </tbody>
 </table>
@@ -2300,32 +2300,32 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">simpspm</td>
-<td style="text-align: right;">66.700</td>
-<td style="text-align: right;">69.000</td>
-<td style="text-align: right;">82.092</td>
-<td style="text-align: right;">74.40</td>
-<td style="text-align: right;">89.050</td>
-<td style="text-align: right;">2536.300</td>
+<td style="text-align: right;">45.800</td>
+<td style="text-align: right;">48.600</td>
+<td style="text-align: right;">57.752</td>
+<td style="text-align: right;">52.000</td>
+<td style="text-align: right;">61.200</td>
+<td style="text-align: right;">2309.900</td>
 <td style="text-align: right;">1000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">simpspmC</td>
-<td style="text-align: right;">3.300</td>
-<td style="text-align: right;">3.600</td>
-<td style="text-align: right;">5.711</td>
-<td style="text-align: right;">4.50</td>
-<td style="text-align: right;">4.900</td>
-<td style="text-align: right;">1077.900</td>
+<td style="text-align: right;">2.600</td>
+<td style="text-align: right;">2.800</td>
+<td style="text-align: right;">4.041</td>
+<td style="text-align: right;">3.200</td>
+<td style="text-align: right;">3.400</td>
+<td style="text-align: right;">749.900</td>
 <td style="text-align: right;">1000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TimeRatio</td>
-<td style="text-align: right;">0.049</td>
-<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.058</td>
 <td style="text-align: right;">0.070</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">0.055</td>
-<td style="text-align: right;">0.425</td>
+<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">0.325</td>
 <td style="text-align: right;">1</td>
 </tr>
 </tbody>
@@ -2351,7 +2351,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span><span class="va">timeR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">beginR</span>   </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time = "</span>,<span class="va">timeR</span>,<span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time =  23.81886 </code></pre>
+<pre><code>time =  16.81959 </code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"acceptance rate = "</span>,<span class="va">resultR</span><span class="op">$</span><span class="va">arate</span>,<span class="st">" \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -2368,7 +2368,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span><span class="va">timeC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">beginC</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time = "</span>,<span class="va">timeC</span>,<span class="st">"\n"</span><span class="op">)</span>  <span class="co"># note the same acceptance rates  </span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time =  4.609289 </code></pre>
+<pre><code>time =  3.311526 </code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"acceptance rate = "</span>,<span class="va">resultC</span><span class="op">$</span><span class="va">arate</span>,<span class="st">" \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
@@ -2377,7 +2377,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">postC</span> <span class="op">&lt;-</span> <span class="va">resultC</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Time Ratio = "</span>,<span class="va">timeC</span><span class="op">/</span><span class="va">timeR</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>Time Ratio =  0.1935143</code></pre>
+<pre><code>Time Ratio =  0.196885</code></pre>
 </div>
 </div>
 <p>尽管每次运行所需的确切时间会有所不同，因为你的电脑会同时运行其他进程，但通常使用 <code>simpspmC()</code> 所需的时间仅是使用 <code><a href="https://rdrr.io/pkg/MQMF/man/simpspm.html">simpspm()</a></code> 所需时间的 1/5 或 20%。在处理分钟时，这可能看起来并不重要，但一旦 MCMC 运行需要 20-40 小时，那么节省 16-32 小时可能会被认为更有价值。当然，还有其他潜在的方法可以加速这个过程，对于真正计算密集型的分析，这通常是值得的。</p>
@@ -2416,7 +2416,7 @@ r = \dfrac{L^C}{L_t}= \dfrac{L(\theta^C|x) \times L(\theta_t)}{L(\theta_t |x) \t
 <span>                   priorcalc<span class="op">=</span><span class="va">calcprior</span>,scales<span class="op">=</span><span class="va">setscale</span>,schaefer<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"time = "</span>,<span class="fu"><a href="https://rdrr.io/pkg/MQMF/man/gettime.html">gettime</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">beginC</span>,<span class="st">" secs  \n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>time =  132.9696  secs  </code></pre>
+<pre><code>time =  93.89898  secs  </code></pre>
 </div>
 </div>
 <div class="cell">

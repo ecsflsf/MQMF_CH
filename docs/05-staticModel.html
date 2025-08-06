@@ -363,10 +363,10 @@ minimum     :  150.6117
 iterations  :  41 
 code        :  3 Either ~local min or steptol too small 
                 par      gradient
-Linf   89.447640807  5.878923e-05
-K       0.009909338  2.705763e-01
-t0    -16.337065195 -4.717785e-05
-sigma   3.741419172  2.711337e-04</code></pre>
+Linf   89.447640823  5.878821e-05
+K       0.009909338  2.705709e-01
+t0    -16.337065207 -4.717809e-05
+sigma   3.741419172  2.711355e-04</code></pre>
 </div>
 </div>
 <p>根据季节性数据拟合的标准 von Bertalanffy 曲线 <a href="#eq-5_1" class="quarto-xref">公式&nbsp;<span>5.1</span></a> ，其 <em>sigma</em> 参数约为 <span class="math inline">\(3.7\)</span>，这只是反映了一个事实，即数据围绕平均增长曲线摆动，因此残差会相对较大。如果我们使用季节性调整曲线，这种变化会大大减少，因此我们可以预测 <em>sigma</em> 应该小得多。为了拟合季节性增长曲线，我们需要定义一个反映新模型结构的修改后 <code>vB()</code> 函数 <a href="#eq-5_2" class="quarto-xref">公式&nbsp;<span>5.2</span></a>。当然，在拟合任何新模型时，第一步必然是需要一个函数来根据一组参数生成预测值。我们可以将负对数似然的计算包含在这个新函数中，但将预测长度的生成保留在一个单独的函数中可以增加我们代码的灵活性。因此，我们将坚持分别使用预测函数和负对数似然计算函数的策略。在参数向量 <em>pars</em> 中，我们还需要包含 <a href="#eq-5_2" class="quarto-xref">公式&nbsp;<span>5.2</span></a> 中 <span class="math inline">\(C\)</span> 和 <span class="math inline">\(s\)</span> 的初始估计值。</p>
@@ -411,12 +411,12 @@ minimum     :  105.2252
 iterations  :  21 
 code        :  2 &gt;1 iterates in tolerance, probably solution 
                par      gradient
-Linf   89.06448058  7.259728e-05
-K       0.01040808  3.973356e-01
-t0    -13.46176840 -5.575497e-05
-C       0.10816263 -5.357583e-03
-s       6.96964772  2.208809e-05
-sigma   1.63926525  7.774394e-05</code></pre>
+Linf   89.06448059  7.259920e-05
+K       0.01040808  3.973383e-01
+t0    -13.46176841 -5.575919e-05
+C       0.10816263 -5.358897e-03
+s       6.96964772  2.208197e-05
+sigma   1.63926525  7.775261e-05</code></pre>
 </div>
 </div>
 <p>增长率的季节性调整对 <span class="math inline">\(L_{\infty}\)</span> 和 <span class="math inline">\(K\)</span> 值的影响较小，但对 <span class="math inline">\(t_0\)</span> 值的影响较大，因为季节性比标准 <code>vB()</code> 函数更能允许最初的快速上升。正如预期的那样，对 <em>sigma</em> 参数的影响很大(从 3.74 下降到 1.64 )。模型拟合的改进也很大(增加两个参数的代价是 -veLL 从 150 下降到 105)。如 <a href="#fig-5-2" class="quarto-xref">图&nbsp;<span>5.2</span></a> 所示，这也反映在整个残差模式的减少及其最大值和最小值的减半上。</p>
@@ -501,9 +501,9 @@ minimum     :  291.1691
 iterations  :  24 
 code        :  1 gradient close to 0, probably solution 
               par     gradient
-Linf  173.9677972 9.564320e-07
-K       0.2653003 2.657029e-04
-sigma   3.5861240 1.391791e-05</code></pre>
+Linf  173.9677972 9.563666e-07
+K       0.2653003 2.656839e-04
+sigma   3.5861240 1.391768e-05</code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">predvB</span> <span class="op">&lt;-</span> <span class="fu">fabens</span><span class="op">(</span><span class="va">modelvb</span><span class="op">$</span><span class="va">estimate</span>,<span class="va">bi</span><span class="op">)</span>  </span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\n"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -519,9 +519,9 @@ iterations  :  26
 code        :  1 gradient close to 0, probably solution 
             par      gradient
 MaxDL  21.05654 -2.021972e-06
-L50   130.92643  5.895934e-07
-delta  40.98771  2.205077e-07
-sigma   3.14555  4.553906e-06</code></pre>
+L50   130.92643  5.900276e-07
+delta  40.98771  2.218945e-07
+sigma   3.14555  4.535835e-06</code></pre>
 </div>
 <details class="code-fold"><summary>代码</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">predil</span> <span class="op">&lt;-</span> <span class="fu">invl</span><span class="op">(</span><span class="va">modelil</span><span class="op">$</span><span class="va">estimate</span>,<span class="va">bi</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -616,9 +616,9 @@ minimum     :  291.1691
 iterations  :  24 
 code        :  1 gradient close to 0, probably solution 
               par     gradient
-Linf  173.9677972 9.564320e-07
-K       0.2653003 2.657029e-04
-sigma   3.5861240 1.391791e-05</code></pre>
+Linf  173.9677972 9.563666e-07
+K       0.2653003 2.656839e-04
+sigma   3.5861240 1.391768e-05</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -636,13 +636,13 @@ sigma   3.5861240 1.391791e-05</code></pre>
 <span>       title<span class="op">=</span><span class="st">"vB inverse DeltaL, sigma &lt; 1"</span><span class="op">)</span>  </span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>nlm solution:  vB inverse DeltaL, sigma &lt; 1 
-minimum     :  298.9086 
-iterations  :  50 
-code        :  1 gradient close to 0, probably solution 
-              par      gradient
-Linf  170.9979114 -9.341050e-07
-K       0.2672788 -1.914072e-06
-sigma   0.3941672  0.000000e+00</code></pre>
+minimum     :  288.1933 
+iterations  :  64 
+code        :  2 &gt;1 iterates in tolerance, probably solution 
+              par    gradient
+Linf  171.0000001 45579.23697
+K       0.2724177    77.18211
+sigma   0.4139252    19.64508</code></pre>
 </div>
 </div>
 <p>请记住，通过改变残差结构，似然值变得不相称，因此我们无法确定哪种拟合效果更好。恒定方差使得 von Bertalanffy 曲线在长度大于 148 左右时有效地保持在数据之上，而变化方差生长曲线大部分时间仍在数据之上，但由于方差随预测长度的减少而向后推近数据。我们可以通过重写 <code>negnormL()</code> 来进行实验，使用初始长度而不是预测长度。如前所述，将平均预测长度与相关方差分离可以获得极大的灵活性。</p>
